@@ -1,8 +1,8 @@
 #include "PolygonCollider.h"
 
-PolygonCollider::PolygonCollider():
+PolygonCollider::PolygonCollider(int modelHandle):
 	ColliderBase(Shape::Polygon),
-	m_modelHandle(-1),
+	m_modelHandle(modelHandle),
 	m_nearWallHitPos(),
 	m_nearFloorHitPos(),
 	m_isFloor(false),

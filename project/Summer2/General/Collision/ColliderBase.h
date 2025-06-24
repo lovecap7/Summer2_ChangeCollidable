@@ -9,6 +9,7 @@ enum class Shape
 {
 	Sphere,
 	Capsule,
+	Box,
 	Polygon
 };
 
@@ -20,7 +21,14 @@ class ColliderBase abstract
 public:
 	ColliderBase(Shape kind);
 	virtual ~ColliderBase() {};
+
+	/// <summary>
+	/// “–‚½‚è”»’è‚ÌŒ`‚ðŽæ“¾
+	/// </summary>
+	/// <returns>“–‚½‚è”»’è‚ÌŒ`</returns>
+	Shape GetShape()const { return m_kind; }
+private:
 	//“–‚½‚è”»’è‚ÌŒ`
-	Shape m_shape;
+	Shape m_kind;
 };
 

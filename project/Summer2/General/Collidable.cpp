@@ -1,36 +1,20 @@
 #include "Collidable.h"
-#include "Collision/SphereCollider.h"
-#include "Collision/CapsuleCollider.h"
-#include "Collision/PolygonCollider.h"
 
-Collidable::Collidable(State state, Priority priority, GameTag gameTag, Shape shape, bool isTrigger):
-	m_state(state),
-	m_priority(priority),
-	m_tag(gameTag),
-	m_isTrigger(isTrigger)
-{
-	CreateCollider(shape); // コライダーを作成
-}
-
-Collidable::~Collidable()
+Collidable::Collidable(std::shared_ptr<ColliderBase> coll, std::shared_ptr<Rigidbody> rid):
+	m_coll(coll),
+	m_rb(rid),
+	m_isCollide(true),
+	m_state(State::None),
+	m_owner(nullptr),
+	m_priority(Priority::Middle),
+	m_tag(GameTag::None)
 {
 }
 
-std::shared_ptr<ColliderBase> Collidable::CreateCollider(Shape shape)
+//初期化
+void Collidable::Init(State state, Priority priority, GameTag gameTag)
 {
-	std::shared_ptr<ColliderBase> coll;
-	if (shape == Shape::Sphere)
-	{
-		coll = std::make_shared<SphereCollider>();
-	}
-	else if (shape == Shape::Capsule)
-	{
-		coll = std::make_shared<CapsuleCollider>();
-	}
-	else if (shape == Shape::Polygon)
-	{
-		coll = std::make_shared<PolygonCollider>();
-	}
-
-	return coll;
+	SetState(state);
+	SetPriority(priority);
+	SetGameTag(gameTag);
 }

@@ -1,7 +1,7 @@
 #include "SphereCollider.h"
 
-SphereCollider::SphereCollider():
+SphereCollider::SphereCollider(float radius):
 	ColliderBase(Shape::Sphere),//‹…‚ÌŒ`
-	m_radius(0.0f)
+	m_radius(radius)
 {
 }
