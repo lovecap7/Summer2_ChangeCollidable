@@ -1,0 +1,6 @@
+Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ
+Player,0,1,0,0,90,0,1,1,1
+SmallDragon,12.46,1,0.11,0,270,0,0.5,0.5,0.5
+BossDragon,20,1,0.1373577,0,270,0,0.75,0.75,0.75
+PurpleDinosaur,13.25562,1,-2.316336,0,270,0,0.5,0.5,0.5
+Bomber,15.25562,1,-2.316336,0,270,0,0.5,0.5,0.5
