@@ -440,6 +440,9 @@
     <ClInclude Include="Game\Actors\Player\PlayerStateAttackN1.h">
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
     </ClInclude>
+    <ClInclude Include="General\Collision\Collidable.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Summer2.rc">

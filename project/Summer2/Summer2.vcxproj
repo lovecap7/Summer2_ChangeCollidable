@@ -101,6 +101,7 @@
     <ClInclude Include="General\Animator.h" />
     <ClInclude Include="General\Collidable.h" />
     <ClInclude Include="General\Collision\CapsuleCollider.h" />
+    <ClInclude Include="General\Collision\Collidable.h" />
     <ClInclude Include="General\Collision\ColliderBase.h" />
     <ClInclude Include="General\Collision\CollisionChecker.h" />
     <ClInclude Include="General\Collision\CollisionProcess.h" />
