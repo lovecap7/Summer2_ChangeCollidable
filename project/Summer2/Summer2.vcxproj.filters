@@ -168,9 +168,6 @@
     <ClCompile Include="General\Input.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
-    <ClCompile Include="General\Collidable.cpp">
-      <Filter>ソース ファイル\General</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Player\Player.cpp">
       <Filter>ソース ファイル\Game\Actors\Player</Filter>
     </ClCompile>
@@ -273,6 +270,36 @@
     <ClCompile Include="Game\Actors\Player\PlayerStateAttackN1.cpp">
       <Filter>ソース ファイル\Game\Actors\Player</Filter>
     </ClCompile>
+    <ClCompile Include="General\Collision\Collidable.cpp">
+      <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateAttackN2.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateAttackN3.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateCA1.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateCA2.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateCA3.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateCharge.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateDeath.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateHit.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateUltimate.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -334,9 +361,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="General\Collidable.h">
-      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Player\Player.h">
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
@@ -441,7 +465,34 @@
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
     </ClInclude>
     <ClInclude Include="General\Collision\Collidable.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\General\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateAttackN2.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateCA1.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateCA2.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateCA3.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateCharge.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateDeath.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateHit.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateUltimate.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateAttackN3.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

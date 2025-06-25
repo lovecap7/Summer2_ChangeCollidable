@@ -2,9 +2,8 @@
 #include "PlayerStateWalk.h"
 #include "PlayerStateJump.h"
 #include "PlayerStateFall.h"
-
+#include "PlayerStateUltimate.h"
 #include "PlayerStateRolling.h"
-
 #include "Player.h"
 #include "UltGage.h"
 #include "../../../General/game.h"
@@ -64,7 +63,7 @@ void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera)
 	if (input.IsTrigger("RB") && m_player.lock()->GetUltGage()->IsMaxUlt())
 	{
 		//•KŽE‹Z
-		//ChangeState(std::make_shared<PlayerStateUltimate>(m_player, actorManager));
+		ChangeState(std::make_shared<PlayerStateUltimate>(m_player));
 		return;
 	}
 
