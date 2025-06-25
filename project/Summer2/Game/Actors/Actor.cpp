@@ -1,10 +1,9 @@
 #include "Actor.h"
-#include "ActorManager.h"
-#include "Enemy/EnemyManager.h"
-#include "../../General/Collision/CollisionManager.h"
 #include "Enemy/EnemyBase.h"
 
-Actor::Actor():
+Actor::Actor(Shape shape):
+	Collidable(shape),
+	m_hurtPoint(nullptr),
 	m_isDelete(false),
 	m_id(0),
 	m_isSetId(false),

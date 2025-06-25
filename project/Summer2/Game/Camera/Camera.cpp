@@ -2,7 +2,7 @@
 #include "../../General/Rigidbody.h"
 #include "../../General/Collidable.h"
 #include "../../General/game.h"
-#include "../Actors/Actor.h"
+#include "../Actors/Player/Player.h"
 #include <DxLib.h>
 #if _DEBUG
 #include "../../General/Input.h"
@@ -24,7 +24,7 @@ namespace
 }
 
 
-Camera::Camera(Position3 firstPos, std::shared_ptr<Actor> player):
+Camera::Camera(Position3 firstPos, std::shared_ptr<Player> player):
 	m_pos(firstPos),
 	m_player(player)
 {
@@ -32,7 +32,7 @@ Camera::Camera(Position3 firstPos, std::shared_ptr<Actor> player):
 	SetCameraNearFar(kNear, kFar);
 
 	//カメラの位置と角度の設定
-	auto playerPos = m_player->GetCollidable()->GetRb()->GetPos();
+	auto playerPos = m_player->GetRb()->GetPos();
 	m_pos.x = playerPos.x;//プレイヤーと横方向にを合わせる
 	//カメラのZ方向を保存
 	m_cameraFirstPosZ = m_pos.z;
@@ -62,7 +62,7 @@ Camera::~Camera()
 void Camera::Update()
 {
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
-	auto playerPos = m_player->GetCollidable()->GetRb()->GetPos();
+	auto playerPos = m_player->GetRb()->GetPos();
 	//位置の更新
 	Vector3 nextPos = m_pos;
 	//横方向が範囲外なら
@@ -77,7 +77,7 @@ void Camera::Update()
 		nextPos.x += kChaseWidth;
 	}
 	//Z方向の移動
-	nextPos.z += m_player->GetCollidable()->GetRb()->GetVec().z;
+	nextPos.z += m_player->GetRb()->GetVec().z;
 	//範囲内に収める
 	if (nextPos.z > m_cameraFirstPosZ + kChaseDepthLimit)
 	{

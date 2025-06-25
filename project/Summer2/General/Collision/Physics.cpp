@@ -1,0 +1,162 @@
+#include "Physics.h"
+#include "CollisionChecker.h"
+#include "CollisionProcess.h"
+#include "../Rigidbody.h"
+#include "CollisionProcess.h"
+#include "../game.h"
+#include <cassert>
+
+namespace
+{
+	//確認回数
+	constexpr int kTryNum = 30;
+}
+
+void Physics::Init()
+{
+	m_collChecker = std::make_shared<CollisionChecker>();
+	m_collProcessor = std::make_shared<CollisionProcess>();
+}
+
+void Physics::Entry(std::shared_ptr<Collidable> collidable)
+{
+	// 登録
+	bool found = (std::find(m_collidables.begin(), m_collidables.end(), collidable) != m_collidables.end());
+	if (!found)
+	{
+		m_collidables.emplace_back(collidable);
+	}
+	// 既に登録されてたらエラー
+	else
+	{
+		assert(0 && "指定のcollidableは登録済です。");
+	}
+}
+
+void Physics::Exit(std::shared_ptr<Collidable> collidable)
+{
+	// 登録解除
+	bool found = (std::find(m_collidables.begin(), m_collidables.end(), collidable) != m_collidables.end());
+	if (found)
+	{
+		m_collidables.remove(collidable);
+	}
+	// 登録されてなかったらエラー
+	else
+	{
+		assert(0 && "指定のcollidableが登録されていません。");
+	}
+}
+
+void Physics::Update()
+{
+	//重力
+	Gravity();
+	//床と壁のとの当たったフラグを初期化
+	for (auto& collidable : m_collidables)
+	{
+		collidable->ResetHitFlag();
+	}
+
+	//遅延処理用
+	std::list<OnCollideInfo> onCollideInfo;
+	//一度も当たっていないのならループを終了する
+	bool isOneMore = false;
+	//補正したことで別のオブジェクトに当たる可能性があるので一定回数チャックする
+	for (int i = 0;i < kTryNum;++i)
+	{
+		isOneMore = false;
+		//当たり判定をチェック
+		for (auto& collA : m_collidables)
+		{
+			//当たり判定を行わないなら飛ばす
+			if (collA->GetGameTag() == GameTag::None)continue;
+			if (collA->m_isThrough)continue;
+
+			for (auto& collB : m_collidables)
+			{
+				//自分とは当たり判定をしない
+				if (collA == collB)continue;
+				//当たり判定を行わないなら飛ばす
+				if (collB->GetGameTag() == GameTag::None)continue;
+				if (collB->m_isThrough)continue;
+
+				//当たってるなら
+				if (m_collChecker->IsCollide(collA, collB))
+				{
+					//どちらもトリガーなではないなら
+					if (!collA->m_isTrigger && !collB->m_isTrigger)
+					{
+						//衝突処理
+						m_collProcessor->FixNextPos(collA, collB);
+						//変更後の位置で再度ほかのコライダブルに当たる可能性があるので
+						//もう一度チェックする必要がある
+						isOneMore = true;
+					}
+
+					//これまでに当たった情報があるかをチェック
+					bool isCollAInfo = false;
+					bool isCollBInfo = false;
+					for (const auto& item : onCollideInfo)
+					{
+						// 既に通知リストに含まれていたら呼ばない
+						if (item.owner == collA)
+						{
+							isCollAInfo = true;
+						}
+						if (item.owner == collB)
+						{
+							isCollBInfo = true;
+						}
+					}
+					if (!isCollAInfo)
+					{
+						onCollideInfo.emplace_back(OnCollideInfo{ collA, collB });
+					}
+					if (!isCollBInfo)
+					{
+						onCollideInfo.emplace_back(OnCollideInfo{ collB, collA });
+					}
+				}
+			}
+		}
+
+		//チェックの必要がないなら
+		if (!isOneMore)break;
+	}
+
+	//位置確定
+	for (auto& coll : m_collidables)
+	{
+		//位置を確定
+		coll->Complete();
+	}
+
+	// 当たり通知
+	for (auto& collInfo : onCollideInfo)
+	{
+		collInfo.OnCollide();
+	}
+}
+
+Physics::~Physics()
+{
+}
+
+void Physics::Gravity()
+{
+	for (auto& collidable : m_collidables)
+	{
+		//重力を受けるか
+		if (!collidable->m_rb->m_isGravity)continue;
+		auto rb = collidable->m_rb;
+		//重力をかける
+		rb->m_vec += Gravity::kGravity;
+		//重力に上限をつける
+		if (rb->m_vec.y < Gravity::kMaxGravityY)
+		{
+			//上限を超えないようにする
+			rb->m_vec.y = Gravity::kMaxGravityY;
+		}
+	}
+}

@@ -16,12 +16,12 @@ namespace
 	const char* kAnim = "CharacterArmature|Death";
 }
 
-PurpleDinosaurStateDeath::PurpleDinosaurStateDeath(std::shared_ptr<PurpleDinosaur> owner):
+PurpleDinosaurStateDeath::PurpleDinosaurStateDeath(std::weak_ptr<PurpleDinosaur> owner):
 	PurpleDinosaurStateBase(owner)
 {
-	m_owner->GetCollidable()->SetState(State::Dead);
+	m_owner.lock()->SetCollState(CollisionState::Dead);
 	//死亡
-	m_owner->GetModel()->SetAnim(kAnim, false);
+	m_owner.lock()->GetModel()->SetAnim(kAnim, false);
 }
 
 PurpleDinosaurStateDeath::~PurpleDinosaurStateDeath()
@@ -34,12 +34,12 @@ void PurpleDinosaurStateDeath::Init()
 	ChangeState(shared_from_this());
 }
 
-void PurpleDinosaurStateDeath::Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager)
+void PurpleDinosaurStateDeath::Update(const std::weak_ptr<Camera> camera)
 {
 	//アニメーション終了後
-	if (m_owner->GetModel()->IsFinishAnim())
+	if (m_owner.lock()->GetModel()->IsFinishAnim())
 	{
-		m_owner->Delete();//削除
+		m_owner.lock()->Delete();//削除
 	}
 	//減速
 	SpeedDown();
@@ -47,7 +47,7 @@ void PurpleDinosaurStateDeath::Update(const Input& input, const std::unique_ptr<
 
 void PurpleDinosaurStateDeath::SpeedDown()
 {
-	auto collidable = m_owner->GetCollidable();
+	auto collidable = m_owner.lock();
 	//減速
 	Vector3 vec = collidable->GetRb()->GetVec();
 	vec.x *= kMoveDeceRate;

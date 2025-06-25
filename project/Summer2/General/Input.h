@@ -6,7 +6,25 @@
 
 class Input
 {
+private:
+	//シングルトンの準備
+	Input() = default;
+	~Input();
+	Input(const Input&) = delete;
+	Input& operator = (const Input&) = delete;
+	Input(Input&&) = delete;
+	Input& operator = (Input&&) = delete;
 public:
+	/// <summary>
+	/// シングルトンインスタンスを取得する
+	/// </summary>
+	/// <returns></returns>
+	static Input& GetInstance()
+	{
+		static Input instance;
+		return instance;
+	}
+
 	/// <summary>
 	/// スティックの傾きを保持する構造体
 	/// </summary>
@@ -54,7 +72,7 @@ public:
 		int left;
 		int right;
 	};
-	~Input();
+
 	/// <summary>
 	/// キーの情報を更新する
 	/// </summary>

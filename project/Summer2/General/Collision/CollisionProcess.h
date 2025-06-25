@@ -8,46 +8,53 @@ namespace
 	constexpr int kMaxHitPolygon = 2048;
 }
 class Collidable;
+class Physics;
 class CollisionProcess
 {
 public:
 	CollisionProcess();
 	~CollisionProcess();
+private:
+	//Phiysicsクラスのみ使えるクラス
+	friend Physics;
+	/// <summary>
+	/// 衝突処理
+	/// </summary>
+	/// <param name="collA"></param>
+	/// <param name="collB"></param>
+	void FixNextPos(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+
 	/// <summary>
 	/// 球と球の衝突処理
 	/// </summary>
-	/// <param name="otherA">球</param>
-	/// <param name="otherB">球</param>
-	void ProcessSS(const std::shared_ptr<Collidable>& otherA, const std::shared_ptr<Collidable>& otherB);
+	/// <param name="collA">球</param>
+	/// <param name="collB">球</param>
+	void ProcessSS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// 球とポリゴンの衝突処理
 	/// </summary>
-	/// <param name="otherA">球</param>
-	/// <param name="otherB">ポリゴン</param>
-	void ProcessSP(const std::shared_ptr<Collidable>& otherA, const std::shared_ptr<Collidable>& otherB);
+	/// <param name="collA">球</param>
+	/// <param name="collB">ポリゴン</param>
+	void ProcessSP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// カプセルとカプセルの衝突処理
 	/// </summary>
-	/// <param name="otherA">カプセル</param>
-	/// <param name="otherB">カプセル</param>
-	void ProcessCC(const std::shared_ptr<Collidable>& otherA, const std::shared_ptr<Collidable>& otherB);
+	/// <param name="collA">カプセル</param>
+	/// <param name="collB">カプセル</param>
+	void ProcessCC(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// カプセルと球
 	/// </summary>
-	/// <param name="otherA">カプセル</param>
-	/// <param name="otherB">球</param>
-	void ProcessCS(const std::shared_ptr<Collidable>& otherA, const std::shared_ptr<Collidable>& otherB);
+	/// <param name="collA">カプセル</param>
+	/// <param name="collB">球</param>
+	void ProcessCS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// カプセルとポリゴンの衝突処理
 	/// </summary>
-	/// <param name="otherA">カプセル</param>
-	/// <param name="otherB">ポリゴン</param>
-	void ProcessCP(const std::shared_ptr<Collidable>& otherA, const std::shared_ptr<Collidable>& otherB);
-private:
-	int	m_wallNum;			// 壁ポリゴンと判断されたポリゴンの数
-	int	m_floorAndRoofNum;			// 床ポリゴンと判断されたポリゴンの数
-	MV1_COLL_RESULT_POLY* m_wall[kMaxHitPolygon];
-	MV1_COLL_RESULT_POLY* m_floorAndRoof[kMaxHitPolygon];
+	/// <param name="collA">カプセル</param>
+	/// <param name="collB">ポリゴン</param>
+	void ProcessCP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+
 	/// <summary>
 	/// 床ポリゴンと壁ポリゴンに分ける
 	/// </summary>
@@ -63,10 +70,15 @@ private:
 	/// <summary>
 	/// 床の高さに合わせる カプセル
 	/// </summary>
-	bool HitFloorCP(const std::shared_ptr<Collidable>& other, const Vector3& legPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis);
+	bool HitFloorCP(const std::shared_ptr<Collidable> other, const Vector3& legPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis);
 	/// <summary>
 	/// 天井に当たった時の処理 カプセル
 	/// </summary>
-	void HitRoofCP(const std::shared_ptr<Collidable>& other, const Vector3& headPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis);
+	void HitRoofCP(const std::shared_ptr<Collidable> other, const Vector3& headPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis);
+private:
+	int	m_wallNum;			// 壁ポリゴンと判断されたポリゴンの数
+	int	m_floorAndRoofNum;			// 床ポリゴンと判断されたポリゴンの数
+	MV1_COLL_RESULT_POLY* m_wall[kMaxHitPolygon];
+	MV1_COLL_RESULT_POLY* m_floorAndRoof[kMaxHitPolygon];
 };
 

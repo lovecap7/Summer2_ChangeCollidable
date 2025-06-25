@@ -4,34 +4,35 @@
 #include "../../../General/Collision/CapsuleCollider.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Collidable.h"
-#include "../ActorManager.h"
 
 StageObjectCollision::StageObjectCollision(int modelHandle, VECTOR pos, VECTOR scale, VECTOR angle) :
+	Actor(Shape::Polygon),
 	m_collisionHandle(modelHandle)
 {
-	//位置と大きさと回転のセット
 	//初期位置
-	m_collidable = std::make_shared<Collidable>(std::make_shared<PolygonCollider>(modelHandle), std::make_shared<Rigidbody>(pos));
+	m_rb->SetPos(pos);
+	std::dynamic_pointer_cast<PolygonCollider>(m_collisionData)->m_modelHandle = m_collisionHandle;
 	DxLib::MV1SetScale(m_collisionHandle, scale);
 	DxLib::MV1SetRotationXYZ(m_collisionHandle, angle);
-	//初期化
-	m_collidable->Init(State::None,Priority::Static,GameTag::Object);
 }
 
+
 StageObjectCollision::StageObjectCollision(VECTOR pos, float radius):
+	Actor(Shape::Sphere),
 	m_collisionHandle(-1)
 {
-	m_collidable = std::make_shared<Collidable>(std::make_shared<SphereCollider>(radius),std::make_shared<Rigidbody>(pos));
-	//初期化
-	m_collidable->Init(State::None, Priority::Static, GameTag::Object);
+	std::dynamic_pointer_cast<SphereCollider>(m_collisionData)->SetRadius(radius);
+	m_rb->SetPos(pos);
 }
 
 StageObjectCollision::StageObjectCollision(VECTOR pos1, VECTOR pos2, float radius):
+	Actor(Shape::Capsule),
 	m_collisionHandle(-1)
 {
-	m_collidable = std::make_shared<Collidable>(std::make_shared<CapsuleCollider>(pos2, radius), std::make_shared<Rigidbody>(pos1));
-	//初期化
-	m_collidable->Init(State::None, Priority::Static, GameTag::Object);
+	auto cap = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
+	cap->SetEndPos(pos2);
+	cap->SetRadius(radius);
+	m_rb->SetPos(pos1);
 }
 
 
@@ -40,35 +41,19 @@ StageObjectCollision::~StageObjectCollision()
 	//なし
 }
 
-void StageObjectCollision::Entry(std::shared_ptr<ActorManager> actorManager)
-{
-	//アクターマネージャーに登録
-	actorManager->Entry(shared_from_this());
-}
-
-void StageObjectCollision::Exit(std::shared_ptr<ActorManager> actorManager)
-{
-	//アクターマネージャー解除
-	actorManager->Exit(shared_from_this());
-}
-
 void StageObjectCollision::Init()
 {
-	//コライダーに自分のポインタを持たせる
-	m_collidable->SetOwner(shared_from_this());
+	m_collState = CollisionState::Normal;
+	m_priority = Priority::Static;
+	m_tag = GameTag::Object;
+	Collidable::Init();
 }
-
-void StageObjectCollision::Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager)
+void StageObjectCollision::Update(const std::weak_ptr<Camera> camera)
 {
 	//なし
 }
 
-void StageObjectCollision::Gravity(const Vector3& gravity)
-{
-	//なし
-}
-
-void StageObjectCollision::OnHitColl(const std::shared_ptr<Collidable>& other)
+void StageObjectCollision::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	//なし
 }

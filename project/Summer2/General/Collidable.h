@@ -1,11 +1,13 @@
 #pragma once
 #include <memory>
 #include "Math/MyMath.h"
+#include "Collision/ColliderBase.h"
+
 
 //状態に合わせて当たり判定を行う時に使う
-enum class State
+enum class CollisionState
 {
-	None,
+	Normal,
 	Jump,
 	Fall,
 	Dead
@@ -20,61 +22,96 @@ enum class Priority : int
 	Static,		// 動かない（最高）
 };
 
+// ゲーム内のタグ付け
 enum class GameTag
 {
 	None,
 	Player,		//プレイヤー
 	Enemy,		//敵
 	Item,		//アイテム
-	Object,	//障害物
+	Object,		//障害物
 	Field,		//フィールド
+};
+
+//レイヤー
+enum class Layer
+{
+	Actor,		//アクター
+	Effect,		//エフェクト
+	Attack,		//攻撃
+	HurtPoint,	//やられ判定
 };
 
 
 class ColliderBase;
 class Actor;
 class Rigidbody;
-class Collidable
+class Physics;
+class CollisionChecker;
+class CollisionProcess;
+class Collidable abstract : 
+	public std::enable_shared_from_this<Collidable>
 {
 public:
-	Collidable(std::shared_ptr<ColliderBase> coll, std::shared_ptr<Rigidbody> rb);
+	Collidable(Shape shape);
 	virtual ~Collidable() {};
-	//初期化処理
-	void Init(State state, Priority priority, GameTag gameTag);
-	//当たり判定
-	const std::shared_ptr<ColliderBase>& GetColl() const { return m_coll; }
-	//座標とベクトル
-	const std::shared_ptr<Rigidbody>& GetRb()const { return m_rb; }
-	//当たり判定を行うかどうか
-	bool IsCollide() const { return m_isCollide; };
-	void SetIsCollide(bool isCollide) { m_isCollide = isCollide; }
-	//状態
-	State GetState() { return m_state; };
-	void SetState(State state) { m_state = state; };
-	//持ち主
-	std::shared_ptr<Actor> GetOwner() { return m_owner; };
-	void SetOwner(std::shared_ptr<Actor> owner) { m_owner = owner; };
-	//優先度
-	Priority GetPriority() { return m_priority; };
-	void SetPriority(Priority priority) { m_priority = priority; };
+
+	/// <summary>
+	/// 衝突したときのイベント関数
+	/// </summary>
+	/// <param name="other"></param>
+	virtual void OnCollide(const std::shared_ptr<Collidable> other)abstract;
+	/// <summary>
+	/// Updateの処理によって起こった衝突処理などの処理の確定
+	/// </summary>
+	virtual void Complete() abstract;
+	
+	/// <summary>
+	/// Physicsに登録
+	/// </summary>
+	virtual void Init();
+	/// <summary>
+	/// Physicsから解除
+	/// </summary>
+	virtual void End();
 	//タグ
 	GameTag GetGameTag() { return m_tag; };
 	void SetGameTag(GameTag gameTag) { m_tag = gameTag; };
+	//コライダーの形
+	Shape GetShape() const { return m_collisionData->m_shape; };
+
+	//地面に当たったかどうか
+	bool IsFloor() { return m_isFloor; };
+	bool IsWall() { return m_isWall; };
+	void SetIsFloor(bool isFloor) { m_isFloor = isFloor; };
+	void SetIsWall(bool isWall) { m_isWall = isWall; };
+	//床と壁のフラグ
+	void ResetHitFlag() { m_isFloor = m_isWall = false; };
 private:
+	void CreateCollider(Shape shape);
+	//PhysicsがCollidableを自由に管理できるように
+	friend Physics;
+	friend CollisionChecker;
+	friend CollisionProcess;
+protected:
 	//当たり判定
-	std::shared_ptr<ColliderBase> m_coll;
+	std::shared_ptr<ColliderBase> m_collisionData;
 	//座標とベクトル
 	std::shared_ptr<Rigidbody> m_rb;
-	//衝突判定を行う
-	bool m_isCollide;
+	//衝突判定を行わない(trueなら)
+	bool m_isThrough;
+	//トリガー
+	bool m_isTrigger;
 	//状態
-	State m_state;
-	//持ち主
-	std::shared_ptr<Actor> m_owner;
+	CollisionState m_collState;
 	//優先度
 	Priority m_priority;
 	//タグ
 	GameTag m_tag;
+	//床に当たったならtrue
+	bool m_isFloor;
+	//壁に当たったならtrue
+	bool m_isWall;
 };
 
 

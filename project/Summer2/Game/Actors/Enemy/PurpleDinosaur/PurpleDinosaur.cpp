@@ -1,7 +1,6 @@
 #include "PurpleDinosaur.h"
 #include "PurpleDinosaurStateBase.h"
 #include "PurpleDinosaurStateIdle.h"
-#include "../EnemyManager.h"
 #include <memory>
 #include "../../../../General/Model.h"
 #include "../../../../General/Input.h"
@@ -10,10 +9,6 @@
 #include "../../../../General/Collidable.h"
 #include "../../../../General/Collision/CapsuleCollider.h"
 #include "../../../../General/Collision/SphereCollider.h"
-#include "../../../Attack/HurtPoint.h"
-#include "../../../Attack/MeleeAttack.h"
-#include "../../../../General/Collision/SearchTrigger.h"
-#include "../../ActorManager.h"
 #include "../../../../General/game.h"
 
 namespace
@@ -29,7 +24,7 @@ namespace
 	constexpr int kHp = 500;
 }
 PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
-	EnemyBase(),
+	EnemyBase(Shape::Capsule),
 	m_attackCoolTime(0)
 {
 	//モデルの初期化
@@ -37,52 +32,41 @@ PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
 	//衝突判定
 	Vector3 endPos = pos;
 	endPos += kCapsuleHeight; //カプセルの上端
-	m_collidable = std::make_shared<Collidable>(std::make_shared<CapsuleCollider>(endPos, kCapsuleRadius), std::make_shared<Rigidbody>(pos));
-	//コライダブルの初期化
-	m_collidable->Init(State::None, Priority::Middle, GameTag::Enemy);
+	auto cap = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
+	cap->SetRadius(kCapsuleRadius);
+	cap->SetEndPos(endPos);
+	//リジッドボディの初期化
+	m_rb->SetPos(pos);
 }
 
 PurpleDinosaur::~PurpleDinosaur()
 {
 }
 
-void PurpleDinosaur::Entry(std::shared_ptr<ActorManager> actorManager)
-{
-	//アクターマネージャーに登録
-	actorManager->Entry(shared_from_this());
-	//登録
-	actorManager->GetEnemyManager()->Entry(shared_from_this());
-}
-
-void PurpleDinosaur::Exit(std::shared_ptr<ActorManager> actorManager)
-{
-	//アクターマネージャー解除
-	actorManager->Exit(shared_from_this());
-	//登録解除
-	actorManager->GetEnemyManager()->Exit(shared_from_this());
-}
-
 void PurpleDinosaur::Init()
 {
-	//コライダーに自分のポインタを持たせる
-	m_collidable->SetOwner(shared_from_this());
-	//索敵範囲
-	m_searchTrigger = std::make_shared<SearchTrigger>(kSearchTriggerRadius, shared_from_this());
+	//コライダブルの初期化
+	m_collState = CollisionState::Normal;
+	m_priority = Priority::Middle;
+	m_tag = GameTag::Enemy;
+	m_isTrigger = false; //トリガーではない
+	m_isThrough = false; //衝突判定を行う
+	//Physicsに登録
+	Collidable::Init();
+
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
-	auto thisPointer = shared_from_this();
+	auto thisPointer = std::dynamic_pointer_cast<PurpleDinosaur>(shared_from_this());
 	m_state = std::make_shared<PurpleDinosaurStateIdle>(thisPointer);
 	//次の状態を待機状態に
 	m_state->ChangeState(m_state);
-	//やられ判定(衝突判定と同じにする)
-	m_hurtPoint = std::make_shared<HurtPoint>(m_collidable, kHp, thisPointer);
 }
 
-void PurpleDinosaur::Update(const Input& input, const std::unique_ptr<Camera>& camera,const std::shared_ptr<ActorManager> actorManager)
+void PurpleDinosaur::Update(const std::weak_ptr<Camera> camera)
 {
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
 	//状態に合わせた更新
-	m_state->Update(input, camera, actorManager);
+	m_state->Update(camera);
 	//状態が変わったかをチェック
 	if (m_state != m_state->GetNextState())
 	{
@@ -94,25 +78,10 @@ void PurpleDinosaur::Update(const Input& input, const std::unique_ptr<Camera>& c
 	m_model->Update();
 	//やられ判定の更新
 	UpdateHurtPoint();
-	//攻撃を喰らったならモデルを赤くする
-	if (m_hurtPoint->IsHit())
-	{
-		//赤色に
-		m_model->ModelHit();
-	}
+	
 }
 
-void PurpleDinosaur::Gravity(const Vector3& gravity)
-{
-	//重力がかかりすぎたら止めたいので上限を設ける
-	if (m_collidable->GetRb()->GetVec().y >= Gravity::kMaxGravityY)
-	{
-		//重力
-		m_collidable->GetRb()->AddVec(gravity);
-	}
-}
-
-void PurpleDinosaur::OnHitColl(const std::shared_ptr<Collidable>& other)
+void PurpleDinosaur::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	//なし
 }
@@ -121,57 +90,32 @@ void PurpleDinosaur::Draw() const
 {
 #if _DEBUG
 	DrawCapsule3D(
-		m_collidable->GetRb()->GetPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collidable->GetColl())->GetEndPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collidable->GetColl())->GetRadius(),
+		m_rb->GetPos().ToDxLibVector(),
+		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
+		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
 		16,
 		0xff0000,
 		0xff0000,
 		false
 	);
-	//やられ判定
-	DrawCapsule3D(
-		m_hurtPoint->GetCollidable()->GetRb()->GetPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_hurtPoint->GetCollidable()->GetColl())->GetEndPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_hurtPoint->GetCollidable()->GetColl())->GetRadius(),
-		32,
-		0x0000ff,
-		0x0000ff,
-		m_hurtPoint->IsNoDamege()//無敵の時は塗りつぶされる
-	);
-	//索敵範囲
-	DrawSphere3D(
-		m_searchTrigger->GetCollidable()->GetRb()->GetPos().ToDxLibVector(),
-		kSearchTriggerRadius,
-		16,
-		0xff00ff,
-		0xff00ff,
-		false
-	);
+	
+
 #endif
 	m_model->Draw();
 }
 
 void PurpleDinosaur::Complete()
 {
-	//コライダー
-	m_collidable->GetRb()->SetNextPos();//次の座標へ
-	Vector3 endPos = m_collidable->GetRb()->GetPos();
+	m_rb->m_pos = m_rb->GetNextPos();//次の座標へ
+	Vector3 endPos = m_rb->m_pos;
 	endPos += kCapsuleHeight;
-	std::dynamic_pointer_cast<CapsuleCollider>(m_collidable->GetColl())->SetEndPos(endPos);//カプセルの移動
-	//プレイヤーを探すトリガー
-	m_searchTrigger->GetCollidable()->GetRb()->SetPos(m_collidable->GetRb()->GetPos());
+	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->SetEndPos(endPos);//カプセルの移動
 	//モデルの座標更新
-	m_model->SetPos(m_collidable->GetRb()->GetPos().ToDxLibVector());
+	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
 }
 
 void PurpleDinosaur::UpdateHurtPoint()
 {
-	//移動量を取得
-	m_hurtPoint->GetCollidable()->GetRb()->SetVec(m_collidable->GetRb()->GetVec());
-	//座標更新
-	m_hurtPoint->GetCollidable()->GetRb()->SetPos(m_collidable->GetRb()->GetPos());
-	std::dynamic_pointer_cast<CapsuleCollider>(m_hurtPoint->GetCollidable()->GetColl())->SetEndPos(std::dynamic_pointer_cast<CapsuleCollider>(m_collidable->GetColl())->GetEndPos());
 }
 
 void PurpleDinosaur::UpdateAttackCoolTime()

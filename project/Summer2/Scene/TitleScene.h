@@ -15,7 +15,7 @@ public:
     /// overrideは明示的にオーバーライドをエディタに示すため
     /// </summary>
     virtual void Init()override;
-    virtual void Update(Input& input) override;
+    virtual void Update() override;
     virtual void Draw() override;
     virtual void End() override;
 private:

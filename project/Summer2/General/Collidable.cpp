@@ -1,20 +1,49 @@
 #include "Collidable.h"
-
-Collidable::Collidable(std::shared_ptr<ColliderBase> coll, std::shared_ptr<Rigidbody> rid):
-	m_coll(coll),
-	m_rb(rid),
-	m_isCollide(true),
-	m_state(State::None),
-	m_owner(nullptr),
+#include "Rigidbody.h"
+#include "Collision/SphereCollider.h"
+#include "Collision/CapsuleCollider.h"
+#include "Collision/PolygonCollider.h"
+#include "Collision/Physics.h"
+Collidable::Collidable(Shape shape):
+	m_isThrough(false),
+	m_isTrigger(false),
+	m_collState(CollisionState::Normal),
 	m_priority(Priority::Middle),
-	m_tag(GameTag::None)
+	m_tag(GameTag::None),
+	m_isFloor(false),
+	m_isWall(false)
 {
+	CreateCollider(shape);
+	m_rb = std::make_shared<Rigidbody>();
 }
 
-//èâä˙âª
-void Collidable::Init(State state, Priority priority, GameTag gameTag)
+void Collidable::Init()
 {
-	SetState(state);
-	SetPriority(priority);
-	SetGameTag(gameTag);
+	//PhysicsÇ…ìoò^
+	Physics::GetInstance().Entry(shared_from_this());
+}
+
+void Collidable::End()
+{
+	//PhysicsÇ…ìoò^
+	Physics::GetInstance().Exit(shared_from_this());
+}
+
+void Collidable::CreateCollider(Shape shape)
+{
+	switch (shape)
+	{
+	case Shape::Sphere:
+		m_collisionData = std::make_shared<SphereCollider>();
+		break;
+	case Shape::Capsule:
+		m_collisionData = std::make_shared<CapsuleCollider>();
+		break;
+	case Shape::Polygon:
+		m_collisionData = std::make_shared<PolygonCollider>();
+		break;
+	default:
+		m_collisionData = nullptr;
+		break;
+	}
 }

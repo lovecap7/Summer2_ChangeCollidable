@@ -23,8 +23,9 @@ void StageScene::Init()
 	m_gameManager->Init();
 }
 
-void StageScene::Update(Input& input)
+void StageScene::Update()
 {
+	auto& input = Input::GetInstance();
 #if _DEBUG
 	//デバッグシーン
 	if (input.IsTrigger("SceneChange"))

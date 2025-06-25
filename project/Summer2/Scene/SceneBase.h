@@ -1,5 +1,4 @@
 #pragma once
-class Input;
 class SceneController;
 
 /// <summary>
@@ -20,7 +19,7 @@ public:
 	/// “à•”•Ï”‚ÌXV
 	/// </summary>
 	/// <param name="input"></param>
-	virtual void Update(Input& input) abstract;
+	virtual void Update() abstract;
 	/// <summary>
 	/// •`‰æ
 	/// </summary>

@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 #include "../../General/Math/MyMath.h"
-class Actor;
+class Player;
 class Rigidbody;
 class Camera
 {
 public:
-	Camera(Position3 firstPos, std::shared_ptr<Actor> player);
+	Camera(Position3 firstPos, std::shared_ptr<Player> player);
 	~Camera();
 	void Update();
 	//カメラの座標
@@ -21,7 +21,7 @@ private:
 	//カメラが見てる位置
 	Vector3 m_viewPos;
 	//プレイヤー
-	std::shared_ptr<Actor> m_player;
+	std::shared_ptr<Player> m_player;
 	//カメラの最初のＺ座標(カメラのZ方向の移動上限に使う)
 	float m_cameraFirstPosZ;
 };

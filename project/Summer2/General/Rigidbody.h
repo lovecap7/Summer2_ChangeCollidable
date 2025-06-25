@@ -4,7 +4,6 @@ class Rigidbody
 {
 public:
 	Rigidbody();
-	Rigidbody(Vector3 pos);
 	virtual ~Rigidbody() {};
 	//位置
 	Vector3 GetPos() { return m_pos; };
@@ -24,10 +23,11 @@ public:
 	void ResetVec() { m_vec = m_vec.Zero(); };
 	//次の座標
 	Vector3 GetNextPos() { return m_pos + m_vec; };
-	void SetNextPos() { m_pos += m_vec; };
-private:
+public:
 	//座標とベクトル
 	Vector3 m_pos;
 	Vector3 m_vec;
+	//重力を受ける
+	bool m_isGravity ; //重力を受けるかどうか
 };
 

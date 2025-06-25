@@ -26,6 +26,8 @@ public:
     void MoveActorsPointer(std::vector<std::shared_ptr<Actor>>& actors);
     void End();
 private:
+    int m_actorId;//割り振る番号
+    void SetUpId(std::shared_ptr<Actor> actor);
     //ステージ番号
     Stage::StageIndex m_stageIndex;
     //プレイヤー

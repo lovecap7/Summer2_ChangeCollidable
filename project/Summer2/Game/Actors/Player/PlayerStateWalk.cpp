@@ -2,13 +2,13 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateJump.h"
 #include "PlayerStateFall.h"
-#include "PlayerStateAttackN1.h"
-#include "PlayerStateCharge.h"
+
+
 #include "PlayerStateRolling.h"
-#include "PlayerStateHit.h"
-#include "PlayerStateDeath.h"
+
+
 #include "PlayerStateRun.h"
-#include "PlayerStateUltimate.h"
+
 #include "Player.h"
 #include "UltGage.h"
 #include "../../../General/game.h"
@@ -19,7 +19,7 @@
 #include "../../../General/Model.h"
 #include "../../../General/Animator.h"
 #include "../../../Game/Camera/Camera.h"
-#include "../../Attack/HurtPoint.h"
+
 
 namespace
 {
@@ -33,12 +33,12 @@ namespace
 	const Vector3 kBigGravity = { 0.0f,-5.0f,0.0f };
 }
 
-PlayerStateWalk::PlayerStateWalk(std::shared_ptr<Player> player):
+PlayerStateWalk::PlayerStateWalk(std::weak_ptr<Player> player):
 	PlayerStateBase(player)
 {
 	//歩き状態
-	m_player->GetModel()->SetAnim(kAnim, true);
-	m_player->GetCollidable()->SetState(State::None);
+	m_player.lock()->GetModel()->SetAnim(kAnim, true);
+	m_player.lock()->SetCollState(CollisionState::Normal);
 }
 
 PlayerStateWalk::~PlayerStateWalk()
@@ -49,22 +49,10 @@ void PlayerStateWalk::Init()
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
-void PlayerStateWalk::Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager)
+void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera)
 {
-	//死亡
-	if (m_player->GetHurtPoint()->IsDead())
-	{
-		ChangeState(std::make_shared<PlayerStateDeath>(m_player));
-		return;
-	}
-	//攻撃を受けた時
-	if (m_player->GetHurtPoint()->IsHitReaction())
-	{
-		//やられ状態
-		ChangeState(std::make_shared<PlayerStateHit>(m_player));
-		return;
-	}
-	auto collidable = m_player->GetCollidable();
+	auto& input = Input::GetInstance();
+	auto collidable = m_player.lock();
 	//落下しているかチェック
 	if (collidable->GetRb()->GetVec().y <= Gravity::kChangeStateFall)
 	{
@@ -80,33 +68,20 @@ void PlayerStateWalk::Update(const Input& input, const std::unique_ptr<Camera>& 
 		return;
 	}
 	//ゲージがあるとき使える
-	if (input.IsTrigger("RB") && m_player->GetUltGage()->IsMaxUlt())
+	if (input.IsTrigger("RB") && collidable->GetUltGage()->IsMaxUlt())
 	{
 		//必殺技
-		ChangeState(std::make_shared<PlayerStateUltimate>(m_player, actorManager));
+		//ChangeState(std::make_shared<PlayerStateUltimate>(m_player, actorManager));
 		return;
 	}
 	//ジャンプボタンを押してるならジャンプ
-	if (input.IsTrigger("B") && m_player->IsGround())
+	if (input.IsTrigger("B") && collidable->IsFloor())
 	{
 		//ジャンプ
 		ChangeState(std::make_shared<PlayerStateJump>(m_player));
 		return;
 	}
-	//弱攻撃ボタンを押したら
-	if (input.IsTrigger("X"))
-	{
-		//弱攻撃
-		ChangeState(std::make_shared<PlayerStateAttackN1>(m_player));
-		return;
-	}
-	//チャージボタンを押したら
-	if (input.IsTrigger("Y"))
-	{
-		//チャージ
-		ChangeState(std::make_shared<PlayerStateCharge>(m_player));
-		return;
-	}
+
 	//入力がないなら待機
 	if (!input.GetStickInfo().IsLeftStickInput())
 	{
@@ -125,10 +100,10 @@ void PlayerStateWalk::Update(const Input& input, const std::unique_ptr<Camera>& 
 	//重力
 	rb->AddVec(kBigGravity);
 	//移動
-	rb->SetMoveVec(GetForwardVec(input,camera) * InputValueSpeed(input));
+	rb->SetMoveVec(GetForwardVec(camera) * InputValueSpeed(input));
 	//向きの更新
-	Vector2 dir = m_player->GetStickVec();
-	m_player->GetModel()->SetDir(dir);
+	Vector2 dir = collidable->GetStickVec();
+	collidable->GetModel()->SetDir(dir);
 }
 
 

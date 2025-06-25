@@ -3,6 +3,7 @@
 #include "../General/game.h"
 #include "../Scene/SceneController.h"
 #include  "../General/Input.h"
+#include  "../General/Collision/Physics.h"
 
 Application& Application::GetInstance()
 {
@@ -44,6 +45,9 @@ bool Application::Init()
 	//バックカリングを行う(ポリゴンの裏面を描画しないようにする)
 	SetUseBackCulling(true);
 
+	//Physicsの初期化
+	Physics::GetInstance().Init();
+
     return true;
 }
 
@@ -52,8 +56,7 @@ void Application::Run()
 	//アプリケーション以外はここで宣言と初期化
 	SceneController* sceneController = new SceneController();
 	//コントローラー
-	Input* input = new Input();
-	input->Init();
+	Input::GetInstance().Init();
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -65,8 +68,12 @@ void Application::Run()
 		ClearDrawScreen();
 
 		//ここにゲームの処理を書く
-		input->Update();
-		sceneController->Update(*input);
+		
+		//更新
+		Input::GetInstance().Update();
+		sceneController->Update();
+		Physics::GetInstance().Update();
+		//描画
 		sceneController->Draw();
 
 		//画面の切り替わりを待つ必要がある
@@ -81,16 +88,10 @@ void Application::Run()
 		//ESCキーで終了
 		if (CheckHitKey(KEY_INPUT_ESCAPE))
 		{
-			//消す
-			delete input;
-			input = nullptr;
 			sceneController = nullptr;
 			break;
 		}
 	}
-	//消す
-	delete input;
-	input = nullptr;
 	delete sceneController;
 	sceneController = nullptr;
 }

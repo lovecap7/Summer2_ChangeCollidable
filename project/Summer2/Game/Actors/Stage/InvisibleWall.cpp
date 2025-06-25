@@ -2,16 +2,14 @@
 #include "../../../General/Collision/PolygonCollider.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Collidable.h"
-#include "../ActorManager.h"
 
 InvisibleWall::InvisibleWall(int modelHandle, Vector3 pos, VECTOR scale, VECTOR angle):
+	Actor(Shape::Polygon),
 	m_modelHandle(modelHandle)
 {
 	//初期位置
-	m_collidable = std::make_shared<Collidable>(std::make_shared<PolygonCollider>(modelHandle), std::make_shared<Rigidbody>(pos));
-	//優先度
-	//コライダブルの初期化
-	m_collidable->Init(State::None, Priority::Static, GameTag::Object);
+	m_rb->SetPos(pos);
+	std::dynamic_pointer_cast<PolygonCollider>(m_collisionData)->m_modelHandle = modelHandle;
 	DxLib::MV1SetScale(m_modelHandle, scale);
 	DxLib::MV1SetRotationXYZ(m_modelHandle, angle);
 }
@@ -20,34 +18,21 @@ InvisibleWall::~InvisibleWall()
 {
 }
 
-void InvisibleWall::Entry(std::shared_ptr<ActorManager> actorManager)
-{
-	//アクターマネージャーに登録
-	actorManager->Entry(shared_from_this());
-}
-
-void InvisibleWall::Exit(std::shared_ptr<ActorManager> actorManager)
-{
-	//アクターマネージャー解除
-	actorManager->Exit(shared_from_this());
-}
-
 void InvisibleWall::Init()
 {
-	//コライダーに自分のポインタを持たせる
-	m_collidable->SetOwner(shared_from_this());
+	//コライダブルの初期化
+	m_collState = CollisionState::Normal;
+	m_priority = Priority::Static;
+	m_tag = GameTag::Object;
+	Collidable::Init();
 }
 
-void InvisibleWall::Update(const Input& input, const std::unique_ptr<Camera>& camera,const std::shared_ptr<ActorManager> actorManager)
+void InvisibleWall::Update(const std::weak_ptr<Camera> camera)
 {
-	DxLib::MV1SetPosition(m_modelHandle, m_collidable->GetRb()->GetPos().ToDxLibVector());
+	DxLib::MV1SetPosition(m_modelHandle, m_rb->GetPos().ToDxLibVector());
 }
 
-void InvisibleWall::Gravity(const Vector3& gravity)
-{
-}
-
-void InvisibleWall::OnHitColl(const std::shared_ptr<Collidable>& other)
+void InvisibleWall::OnCollide(const std::shared_ptr<Collidable> other)
 {
 }
 

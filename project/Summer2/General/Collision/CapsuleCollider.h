@@ -5,7 +5,7 @@ class CapsuleCollider :
     public ColliderBase
 {
 public:
-    CapsuleCollider(Position3 endPos,float radius);
+    CapsuleCollider();
     virtual ~CapsuleCollider() {};
     //自分の座標とm_endPosの2点で構成されたカプセル
     Position3 GetEndPos() const { return m_endPos; };
@@ -22,7 +22,7 @@ public:
     //最短距離
     float GetShortDis() { return m_shortDis; }
     void SetShortDis(float shortDis) { m_shortDis = shortDis; };
-private:
+
     //自分の座標とm_endPosの2点で構成されたカプセル
     Position3 m_endPos;
     //2点の球の半径

@@ -21,10 +21,10 @@ SceneController::SceneController()
 
 }
 
-void SceneController::Update(Input& input)
+void SceneController::Update()
 {
 	//最後にプッシュ(入れた)シーンのみ更新処理を行う(他のシーンは更新はストップ)
-	m_scenes.back()->Update(input);
+	m_scenes.back()->Update();
 }
 
 void SceneController::Draw()

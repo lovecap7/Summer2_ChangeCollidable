@@ -9,7 +9,6 @@
 #include "../../../General/Model.h"
 #include "../../../General/Animator.h"
 #include "../../../Game/Camera/Camera.h"
-#include "../../Attack/HurtPoint.h"
 
 namespace
 {
@@ -23,23 +22,21 @@ namespace
 	const Vector3 kBigGravity = { 0.0f,-5.0f,0.0f };
 }
 
-PlayerStateRolling::PlayerStateRolling(std::shared_ptr<Player> player) :
+PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Player> player) :
 	PlayerStateBase(player)
 {
 	//回避状態
-	m_player->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
-	m_player->GetCollidable()->SetState(State::None);
+	auto coll = m_player.lock();
+	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	coll->SetCollState(CollisionState::Normal);
 	//向きの更新
-	Vector2 dir = m_player->GetStickVec();
-	m_player->GetModel()->SetDir(dir);
-	//無敵に
-	m_player->GetHurtPoint()->SetIsNoDamege(true);
+	Vector2 dir = coll->GetStickVec();
+	coll->GetModel()->SetDir(dir);
 }
 
 PlayerStateRolling::~PlayerStateRolling()
 {
-	//無敵解除
-	m_player->GetHurtPoint()->SetIsNoDamege(false);
+	
 }
 void PlayerStateRolling::Init()
 {
@@ -47,11 +44,11 @@ void PlayerStateRolling::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateRolling::Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager)
+void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera)
 {
-	auto collidable = m_player->GetCollidable();
+	auto collidable = m_player.lock();
 	//モデルのアニメーションが終わったら
-	if (m_player->GetModel()->IsFinishAnim())
+	if (collidable->GetModel()->IsFinishAnim())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
@@ -61,5 +58,5 @@ void PlayerStateRolling::Update(const Input& input, const std::unique_ptr<Camera
 	//重力
 	rb->AddVec(kBigGravity);
 	//向いてる方向に移動
-	rb->SetMoveVec(m_player->GetModel()->GetDir() * kRollingMoveSpeed);
+	rb->SetMoveVec(collidable->GetModel()->GetDir() * kRollingMoveSpeed);
 }

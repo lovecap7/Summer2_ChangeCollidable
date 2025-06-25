@@ -29,8 +29,9 @@ void ResultScene::Init()
 	//なし
 }
 
-void ResultScene::Update(Input& input)
+void ResultScene::Update()
 {
+	auto& input = Input::GetInstance();
 #if _DEBUG
 	//デバッグシーン
 	if (input.IsTrigger("SceneChange"))

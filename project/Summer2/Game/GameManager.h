@@ -7,8 +7,6 @@ class Camera;
 class SceneController;
 class Input;
 class Actor;
-class ActorManager;
-class UIManager;
 class StageSetup;
 class GameManager
 {
@@ -20,14 +18,12 @@ public:
     void Draw()const;
     void End();
 private:
+    //アクター
+	std::vector<std::shared_ptr<Actor>> m_actors;
     //プレイヤー
     std::shared_ptr<Player> m_player;
-    //アクターマネージャー
-    std::shared_ptr<ActorManager> m_actorManager;
     //カメラ
-    std::unique_ptr<Camera> m_camera;
-    //UI
-    std::shared_ptr<UIManager> m_uiManager;
+    std::shared_ptr<Camera> m_camera;
     //ステージセットアップ
     std::shared_ptr<StageSetup> m_stageSetup;
 private:

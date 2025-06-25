@@ -3,7 +3,6 @@
 #include<memory>
 #include<list>
 class SceneBase;
-class Input;
 /// <summary>
 /// 各シーンを管理するクラス
 /// 管理はするが、繊維を管理はしない(繊維はクラスどもがやる)
@@ -16,8 +15,8 @@ public:
 	/// <summary>
 	/// Applicationから呼ばれる関数。現在のシーンのUpdateをそのまま実行。
 	/// </summary>
-	/// <param name="input"></param>
-	void Update(Input& input);
+	
+	void Update();
 	/// <summary>
 	/// Applicationから呼ばれる関数。現在のシーンのDrawをそのまま実行。
 	/// </summary>

@@ -7,14 +7,13 @@
 #include "../General/game.h"
 //アクター
 #include "../Game/Actors/Actor.h"
-#include "../Game/Actors/ActorManager.h"
+
 //プレイヤー
 #include "../Game/Actors/Player/Player.h"
 //敵
-#include "../Game/Actors/Enemy/EnemyManager.h"
+
 #include "../Game/Actors/Enemy/PurpleDinosaur/PurpleDinosaur.h"
-#include "../Game/Actors/Enemy/SmallDragon/SmallDragon.h"
-#include "../Game/Actors/Enemy/BossDragon/BossDragon.h"
+
 #include "../Game/Actors/Enemy/EnemyBase.h"
 //ステージ
 #include "../Game/Actors/Stage/InvisibleWall.h"
@@ -74,8 +73,9 @@ void TestCollScene::Init()
 	//m_actorManager->Init();
 }
 
-void TestCollScene::Update(Input& input)
+void TestCollScene::Update()
 {
+	auto& input = Input::GetInstance();
 #if _DEBUG
 	if (input.IsTrigger("StopUpdate"))
 	{

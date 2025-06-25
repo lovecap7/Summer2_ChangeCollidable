@@ -79,26 +79,14 @@
     <Filter Include="ソース ファイル\Game\Actors\Enemy">
       <UniqueIdentifier>{8d392897-e80d-46b8-92ac-f6b0ab803a8a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Attack">
-      <UniqueIdentifier>{52fb2788-c96b-437c-9990-95e65e09e372}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Game\Attack">
-      <UniqueIdentifier>{0e3bd8cf-df1e-4ca9-b54d-51c691cd4bb4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Game\Actors\Enemy\PurpleDinosaur">
       <UniqueIdentifier>{4118feb7-8555-480e-aeee-0b2c64744f30}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur">
       <UniqueIdentifier>{b84e6d14-bc38-4dc6-968f-e48257cb8815}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Actors\Enemy\SmallDragon">
-      <UniqueIdentifier>{d599e69d-c1f1-4d97-b040-e028ca94bdf4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Game\Actors\Enemy\SmallDragon">
       <UniqueIdentifier>{f2599fc6-e81d-4810-a4b6-63fe15105cda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Actors\Enemy\BossDragon">
-      <UniqueIdentifier>{4f0813f8-dd89-4679-bf97-136d80cb602d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Game\Actors\Enemy\BossDragon">
       <UniqueIdentifier>{d9a41659-7c22-4c4a-ae03-7b53c4e3d398}</UniqueIdentifier>
@@ -114,9 +102,6 @@
     </Filter>
     <Filter Include="ソース ファイル\Game\Actors\Item">
       <UniqueIdentifier>{37c67723-2a4b-469a-8972-03190516c737}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Actors\Enemy\Bomber">
-      <UniqueIdentifier>{dc8d410c-2b05-4ece-93d0-4db9796f3260}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Game\Actors\Enemy\Bomber">
       <UniqueIdentifier>{ccfd3ea5-332e-47fc-a3ff-e38fc07851d2}</UniqueIdentifier>
@@ -192,9 +177,6 @@
     <ClCompile Include="General\Collision\CollisionChecker.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="General\Collision\CollisionManager.cpp">
-      <Filter>ソース ファイル\General\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="General\Collision\CollisionProcess.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
     </ClCompile>
@@ -210,20 +192,8 @@
     <ClCompile Include="Game\Actors\Stage\InvisibleWall.cpp">
       <Filter>ソース ファイル\Game\Actors\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Attack\AttackBase.cpp">
-      <Filter>ソース ファイル\Game\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Attack\AttackManager.cpp">
-      <Filter>ソース ファイル\Game\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Attack\HurtPoint.cpp">
-      <Filter>ソース ファイル\Game\Attack</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Enemy\EnemyBase.cpp">
       <Filter>ソース ファイル\Game\Actors\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Attack\MeleeAttack.cpp">
-      <Filter>ソース ファイル\Game\Attack</Filter>
     </ClCompile>
     <ClCompile Include="General\Math\Quaternion.cpp">
       <Filter>ソース ファイル\General\Math</Filter>
@@ -243,41 +213,11 @@
     <ClCompile Include="Game\Actors\Player\PlayerStateFall.cpp">
       <Filter>ソース ファイル\Game\Actors\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateAttackN1.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateAttackN2.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateAttackN3.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Player\PlayerStateRolling.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateCharge.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateCA3.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateCA1.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateCA2.cpp">
       <Filter>ソース ファイル\Game\Actors\Player</Filter>
     </ClCompile>
     <ClCompile Include="General\Math\MathSub.cpp">
       <Filter>ソース ファイル\General\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateHit.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\ActorManager.cpp">
-      <Filter>ソース ファイル\Game\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\EnemyManager.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.cpp">
       <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
@@ -288,74 +228,14 @@
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateIdle.cpp">
       <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateDeath.cpp">
       <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateChase.cpp">
       <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateDeath.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Attack\BulletAttack.cpp">
-      <Filter>ソース ファイル\Game\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\SmallDragon\SmallDragon.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateBase.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateAttack.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateIdle.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateHit.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateDeath.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateBack.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Player\PlayerStateRun.cpp">
       <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerStateUltimate.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragon.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStateBase.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStateIdle.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStateHit.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStateDeath.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStateChase.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStatePunchAttack.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStateBreathAttack.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
     </ClCompile>
     <ClCompile Include="General\TransformDataLoader.cpp">
       <Filter>ソース ファイル\General</Filter>
@@ -369,44 +249,8 @@
     <ClCompile Include="Game\Actors\Stage\Sky.cpp">
       <Filter>ソース ファイル\Game\Actors\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\BossDragon\BossDragonStateSweepAttack.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\UIBase.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\UIHPBase.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\UIPlayerHP.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\UIManager.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\UIPlayerUltGage.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Player\UltGage.cpp">
       <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Item\ItemBase.cpp">
-      <Filter>ソース ファイル\Game\Actors\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Item\Heart.cpp">
-      <Filter>ソース ファイル\Game\Actors\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Item\ItemGenerator.cpp">
-      <Filter>ソース ファイル\Game\Actors\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Player\PlayerManager.cpp">
-      <Filter>ソース ファイル\Game\Actors\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Attack\Battle.cpp">
-      <Filter>ソース ファイル\Game\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="General\Collision\SearchTrigger.cpp">
-      <Filter>ソース ファイル\General\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Scene\StageScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -417,41 +261,8 @@
     <ClCompile Include="Game\StageSetup.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\Bomber\Bomber.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\Bomber\BomberStateBase.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\Bomber\BomberStateIdle.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\Bomber\BomberStateHit.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\Bomber\BomberStateDeath.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\Bomber\BomberStateChase.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Enemy\Bomber\BomberStateAttack.cpp">
-      <Filter>ソース ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Attack\BlastAttack.cpp">
-      <Filter>ソース ファイル\Game\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Item\Bomb.cpp">
-      <Filter>ソース ファイル\Game\Actors\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Item\UltGageUp.cpp">
-      <Filter>ソース ファイル\Game\Actors\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Item\DefenseUp.cpp">
-      <Filter>ソース ファイル\Game\Actors\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Item\DamageUp.cpp">
-      <Filter>ソース ファイル\Game\Actors\Item</Filter>
+    <ClCompile Include="General\Collision\Physics.cpp">
+      <Filter>ソース ファイル\General\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -530,9 +341,6 @@
     <ClInclude Include="General\Collision\CollisionChecker.h">
       <Filter>ヘッダー ファイル\General\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="General\Collision\CollisionManager.h">
-      <Filter>ヘッダー ファイル\General\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="General\Collision\CollisionProcess.h">
       <Filter>ヘッダー ファイル\General\Collision</Filter>
     </ClInclude>
@@ -550,18 +358,6 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Enemy\EnemyBase.h">
       <Filter>ヘッダー ファイル\Game\Actors\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Attack\AttackBase.h">
-      <Filter>ヘッダー ファイル\Game\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Attack\AttackManager.h">
-      <Filter>ヘッダー ファイル\Game\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Attack\HurtPoint.h">
-      <Filter>ヘッダー ファイル\Game\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Attack\MeleeAttack.h">
-      <Filter>ヘッダー ファイル\Game\Attack</Filter>
     </ClInclude>
     <ClInclude Include="General\Math\Quaternion.h">
       <Filter>ヘッダー ファイル\General\Math</Filter>
@@ -581,41 +377,11 @@
     <ClInclude Include="Game\Actors\Player\PlayerStateFall.h">
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateAttackN1.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateAttackN2.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateAttackN3.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actors\Player\PlayerStateRolling.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateCharge.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateCA3.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateCA1.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateCA2.h">
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
     </ClInclude>
     <ClInclude Include="General\Math\MathSub.h">
       <Filter>ヘッダー ファイル\General\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateHit.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\ActorManager.h">
-      <Filter>ヘッダー ファイル\Game\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\EnemyManager.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.h">
       <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
@@ -626,74 +392,14 @@
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateIdle.h">
       <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateDeath.h">
       <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateChase.h">
       <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateDeath.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Attack\BulletAttack.h">
-      <Filter>ヘッダー ファイル\Game\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\SmallDragon\SmallDragon.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateBase.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateAttack.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateIdle.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateHit.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateDeath.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\SmallDragon\SmallDragonStateBack.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\SmallDragon</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actors\Player\PlayerStateRun.h">
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerStateUltimate.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragon.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStateBase.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStateIdle.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStateHit.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStateDeath.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStatePunchAttack.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStateChase.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStateBreathAttack.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
     </ClInclude>
     <ClInclude Include="General\TransformDataLoader.h">
       <Filter>ヘッダー ファイル\General</Filter>
@@ -707,44 +413,8 @@
     <ClInclude Include="Game\Actors\Stage\Sky.h">
       <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\BossDragon\BossDragonStateSweepAttack.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\BossDragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\UIBase.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\UIHPBase.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\UIPlayerHP.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\UIManager.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\UIPlayerUltGage.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actors\Player\UltGage.h">
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Item\ItemBase.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Item\Heart.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Item\ItemGenerator.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Attack\Battle.h">
-      <Filter>ヘッダー ファイル\Game\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Player\PlayerManager.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="General\Collision\SearchTrigger.h">
-      <Filter>ヘッダー ファイル\General\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameManager.h">
       <Filter>ヘッダー ファイル\Game</Filter>
@@ -755,41 +425,8 @@
     <ClInclude Include="Game\StageSetup.h">
       <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\Bomber\Bomber.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\Bomber\BomberStateBase.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\Bomber\BomberStateIdle.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\Bomber\BomberStateHit.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\Bomber\BomberStateDeath.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\Bomber\BomberStateChase.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Enemy\Bomber\BomberStateAttack.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Enemy\Bomber</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Attack\BlastAttack.h">
-      <Filter>ヘッダー ファイル\Game\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Item\Bomb.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Item\UltGageUp.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Item\DefenseUp.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Item\DamageUp.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
+    <ClInclude Include="General\Collision\Physics.h">
+      <Filter>ヘッダー ファイル\General\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,15 +9,13 @@
 #include "../General/TransformDataLoader.h"
 //アクター
 #include "../Game/Actors/Actor.h"
-#include "../Game/Actors/ActorManager.h"
+
 //プレイヤー
 #include "../Game/Actors/Player/Player.h"
 //敵
-#include "../Game/Actors/Enemy/EnemyManager.h"
+
 #include "../Game/Actors/Enemy/PurpleDinosaur/PurpleDinosaur.h"
-#include "../Game/Actors/Enemy/SmallDragon/SmallDragon.h"
-#include "../Game/Actors/Enemy/Bomber/Bomber.h"
-#include "../Game/Actors/Enemy/BossDragon/BossDragon.h"
+
 #include "../Game/Actors/Enemy/EnemyBase.h"
 //ステージ
 #include "../Game/Actors/Stage/InvisibleWall.h"
@@ -78,6 +76,8 @@ void StageSetup::End()
 	default:
 		break;
 	};
+	if (m_actors.empty())return; // アクターが空なら何もしない
+	m_actors.clear(); // アクターのベクターをクリア
 }
 
 void StageSetup::LoadHandle()
@@ -143,27 +143,27 @@ void StageSetup::CreateCharacter(std::vector<std::shared_ptr<Actor>>& actors)
 		}
 		else if (charaData.name == "SmallDragon")
 		{
-			std::shared_ptr<EnemyBase> smallDragon = std::make_shared<SmallDragon>(MV1DuplicateModel(m_smallDragonHandle),
+			/*std::shared_ptr<EnemyBase> smallDragon = std::make_shared<SmallDragon>(MV1DuplicateModel(m_smallDragonHandle),
 				charaData.pos);
 			smallDragon->GetModel()->SetScale(charaData.scale);
 			smallDragon->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(smallDragon);
+			actors.emplace_back(smallDragon);*/
 		}
 		else if (charaData.name == "BossDragon")
 		{
-			std::shared_ptr<EnemyBase> bossDragon = std::make_shared<BossDragon>(MV1DuplicateModel(m_bossDragonHandle),
+			/*std::shared_ptr<EnemyBase> bossDragon = std::make_shared<BossDragon>(MV1DuplicateModel(m_bossDragonHandle),
 				charaData.pos);
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(bossDragon);
+			actors.emplace_back(bossDragon);*/
 		}
 		else if (charaData.name == "Bomber")
 		{
-			std::shared_ptr<EnemyBase> bomber = std::make_shared<Bomber>(MV1DuplicateModel(m_bomberHandle),
+			/*std::shared_ptr<EnemyBase> bomber = std::make_shared<Bomber>(MV1DuplicateModel(m_bomberHandle),
 				charaData.pos);
 			bomber->GetModel()->SetScale(charaData.scale);
 			bomber->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(bomber);
+			actors.emplace_back(bomber);*/
 		}
 		else if (charaData.name == "PurpleDinosaur")
 		{

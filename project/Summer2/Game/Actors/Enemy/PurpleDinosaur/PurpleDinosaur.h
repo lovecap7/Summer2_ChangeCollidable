@@ -8,23 +8,17 @@ class AttackManager;
 class ActorManager;
 class PurpleDinosaurStateBase;
 class PurpleDinosaur :
-    public EnemyBase, public std::enable_shared_from_this<PurpleDinosaur>
+    public EnemyBase
 {
 public:
 	PurpleDinosaur(int modelHandle, Vector3 pos);
 	~PurpleDinosaur();
-	//登録処理
-	void Entry(std::shared_ptr<ActorManager> actorManager)override;
-	//登録解除
-	void Exit(std::shared_ptr<ActorManager> actorManager)override;
 	//初期化処理
 	void Init()override;
 	//更新処理
-	void Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager) override;
-	//重力
-	void Gravity(const Vector3& gravity)override;
+	void Update(const std::weak_ptr<Camera> camera) override;
 	//衝突イベント
-	void OnHitColl(const std::shared_ptr<Collidable>& other)override;
+	void OnCollide(const std::shared_ptr<Collidable> other)override;
 	//描画
 	void Draw()const override;
 	//更新処理の確定
@@ -33,6 +27,13 @@ public:
 	int GetAttackCoolTime() const { return m_attackCoolTime; }
 	//攻撃のクールタイムをセット
 	void SetAttackCoolTime(int coolTime) { m_attackCoolTime = coolTime; }
+
+	//リジッドボディ
+	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
+	//コリジョン
+	std::shared_ptr<ColliderBase> GetColl() const { return m_collisionData; }
+	//コリジョンの状態を設定
+	void SetCollState(CollisionState collState) { m_collState = collState; }
 private:
 	//自分の状態
 	std::shared_ptr<PurpleDinosaurStateBase> m_state;

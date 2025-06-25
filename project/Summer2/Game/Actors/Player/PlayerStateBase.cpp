@@ -3,9 +3,8 @@
 #include "PlayerStateIdle.h"
 #include "../../../General/Input.h"
 #include "../../../Game/Camera/Camera.h"
-#include "../../Attack/AttackManager.h"
-#include "../../Attack/AttackBase.h"
-PlayerStateBase::PlayerStateBase(std::shared_ptr<Player>  player):
+
+PlayerStateBase::PlayerStateBase(std::weak_ptr<Player>  player):
 	m_player(player)
 {
 }
@@ -20,18 +19,18 @@ void PlayerStateBase::ChangeState(std::shared_ptr<PlayerStateBase> nextState)
 	m_nextState = move(nextState);
 }
 
-Vector3 PlayerStateBase::GetForwardVec(const Input& input, const std::unique_ptr<Camera>& camera)
+Vector3 PlayerStateBase::GetForwardVec(const std::weak_ptr<Camera> camera)
 {
 	Vector3 rV = { 0.0f,0.0f,0.0f, };
 	//“ü—Í
-	Vector3 stickVec = { m_player->GetStickVec().x,0.0f,m_player->GetStickVec().y };
+	Vector3 stickVec = { m_player.lock()->GetStickVec().x,0.0f,m_player.lock()->GetStickVec().y};
 	if (stickVec.Magnitude() < 0.0f)
 	{
 		return rV;
 	}
 	//ƒJƒƒ‰‚ÌŒü‚«‚É‚ ‚í‚¹‚é
 	//ƒJƒƒ‰‚ÌŒü‚«
-	Vector3 cameraDir = camera->GetDir();
+	Vector3 cameraDir = camera.lock()->GetDir();
 	cameraDir.y = 0.0f;
 	if (cameraDir.Magnitude() > 0.0f)
 	{
@@ -49,10 +48,4 @@ Vector3 PlayerStateBase::GetForwardVec(const Input& input, const std::unique_ptr
 		rV = moveVec.Normalize();
 	}
 	return rV;
-}
-void PlayerStateBase::AppearAttack(std::shared_ptr<AttackBase> attack, const std::shared_ptr<AttackManager> attackManager)
-{
-	//UŒ‚‚ð“ü‚ê‚é
-	attack->Init();//ó‘Ô‚ðƒŠƒZƒbƒg
-	attackManager->Entry(attack);//“o˜^
 }

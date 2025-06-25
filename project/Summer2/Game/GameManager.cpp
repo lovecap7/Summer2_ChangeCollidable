@@ -4,13 +4,9 @@
 #include <vector>
 #include "../General/game.h"
 #include "StageSetup.h"
-#include "Actors/ActorManager.h"
 #include "Actors/Player/Player.h"
-//UI
-#include "../Game/UI/UIManager.h"
-#include "../Game/UI/UIPlayerHP.h"
-#include "../Game/UI/UIPlayerUltGage.h"
-//カメラ
+#include "../General/Collision/Physics.h"
+
 #include "../Game/Camera/Camera.h"
 #include <cassert>
 
@@ -23,13 +19,12 @@ GameManager::GameManager()
 {
 	//ステージを作成
 	m_stageSetup = std::make_shared<StageSetup>();
+	//プレイヤーを受け取る
 	m_stageSetup->MovePlayerPointer(m_player);
-	//アクターマネージャー
-	m_actorManager = std::make_shared<ActorManager>(m_player);
+	//アクターを受け取る
+	m_stageSetup->MoveActorsPointer(m_actors);
 	//カメラの初期化
-	m_camera = std::make_unique<Camera>(kCameraPos, m_player);
-	//UIの準備
-	m_uiManager = std::make_shared<UIManager>();
+	m_camera = std::make_shared<Camera>(kCameraPos, m_player);
 }
 
 GameManager::~GameManager()
@@ -38,15 +33,11 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	//セットアップクラスからアクターを受け取る
-	//初期化処理
-	m_actorManager->Init(m_stageSetup);
-	//UIの作成
-	//プレイヤーの体力と必殺ゲージ
-	auto playerHpUI = std::make_shared<UIPlayerHP>(m_player->GetHurtPoint());
-	auto playerUltUI = std::make_shared<UIPlayerUltGage>(m_player->GetUltGage());
-	m_uiManager->Entry(playerHpUI);
-	m_uiManager->Entry(playerUltUI);
+	//アクターの初期化処理
+	for (auto& actor : m_actors)
+	{
+		actor->Init();
+	}
 }
 
 void GameManager::Update(Input& input)
@@ -56,12 +47,24 @@ void GameManager::Update(Input& input)
 	if (!m_isUpdateStop || (input.IsTrigger("StopUpdate") && m_isUpdateStop))
 #endif
 	{
-		//アクターの更新処理
-		m_actorManager->Update(input, m_camera, m_uiManager);
+		//アクターの更新
+		for (auto& actor : m_actors)
+		{
+			actor->Update(m_camera);
+		}
+		//当たり判定
+
+
+		//消滅フラグチェック
+		auto remIt = std::remove_if(m_actors.begin(), m_actors.end(), [](std::shared_ptr<Actor> actor) {
+			bool isDead = actor->IsDelete();
+			return isDead;
+			});
+		m_actors.erase(remIt, m_actors.end());//削除
+
 		//カメラの更新
 		m_camera->Update();
-		//UIの更新
-		m_uiManager->Update();
+		
 	}
 }
 
@@ -89,15 +92,20 @@ void GameManager::Draw() const
 	DrawString(screenPos.x, screenPos.y, "Z-", 0xffffff);
 #endif
 	//アクターの描画
-	m_actorManager->Draw();
-	//UIの描画
-	m_uiManager->Draw();
+	for (auto& actor : m_actors)
+	{
+		actor->Draw();
+	}
+	
 }
 
 void GameManager::End()
 {
-	//終了処理
+	//アクターの終了処理
+	for (auto& actor : m_actors)
+	{
+		actor->End();
+	}
+
 	m_stageSetup->End();
-	//登録解除
-	m_actorManager->End();
 }

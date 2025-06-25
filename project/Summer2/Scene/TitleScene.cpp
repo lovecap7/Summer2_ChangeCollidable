@@ -27,8 +27,9 @@ void TitleScene::Init()
 	//なし
 }
 
-void TitleScene::Update(Input& input)
+void TitleScene::Update()
 {
+	auto& input = Input::GetInstance();
 #if _DEBUG
 	//デバッグシーン
 	if (input.IsTrigger("SceneChange"))

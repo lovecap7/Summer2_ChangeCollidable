@@ -2,15 +2,11 @@
 
 Rigidbody::Rigidbody():
 	m_pos(),
-	m_vec()
+	m_vec(),
+	m_isGravity(true) //èdóÕÇéÛÇØÇÈ
 {
 }
 
-Rigidbody::Rigidbody(Vector3 pos):
-	m_pos(pos),
-	m_vec()
-{
-}
 
 Vector3 Rigidbody::GetMoveVec()
 {

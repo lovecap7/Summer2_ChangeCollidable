@@ -2,7 +2,6 @@
 #include <DxLib.h>
 #include "../../../General/Model.h"
 #include "../../Camera/Camera.h"
-#include "../ActorManager.h"
 
 namespace
 {
@@ -10,7 +9,8 @@ namespace
 	constexpr float kRotaAngle = 0.01f;
 }
 
-Sky::Sky(int handle)
+Sky::Sky(int handle) :
+	Actor(Shape::None)
 {
 	//描画用のクラス
 	m_isDrawOnly = true;
@@ -23,21 +23,14 @@ Sky::~Sky()
 {
 }
 
-void Sky::Entry(std::shared_ptr<ActorManager> actorManager)
+void Sky::Init()
 {
-	//アクターマネージャーに登録
-	actorManager->Entry(shared_from_this());
+	Collidable::Init();
 }
 
-void Sky::Exit(std::shared_ptr<ActorManager> actorManager)
+void Sky::Update(const std::weak_ptr<Camera> camera)
 {
-	//アクターマネージャーに登録
-	actorManager->Exit(shared_from_this());
-}
-
-void Sky::Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager)
-{
-	m_model->SetPos(camera->GetPos().ToDxLibVector());
+	m_model->SetPos(camera.lock()->GetPos().ToDxLibVector());
 	m_model->SetRot(VGet(0.0f, kRotaAngle, 0.0f));
 }
 

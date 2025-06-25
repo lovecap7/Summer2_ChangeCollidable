@@ -24,8 +24,9 @@ void SelectStageScene::Init()
 	//なし
 }
 
-void SelectStageScene::Update(Input& input)
+void SelectStageScene::Update()
 {
+	auto& input = Input::GetInstance();
 #if _DEBUG
 	//デバッグシーン
 	if (input.IsTrigger("SceneChange"))

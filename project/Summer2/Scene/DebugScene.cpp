@@ -29,8 +29,9 @@ void DebugScene::Init()
 	//‚È‚µ
 }
 
-void DebugScene::Update(Input& input)
+void DebugScene::Update()
 {
+	auto& input = Input::GetInstance();
 #if _DEBUG
 	if (input.IsTrigger("Up")) --m_selectSceneIndex;
 	if (input.IsTrigger("Down")) ++m_selectSceneIndex;

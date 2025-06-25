@@ -1,7 +1,6 @@
 #include "PlayerStateFall.h"
 #include "PlayerStateIdle.h"
-#include "PlayerStateHit.h"
-#include "PlayerStateDeath.h"
+
 #include "Player.h"
 #include "../../../General/game.h"
 #include "../../../General/Collision/ColliderBase.h"
@@ -11,7 +10,7 @@
 #include "../../../General/Model.h"
 #include "../../../General/Animator.h"
 #include "../../../Game/Camera/Camera.h"
-#include "../../Attack/HurtPoint.h"
+
 
 namespace
 {
@@ -25,16 +24,14 @@ namespace
 	constexpr float kHighAirMoveSpeed = 0.5f;//空中の大移動速度
 }
 
-PlayerStateFall::PlayerStateFall(std::shared_ptr<Player> player):
+PlayerStateFall::PlayerStateFall(std::weak_ptr<Player> player):
 	PlayerStateBase(player)
 {
 	//落下
-	m_player->GetModel()->SetAnim(kAnim, true);
-	//落下してるので
-	m_player->NoIsGround();
-	
-	auto coll = m_player->GetCollidable();
-	coll->SetState(State::Fall);
+	auto coll = m_player.lock();
+	coll->GetModel()->SetAnim(kAnim, true);
+	coll->SetIsFloor(false); //地面にいない
+	coll->SetCollState(CollisionState::Fall);
 }
 PlayerStateFall::~PlayerStateFall()
 {
@@ -45,34 +42,22 @@ void PlayerStateFall::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateFall::Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager)
+void PlayerStateFall::Update(const std::weak_ptr<Camera> camera)
 {
-	//死亡
-	if (m_player->GetHurtPoint()->IsDead())
-	{
-		ChangeState(std::make_shared<PlayerStateDeath>(m_player));
-		return;
-	}
-	//攻撃を受けた時
-	if (m_player->GetHurtPoint()->IsHitReaction())
-	{
-		//やられ状態
-		ChangeState(std::make_shared<PlayerStateHit>(m_player));
-		return;
-	}
+	auto& input = Input::GetInstance();
 	//地面に付いているなら
-	if (m_player->IsGround())
+	if (m_player.lock()->IsFloor())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
 		return;
 	}
-	auto rb = m_player->GetCollidable()->GetRb();
+	auto rb = m_player.lock()->GetRb();
 	//移動の入力があるなら
 	if (input.GetStickInfo().IsLeftStickInput())
 	{
 		//空中移動
-		rb->AddVec(GetForwardVec(input, camera) * InputValueSpeed(input));
+		rb->AddVec(GetForwardVec(camera) * InputValueSpeed(input));
 		//横移動速度に上限をつける
 		float speed = rb->GetMoveVec().Magnitude();
 		if (speed > 0.0f)
@@ -87,8 +72,8 @@ void PlayerStateFall::Update(const Input& input, const std::unique_ptr<Camera>& 
 		}
 	}
 	//向きの更新
-	Vector2 dir = m_player->GetStickVec();
-	m_player->GetModel()->SetDir(dir);
+	Vector2 dir = m_player.lock()->GetStickVec();
+	m_player.lock()->GetModel()->SetDir(dir);
 }
 
 

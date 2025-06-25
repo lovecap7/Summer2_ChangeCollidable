@@ -8,10 +8,10 @@ class PurpleDinosaurStateDeath :
 	public PurpleDinosaurStateBase, public std::enable_shared_from_this<PurpleDinosaurStateDeath>
 {
 public:
-	PurpleDinosaurStateDeath(std::shared_ptr<PurpleDinosaur> owner);
+	PurpleDinosaurStateDeath(std::weak_ptr<PurpleDinosaur> owner);
 	~PurpleDinosaurStateDeath();
 	void Init()override;
-	void Update(const Input& input, const std::unique_ptr<Camera>& camera, const std::shared_ptr<ActorManager> actorManager) override;
+	void Update(const std::weak_ptr<Camera> camera) override;
 private:
 	//Œ¸‘¬‚µ‚Ä‚¢‚­
 	void SpeedDown();
