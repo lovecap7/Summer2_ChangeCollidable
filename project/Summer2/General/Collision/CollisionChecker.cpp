@@ -1,7 +1,7 @@
 #include "CollisionChecker.h"
 #include "../Math/MyMath.h"
 #include <DxLib.h>
-#include "../Collidable.h"
+#include "Collidable.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
 #include "PolygonCollider.h"

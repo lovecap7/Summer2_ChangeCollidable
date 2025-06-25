@@ -3,7 +3,7 @@
 #include "../../../General/Collision/SphereCollider.h"
 #include "../../../General/Collision/CapsuleCollider.h"
 #include "../../../General/Rigidbody.h"
-#include "../../../General/Collidable.h"
+#include "../../../General/Collision/Collidable.h"
 
 StageObjectCollision::StageObjectCollision(int modelHandle, VECTOR pos, VECTOR scale, VECTOR angle) :
 	Actor(Shape::Polygon),
@@ -43,9 +43,8 @@ StageObjectCollision::~StageObjectCollision()
 
 void StageObjectCollision::Init()
 {
-	m_collState = CollisionState::Normal;
-	m_priority = Priority::Static;
-	m_tag = GameTag::Object;
+	//コライダブルの初期化
+	AllSetting(CollisionState::Normal, Priority::Static, GameTag::Object, false, false);
 	Collidable::Init();
 }
 void StageObjectCollision::Update(const std::weak_ptr<Camera> camera)

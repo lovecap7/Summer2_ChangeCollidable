@@ -2,7 +2,7 @@
 #include <list>
 #include <vector>
 #include <memory>
-#include "../Collidable.h"
+#include "Collidable.h"
 /// <summary>
 /// 当たり判定のシングルトンクラス
 /// </summary>

@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include "Math/MyMath.h"
-#include "Collision/ColliderBase.h"
+#include "../Math/MyMath.h"
+#include "ColliderBase.h"
 
 
 //状態に合わせて当たり判定を行う時に使う
@@ -31,15 +31,6 @@ enum class GameTag
 	Item,		//アイテム
 	Object,		//障害物
 	Field,		//フィールド
-};
-
-//レイヤー
-enum class Layer
-{
-	Actor,		//アクター
-	Effect,		//エフェクト
-	Attack,		//攻撃
-	HurtPoint,	//やられ判定
 };
 
 
@@ -74,6 +65,7 @@ public:
 	/// Physicsから解除
 	/// </summary>
 	virtual void End();
+
 	//タグ
 	GameTag GetGameTag() { return m_tag; };
 	void SetGameTag(GameTag gameTag) { m_tag = gameTag; };
@@ -112,6 +104,16 @@ protected:
 	bool m_isFloor;
 	//壁に当たったならtrue
 	bool m_isWall;
+
+	/// <summary>
+	/// 全てのコライダブルの設定を行う
+	/// </summary>
+	/// <param name="collState">コライダブルの状態</param>
+	/// <param name="priority">優先度</param>
+	/// <param name="tag">ゲームタグ</param>
+	/// <param name="isTrough">当たり判定を無視するか</param>
+	/// <param name="isTrigger">トリガー判定をするか</param>
+	void AllSetting(CollisionState collState, Priority priority, GameTag tag, bool isTrough, bool isTrigger);
 };
 
 

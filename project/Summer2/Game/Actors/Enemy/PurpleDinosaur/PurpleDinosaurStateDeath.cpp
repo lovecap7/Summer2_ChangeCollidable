@@ -3,7 +3,7 @@
 #include "../EnemyBase.h"
 #include "../../Actor.h"
 #include "../../../../General/Rigidbody.h"
-#include "../../../../General/Collidable.h"
+#include "../../../../General/Collision/Collidable.h"
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"

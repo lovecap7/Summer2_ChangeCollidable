@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "../../General/Rigidbody.h"
-#include "../../General/Collidable.h"
+#include "../../General/Collision/Collidable.h"
 #include "../../General/game.h"
 #include "../Actors/Player/Player.h"
 #include <DxLib.h>

@@ -1,5 +1,5 @@
 #include "CollisionProcess.h"
-#include "../Collidable.h"
+#include "Collidable.h"
 #include "../Rigidbody.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"

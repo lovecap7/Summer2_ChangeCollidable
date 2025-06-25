@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "../../General/Math/MyMath.h"
-#include "../../General/Collidable.h"
+#include "../../General/Collision/Collidable.h"
 
 class ActorManager;
 class Input;

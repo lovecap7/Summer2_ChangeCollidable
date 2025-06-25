@@ -25,7 +25,6 @@ Sky::~Sky()
 
 void Sky::Init()
 {
-	Collidable::Init();
 }
 
 void Sky::Update(const std::weak_ptr<Camera> camera)

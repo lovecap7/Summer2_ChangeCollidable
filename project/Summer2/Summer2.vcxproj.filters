@@ -106,6 +106,12 @@
     <Filter Include="ヘッダー ファイル\Game\Actors\Enemy\Bomber">
       <UniqueIdentifier>{ccfd3ea5-332e-47fc-a3ff-e38fc07851d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Attack">
+      <UniqueIdentifier>{8106e381-ea40-4a0c-ae0f-8ebac75bc494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Attack">
+      <UniqueIdentifier>{16b9af33-085c-488d-9d22-68a6848340a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -263,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="General\Collision\Physics.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Player\PlayerStateAttackN1.cpp">
+      <Filter>ソース ファイル\Game\Actors\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +436,9 @@
     </ClInclude>
     <ClInclude Include="General\Collision\Physics.h">
       <Filter>ヘッダー ファイル\General\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Player\PlayerStateAttackN1.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

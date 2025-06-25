@@ -9,7 +9,7 @@
 #include "../../../General/Collision/SphereCollider.h"
 #include "../../../General/Collision/ColliderBase.h"
 #include "../../../General/Rigidbody.h"
-#include "../../../General/Collidable.h"
+#include "../../../General/Collision/Collidable.h"
 
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
@@ -66,11 +66,7 @@ void Player::Init()
 	//対策としてInitを使う
 
 	//コライダブルの初期化
-	m_collState = CollisionState::Normal;
-	m_priority = Priority::Middle;
-	m_tag = GameTag::Player;
-	m_isTrigger = false; //トリガーではない
-	m_isThrough = false; //衝突判定を行う
+	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Player, false, false);
 	//Physicsに登録
 	Collidable::Init();
 

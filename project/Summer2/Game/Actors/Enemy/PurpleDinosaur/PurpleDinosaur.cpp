@@ -6,7 +6,7 @@
 #include "../../../../General/Input.h"
 #include "../../../../Game/Camera/Camera.h"
 #include "../../../../General/Rigidbody.h"
-#include "../../../../General/Collidable.h"
+#include "../../../../General/Collision/Collidable.h"
 #include "../../../../General/Collision/CapsuleCollider.h"
 #include "../../../../General/Collision/SphereCollider.h"
 #include "../../../../General/game.h"
@@ -46,11 +46,7 @@ PurpleDinosaur::~PurpleDinosaur()
 void PurpleDinosaur::Init()
 {
 	//コライダブルの初期化
-	m_collState = CollisionState::Normal;
-	m_priority = Priority::Middle;
-	m_tag = GameTag::Enemy;
-	m_isTrigger = false; //トリガーではない
-	m_isThrough = false; //衝突判定を行う
+	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false);
 	//Physicsに登録
 	Collidable::Init();
 

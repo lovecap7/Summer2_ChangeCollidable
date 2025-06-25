@@ -1,7 +1,7 @@
 #include "StageObjectDraw.h"
 #include "../../../General/Collision/PolygonCollider.h"
 #include "../../../General/Rigidbody.h"
-#include "../../../General/Collidable.h"
+#include "../../../General/Collision/Collidable.h"
 #include "../../../General/Model.h"
 
 StageObjectDraw::StageObjectDraw(int modelHandle, VECTOR pos, VECTOR scale, VECTOR angle):

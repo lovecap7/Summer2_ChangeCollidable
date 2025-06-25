@@ -1,9 +1,9 @@
 #include "Collidable.h"
 #include "Rigidbody.h"
-#include "SphereCollider.h"
-#include "CapsuleCollider.h"
-#include "PolygonCollider.h"
-#include "Physics.h"
+#include "Collision/SphereCollider.h"
+#include "Collision/CapsuleCollider.h"
+#include "Collision/PolygonCollider.h"
+#include "Collision/Physics.h"
 Collidable::Collidable(Shape shape):
 	m_isThrough(false),
 	m_isTrigger(false),
