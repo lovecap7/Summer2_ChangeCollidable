@@ -4,7 +4,7 @@
 #include <DxLib.h>
 class ActorManager;
 class Camera;
-class UIManager;
+class Collidable;
 /// <summary>
 /// ステージのオブジェクトの当たり判定用のクラス
 /// </summary>

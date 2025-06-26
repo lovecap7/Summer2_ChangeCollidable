@@ -1,6 +1,9 @@
 #include "ActorManager.h"
 #include "../StageSetup.h"
 #include "Actor.h"
+#include "Player/Player.h"
+#include "../../General/Rigidbody.h"
+#include "../../General/Math/MyMath.h"
 
 ActorManager::ActorManager():
 	m_actorId(0)
@@ -63,6 +66,27 @@ void ActorManager::End()
 	//ステージセットアップの終了
 	m_stageSetup->End();
 	m_stageSetup.reset();
+}
+
+//プレイヤーに近い敵を取得
+std::weak_ptr<Actor> ActorManager::GetNearestEnemy() const
+{
+	std::weak_ptr<Actor> nearestEnemy; //近い敵のポインタ
+	float minDis = 1000000.0f; //初期値は大きな値
+	for (auto& actor : m_actors)
+	{
+		if (actor->GetGameTag() == GameTag::Enemy)
+		{
+			//プレイヤーに近い敵を探す
+			float dis = (m_player->GetPos() - actor->GetPos()).Magnitude();
+			if (dis < minDis)
+			{
+				minDis = dis;
+				nearestEnemy = actor; //近い敵を更新
+			}
+		}
+	}
+	return nearestEnemy;
 }
 
 //新規アクターの追加予定を受け取る(public)

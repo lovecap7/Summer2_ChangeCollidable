@@ -21,6 +21,8 @@ public:
 	void End();
 	//プレイヤーを取得
 	std::weak_ptr<Player> GetPlayer() const { return m_player; }
+	//プレイヤーに近い敵を取得
+	std::weak_ptr<Actor> GetNearestEnemy() const;
 	//追加予定のアクターを追加
 	void AddNextActor(std::shared_ptr<Actor> actor);
 private:

@@ -9,12 +9,10 @@ class EnemyBase abstract :
 public:
     EnemyBase(Shape shape);
     virtual ~EnemyBase() {};
-    //モデルクラス
-    std::shared_ptr<Model> GetModel() const { return m_model; };
-protected:
-    //モデル
-    std::shared_ptr<Model> m_model;
-    //やられ判定の更新
-    virtual void UpdateHurtPoint()abstract;
+    //プレイヤーへの向き
+    Vector3 GetPlayerVec(const std::weak_ptr<Player> player) const;
+    Vector3 GetPlayerNomVecXZ(const std::weak_ptr<Player> player) const;
+    //プレイヤーとの距離を計算
+    float GetDistanceToPlayer(const std::weak_ptr<Player> player) const;
 };
 

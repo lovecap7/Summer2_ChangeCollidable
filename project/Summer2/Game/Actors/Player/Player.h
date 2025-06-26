@@ -4,15 +4,7 @@
 #include <memory>
 
 class ActorManager;
-class Input;
 class Camera;
-class Model;
-class AttackBase;
-class MeleeAttack;
-class AttackManager;
-class UIManager;
-class UltGage;
-class SearchTrigger;
 class PlayerStateBase;
 class Player :
 	public Actor
@@ -32,8 +24,6 @@ public:
 	void Complete() override;
 	//入力中の方向キー
 	Vector2 GetStickVec() { return m_stickVec; };
-	//モデルクラス
-	std::shared_ptr<Model> GetModel() const{ return m_model; };
 	//必殺技ゲージ
 	std::shared_ptr<UltGage> GetUltGage() const{ return m_ultGage; };
 	//リジッドボディ
@@ -45,13 +35,9 @@ public:
 private:
 	//プレイヤーの状態
 	std::shared_ptr<PlayerStateBase> m_state;
-	//モデル
-	std::shared_ptr<Model> m_model;
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;
 	//必殺技ゲージ
 	std::shared_ptr<UltGage> m_ultGage;
-private:
-
 };
 

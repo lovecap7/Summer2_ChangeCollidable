@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "../../General/Rigidbody.h"
 #include "Enemy/EnemyBase.h"
 
 Actor::Actor(Shape shape):
@@ -15,4 +16,9 @@ void Actor::SetID(int id)
 	if (m_isSetId)return;
 	m_id = id;
 	m_isSetId = true;
+}
+
+Vector3 Actor::GetPos() const
+{
+	return m_rb->m_pos;
 }

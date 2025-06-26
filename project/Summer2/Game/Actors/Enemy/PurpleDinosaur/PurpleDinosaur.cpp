@@ -71,10 +71,7 @@ void PurpleDinosaur::Update(const std::weak_ptr<Camera> camera, const std::weak_
 		m_state->Init();
 	}
 	//アニメーションの更新
-	m_model->Update();
-	//やられ判定の更新
-	UpdateHurtPoint();
-	
+	m_model->Update();	
 }
 
 void PurpleDinosaur::OnCollide(const std::shared_ptr<Collidable> other)
@@ -108,10 +105,6 @@ void PurpleDinosaur::Complete()
 	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->SetEndPos(endPos);//カプセルの移動
 	//モデルの座標更新
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
-}
-
-void PurpleDinosaur::UpdateHurtPoint()
-{
 }
 
 void PurpleDinosaur::UpdateAttackCoolTime()

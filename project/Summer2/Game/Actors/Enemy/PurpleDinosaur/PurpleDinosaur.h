@@ -38,8 +38,6 @@ private:
 	std::shared_ptr<PurpleDinosaurStateBase> m_state;
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;
-	//やられ判定の更新
-	void UpdateHurtPoint()override;
 	//攻撃のクールタイムを更新
 	void UpdateAttackCoolTime();
 };

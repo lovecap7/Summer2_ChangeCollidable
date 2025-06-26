@@ -6,6 +6,7 @@
 class ActorManager;
 class Camera;
 class Collidable;
+class Model;
 /// <summary>
 /// ゲーム中に配置可能な物体の基底クラス
 /// </summary>
@@ -20,6 +21,8 @@ protected:
 	int m_id;
 	//IDがセットされたことを記録するフラグ
 	bool m_isSetId;
+	//モデル
+	std::shared_ptr<Model> m_model;
 public:
 	Actor(Shape shape);
 	virtual ~Actor() {};
@@ -56,5 +59,11 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	void SetID(int id);
+	/// <summary>
+	/// 座標
+	/// </summary>
+	Vector3 GetPos() const;
+	//モデルクラス
+	std::shared_ptr<Model> GetModel() const { return m_model; };
 };
 
