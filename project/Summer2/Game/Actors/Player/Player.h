@@ -6,7 +6,8 @@
 class ActorManager;
 class UltGage;
 class Camera;
-class PlayerStateBase;
+class ActorStateBase;
+class HitPoints;
 class Player :
 	public Actor
 {
@@ -35,10 +36,12 @@ public:
 	void SetCollState(CollisionState collState) { m_collState = collState; }
 private:
 	//プレイヤーの状態
-	std::shared_ptr<PlayerStateBase> m_state;
+	std::shared_ptr<ActorStateBase> m_state;
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;
 	//必殺技ゲージ
 	std::shared_ptr<UltGage> m_ultGage;
+	//体力
+	std::shared_ptr<HitPoints> m_hitPoints;
 };
 

@@ -3,9 +3,13 @@
 #include <memory>
 #include "../../../General/Model.h"
 class Player;
+class HitPoints;
 class EnemyBase abstract :
     public Actor
 {
+protected:
+    //‘Ì—Í
+    std::shared_ptr<HitPoints> m_hitPoints;
 public:
     EnemyBase(Shape shape);
     virtual ~EnemyBase() {};

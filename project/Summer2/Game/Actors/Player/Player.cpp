@@ -1,21 +1,18 @@
 #include "Player.h"
 #include "PlayerStateBase.h"
-#include "PlayerStateWalk.h"
-
 #include "PlayerStateIdle.h"
 #include "../../../General/game.h"
+#include "../../../General/HitPoints.h"
 #include "../../../General/Collision/CapsuleCollider.h"
 #include "../../../General/Collision/PolygonCollider.h"
 #include "../../../General/Collision/SphereCollider.h"
 #include "../../../General/Collision/ColliderBase.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Collision/Collidable.h"
-
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
 #include "../../../General/Animator.h"
 #include "../../../Game/Camera/Camera.h"
-
 #include "UltGage.h"
 #include <DxLib.h>
 #include <cmath>
@@ -47,11 +44,12 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	auto cap = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
 	cap->SetEndPos(endPos);
 	cap->SetRadius(kCapsuleRadius);
-
 	//ÉÇÉfÉã
 	m_model = std::make_shared<Model>(modelHandle, firstPos.ToDxLibVector());
 	//ïKéEãZÉQÅ[ÉW
 	m_ultGage = std::make_shared<UltGage>(kMaxUltGage);
+	//ëÃóÕ
+	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Middle);
 }
 
 Player::~Player()

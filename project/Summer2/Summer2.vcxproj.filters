@@ -312,8 +312,17 @@
     <ClCompile Include="General\Battle.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Summer2\project\Summer2\General\HitPoints.cpp">
+    <ClCompile Include="General\HitPoints.cpp">
       <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\AttackBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\Slash.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\ActorStateBase.cpp">
+      <Filter>ソース ファイル\Game\Actors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -521,8 +530,17 @@
     <ClInclude Include="General\Battle.h">
       <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Summer2\project\Summer2\General\HitPoints.h">
+    <ClInclude Include="General\HitPoints.h">
       <Filter>ヘッダー ファイル\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\AttackBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\Slash.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\ActorStateBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

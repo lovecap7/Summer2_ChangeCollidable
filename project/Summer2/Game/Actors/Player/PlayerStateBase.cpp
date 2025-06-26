@@ -13,12 +13,6 @@ PlayerStateBase::~PlayerStateBase()
 {
 }
 
-void PlayerStateBase::ChangeState(std::shared_ptr<PlayerStateBase> nextState)
-{
-	//ó‘Ô•Ï‰»
-	m_nextState = move(nextState);
-}
-
 Vector3 PlayerStateBase::GetForwardVec(const std::weak_ptr<Camera> camera)
 {
 	Vector3 rV = { 0.0f,0.0f,0.0f, };

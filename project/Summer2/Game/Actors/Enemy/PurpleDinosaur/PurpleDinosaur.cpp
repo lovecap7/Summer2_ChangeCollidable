@@ -10,6 +10,7 @@
 #include "../../../../General/Collision/CapsuleCollider.h"
 #include "../../../../General/Collision/SphereCollider.h"
 #include "../../../../General/game.h"
+#include "../../../../General/HitPoints.h"
 
 namespace
 {
@@ -33,6 +34,8 @@ PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
 	cap->SetEndPos(endPos);
 	//リジッドボディの初期化
 	m_rb->SetPos(pos);
+	//体力
+	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Middle);
 }
 
 PurpleDinosaur::~PurpleDinosaur()

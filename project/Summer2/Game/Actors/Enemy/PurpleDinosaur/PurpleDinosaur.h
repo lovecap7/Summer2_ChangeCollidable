@@ -6,7 +6,7 @@ class Camera;
 class EnemyManager;
 class AttackManager;
 class ActorManager;
-class PurpleDinosaurStateBase;
+class ActorStateBase;
 class PurpleDinosaur :
     public EnemyBase
 {
@@ -35,7 +35,7 @@ public:
 	void SetCollState(CollisionState collState) { m_collState = collState; }
 private:
 	//自分の状態
-	std::shared_ptr<PurpleDinosaurStateBase> m_state;
+	std::shared_ptr<ActorStateBase> m_state;
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;
 	//攻撃のクールタイムを更新
