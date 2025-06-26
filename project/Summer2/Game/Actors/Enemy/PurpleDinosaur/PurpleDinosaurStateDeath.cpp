@@ -34,23 +34,15 @@ void PurpleDinosaurStateDeath::Init()
 	ChangeState(shared_from_this());
 }
 
-void PurpleDinosaurStateDeath::Update(const std::weak_ptr<Camera> camera)
+void PurpleDinosaurStateDeath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	auto coll = m_owner.lock();
 	//アニメーション終了後
-	if (m_owner.lock()->GetModel()->IsFinishAnim())
+	if (coll->GetModel()->IsFinishAnim())
 	{
-		m_owner.lock()->Delete();//削除
+		coll->Delete();//削除
 	}
 	//減速
-	SpeedDown();
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
 
-void PurpleDinosaurStateDeath::SpeedDown()
-{
-	auto collidable = m_owner.lock();
-	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kMoveDeceRate;
-	vec.z *= kMoveDeceRate;
-	collidable->GetRb()->SetVec(vec);
-}

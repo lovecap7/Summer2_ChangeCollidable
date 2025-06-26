@@ -24,15 +24,24 @@ namespace
 }
 
 
-Camera::Camera(Position3 firstPos, std::shared_ptr<Player> player):
-	m_pos(firstPos),
-	m_player(player)
+Camera::Camera(Position3 firstPos):
+	m_pos(firstPos)
 {
+}
+
+Camera::~Camera()
+{
+}
+
+void Camera::Init(std::weak_ptr<Player> player)
+{
+	//プレイヤーの参照を保存
+	m_player = player;
 	//奥行50～3000までをカメラの描画範囲とする
 	SetCameraNearFar(kNear, kFar);
 
 	//カメラの位置と角度の設定
-	auto playerPos = m_player->GetRb()->GetPos();
+	auto playerPos = m_player.lock()->GetRb()->GetPos();
 	m_pos.x = playerPos.x;//プレイヤーと横方向にを合わせる
 	//カメラのZ方向を保存
 	m_cameraFirstPosZ = m_pos.z;
@@ -55,14 +64,10 @@ Camera::Camera(Position3 firstPos, std::shared_ptr<Player> player):
 	ChangeLightTypeDir(VGet(0.0f, -0.5f, 0.0f));
 }
 
-Camera::~Camera()
-{
-}
-
 void Camera::Update()
 {
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
-	auto playerPos = m_player->GetRb()->GetPos();
+	auto playerPos = m_player.lock()->GetRb()->GetPos();
 	//位置の更新
 	Vector3 nextPos = m_pos;
 	//横方向が範囲外なら
@@ -77,7 +82,7 @@ void Camera::Update()
 		nextPos.x += kChaseWidth;
 	}
 	//Z方向の移動
-	nextPos.z += m_player->GetRb()->GetVec().z;
+	nextPos.z += m_player.lock()->GetRb()->GetVec().z;
 	//範囲内に収める
 	if (nextPos.z > m_cameraFirstPosZ + kChaseDepthLimit)
 	{

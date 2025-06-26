@@ -19,7 +19,7 @@ namespace
 	constexpr float kHit1AnimSpeed = 1.1f;
 	constexpr float kHit2AnimSpeed = 1.1f;
 	//減速率
-	constexpr float kDeceRate = 0.95f;
+	constexpr float kMoveDeceRate = 0.95f;
 }
 
 
@@ -41,27 +41,18 @@ void PlayerStateHit::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateHit::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	auto coll = m_player.lock();
 	//モデルのアニメーションが終わったら
-	if (m_player.lock()->GetModel()->IsFinishAnim())
+	if (coll->GetModel()->IsFinishAnim())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
 		return;
 	}
 	//だんだん減速
-	SpeedDown();
-}
-
-void PlayerStateHit::SpeedDown()
-{
-	auto collidable = m_player.lock();
-	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kDeceRate;
-	vec.z *= kDeceRate;
-	collidable->GetRb()->SetVec(vec);
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
 
 void PlayerStateHit::RandHitAnim()

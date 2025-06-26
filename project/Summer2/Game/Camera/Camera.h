@@ -6,8 +6,11 @@ class Rigidbody;
 class Camera
 {
 public:
-	Camera(Position3 firstPos, std::shared_ptr<Player> player);
+	Camera(Position3 firstPos);
 	~Camera();
+	//初期化処理
+	void Init(std::weak_ptr<Player> player);
+	//更新処理
 	void Update();
 	//カメラの座標
 	Position3 GetPos() { return m_pos; }
@@ -21,7 +24,7 @@ private:
 	//カメラが見てる位置
 	Vector3 m_viewPos;
 	//プレイヤー
-	std::shared_ptr<Player> m_player;
+	std::weak_ptr<Player> m_player;
 	//カメラの最初のＺ座標(カメラのZ方向の移動上限に使う)
 	float m_cameraFirstPosZ;
 };

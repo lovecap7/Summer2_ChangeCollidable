@@ -300,6 +300,9 @@
     <ClCompile Include="Game\Actors\Player\PlayerStateUltimate.cpp">
       <Filter>ソース ファイル\Game\Actors\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\ActorManager.cpp">
+      <Filter>ソース ファイル\Game\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -493,6 +496,9 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Player\PlayerStateAttackN3.h">
       <Filter>ヘッダー ファイル\Game\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\ActorManager.h">
+      <Filter>ヘッダー ファイル\Game\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

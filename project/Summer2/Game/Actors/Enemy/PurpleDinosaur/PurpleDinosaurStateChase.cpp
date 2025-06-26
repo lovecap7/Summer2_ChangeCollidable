@@ -43,7 +43,7 @@ void PurpleDinosaurStateChase::Init()
 	ChangeState(shared_from_this());
 }
 
-void PurpleDinosaurStateChase::Update(const std::weak_ptr<Camera> camera)
+void PurpleDinosaurStateChase::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 
 }

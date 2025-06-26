@@ -4,7 +4,7 @@
 class Player;
 class Input;
 class Camera;
-class AttackBase;
+class ActorManager;
 class PlayerStateBase abstract
 {
 protected:
@@ -21,7 +21,7 @@ public:
 	//‰Šú‰»ˆ—
 	virtual void Init()abstract;
 	//ó‘Ô‚É‰‚¶‚½XVˆ—
-	virtual void Update(const std::weak_ptr<Camera> camera) abstract;
+	virtual void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) abstract;
 	//Ÿ‚Ìó‘Ô‚ğæ“¾
 	std::shared_ptr<PlayerStateBase> GetNextState() { return m_nextState; };
 	//ó‘Ô•Ï‰»

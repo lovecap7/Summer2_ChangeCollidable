@@ -13,7 +13,7 @@ namespace
 	//アニメーション
 	const char* kAnim = "Player|Dead";
 	//減速率
-	constexpr float kDeceRate = 0.95f;
+	constexpr float kMoveDeceRate = 0.95f;
 }
 
 PlayerStateDeath::PlayerStateDeath(std::weak_ptr<Player> player) :
@@ -34,24 +34,15 @@ void PlayerStateDeath::Init()
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
-void PlayerStateDeath::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateDeath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	auto coll = m_player.lock();
 	//アニメーション終了後
-	if (m_player.lock()->GetModel()->IsFinishAnim())
+	if (coll->GetModel()->IsFinishAnim())
 	{
-		m_player.lock()->Delete();//削除
+		coll->Delete();//削除
 	}
 	//減速
-	SpeedDown();
-}
-
-void PlayerStateDeath::SpeedDown()
-{
-	auto collidable = m_player.lock();
-	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kDeceRate;
-	vec.z *= kDeceRate;
-	collidable->GetRb()->SetVec(vec);
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
 

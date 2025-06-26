@@ -1,12 +1,9 @@
 #include "GameManager.h"
 #include "../General/Input.h"
 #include <DxLib.h>
-#include <vector>
 #include "../General/game.h"
-#include "StageSetup.h"
-#include "Actors/Player/Player.h"
+#include "Actors/ActorManager.h"
 #include "../General/Collision/Physics.h"
-
 #include "../Game/Camera/Camera.h"
 #include <cassert>
 
@@ -17,14 +14,10 @@ namespace
 
 GameManager::GameManager()
 {
-	//ステージを作成
-	m_stageSetup = std::make_shared<StageSetup>();
-	//プレイヤーを受け取る
-	m_stageSetup->MovePlayerPointer(m_player);
-	//アクターを受け取る
-	m_stageSetup->MoveActorsPointer(m_actors);
+	//アクターマネージャー
+	m_actorManager = std::make_shared<ActorManager>();
 	//カメラの初期化
-	m_camera = std::make_shared<Camera>(kCameraPos, m_player);
+	m_camera = std::make_shared<Camera>(kCameraPos);
 }
 
 GameManager::~GameManager()
@@ -33,38 +26,24 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	//アクターの初期化処理
-	for (auto& actor : m_actors)
-	{
-		actor->Init();
-	}
+	//アクターマネージャーの初期化
+	m_actorManager->Init();
+	//カメラの初期化
+	m_camera->Init(m_actorManager->GetPlayer());
 }
 
-void GameManager::Update(Input& input)
+void GameManager::Update()
 {
 	//デバッグで一時停止されてないなら
+	auto& input = Input::GetInstance();
 #if _DEBUG
 	if (!m_isUpdateStop || (input.IsTrigger("StopUpdate") && m_isUpdateStop))
 #endif
 	{
 		//アクターの更新
-		for (auto& actor : m_actors)
-		{
-			actor->Update(m_camera);
-		}
-		//当たり判定
-
-
-		//消滅フラグチェック
-		auto remIt = std::remove_if(m_actors.begin(), m_actors.end(), [](std::shared_ptr<Actor> actor) {
-			bool isDead = actor->IsDelete();
-			return isDead;
-			});
-		m_actors.erase(remIt, m_actors.end());//削除
-
+		m_actorManager->Update(m_camera);
 		//カメラの更新
 		m_camera->Update();
-		
 	}
 }
 
@@ -92,20 +71,11 @@ void GameManager::Draw() const
 	DrawString(screenPos.x, screenPos.y, "Z-", 0xffffff);
 #endif
 	//アクターの描画
-	for (auto& actor : m_actors)
-	{
-		actor->Draw();
-	}
-	
+	m_actorManager->Draw();
 }
 
 void GameManager::End()
 {
-	//アクターの終了処理
-	for (auto& actor : m_actors)
-	{
-		actor->End();
-	}
-
-	m_stageSetup->End();
+	//アクターマネージャーの終了
+	m_actorManager->End();
 }

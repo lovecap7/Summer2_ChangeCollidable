@@ -8,13 +8,12 @@ public:
     PlayerStateCA3(std::weak_ptr<Player> player);
     ~PlayerStateCA3();
     void Init() override;
-    void Update(const std::weak_ptr<Camera> camera) override;
+    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
     //UŒ‚‚ÌƒtƒŒ[ƒ€‚ğ”‚¦‚é
     int m_attackCountFrame;
 private:
-    //Œ¸‘¬‚µ‚Ä‚¢‚­
-    void SpeedDown();
+  
 };
 
 

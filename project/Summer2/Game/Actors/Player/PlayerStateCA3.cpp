@@ -61,10 +61,11 @@ void PlayerStateCA3::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateCA3::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateCA3::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto model = m_player.lock()->GetModel();
+	auto coll = m_player.lock();
+	auto model = coll->GetModel();
 	//アニメーションが終了したら
 	if (model->IsFinishFixedLoop())
 	{
@@ -77,29 +78,15 @@ void PlayerStateCA3::Update(const std::weak_ptr<Camera> camera)
 	{
 
 	}
-	//少しずつ減速する
-	SpeedDown();
 	//入力があるなら
 	if (input.GetStickInfo().IsLeftStickInput())
 	{
 		//移動
-		m_player.lock()->GetRb()->SetMoveVec(GetForwardVec(camera) * kAttackMoveSpeed);
+		coll->GetRb()->SetMoveVec(GetForwardVec(camera) * kAttackMoveSpeed);
 	}
 	else
 	{
-		//少しずつ減速する
-		SpeedDown();
+		//減速
+		coll->GetRb()->SpeedDown(kMoveDeceRate);
 	}
 }
-
-
-void PlayerStateCA3::SpeedDown()
-{
-	auto collidable = m_player.lock();
-	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kMoveDeceRate;
-	vec.z *= kMoveDeceRate;
-	collidable->GetRb()->SetVec(vec);
-}
-

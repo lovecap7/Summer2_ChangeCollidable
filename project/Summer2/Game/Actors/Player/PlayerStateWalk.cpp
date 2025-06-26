@@ -49,7 +49,7 @@ void PlayerStateWalk::Init()
 	//Ÿ‚Ìó‘Ô‚ğ©•ª‚Ìó‘Ô‚ğ“ü‚ê‚é
 	ChangeState(shared_from_this());
 }
-void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
 	auto collidable = m_player.lock();

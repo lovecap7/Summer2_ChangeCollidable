@@ -42,17 +42,18 @@ void PlayerStateFall::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateFall::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateFall::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
+	auto coll = m_player.lock();
 	//地面に付いているなら
-	if (m_player.lock()->IsFloor())
+	if (coll->IsFloor())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
 		return;
 	}
-	auto rb = m_player.lock()->GetRb();
+	auto rb = coll->GetRb();
 	//移動の入力があるなら
 	if (input.GetStickInfo().IsLeftStickInput())
 	{
@@ -72,8 +73,8 @@ void PlayerStateFall::Update(const std::weak_ptr<Camera> camera)
 		}
 	}
 	//向きの更新
-	Vector2 dir = m_player.lock()->GetStickVec();
-	m_player.lock()->GetModel()->SetDir(dir);
+	Vector2 dir = coll->GetStickVec();
+	coll->GetModel()->SetDir(dir);
 }
 
 

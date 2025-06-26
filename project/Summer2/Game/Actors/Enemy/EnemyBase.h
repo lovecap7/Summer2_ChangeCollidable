@@ -2,6 +2,7 @@
 #include "../Actor.h"
 #include <memory>
 #include "../../../General/Model.h"
+class Player;
 class EnemyBase abstract :
     public Actor
 {
@@ -15,6 +16,5 @@ protected:
     std::shared_ptr<Model> m_model;
     //‚â‚ç‚ê”»’è‚ÌXV
     virtual void UpdateHurtPoint()abstract;
-  
 };
 

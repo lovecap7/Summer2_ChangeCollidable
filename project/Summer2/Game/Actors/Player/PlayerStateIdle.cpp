@@ -28,8 +28,9 @@ PlayerStateIdle::PlayerStateIdle(std::weak_ptr<Player> player):
 	PlayerStateBase(player)
 {
 	//待機状態
-	m_player.lock()->GetModel()->SetAnim(kAnim, true);
-	m_player.lock()->SetCollState(CollisionState::Normal);
+	auto coll = m_player.lock();
+	coll->GetModel()->SetAnim(kAnim, true);
+	coll->SetCollState(CollisionState::Normal);
 }
 
 PlayerStateIdle::~PlayerStateIdle()
@@ -40,11 +41,11 @@ void PlayerStateIdle::Init()
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
-void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto collidable = m_player.lock();
-	Vector3 vec = collidable->GetRb()->GetVec();
+	auto coll = m_player.lock();
+	Vector3 vec = coll->GetRb()->GetVec();
 	//落下しているかチェック
 	if (vec.y <= Gravity::kChangeStateFall)
 	{
@@ -60,7 +61,7 @@ void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera)
 		return;
 	}
 	//ゲージがあるとき使える
-	if (input.IsTrigger("RB") && m_player.lock()->GetUltGage()->IsMaxUlt())
+	if (input.IsTrigger("RB") && coll->GetUltGage()->IsMaxUlt())
 	{
 		//必殺技
 		ChangeState(std::make_shared<PlayerStateUltimate>(m_player));
@@ -68,7 +69,7 @@ void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera)
 	}
 
 	//ジャンプボタンを押してるならジャンプ
-	if (input.IsTrigger("B") && m_player.lock()->IsFloor())
+	if (input.IsTrigger("B") && coll->IsFloor())
 	{
 		//ジャンプ
 		ChangeState(std::make_shared<PlayerStateJump>(m_player));
@@ -82,16 +83,6 @@ void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera)
 		ChangeState(std::make_shared<PlayerStateWalk>(m_player));
 		return;
 	}
-	//少しずつ減速する
-	SpeedDown();
-}
-
-void PlayerStateIdle::SpeedDown()
-{
-	auto collidable = m_player.lock();
-	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kMoveDeceRate;
-	vec.z *= kMoveDeceRate;
-	collidable->GetRb()->SetVec(vec);
+	//だんだん減速
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }

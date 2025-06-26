@@ -31,8 +31,9 @@ PlayerStateRun::PlayerStateRun(std::weak_ptr<Player> player):
 	PlayerStateBase(player)
 {
 	//走り状態
-	m_player.lock()->GetModel()->SetAnim(kAnim, true);
-	m_player.lock()->SetCollState(CollisionState::Normal);
+	auto coll = m_player.lock();
+	coll->GetModel()->SetAnim(kAnim, true);
+	coll->SetCollState(CollisionState::Normal);
 }
 
 
@@ -46,12 +47,12 @@ void PlayerStateRun::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateRun::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto collidable = m_player.lock();
+	auto coll = m_player.lock();
 	//落下しているかチェック
-	if (collidable->GetRb()->GetVec().y <= Gravity::kChangeStateFall)
+	if (coll->GetRb()->GetVec().y <= Gravity::kChangeStateFall)
 	{
 		//落下
 		ChangeState(std::make_shared<PlayerStateFall>(m_player));
@@ -66,7 +67,7 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera)
 	}
 	
 	//ジャンプボタンを押してるならジャンプ
-	if (input.IsTrigger("B") && collidable->IsFloor())
+	if (input.IsTrigger("B") && coll->IsFloor())
 	{
 		//ジャンプ
 		ChangeState(std::make_shared<PlayerStateJump>(m_player));
@@ -80,12 +81,11 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera)
 		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
 		return;
 	}
-	auto rb = collidable->GetRb();
+	auto rb = coll->GetRb();
 	//重力
 	rb->AddVec(kBigGravity);
 	//移動
 	rb->SetMoveVec(GetForwardVec(camera) * kMoveSpeed);
 	//向きの更新
-	Vector2 dir = collidable->GetStickVec();
-	collidable->GetModel()->SetDir(dir);
+	coll->GetModel()->SetDir(coll->GetStickVec());
 }

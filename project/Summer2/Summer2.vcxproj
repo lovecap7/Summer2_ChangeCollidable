@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Actors\Actor.cpp" />
+    <ClCompile Include="Game\Actors\ActorManager.cpp" />
     <ClCompile Include="Game\Actors\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateBase.cpp" />
@@ -84,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Actors\Actor.h" />
+    <ClInclude Include="Game\Actors\ActorManager.h" />
     <ClInclude Include="Game\Actors\Enemy\EnemyBase.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateBase.h" />

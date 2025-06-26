@@ -12,8 +12,6 @@ namespace
 Sky::Sky(int handle) :
 	Actor(Shape::None)
 {
-	//描画用のクラス
-	m_isDrawOnly = true;
 	//モデル
 	m_model = std::make_shared<Model>(handle, Vector3::Zero().ToDxLibVector());
 	m_model->SetScale(VGet(kScale, kScale, kScale));
@@ -27,7 +25,7 @@ void Sky::Init()
 {
 }
 
-void Sky::Update(const std::weak_ptr<Camera> camera)
+void Sky::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	m_model->SetPos(camera.lock()->GetPos().ToDxLibVector());
 	m_model->SetRot(VGet(0.0f, kRotaAngle, 0.0f));

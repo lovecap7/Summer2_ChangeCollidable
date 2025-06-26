@@ -41,7 +41,7 @@ void StageScene::Update()
 		m_controller.ChangeScene(std::make_shared<ResultScene>(m_controller));
 		return;
 	}
-	m_gameManager->Update(input);
+	m_gameManager->Update();
 }
 
 void StageScene::Draw()

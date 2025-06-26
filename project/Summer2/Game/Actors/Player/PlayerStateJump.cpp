@@ -48,10 +48,11 @@ void PlayerStateJump::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateJump::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateJump::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto rb = m_player.lock()->GetRb();
+	auto coll = m_player.lock();
+	auto rb = coll->GetRb();
 	//—Ž‰º‚µ‚Ä‚¢‚é‚È‚ç
 	if (rb->GetVec().y < 0.0f)
 	{
@@ -79,8 +80,7 @@ void PlayerStateJump::Update(const std::weak_ptr<Camera> camera)
 	}
 	
 	//Œü‚«‚ÌXV
-	Vector2 dir = m_player.lock()->GetStickVec();
-	m_player.lock()->GetModel()->SetDir(dir);
+	coll->GetModel()->SetDir(coll->GetStickVec());
 }
 
 float PlayerStateJump::InputValueSpeed(const Input& input)

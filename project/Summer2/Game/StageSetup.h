@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <list>
 #include <memory>
 
 namespace Stage
@@ -23,17 +23,15 @@ public:
     StageSetup(Stage::StageIndex index = Stage::StageIndex::Stage1);
     ~StageSetup();
     void MovePlayerPointer(std::shared_ptr<Player>& player);
-    void MoveActorsPointer(std::vector<std::shared_ptr<Actor>>& actors);
+    void MoveActorsPointer(std::list<std::shared_ptr<Actor>>& actors);
     void End();
 private:
-    int m_actorId;//割り振る番号
-    void SetUpId(std::shared_ptr<Actor> actor);
     //ステージ番号
     Stage::StageIndex m_stageIndex;
     //プレイヤー
     std::shared_ptr<Player> m_player;
     //アクター
-    std::vector<std::shared_ptr<Actor>> m_actors;
+    std::list<std::shared_ptr<Actor>> m_actors;
     //ハンドル
    //キャラクター
     int m_playerHandle;
@@ -52,8 +50,8 @@ private:
     //ハンドルロード
     void LoadHandle();
     //キャラクターの作成と配置
-    void CreateCharacter(std::vector<std::shared_ptr<Actor>>& actors);
+    void CreateCharacter(std::list<std::shared_ptr<Actor>>& actors);
     //ステージの作成と配置
-    void CreateStage(std::vector<std::shared_ptr<Actor>>& actors);
+    void CreateStage(std::list<std::shared_ptr<Actor>>& actors);
 };
 

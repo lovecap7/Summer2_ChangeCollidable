@@ -49,10 +49,10 @@ void PlayerStateCharge::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto collidable = m_player.lock();
+	auto coll = m_player.lock();
 	//回避ボタンを押したら
 	if (input.IsTrigger("RB"))
 	{
@@ -60,11 +60,11 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera)
 		ChangeState(std::make_shared<PlayerStateRolling>(m_player));
 		return;
 	}
-	//少しずつ減速する
-	SpeedDown();
+	//減速
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 	//向きの更新
-	Vector2 dir = collidable->GetStickVec();
-	collidable->GetModel()->SetDir(dir);
+	Vector2 dir = coll->GetStickVec();
+	coll->GetModel()->SetDir(dir);
 	//溜めてる時
 	if (input.IsPress("Y"))
 	{
@@ -98,13 +98,4 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera)
 			return;
 		}
 	}
-}
-void PlayerStateCharge::SpeedDown()
-{
-	auto collidable = m_player.lock();
-	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kMoveDeceRate;
-	vec.z *= kMoveDeceRate;
-	collidable->GetRb()->SetVec(vec);
 }

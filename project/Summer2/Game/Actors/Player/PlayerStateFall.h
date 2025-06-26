@@ -11,7 +11,7 @@ public:
     PlayerStateFall(std::weak_ptr<Player>  player);
     ~PlayerStateFall();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera) override;
+    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
     //入力でスピードを返す
     float InputValueSpeed(const Input& input);

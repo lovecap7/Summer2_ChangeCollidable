@@ -11,7 +11,7 @@ public:
     PlayerStateWalk(std::weak_ptr<Player>  player);
     ~PlayerStateWalk();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera) override;
+    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
     //“ü—Í‚Ì‘å‚«‚³‚É‡‚í‚¹‚Ä‘¬“x‚ğ•Ô‚·
     float InputValueSpeed(const Input& input);

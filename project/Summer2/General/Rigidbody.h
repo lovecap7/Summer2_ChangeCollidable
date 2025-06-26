@@ -23,6 +23,8 @@ public:
 	void ResetVec() { m_vec = m_vec.Zero(); };
 	//次の座標
 	Vector3 GetNextPos() { return m_pos + m_vec; };
+	//スピードダウン
+	void SpeedDown(float decRate);
 public:
 	//座標とベクトル
 	Vector3 m_pos;

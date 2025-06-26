@@ -11,9 +11,8 @@ public:
     PlayerStateIdle(std::weak_ptr<Player>  player);
     ~PlayerStateIdle();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera) override;
+    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
-    //Œ¸‘¬‚µ‚Ä‚¢‚­
-    void SpeedDown();
+    
 };
 

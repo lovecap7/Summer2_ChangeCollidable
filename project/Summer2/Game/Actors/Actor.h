@@ -4,10 +4,8 @@
 #include "../../General/Collision/Collidable.h"
 
 class ActorManager;
-class Input;
 class Camera;
 class Collidable;
-class HurtPoint;
 /// <summary>
 /// ゲーム中に配置可能な物体の基底クラス
 /// </summary>
@@ -16,16 +14,12 @@ class Actor abstract:
 	public Collidable
 {
 protected:
-	//やられ判定
-	std::shared_ptr<HurtPoint> m_hurtPoint;
 	//消滅
 	bool m_isDelete;
 	//アクターの識別番号
 	int m_id;
 	//IDがセットされたことを記録するフラグ
 	bool m_isSetId;
-	//描画用のクラスかどうか
-	bool m_isDrawOnly;
 public:
 	Actor(Shape shape);
 	virtual ~Actor() {};
@@ -37,16 +31,11 @@ public:
 	/// 位置などの更新を行う
 	/// </summary>
 	/// <param name="">入力オブジェクト</param>
-	virtual void Update(const std::weak_ptr<Camera> camera) abstract;
+	virtual void Update(const std::weak_ptr<Camera> camera,const std::weak_ptr<ActorManager> actorManager) abstract;
 	/// <summary>
 	/// 対象のアクターを表示
 	/// </summary>
 	virtual void Draw()const abstract;
-	/// <summary>
-	/// やられ判定
-	/// </summary>
-	/// <returns></returns>
-	const std::shared_ptr<HurtPoint> GetHurtPoint() const { return m_hurtPoint; }
 	/// <summary>
 	/// 削除フラグ
 	/// </summary>
@@ -67,10 +56,5 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	void SetID(int id);
-	/// <summary>
-	/// 描画用クラス
-	/// </summary>
-	/// <returns></returns>
-	bool IsDrawOnly() { return m_isDrawOnly; };
 };
 

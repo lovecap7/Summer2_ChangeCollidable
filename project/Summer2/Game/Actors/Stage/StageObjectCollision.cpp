@@ -47,7 +47,7 @@ void StageObjectCollision::Init()
 	AllSetting(CollisionState::Normal, Priority::Static, GameTag::Object, false, false);
 	Collidable::Init();
 }
-void StageObjectCollision::Update(const std::weak_ptr<Camera> camera)
+void StageObjectCollision::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//‚È‚µ
 }

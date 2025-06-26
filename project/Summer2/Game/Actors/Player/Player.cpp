@@ -77,7 +77,7 @@ void Player::Init()
 	m_state->ChangeState(m_state);
 }
 
-void Player::Update(const std::weak_ptr<Camera> camera)
+void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
 	//スティックの向きを入れる
@@ -88,7 +88,7 @@ void Player::Update(const std::weak_ptr<Camera> camera)
 
 #endif
 	//状態に合わせた更新
-	m_state->Update(camera);
+	m_state->Update(camera,actorManager);
 	//状態が変わったかをチェック
 	if (m_state != m_state->GetNextState())
 	{

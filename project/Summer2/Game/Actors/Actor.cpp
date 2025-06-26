@@ -3,11 +3,9 @@
 
 Actor::Actor(Shape shape):
 	Collidable(shape),
-	m_hurtPoint(nullptr),
 	m_isDelete(false),
 	m_id(0),
-	m_isSetId(false),
-	m_isDrawOnly(false)
+	m_isSetId(false)
 {
 }
 

@@ -25,7 +25,7 @@ void InvisibleWall::Init()
 	Collidable::Init();
 }
 
-void InvisibleWall::Update(const std::weak_ptr<Camera> camera)
+void InvisibleWall::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	DxLib::MV1SetPosition(m_modelHandle, m_rb->GetPos().ToDxLibVector());
 }

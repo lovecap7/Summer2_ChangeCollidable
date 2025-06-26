@@ -46,12 +46,16 @@ void StageSetup::MovePlayerPointer(std::shared_ptr<Player>& player)
 {
 	//プレイヤーを渡す
 	player = std::move(m_player);
+	//メモリを解放
+	m_player.reset();
 }
 
-void StageSetup::MoveActorsPointer(std::vector<std::shared_ptr<Actor>>& actors)
+void StageSetup::MoveActorsPointer(std::list<std::shared_ptr<Actor>>& actors)
 {
 	//アクターを渡す
 	actors = std::move(m_actors);
+	//メモリを解放
+	m_actors.clear();
 }
 
 void StageSetup::End()
@@ -76,8 +80,6 @@ void StageSetup::End()
 	default:
 		break;
 	};
-	if (m_actors.empty())return; // アクターが空なら何もしない
-	m_actors.clear(); // アクターのベクターをクリア
 }
 
 void StageSetup::LoadHandle()
@@ -114,7 +116,7 @@ void StageSetup::LoadHandle()
 	};
 }
 
-void StageSetup::CreateCharacter(std::vector<std::shared_ptr<Actor>>& actors)
+void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 {
 	//配置データを取得
 	std::string path;
@@ -176,7 +178,7 @@ void StageSetup::CreateCharacter(std::vector<std::shared_ptr<Actor>>& actors)
 	}
 }
 
-void StageSetup::CreateStage(std::vector<std::shared_ptr<Actor>>& actors)
+void StageSetup::CreateStage(std::list<std::shared_ptr<Actor>>& actors)
 {
 	//空を作成
 	actors.emplace_back(std::make_shared<Sky>(m_skyHandle));

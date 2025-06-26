@@ -27,3 +27,10 @@ void Rigidbody::SetMoveVec(Vector3 vec)
 	m_vec.x = vec.x;
 	m_vec.z = vec.z;
 }
+
+void Rigidbody::SpeedDown(float decRate)
+{
+	//Œ¸‘¬
+	m_vec.x *= decRate;
+	m_vec.z *= decRate;
+}

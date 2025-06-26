@@ -7,8 +7,6 @@
 StageObjectDraw::StageObjectDraw(int modelHandle, VECTOR pos, VECTOR scale, VECTOR angle):
 	Actor(Shape::None)
 {
-	//描画用のクラス
-	m_isDrawOnly = true;
 	//モデル
 	m_model = std::make_shared<Model>(modelHandle, pos);
 	m_model->SetScale(scale);

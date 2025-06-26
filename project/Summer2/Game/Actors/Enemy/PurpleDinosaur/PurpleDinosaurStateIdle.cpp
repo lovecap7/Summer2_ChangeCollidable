@@ -40,17 +40,10 @@ void PurpleDinosaurStateIdle::Init()
 	ChangeState(shared_from_this());
 }
 
-void PurpleDinosaurStateIdle::Update(const std::weak_ptr<Camera> camera)
+void PurpleDinosaurStateIdle::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	
-}
+	auto coll = m_owner.lock();
 
-void PurpleDinosaurStateIdle::SpeedDown()
-{
-	auto collidable = m_owner.lock();
 	//Œ¸‘¬
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kMoveDeceRate;
-	vec.z *= kMoveDeceRate;
-	collidable->GetRb()->SetVec(vec);
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }

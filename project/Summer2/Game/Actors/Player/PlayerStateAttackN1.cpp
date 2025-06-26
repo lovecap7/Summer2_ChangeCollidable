@@ -67,7 +67,7 @@ void PlayerStateAttackN1::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
 	//カウント
@@ -78,7 +78,8 @@ void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera)
 		//攻撃を入れる
 		
 	}
-	auto model = m_player.lock()->GetModel();
+	auto coll = m_player.lock();
+	auto model = coll->GetModel();
 	//モデルのアニメーションが終わったら
 	if (model->IsFinishAnim())
 	{
@@ -116,14 +117,6 @@ void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera)
 			return;
 		}
 	}
-}
-
-void PlayerStateAttackN1::SpeedDown()
-{
-	auto collidable = m_player.lock();
 	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kMoveDeceRate;
-	vec.z *= kMoveDeceRate;
-	collidable->GetRb()->SetVec(vec);
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }

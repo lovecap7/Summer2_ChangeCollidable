@@ -64,10 +64,11 @@ void PlayerStateUltimate::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	++m_animCountFrame;
-	auto model = m_player.lock()->GetModel();
+	auto coll = m_player.lock();
+	auto model = coll->GetModel();
 	//アニメーションが終了したら
 	if (model->IsFinishFixedLoop())
 	{
@@ -91,15 +92,5 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera)
 		}
 	}
 	//少しずつ減速する
-	SpeedDown();
-}
-
-void PlayerStateUltimate::SpeedDown()
-{
-	auto collidable = m_player.lock();
-	//減速
-	Vector3 vec = collidable->GetRb()->GetVec();
-	vec.x *= kMoveDeceRate;
-	vec.z *= kMoveDeceRate;
-	collidable->GetRb()->SetVec(vec);
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }

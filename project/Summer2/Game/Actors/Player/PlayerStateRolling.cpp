@@ -30,8 +30,7 @@ PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Player> player) :
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
 	coll->SetCollState(CollisionState::Normal);
 	//向きの更新
-	Vector2 dir = coll->GetStickVec();
-	coll->GetModel()->SetDir(dir);
+	coll->GetModel()->SetDir(coll->GetStickVec());
 }
 
 PlayerStateRolling::~PlayerStateRolling()
@@ -44,7 +43,7 @@ void PlayerStateRolling::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera)
+void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto collidable = m_player.lock();
 	//モデルのアニメーションが終わったら

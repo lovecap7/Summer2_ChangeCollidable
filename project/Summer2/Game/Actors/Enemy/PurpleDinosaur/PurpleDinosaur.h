@@ -16,7 +16,7 @@ public:
 	//初期化処理
 	void Init()override;
 	//更新処理
-	void Update(const std::weak_ptr<Camera> camera) override;
+	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 	//衝突イベント
 	void OnCollide(const std::shared_ptr<Collidable> other)override;
 	//描画
@@ -27,7 +27,6 @@ public:
 	int GetAttackCoolTime() const { return m_attackCoolTime; }
 	//攻撃のクールタイムをセット
 	void SetAttackCoolTime(int coolTime) { m_attackCoolTime = coolTime; }
-
 	//リジッドボディ
 	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
 	//コリジョン
