@@ -9,14 +9,14 @@ EnemyBase::EnemyBase(Shape shape) :
 {
 }
 
-Vector3 EnemyBase::GetPlayerVec(const std::weak_ptr<Player> player) const
+Vector3 EnemyBase::GetToPlayerVec(const std::weak_ptr<Player> player) const
 {
-	return (GetPos() - player.lock()->GetPos());
+	return (player.lock()->GetPos() - GetPos());
 }
 
-Vector3 EnemyBase::GetPlayerNomVecXZ(const std::weak_ptr<Player> player) const
+Vector3 EnemyBase::GetToPlayerNomVecXZ(const std::weak_ptr<Player> player) const
 {
-	Vector3 vecXZ = GetPlayerVec(player);
+	Vector3 vecXZ = GetToPlayerVec(player);
 	vecXZ.y = 0.0f; // Y成分をゼロにしてXZ平面のベクトルにする
 	if (vecXZ.SqMagnitude() > 0.0f)
 	{
@@ -27,5 +27,13 @@ Vector3 EnemyBase::GetPlayerNomVecXZ(const std::weak_ptr<Player> player) const
 
 float EnemyBase::GetDistanceToPlayer(const std::weak_ptr<Player> player) const
 {
-	return GetPlayerVecXZ(player).Magnitude();
+	return GetToPlayerVec(player).Magnitude();
 }
+
+void EnemyBase::LookAtPlayer(const std::weak_ptr<Player> player)
+{
+	//モデルの向きをプレイヤーに向ける
+	m_model->SetDir(GetToPlayerNomVecXZ(player).XZ());
+}
+
+

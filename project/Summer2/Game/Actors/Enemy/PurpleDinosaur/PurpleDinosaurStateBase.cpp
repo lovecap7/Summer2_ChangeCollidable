@@ -19,10 +19,3 @@ void PurpleDinosaurStateBase::ChangeState(std::shared_ptr<PurpleDinosaurStateBas
 	//状態変化
 	m_nextState = move(nextState);
 }
-
-void PurpleDinosaurStateBase::LookPlayer()
-{
-	//モデルの向きをプレイヤーに向ける
-	/*auto dir = m_owner->GetPlayerNomVecXZ().XZ();
-	m_owner->GetModel()->SetDir(dir);*/
-}

@@ -4,6 +4,7 @@
 #include <memory>
 
 class ActorManager;
+class UltGage;
 class Camera;
 class PlayerStateBase;
 class Player :

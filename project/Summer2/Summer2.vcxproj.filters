@@ -303,6 +303,18 @@
     <ClCompile Include="Game\Actors\ActorManager.cpp">
       <Filter>ソース ファイル\Game\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.cpp">
+      <Filter>ソース ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
+    </ClCompile>
+    <ClCompile Include="General\Battle.cpp">
+      <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Summer2\project\Summer2\General\HitPoints.cpp">
+      <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -499,6 +511,18 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\ActorManager.h">
       <Filter>ヘッダー ファイル\Game\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Enemy\PurpleDinosaur</Filter>
+    </ClInclude>
+    <ClInclude Include="General\Battle.h">
+      <Filter>ヘッダー ファイル\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Summer2\project\Summer2\General\HitPoints.h">
+      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

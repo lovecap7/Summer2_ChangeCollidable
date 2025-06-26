@@ -24,7 +24,5 @@ public:
 	std::shared_ptr<PurpleDinosaurStateBase> GetNextState() { return m_nextState; };
 	//状態変化
 	virtual void ChangeState(std::shared_ptr<PurpleDinosaurStateBase> nextState);
-	//モデルをプレイヤーの方向に向かせる
-	void LookPlayer();
 };
 

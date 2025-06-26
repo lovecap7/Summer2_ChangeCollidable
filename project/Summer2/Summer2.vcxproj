@@ -19,13 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Summer2\project\Summer2\General\HitPoints.cpp" />
     <ClCompile Include="Game\Actors\Actor.cpp" />
     <ClCompile Include="Game\Actors\ActorManager.cpp" />
     <ClCompile Include="Game\Actors\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.cpp" />
+    <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateBase.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateChase.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateDeath.cpp" />
+    <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateIdle.cpp" />
     <ClCompile Include="Game\Actors\Player\Player.cpp" />
     <ClCompile Include="Game\Actors\Player\PlayerStateAttackN1.cpp" />
@@ -54,6 +57,7 @@
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\StageSetup.cpp" />
     <ClCompile Include="General\Animator.cpp" />
+    <ClCompile Include="General\Battle.cpp" />
     <ClCompile Include="General\Collision\CapsuleCollider.cpp" />
     <ClCompile Include="General\Collision\Collidable.cpp" />
     <ClCompile Include="General\Collision\ColliderBase.cpp" />
@@ -84,13 +88,16 @@
     <ClCompile Include="Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Summer2\project\Summer2\General\HitPoints.h" />
     <ClInclude Include="Game\Actors\Actor.h" />
     <ClInclude Include="Game\Actors\ActorManager.h" />
     <ClInclude Include="Game\Actors\Enemy\EnemyBase.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.h" />
+    <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateBase.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateChase.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateDeath.h" />
+    <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateIdle.h" />
     <ClInclude Include="Game\Actors\Player\Player.h" />
     <ClInclude Include="Game\Actors\Player\PlayerStateAttackN1.h" />
@@ -119,6 +126,7 @@
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\StageSetup.h" />
     <ClInclude Include="General\Animator.h" />
+    <ClInclude Include="General\Battle.h" />
     <ClInclude Include="General\Collision\CapsuleCollider.h" />
     <ClInclude Include="General\Collision\Collidable.h" />
     <ClInclude Include="General\Collision\ColliderBase.h" />
