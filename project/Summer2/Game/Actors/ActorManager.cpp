@@ -1,7 +1,7 @@
 #include "ActorManager.h"
 #include "../StageSetup.h"
 #include "Actor.h"
-#include "Player/Player.h"
+#include "Character/Player/Player.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Math/MyMath.h"
 

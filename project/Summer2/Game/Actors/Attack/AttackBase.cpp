@@ -1,17 +1,17 @@
 #include "AttackBase.h"
-#include "../Player/Player.h"
-#include "../Enemy/EnemyBase.h"
-#include "../ActorStateBase.h"
-#include "../Player/UltGage.h"
+#include "../Character/Player/Player.h"
+#include "../Character/Enemy/EnemyBase.h"
+#include "../Character/CharacterStateBase.h"
+#include "../Character/Player/UltGage.h"
 #include "../../../General/HitPoints.h"
 
-AttackBase::AttackBase(Shape shape, std::weak_ptr<ActorStateBase> ownerState):
+AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner):
 	Actor(shape),
+	m_owner(owner),
 	m_damage(0.0f),
 	m_keepFrame(0.0f),
 	m_knockBackPower(0.0f),
-	m_attackWeight(Battle::AttackWeight::Light),
-	m_ownerState(ownerState)
+	m_attackWeight(Battle::AttackWeight::Light)
 {
 }
 
@@ -19,26 +19,43 @@ AttackBase::~AttackBase()
 {
 }
 
+void AttackBase::Init()
+{
+	AllSetting(CollisionState::Normal, Priority::Low, GameTag::Attack, false, true);
+	Collidable::Init();
+}
+
+void AttackBase::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	if (m_owner.expired())
+	{
+		m_isDelete = true; //所有者のステートが無くなったら削除フラグを立てる
+		return; //所有者のステートが無くなったら何もしない
+	}
+	//持続フレームを減らす
+	--m_keepFrame;
+	//持続フレームが0になったら削除
+	if (m_keepFrame <= 0)
+	{
+		m_isDelete = true;	//削除フラグを立てる
+		m_isThrough = true;	//当たり判定をしない
+		return; //何もしない
+	}
+}
+
 void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 {
-	auto ownerColl = m_ownerState.lock()->GetOwner().lock();
+	auto ownerColl = m_owner.lock();
 	auto otherColl = other;
 
 	//自分と同じ種類なら無視
 	if (otherColl->GetGameTag() == ownerColl->GetGameTag())return;
 
 	//プレイヤーか敵なら
-	if (otherColl->GetGameTag() == GameTag::Player)
+	if (otherColl->GetGameTag() == GameTag::Player ||
+		otherColl->GetGameTag() == GameTag::Enemy)
 	{
-		if (std::dynamic_pointer_cast<Player>(otherColl)->GetHitPoints()->IsNoDamege())
-		{
-			//ダメージを受けない状態なら無視
-			return;
-		}
-	}
-	else if (otherColl->GetGameTag() == GameTag::Enemy)
-	{
-		if (std::dynamic_pointer_cast<EnemyBase>(otherColl)->GetHitPoints()->IsNoDamege())
+		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints()->IsNoDamege())
 		{
 			//ダメージを受けない状態なら無視
 			return;
@@ -67,8 +84,7 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 		//プレイヤーの攻撃の場合必殺技ゲージを加算する
 		if (ownerColl->GetGameTag() == GameTag::Player)
 		{
-			auto gage = std::dynamic_pointer_cast<Player>(ownerColl)->GetUltGage();
-			gage->AddPedingUltGage();//予約されていた加算ゲージ量を反映
+			std::dynamic_pointer_cast<Player>(m_owner.lock())->GetUltGage()->AddPedingUltGage();//予約されていた加算ゲージ量を反映
 		}
 	}
 }
@@ -76,7 +92,7 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 Vector3 AttackBase::GetKnockBackVec(Position3 other)
 {
 	//ノックバック
-	Vector3 knockBackVec = other - m_ownerState.lock()->GetOwner().lock()->GetNextPos();
+	Vector3 knockBackVec = other - m_owner.lock()->GetNextPos();
 	knockBackVec.y = 0.0f;//Y成分はなし
 	knockBackVec = knockBackVec.Normalize() * m_knockBackPower;//ノックバック
 	return knockBackVec;

@@ -2,21 +2,24 @@
 #include <list>
 #include "../Actor.h"
 #include "../../../General/Battle.h"
-class ActorStateBase;
+class CharacterStateBase;
+class Actor;
 class AttackBase abstract:
     public Actor 
 {
 public:
-	AttackBase(Shape shape,std::weak_ptr<ActorStateBase> ownerState);
+	AttackBase(Shape shape, std::weak_ptr<Actor> owner);
 	virtual ~AttackBase();
-
+	//初期化処理
+	virtual void Init()override;
+	//更新処理
+	virtual void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 	//衝突イベント
 	virtual void OnCollide(const std::shared_ptr<Collidable> other)override;
 	//更新処理の確定
 	void Complete() override {};
 	//ノックバック
 	virtual Vector3 GetKnockBackVec(Position3 other);
-
 
 	//まとめて設定
 	void AttackSetting(int damage,int keepFrame,int knockBackPower, Battle::AttackWeight aw);
@@ -33,6 +36,8 @@ public:
 	void SetAttackWeight(Battle::AttackWeight ap) { m_attackWeight = ap; };
 	//当てたアクターのIDをリセット
 	void ResetHitId() { m_hitId.clear(); };
+	//攻撃を削除する
+	void Delete() { m_isDelete = true; };
 protected:
 	//ダメージ
 	int m_damage;
@@ -42,9 +47,9 @@ protected:
 	float m_knockBackPower;
 	//攻撃の強さ
 	Battle::AttackWeight m_attackWeight;
-	//持ち主のステート
-	std::weak_ptr<ActorStateBase> m_ownerState;
 	//当てたことのあるCollidableを覚えておく
 	std::list<int> m_hitId;
+	//持ち主の参照
+	std::weak_ptr<Actor> m_owner;
 };
 

@@ -9,9 +9,7 @@ public:
 	HitPoints(int hp, Battle::Armor armor);
 	~HitPoints();
 	//初期化処理
-	void Init();
-	//攻撃を受けたときの処理
-	void OnHitAttack(const std::shared_ptr<AttackBase> attack);
+	void ResetHitFlags();
 	//体力
 	int GetHp() { return m_hp; };
 	//回復
@@ -25,8 +23,10 @@ public:
 	void SetArmor(Battle::Armor am) { m_armor = am; };
 	//攻撃を受けたか
 	bool IsHit() { return m_isHit; };
+	void SetIsHit(bool isHit) { m_isHit = isHit; };
 	//ヒットリアクションをするか
 	bool IsHitReaction() const { return m_isHitReaction; };
+	void SetIsHitReaction(bool isHitReaction) { m_isHitReaction = isHitReaction; };
 	//ダメージカット
 	void SetDamageCutRate(float damageCutRate) { m_damageCutRate = damageCutRate; };
 	//無敵

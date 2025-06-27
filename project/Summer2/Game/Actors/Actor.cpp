@@ -1,6 +1,6 @@
 #include "Actor.h"
 #include "../../General/Rigidbody.h"
-#include "Enemy/EnemyBase.h"
+#include "Character/Enemy/EnemyBase.h"
 
 Actor::Actor(Shape shape):
 	Collidable(shape),

@@ -11,12 +11,12 @@
 #include "../Game/Actors/Actor.h"
 
 //プレイヤー
-#include "../Game/Actors/Player/Player.h"
+#include "../Game/Actors/Character/Player/Player.h"
 //敵
 
-#include "../Game/Actors/Enemy/PurpleDinosaur/PurpleDinosaur.h"
+#include "../Game/Actors/Character/Enemy/PurpleDinosaur/PurpleDinosaur.h"
 
-#include "../Game/Actors/Enemy/EnemyBase.h"
+#include "../Game/Actors/Character/Enemy/EnemyBase.h"
 //ステージ
 #include "../Game/Actors/Stage/InvisibleWall.h"
 #include "../Game/Actors/Stage/StageObjectCollision.h"

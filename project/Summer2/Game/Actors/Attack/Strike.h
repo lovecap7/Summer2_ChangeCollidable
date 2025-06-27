@@ -1,11 +1,11 @@
 #pragma once
 #include "CapsuleAttackBase.h"
-class Slash :
+class Strike :
     public CapsuleAttackBase
 {
 public:
-    Slash(std::weak_ptr<Actor> owner);
-    ~Slash();
+    Strike(std::weak_ptr<Actor> owner);
+    ~Strike();
     //•`‰æ
     void Draw()const override;
 };
