@@ -2,7 +2,7 @@
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/game.h"
-#include "../Actors/Player/Player.h"
+#include "../Actors/Character/Player/Player.h"
 #include <DxLib.h>
 #if _DEBUG
 #include "../../General/Input.h"

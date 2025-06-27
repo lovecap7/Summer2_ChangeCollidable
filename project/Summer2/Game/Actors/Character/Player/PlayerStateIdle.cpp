@@ -5,8 +5,12 @@
 #include "PlayerStateUltimate.h"
 #include "PlayerStateRolling.h"
 #include "PlayerStateAttackN1.h"
+#include "PlayerStateCharge.h"
+#include "PlayerStateDeath.h"
+#include "PlayerStateHit.h"
 #include "Player.h"
 #include "UltGage.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Rigidbody.h"
@@ -47,6 +51,18 @@ void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera, const std::weak
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	Vector3 vec = coll->GetRb()->GetVec();
+	//死亡したなら
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//攻撃を受けたなら
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
 	//落下しているかチェック
 	if (vec.y <= Gravity::kChangeStateFall)
 	{
@@ -79,6 +95,12 @@ void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera, const std::weak
 	{
 		//攻撃
 		ChangeState(std::make_shared<PlayerStateAttackN1>(m_owner));
+		return;
+	}
+	if (input.IsTrigger("Y"))
+	{
+		//チャージ
+		ChangeState(std::make_shared<PlayerStateCharge>(m_owner));
 		return;
 	}
 	//入力があるなら移動

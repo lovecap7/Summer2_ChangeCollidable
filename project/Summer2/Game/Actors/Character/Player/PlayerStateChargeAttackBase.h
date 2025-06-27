@@ -13,7 +13,7 @@ protected:
     //攻撃のフレームを数える
     int m_attackCountFrame;
     //攻撃の参照
-    std::weak_ptr<Slash> m_attack;
+    std::weak_ptr<Strike> m_attack;
     //攻撃の作成
     void CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager);
     //足による攻撃の位置を更新する

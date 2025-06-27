@@ -2,11 +2,15 @@
 #include "PlayerStateAttackN2.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateRolling.h"
+#include "PlayerStateCharge.h"
+#include "PlayerStateHit.h"
+#include "PlayerStateDeath.h"
 #include "Player.h"
 #include "UltGage.h"
 #include "../../ActorManager.h"
 #include "../../Attack/Slash.h"
 #include "../../../../General/game.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Collision/CapsuleCollider.h"
 #include "../../../../General/Rigidbody.h"
@@ -70,10 +74,22 @@ void PlayerStateAttackN1::Init()
 
 void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//死亡したなら
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//攻撃を受けたなら
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
 	auto& input = Input::GetInstance();
 	//カウント
 	++m_attackCountFrame;
-	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//攻撃発生フレーム
 	if (m_attackCountFrame == kAN1StartFrame)
@@ -107,7 +123,7 @@ void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera, const std::
 		if (input.IsTrigger("Y"))
 		{
 			//チャージ
-			//ChangeState(std::make_shared<PlayerStateCharge>(m_player));
+			ChangeState(std::make_shared<PlayerStateCharge>(m_owner));
 			return;
 		}
 	}

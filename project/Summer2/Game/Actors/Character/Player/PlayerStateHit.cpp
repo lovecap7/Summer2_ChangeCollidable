@@ -3,6 +3,7 @@
 #include "PlayerStateDeath.h"
 #include "Player.h"
 #include "../../../../General/game.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../General/Rigidbody.h"
 #include "../../../../General/Collision/Collidable.h"
 #include "../../../../General/Input.h"
@@ -45,6 +46,18 @@ void PlayerStateHit::Init()
 void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//死亡したなら
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//攻撃を受けたなら
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		//最初から再生
+		coll->GetModel()->ReplayAnim();
+	}
 	//モデルのアニメーションが終わったら
 	if (coll->GetModel()->IsFinishAnim())
 	{

@@ -58,9 +58,6 @@
     <Filter Include="ヘッダー ファイル\Game\Actors">
       <UniqueIdentifier>{51ea9c91-be23-422f-a433-b8af8ff62fec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Game\Actors\Player">
-      <UniqueIdentifier>{6556588a-3999-4680-8f64-24c705363d0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Game\Actors">
       <UniqueIdentifier>{dfa11560-2f60-4aaa-9759-2d78a5df4b17}</UniqueIdentifier>
     </Filter>

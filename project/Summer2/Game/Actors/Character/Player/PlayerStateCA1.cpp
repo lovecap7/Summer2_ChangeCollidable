@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "UltGage.h"
 #include "../../../../General/game.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Collision/CapsuleCollider.h"
 #include "../../../../General/Rigidbody.h"
@@ -14,6 +15,7 @@
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
 #include "../../../../Game/Camera/Camera.h"
+#include "../../Attack/Strike.h"
 
 namespace
 {
@@ -23,12 +25,14 @@ namespace
 	constexpr float kCA1KeepFrame = 30.0f;
 	//ノックバックの大きさ
 	constexpr float kKnockBackPower = 2.0f;
+	//攻撃の発生
+	constexpr int kStartFrame = 1;
 	//アニメーション
 	const char* kAnim = "Player|CA";//チャージ攻撃
 	//チャージ攻撃の段階別アニメーションの速度
 	constexpr float kCA1AnimSpeed = 1.5f;
 	//左足の半径
-	constexpr float kLeftLegRadius = 20.0f;
+	constexpr float kAttackRadius = 20.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//加算ゲージ量
@@ -48,6 +52,10 @@ PlayerStateCA1::PlayerStateCA1(std::weak_ptr<Actor> player) :
 
 PlayerStateCA1::~PlayerStateCA1()
 {
+	//攻撃判定の削除
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	if (!m_attack.expired())m_attack.lock()->Delete();
+	coll->GetUltGage()->SetPendingUltGage(0);
 }
 void PlayerStateCA1::Init()
 {
@@ -58,6 +66,24 @@ void PlayerStateCA1::Init()
 void PlayerStateCA1::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//死亡したなら
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//攻撃を受けたなら
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
+	++m_attackCountFrame;
+	if (m_attackCountFrame == kStartFrame)
+	{
+		//攻撃発生
+		CreateAttack(kAttackRadius, kCA1AnimDamage, kCA1KeepFrame, kKnockBackPower, Battle::AttackWeight::Middle, actorManager);
+	}
 	auto model = coll->GetModel();
 	//アニメーションが終了したら
 	if (model->IsFinishFixedLoop())
@@ -69,7 +95,12 @@ void PlayerStateCA1::Update(const std::weak_ptr<Camera> camera, const std::weak_
 	//アニメーションが一周するたびに攻撃判定のリセット
 	if (model->IsFinishAnim())
 	{
-		
+		if (!m_attack.expired())m_attack.lock()->ResetHitId();
+	}
+	//攻撃の位置更新
+	if (!m_attack.expired())
+	{
+		UpdateStrikeAttackPos(m_attack);
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);

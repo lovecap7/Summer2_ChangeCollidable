@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "UltGage.h"
 #include "../../../../General/game.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Rigidbody.h"
 #include "../../../../General/Collision/Collidable.h"
@@ -53,6 +54,18 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//Ž€–S‚µ‚½‚È‚ç
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//UŒ‚‚ðŽó‚¯‚½‚È‚ç
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
 	//‰ñ”ðƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½‚ç
 	if (input.IsTrigger("RB"))
 	{

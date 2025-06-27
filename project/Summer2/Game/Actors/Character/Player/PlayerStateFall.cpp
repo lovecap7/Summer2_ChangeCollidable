@@ -1,8 +1,10 @@
 #include "PlayerStateFall.h"
 #include "PlayerStateIdle.h"
-
+#include "PlayerStateHit.h"
+#include "PlayerStateDeath.h"
 #include "Player.h"
 #include "../../../../General/game.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Rigidbody.h"
 #include "../../../../General/Collision/Collidable.h"
@@ -46,6 +48,18 @@ void PlayerStateFall::Update(const std::weak_ptr<Camera> camera, const std::weak
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//Ž€–S‚µ‚½‚È‚ç
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//UŒ‚‚ðŽó‚¯‚½‚È‚ç
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
 	//’n–Ê‚É•t‚¢‚Ä‚¢‚é‚È‚ç
 	if (coll->IsFloor())
 	{

@@ -6,10 +6,14 @@
 #include "PlayerStateHit.h"
 #include "PlayerStateDeath.h"
 #include "PlayerStateUltimate.h"
+#include "PlayerStateCharge.h"
+#include "PlayerStateHit.h"
+#include "PlayerStateDeath.h"
 #include "Player.h"
 #include "UltGage.h"
 #include "../../Attack/Slash.h"
 #include "../../../../General/game.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Collision/CapsuleCollider.h"
 #include "../../../../General/Rigidbody.h"
@@ -33,10 +37,6 @@ namespace
 	constexpr float kAN2AnimSpeed = 1.3f;
 	//攻撃終了前にキャンセル可能フレーム
 	constexpr float kAttackCancelFrame = 20.0f;
-	//武器の座標と当たり判定の情報
-	//右手の薬指のインデックス
-	constexpr int kRightRingFingerIndex = 55;
-	constexpr int kRightIndexFingerIndex = 43;
 	//武器の長さと半径
 	constexpr float kSwordHeight = 150.0f;
 	constexpr float kRightSwordRadius = 10.0f;
@@ -74,10 +74,22 @@ void PlayerStateAttackN2::Init()
 }
 void PlayerStateAttackN2::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//死亡したなら
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//攻撃を受けたなら
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
 	auto& input = Input::GetInstance();
 	//カウント
 	++m_attackCountFrame;
-	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//攻撃発生フレーム
 	if (m_attackCountFrame == kAN2StartFrame)
@@ -111,7 +123,7 @@ void PlayerStateAttackN2::Update(const std::weak_ptr<Camera> camera, const std::
 		if (input.IsTrigger("Y"))
 		{
 			//チャージ
-			//ChangeState(std::make_shared<PlayerStateCharge>(m_player));
+			ChangeState(std::make_shared<PlayerStateCharge>(m_owner));
 			return;
 		}
 	}

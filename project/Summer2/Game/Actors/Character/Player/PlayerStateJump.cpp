@@ -1,6 +1,7 @@
 #include "PlayerStateJump.h"
 #include "PlayerStateFall.h"
-
+#include "PlayerStateHit.h"
+#include "PlayerStateDeath.h"
 #include "Player.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Collision/ColliderBase.h"
@@ -9,6 +10,7 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../Game/Camera/Camera.h"
 
 
@@ -53,6 +55,18 @@ void PlayerStateJump::Update(const std::weak_ptr<Camera> camera, const std::weak
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto rb = coll->GetRb();
+	//Ž€–S‚µ‚½‚È‚ç
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
+		return;
+	}
+	//UŒ‚‚ðŽó‚¯‚½‚È‚ç
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
 	//—Ž‰º‚µ‚Ä‚¢‚é‚È‚ç
 	if (rb->GetVec().y < 0.0f)
 	{

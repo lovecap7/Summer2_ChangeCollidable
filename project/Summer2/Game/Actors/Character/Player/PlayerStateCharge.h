@@ -1,3 +1,4 @@
+#pragma once
 #include "PlayerStateBase.h"
 class Actor;
 class Camera;
