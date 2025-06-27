@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "PlayerStateBase.h"
 #include "PlayerStateIdle.h"
+#include "../Attack/AttackBase.h"
 #include "../../../General/game.h"
 #include "../../../General/HitPoints.h"
 #include "../../../General/Collision/CapsuleCollider.h"
@@ -33,7 +34,7 @@ namespace
 }
 
 Player::Player(int modelHandle, Position3 firstPos) :
-	Actor(Shape::Capsule),
+	CharacterBase(Shape::Capsule),
 	m_stickVec(0.0f,0.0f)
 {
 	//座標
@@ -100,6 +101,14 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 }
 void Player::OnCollide(const std::shared_ptr<Collidable> other)
 {
+	if (other->GetGameTag() == GameTag::Attack)
+	{
+		auto attack = std::dynamic_pointer_cast<AttackBase>(other);
+		//攻撃を受けたときの処理
+		m_hitPoints->OnHitAttack(attack);
+		//ダメージを受けたらノックバック
+		m_rb->AddVec(attack->GetKnockBackVec(m_rb->m_pos));
+	}
 }
 
 void Player::Draw() const

@@ -16,10 +16,10 @@ namespace
 	constexpr float kMoveDeceRate = 0.95f;
 }
 
-PlayerStateDeath::PlayerStateDeath(std::weak_ptr<Player> player) :
+PlayerStateDeath::PlayerStateDeath(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//待機状態
 	coll->GetModel()->SetAnim(kAnim, false);
 	coll->SetCollState(CollisionState::Dead);
@@ -36,7 +36,7 @@ void PlayerStateDeath::Init()
 }
 void PlayerStateDeath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
 	{

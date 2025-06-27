@@ -23,12 +23,13 @@ namespace
 }
 
 
-PlayerStateHit::PlayerStateHit(std::weak_ptr<Player> player):
+PlayerStateHit::PlayerStateHit(std::weak_ptr<Actor> player):
 	PlayerStateBase(player)
 {
 	//ランダムにヒットアニメーションを選ぶ
 	RandHitAnim();
-	m_player.lock()->SetCollState(CollisionState::Normal);
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	coll->SetCollState(CollisionState::Normal);
 }
 
 PlayerStateHit::~PlayerStateHit()
@@ -43,12 +44,12 @@ void PlayerStateHit::Init()
 
 void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//モデルのアニメーションが終わったら
 	if (coll->GetModel()->IsFinishAnim())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	//だんだん減速
@@ -57,7 +58,7 @@ void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_
 
 void PlayerStateHit::RandHitAnim()
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//ランダムでヒットアニメーションを選ぶ
 	if (GetRand(1))//0か1でランダム
 	{

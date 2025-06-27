@@ -26,17 +26,17 @@ namespace
 	constexpr float kHighAirMoveSpeed = 0.5f;//空中の大移動速度
 }
 
-PlayerStateJump::PlayerStateJump(std::weak_ptr<Player> player):
+PlayerStateJump::PlayerStateJump(std::weak_ptr<Actor> player):
 	PlayerStateBase(player)
 {
 	//ジャンプ
-	auto collidable = m_player.lock();
-	collidable->GetModel()->SetAnim(kAnim, true);
-	collidable->SetCollState(CollisionState::Jump);
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	coll->GetModel()->SetAnim(kAnim, true);
+	coll->SetCollState(CollisionState::Jump);
 	//地面から離れるのでfalseにしておく
-	collidable->SetIsFloor(false);
+	coll->SetIsFloor(false);
 	//力を与える
-	collidable->GetRb()->SetVecY(kJumpPower);
+	coll->GetRb()->SetVecY(kJumpPower);
 }
 
 PlayerStateJump::~PlayerStateJump()
@@ -51,13 +51,13 @@ void PlayerStateJump::Init()
 void PlayerStateJump::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto rb = coll->GetRb();
 	//落下しているなら
 	if (rb->GetVec().y < 0.0f)
 	{
 		//落下
-		ChangeState(std::make_shared<PlayerStateFall>(m_player));
+		ChangeState(std::make_shared<PlayerStateFall>(m_owner));
 		return;
 	}
 	//移動の入力があるなら

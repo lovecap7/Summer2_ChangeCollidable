@@ -24,11 +24,11 @@ namespace
 	constexpr float kHighAirMoveSpeed = 0.5f;//空中の大移動速度
 }
 
-PlayerStateFall::PlayerStateFall(std::weak_ptr<Player> player):
+PlayerStateFall::PlayerStateFall(std::weak_ptr<Actor> player):
 	PlayerStateBase(player)
 {
 	//落下
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, true);
 	coll->SetIsFloor(false); //地面にいない
 	coll->SetCollState(CollisionState::Fall);
@@ -45,12 +45,12 @@ void PlayerStateFall::Init()
 void PlayerStateFall::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//地面に付いているなら
 	if (coll->IsFloor())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	auto rb = coll->GetRb();

@@ -16,12 +16,14 @@ namespace
 	const char* kAnim = "CharacterArmature|Death";
 }
 
-PurpleDinosaurStateDeath::PurpleDinosaurStateDeath(std::weak_ptr<PurpleDinosaur> owner):
+PurpleDinosaurStateDeath::PurpleDinosaurStateDeath(std::weak_ptr<Actor> owner):
 	PurpleDinosaurStateBase(owner)
 {
-	m_owner.lock()->SetCollState(CollisionState::Dead);
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	//死亡状態にする
+	coll->SetCollState(CollisionState::Dead);
 	//死亡
-	m_owner.lock()->GetModel()->SetAnim(kAnim, false);
+	coll->GetModel()->SetAnim(kAnim, false);
 }
 
 PurpleDinosaurStateDeath::~PurpleDinosaurStateDeath()
@@ -36,7 +38,7 @@ void PurpleDinosaurStateDeath::Init()
 
 void PurpleDinosaurStateDeath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto coll = m_owner.lock();
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
 	{

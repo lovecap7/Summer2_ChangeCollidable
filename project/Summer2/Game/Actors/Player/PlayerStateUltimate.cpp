@@ -36,12 +36,12 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 }
 
-PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Player> player) :
+PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player),
 	m_animCountFrame(0),
 	m_animSpeed(kAnimSpeed)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//必殺技
 	coll->SetCollState(CollisionState::Normal);
 	//チャージ攻撃1
@@ -67,13 +67,13 @@ void PlayerStateUltimate::Init()
 void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	++m_animCountFrame;
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//アニメーションが終了したら
 	if (model->IsFinishFixedLoop())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	//攻撃判定をリセット

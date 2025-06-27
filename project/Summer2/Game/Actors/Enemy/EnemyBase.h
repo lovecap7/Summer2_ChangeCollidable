@@ -1,15 +1,12 @@
 #pragma once
-#include "../Actor.h"
+#include "../Character/CharacterBase.h"
 #include <memory>
 #include "../../../General/Model.h"
 class Player;
 class HitPoints;
 class EnemyBase abstract :
-    public Actor
+    public CharacterBase
 {
-protected:
-    //‘Ì—Í
-    std::shared_ptr<HitPoints> m_hitPoints;
 public:
     EnemyBase(Shape shape);
     virtual ~EnemyBase() {};

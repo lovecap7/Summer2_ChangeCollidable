@@ -22,11 +22,11 @@ namespace
 	const Vector3 kBigGravity = { 0.0f,-5.0f,0.0f };
 }
 
-PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Player> player) :
+PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player)
 {
 	//回避状態
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
 	coll->SetCollState(CollisionState::Normal);
 	//向きの更新
@@ -45,17 +45,17 @@ void PlayerStateRolling::Init()
 
 void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto collidable = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//モデルのアニメーションが終わったら
-	if (collidable->GetModel()->IsFinishAnim())
+	if (coll->GetModel()->IsFinishAnim())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
-	auto rb = collidable->GetRb();
+	auto rb = coll->GetRb();
 	//重力
 	rb->AddVec(kBigGravity);
 	//向いてる方向に移動
-	rb->SetMoveVec(collidable->GetModel()->GetDir() * kRollingMoveSpeed);
+	rb->SetMoveVec(coll->GetModel()->GetDir() * kRollingMoveSpeed);
 }

@@ -112,6 +112,12 @@
     <Filter Include="ヘッダー ファイル\Game\Actors\Attack">
       <UniqueIdentifier>{16b9af33-085c-488d-9d22-68a6848340a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Actors\Character">
+      <UniqueIdentifier>{ada2fba6-03ee-4ad2-b6e3-d60b30d04a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Actors\Character">
+      <UniqueIdentifier>{bb2c0552-58aa-4d6b-8901-7b646ced9780}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -323,6 +329,15 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\ActorStateBase.cpp">
       <Filter>ソース ファイル\Game\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\CapsuleAttackBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\Lariat.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\CharacterBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +556,15 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\ActorStateBase.h">
       <Filter>ヘッダー ファイル\Game\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\CapsuleAttackBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\Lariat.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\CharacterBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 #include "../../../General/Rigidbody.h"
 
 EnemyBase::EnemyBase(Shape shape) :
-	Actor(shape)
+	CharacterBase(shape)
 {
 }
 

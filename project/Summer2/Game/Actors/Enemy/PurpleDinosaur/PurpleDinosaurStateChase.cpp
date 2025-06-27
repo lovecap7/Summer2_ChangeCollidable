@@ -27,12 +27,13 @@ namespace
 	constexpr float kChaseSpeed = 5.0f;
 }
 
-PurpleDinosaurStateChase::PurpleDinosaurStateChase(std::weak_ptr<PurpleDinosaur> owner):
+PurpleDinosaurStateChase::PurpleDinosaurStateChase(std::weak_ptr<Actor> owner):
 	PurpleDinosaurStateBase(owner)
 {
-	m_owner.lock()->SetCollState(CollisionState::Normal);
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	coll->SetCollState(CollisionState::Normal);
 	//アニメーション
-	m_owner.lock()->GetModel()->SetAnim(kAnim, true);
+	coll->GetModel()->SetAnim(kAnim, true);
 }
 
 PurpleDinosaurStateChase::~PurpleDinosaurStateChase()
@@ -48,7 +49,7 @@ void PurpleDinosaurStateChase::Init()
 void PurpleDinosaurStateChase::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//コライダブル
-	auto coll = m_owner.lock();
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//プレイヤー
 	auto player = actorManager.lock()->GetPlayer();
 	//距離を確認

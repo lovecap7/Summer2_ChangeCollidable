@@ -3,17 +3,14 @@
 #include <memory>
 #include <vector>
 #include "../../../../General/Math/Vector3.h"
-class PurpleDinosaur;
+class Actor;
 class Camera;
 class ActorManager;
 class PurpleDinosaurStateBase abstract :
 	public ActorStateBase
 {
-protected:
-	//Ž©•ª‚Ìƒ|ƒCƒ“ƒ^
-	std::weak_ptr<PurpleDinosaur> m_owner;
 public:
-	PurpleDinosaurStateBase(std::weak_ptr<PurpleDinosaur> owner);
+	PurpleDinosaurStateBase(std::weak_ptr<Actor> owner);
 	virtual ~PurpleDinosaurStateBase();
 };
 

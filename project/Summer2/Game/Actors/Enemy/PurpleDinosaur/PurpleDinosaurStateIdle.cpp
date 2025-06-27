@@ -25,12 +25,13 @@ namespace
 	const char* kAnim = "CharacterArmature|Idle";//待機
 }
 
-PurpleDinosaurStateIdle::PurpleDinosaurStateIdle(std::weak_ptr<PurpleDinosaur> owner):
+PurpleDinosaurStateIdle::PurpleDinosaurStateIdle(std::weak_ptr<Actor> owner):
 	PurpleDinosaurStateBase(owner)
 {
 	//待機状態
-	m_owner.lock()->GetModel()->SetAnim(kAnim, true);
-	m_owner.lock()->SetCollState(CollisionState::Normal);
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	coll->GetModel()->SetAnim(kAnim, true);
+	coll->SetCollState(CollisionState::Normal);
 }
 
 PurpleDinosaurStateIdle::~PurpleDinosaurStateIdle()
@@ -46,7 +47,7 @@ void PurpleDinosaurStateIdle::Init()
 void PurpleDinosaurStateIdle::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//コライダブル
-	auto coll = m_owner.lock();
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//プレイヤー
 	auto player = actorManager.lock()->GetPlayer();
 	//距離を確認

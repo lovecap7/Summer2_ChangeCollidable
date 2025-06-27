@@ -33,12 +33,13 @@ namespace
 	const Vector3 kBigGravity = { 0.0f,-5.0f,0.0f };
 }
 
-PlayerStateWalk::PlayerStateWalk(std::weak_ptr<Player> player):
+PlayerStateWalk::PlayerStateWalk(std::weak_ptr<Actor> player):
 	PlayerStateBase(player)
 {
 	//歩き状態
-	m_player.lock()->GetModel()->SetAnim(kAnim, true);
-	m_player.lock()->SetCollState(CollisionState::Normal);
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	coll->GetModel()->SetAnim(kAnim, true);
+	coll->SetCollState(CollisionState::Normal);
 }
 
 PlayerStateWalk::~PlayerStateWalk()
@@ -52,33 +53,33 @@ void PlayerStateWalk::Init()
 void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto collidable = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//落下しているかチェック
-	if (collidable->GetRb()->GetVec().y <= Gravity::kChangeStateFall)
+	if (coll->GetRb()->GetVec().y <= Gravity::kChangeStateFall)
 	{
 		//落下
-		ChangeState(std::make_shared<PlayerStateFall>(m_player));
+		ChangeState(std::make_shared<PlayerStateFall>(m_owner));
 		return;
 	}
 	//回避ボタンを押したら
 	if (input.IsTrigger("A"))
 	{
 		//回避
-		ChangeState(std::make_shared<PlayerStateRolling>(m_player));
+		ChangeState(std::make_shared<PlayerStateRolling>(m_owner));
 		return;
 	}
 	//ゲージがあるとき使える
-	if (input.IsTrigger("RB") && collidable->GetUltGage()->IsMaxUlt())
+	if (input.IsTrigger("RB") && coll->GetUltGage()->IsMaxUlt())
 	{
 		//必殺技
 		//ChangeState(std::make_shared<PlayerStateUltimate>(m_player, actorManager));
 		return;
 	}
 	//ジャンプボタンを押してるならジャンプ
-	if (input.IsTrigger("B") && collidable->IsFloor())
+	if (input.IsTrigger("B") && coll->IsFloor())
 	{
 		//ジャンプ
-		ChangeState(std::make_shared<PlayerStateJump>(m_player));
+		ChangeState(std::make_shared<PlayerStateJump>(m_owner));
 		return;
 	}
 
@@ -86,24 +87,24 @@ void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera, const std::weak
 	if (!input.GetStickInfo().IsLeftStickInput())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	//ダッシュ
 	if (input.IsPress("LS"))
 	{
-		ChangeState(std::make_shared<PlayerStateRun>(m_player));
+		ChangeState(std::make_shared<PlayerStateRun>(m_owner));
 		return;
 	}
 
-	auto rb = collidable->GetRb();
+	auto rb = coll->GetRb();
 	//重力
 	rb->AddVec(kBigGravity);
 	//移動
 	rb->SetMoveVec(GetForwardVec(camera) * InputValueSpeed(input));
 	//向きの更新
-	Vector2 dir = collidable->GetStickVec();
-	collidable->GetModel()->SetDir(dir);
+	Vector2 dir = coll->GetStickVec();
+	coll->GetModel()->SetDir(dir);
 }
 
 

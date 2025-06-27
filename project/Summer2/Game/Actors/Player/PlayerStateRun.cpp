@@ -27,11 +27,11 @@ namespace
 }
 
 
-PlayerStateRun::PlayerStateRun(std::weak_ptr<Player> player):
+PlayerStateRun::PlayerStateRun(std::weak_ptr<Actor> player):
 	PlayerStateBase(player)
 {
 	//走り状態
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, true);
 	coll->SetCollState(CollisionState::Normal);
 }
@@ -50,19 +50,19 @@ void PlayerStateRun::Init()
 void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//落下しているかチェック
 	if (coll->GetRb()->GetVec().y <= Gravity::kChangeStateFall)
 	{
 		//落下
-		ChangeState(std::make_shared<PlayerStateFall>(m_player));
+		ChangeState(std::make_shared<PlayerStateFall>(m_owner));
 		return;
 	}
 	//回避ボタンを押したら
 	if (input.IsTrigger("A"))
 	{
 		//回避
-		ChangeState(std::make_shared<PlayerStateRolling>(m_player));
+		ChangeState(std::make_shared<PlayerStateRolling>(m_owner));
 		return;
 	}
 	
@@ -70,7 +70,7 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 	if (input.IsTrigger("B") && coll->IsFloor())
 	{
 		//ジャンプ
-		ChangeState(std::make_shared<PlayerStateJump>(m_player));
+		ChangeState(std::make_shared<PlayerStateJump>(m_owner));
 		return;
 	}
 	
@@ -78,7 +78,7 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 	if (!input.GetStickInfo().IsLeftStickInput())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	auto rb = coll->GetRb();

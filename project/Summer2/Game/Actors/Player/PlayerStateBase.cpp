@@ -4,8 +4,8 @@
 #include "../../../General/Input.h"
 #include "../../../Game/Camera/Camera.h"
 
-PlayerStateBase::PlayerStateBase(std::weak_ptr<Player>  player):
-	m_player(player)
+PlayerStateBase::PlayerStateBase(std::weak_ptr<Actor>  player):
+	ActorStateBase(player)
 {
 }
 
@@ -16,8 +16,10 @@ PlayerStateBase::~PlayerStateBase()
 Vector3 PlayerStateBase::GetForwardVec(const std::weak_ptr<Camera> camera)
 {
 	Vector3 rV = { 0.0f,0.0f,0.0f, };
+	//ÉvÉåÉCÉÑÅ[
+	auto player = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//ì¸óÕ
-	Vector3 stickVec = { m_player.lock()->GetStickVec().x,0.0f,m_player.lock()->GetStickVec().y};
+	Vector3 stickVec = player->GetStickVec().XZ();
 	if (stickVec.Magnitude() < 0.0f)
 	{
 		return rV;

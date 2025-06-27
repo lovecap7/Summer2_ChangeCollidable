@@ -43,11 +43,11 @@ namespace
 	constexpr float kMoveSpeed = 10.0f;
 }
 
-PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<PurpleDinosaur> owner):
+PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner):
 	PurpleDinosaurStateBase(owner),
 	m_attackCountFrame(0)
 {
-	auto coll = m_owner.lock();
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//通常攻撃
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃
@@ -57,7 +57,8 @@ PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<PurpleDinosau
 PurpleDinosaurStateAttack::~PurpleDinosaurStateAttack()
 {
 	//攻撃のクールタイム
-	m_owner.lock()->SetAttackCoolTime(kAttackCoolTime);
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	coll->SetAttackCoolTime(kAttackCoolTime);
 }
 
 void PurpleDinosaurStateAttack::Init()
@@ -68,7 +69,7 @@ void PurpleDinosaurStateAttack::Init()
 
 void PurpleDinosaurStateAttack::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto coll = m_owner.lock();
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//カウント
 	++m_attackCountFrame;
 	//攻撃発生フレーム

@@ -44,11 +44,11 @@ namespace
 	constexpr float kMoveSpeed = 10.0f;
 }
 
-PlayerStateAttackN1::PlayerStateAttackN1(std::weak_ptr<Player> player):
+PlayerStateAttackN1::PlayerStateAttackN1(std::weak_ptr<Actor> player):
 	PlayerStateBase(player),
 	m_attackCountFrame(0)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//通常攻撃1
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃1
@@ -78,13 +78,13 @@ void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera, const std::
 		//攻撃を入れる
 		
 	}
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//モデルのアニメーションが終わったら
 	if (model->IsFinishAnim())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	//アニメーションのラスト数フレーム以内で入力があるなら2段回目の攻撃
@@ -96,7 +96,7 @@ void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera, const std::
 			//削除
 			
 			//回避
-			ChangeState(std::make_shared<PlayerStateRolling>(m_player));
+			ChangeState(std::make_shared<PlayerStateRolling>(m_owner));
 			return;
 		}
 		//2段目

@@ -1,15 +1,25 @@
 #pragma once
+#include <list>
 #include "../Actor.h"
-#include "../../General/Battle.h"
+#include "../../../General/Battle.h"
 class ActorStateBase;
 class AttackBase abstract:
     public Actor 
 {
 public:
-	AttackBase(Shape shape,int damage,int keepFrame,float knockBackPower, Battle::AttackWeight aw, std::weak_ptr<ActorStateBase> ownerState);
+	AttackBase(Shape shape,std::weak_ptr<ActorStateBase> ownerState);
 	virtual ~AttackBase();
+
+	//衝突イベント
+	virtual void OnCollide(const std::shared_ptr<Collidable> other)override;
+	//更新処理の確定
+	void Complete() override {};
 	//ノックバック
-	virtual Vector3 GetKnockBackVec(Vector3 other) abstract;
+	virtual Vector3 GetKnockBackVec(Position3 other);
+
+
+	//まとめて設定
+	void AttackSetting(int damage,int keepFrame,int knockBackPower, Battle::AttackWeight aw);
 	//ダメージ
 	int GetDamage() { return m_damage; };
 	void SetDamage(int damage) { m_damage = damage; };
@@ -19,8 +29,10 @@ public:
 	float GetKnockBackPower() { return m_knockBackPower; };
 	void SetKnockBackPower(float knockBackPower) { m_knockBackPower = knockBackPower; };
 	//攻撃の強さ
-	Battle::AttackWeight GetAttackPower() { return m_attackWeight; };
-	void SetAttackPower(Battle::AttackWeight ap) { m_attackWeight = ap; };
+	Battle::AttackWeight GetAttackWeight() { return m_attackWeight; };
+	void SetAttackWeight(Battle::AttackWeight ap) { m_attackWeight = ap; };
+	//当てたアクターのIDをリセット
+	void ResetHitId() { m_hitId.clear(); };
 protected:
 	//ダメージ
 	int m_damage;
@@ -32,5 +44,7 @@ protected:
 	Battle::AttackWeight m_attackWeight;
 	//持ち主のステート
 	std::weak_ptr<ActorStateBase> m_ownerState;
+	//当てたことのあるCollidableを覚えておく
+	std::list<int> m_hitId;
 };
 

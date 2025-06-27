@@ -22,3 +22,8 @@ Vector3 Actor::GetPos() const
 {
 	return m_rb->m_pos;
 }
+
+Vector3 Actor::GetNextPos() const
+{
+	return m_rb->GetNextPos();
+}

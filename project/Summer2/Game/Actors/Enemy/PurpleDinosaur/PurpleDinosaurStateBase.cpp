@@ -3,8 +3,8 @@
 #include "../../../../General/Input.h"
 #include "../../../../Game/Camera/Camera.h"
 
-PurpleDinosaurStateBase::PurpleDinosaurStateBase(std::weak_ptr<PurpleDinosaur> owner):
-	m_owner(owner)
+PurpleDinosaurStateBase::PurpleDinosaurStateBase(std::weak_ptr<Actor> owner):
+	ActorStateBase(owner)
 {
 }
 

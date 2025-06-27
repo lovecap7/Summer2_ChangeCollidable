@@ -1,6 +1,7 @@
 #include "ActorStateBase.h"
 
-ActorStateBase::ActorStateBase()
+ActorStateBase::ActorStateBase(std::weak_ptr<Actor> owner):
+	m_owner(owner)
 {
 }
 

@@ -29,11 +29,11 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 }
 
-PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Player> player) :
+PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player),
 	m_chargeFrame(0)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//回避状態
 	coll->SetCollState(CollisionState::Normal);
 	//チャージ
@@ -52,12 +52,12 @@ void PlayerStateCharge::Init()
 void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//回避ボタンを押したら
 	if (input.IsTrigger("RB"))
 	{
 		//回避
-		ChangeState(std::make_shared<PlayerStateRolling>(m_player));
+		ChangeState(std::make_shared<PlayerStateRolling>(m_owner));
 		return;
 	}
 	//減速
@@ -82,19 +82,19 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 		if (m_chargeFrame <= kChargeLevel1)
 		{
 			//CA1
-			ChangeState(std::make_shared<PlayerStateCA1>(m_player));
+			ChangeState(std::make_shared<PlayerStateCA1>(m_owner));
 			return;
 		}
 		else if (m_chargeFrame <= kChargeLevel2)
 		{
 			//CA2
-			ChangeState(std::make_shared<PlayerStateCA2>(m_player));
+			ChangeState(std::make_shared<PlayerStateCA2>(m_owner));
 			return;
 		}
 		else if (m_chargeFrame <= kChargeLevel3)
 		{
 			//CA3
-			ChangeState(std::make_shared<PlayerStateCA3>(m_player));
+			ChangeState(std::make_shared<PlayerStateCA3>(m_owner));
 			return;
 		}
 	}

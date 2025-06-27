@@ -23,7 +23,10 @@
     <ClCompile Include="Game\Actors\ActorManager.cpp" />
     <ClCompile Include="Game\Actors\ActorStateBase.cpp" />
     <ClCompile Include="Game\Actors\Attack\AttackBase.cpp" />
+    <ClCompile Include="Game\Actors\Attack\CapsuleAttackBase.cpp" />
+    <ClCompile Include="Game\Actors\Attack\Lariat.cpp" />
     <ClCompile Include="Game\Actors\Attack\Slash.cpp" />
+    <ClCompile Include="Game\Actors\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actors\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.cpp" />
     <ClCompile Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.cpp" />
@@ -95,7 +98,10 @@
     <ClInclude Include="Game\Actors\ActorManager.h" />
     <ClInclude Include="Game\Actors\ActorStateBase.h" />
     <ClInclude Include="Game\Actors\Attack\AttackBase.h" />
+    <ClInclude Include="Game\Actors\Attack\CapsuleAttackBase.h" />
+    <ClInclude Include="Game\Actors\Attack\Lariat.h" />
     <ClInclude Include="Game\Actors\Attack\Slash.h" />
+    <ClInclude Include="Game\Actors\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actors\Enemy\EnemyBase.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaur.h" />
     <ClInclude Include="Game\Actors\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.h" />

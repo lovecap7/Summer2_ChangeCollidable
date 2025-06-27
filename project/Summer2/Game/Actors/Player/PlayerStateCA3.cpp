@@ -40,10 +40,10 @@ namespace
 	constexpr int kAddUltGage = 3;
 }
 
-PlayerStateCA3::PlayerStateCA3(std::weak_ptr<Player> player) :
+PlayerStateCA3::PlayerStateCA3(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->SetCollState(CollisionState::Normal);
 	//チャージ攻撃1
 	auto model = coll->GetModel();
@@ -64,13 +64,13 @@ void PlayerStateCA3::Init()
 void PlayerStateCA3::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//アニメーションが終了したら
 	if (model->IsFinishFixedLoop())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	//アニメーションが一周するたびに攻撃判定のリセット

@@ -1,6 +1,8 @@
 #pragma once
 #include "Battle.h"
+#include <memory>
 //体力やダメージを受けた時の処理などを行うクラス
+class AttackBase;
 class HitPoints
 {
 public:
@@ -8,6 +10,8 @@ public:
 	~HitPoints();
 	//初期化処理
 	void Init();
+	//攻撃を受けたときの処理
+	void OnHitAttack(const std::shared_ptr<AttackBase> attack);
 	//体力
 	int GetHp() { return m_hp; };
 	//回復
@@ -15,7 +19,7 @@ public:
 	//ダメージ
 	void Damage(int damage);
 	//体力がなくなって死亡したかどうか
-	bool IsDead() { m_hp <= 0.0f; };
+	bool IsDead()const { return m_hp <= 0; };
 	//アーマー
 	Battle::Armor GetArmor() { return m_armor; };
 	void SetArmor(Battle::Armor am) { m_armor = am; };

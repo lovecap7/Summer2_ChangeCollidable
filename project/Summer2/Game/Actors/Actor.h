@@ -11,7 +11,7 @@ class Model;
 /// ゲーム中に配置可能な物体の基底クラス
 /// </summary>
 /// //newできなくなる
-class Actor abstract:
+class Actor abstract :
 	public Collidable
 {
 protected:
@@ -34,7 +34,7 @@ public:
 	/// 位置などの更新を行う
 	/// </summary>
 	/// <param name="">入力オブジェクト</param>
-	virtual void Update(const std::weak_ptr<Camera> camera,const std::weak_ptr<ActorManager> actorManager) abstract;
+	virtual void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) abstract;
 	/// <summary>
 	/// 対象のアクターを表示
 	/// </summary>
@@ -63,6 +63,10 @@ public:
 	/// 座標
 	/// </summary>
 	Vector3 GetPos() const;
+	/// <summary>
+	/// 次の座標
+	/// </summary>
+	Vector3 GetNextPos() const;
 	//モデルクラス
 	std::shared_ptr<Model> GetModel() const { return m_model; };
 };

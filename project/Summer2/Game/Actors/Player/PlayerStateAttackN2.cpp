@@ -49,11 +49,11 @@ namespace
 	constexpr float kMoveSpeed = 10.0f;
 }
 
-PlayerStateAttackN2::PlayerStateAttackN2(std::weak_ptr<Player> player) :
+PlayerStateAttackN2::PlayerStateAttackN2(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player),
 	m_attackCountFrame(0)
 {
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//通常攻撃2
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃2
@@ -78,13 +78,13 @@ void PlayerStateAttackN2::Update(const std::weak_ptr<Camera> camera, const std::
 	{
 		
 	}
-	auto coll = m_player.lock();
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//モデルのアニメーションが終わったら
 	if (model->IsFinishAnim())
 	{
 		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_player));
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
 	//アニメーションのラスト数フレーム以内で入力があるなら3段回目の攻撃
@@ -94,20 +94,20 @@ void PlayerStateAttackN2::Update(const std::weak_ptr<Camera> camera, const std::
 		if (input.IsTrigger("A"))
 		{
 			//回避
-			ChangeState(std::make_shared<PlayerStateRolling>(m_player));
+			ChangeState(std::make_shared<PlayerStateRolling>(m_owner));
 			return;
 		}
 		//3段目
 		if (input.IsTrigger("X"))
 		{
-			ChangeState(std::make_shared<PlayerStateAttackN3>(m_player));
+			ChangeState(std::make_shared<PlayerStateAttackN3>(m_owner));
 			return;
 		}
 		//チャージボタンを押したら
 		if (input.IsTrigger("Y"))
 		{
 			//チャージ
-			ChangeState(std::make_shared<PlayerStateCharge>(m_player));
+			ChangeState(std::make_shared<PlayerStateCharge>(m_owner));
 			return;
 		}
 	}

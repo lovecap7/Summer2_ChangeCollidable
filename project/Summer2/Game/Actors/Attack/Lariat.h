@@ -1,12 +1,12 @@
 #pragma once
 #include "CapsuleAttackBase.h"
 class ActorStateBase;
-class Slash :
-    public CapsuleAttackBase
+class Lariat :
+	public CapsuleAttackBase
 {
 public:
-	Slash(std::weak_ptr<ActorStateBase> ownerState, int& modelHandle, int startIndex, int endIndex,float radius,float swordLength);
-	~Slash();
+	Lariat(std::weak_ptr<ActorStateBase> ownerState, int& modelHandle, int startIndex, int endIndex, float radius);
+	~Lariat();
 	//‰Šú‰»ˆ—
 	void Init()override;
 	//XVˆ—
@@ -14,6 +14,6 @@ public:
 	//•`‰æ
 	void Draw()const override;
 private:
-	float m_swordLength;
+
 };
 

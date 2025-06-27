@@ -31,6 +31,7 @@ enum class GameTag
 	Item,		//アイテム
 	Object,		//障害物
 	Field,		//フィールド
+	Attack,		//攻撃
 };
 
 

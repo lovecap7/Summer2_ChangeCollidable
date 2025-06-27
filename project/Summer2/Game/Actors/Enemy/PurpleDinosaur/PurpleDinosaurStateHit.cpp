@@ -19,11 +19,12 @@ namespace
 	const char* kAnim = "CharacterArmature|HitReact";//小喰らい
 }
 
-PurpleDinosaurStateHit::PurpleDinosaurStateHit(std::weak_ptr<PurpleDinosaur> owner):
+PurpleDinosaurStateHit::PurpleDinosaurStateHit(std::weak_ptr<Actor> owner):
 	PurpleDinosaurStateBase(owner)
 {
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//やられ
-	m_owner.lock()->GetModel()->SetAnim(kAnim, false);
+	coll->GetModel()->SetAnim(kAnim, false);
 }
 
 PurpleDinosaurStateHit::~PurpleDinosaurStateHit()
@@ -38,7 +39,7 @@ void PurpleDinosaurStateHit::Init()
 
 void PurpleDinosaurStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto coll = m_owner.lock();
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//モデルのアニメーションが終わったら
 	if (coll->GetModel()->IsFinishAnim())
 	{

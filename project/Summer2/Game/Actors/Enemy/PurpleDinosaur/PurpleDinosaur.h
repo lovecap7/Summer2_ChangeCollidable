@@ -34,8 +34,6 @@ public:
 	//コリジョンの状態を設定
 	void SetCollState(CollisionState collState) { m_collState = collState; }
 private:
-	//自分の状態
-	std::shared_ptr<ActorStateBase> m_state;
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;
 	//攻撃のクールタイムを更新

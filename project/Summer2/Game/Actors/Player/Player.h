@@ -1,5 +1,5 @@
 #pragma once
-#include "../Actor.h"
+#include "../Character/CharacterBase.h"
 #include "../../../General/Math/MyMath.h"
 #include <memory>
 
@@ -9,7 +9,7 @@ class Camera;
 class ActorStateBase;
 class HitPoints;
 class Player :
-	public Actor
+	public CharacterBase
 {
 public:
 	Player(int modelHandle, Position3 firstPos);
@@ -28,6 +28,8 @@ public:
 	Vector2 GetStickVec() { return m_stickVec; };
 	//必殺技ゲージ
 	std::shared_ptr<UltGage> GetUltGage() const{ return m_ultGage; };
+	//体力
+	std::shared_ptr<HitPoints> GetHitPoints() const { return m_hitPoints; };
 	//リジッドボディ
 	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
 	//コリジョン
@@ -35,13 +37,9 @@ public:
 	//コリジョンの状態を設定
 	void SetCollState(CollisionState collState) { m_collState = collState; }
 private:
-	//プレイヤーの状態
-	std::shared_ptr<ActorStateBase> m_state;
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;
 	//必殺技ゲージ
 	std::shared_ptr<UltGage> m_ultGage;
-	//体力
-	std::shared_ptr<HitPoints> m_hitPoints;
 };
 
