@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -75,6 +75,8 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateUltimate.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateWalk.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\UltGage.cpp" />
+    <ClCompile Include="Game\Actors\Item\Heart.cpp" />
+    <ClCompile Include="Game\Actors\Item\ItemBase.cpp" />
     <ClCompile Include="Game\Actors\Stage\InvisibleWall.cpp" />
     <ClCompile Include="Game\Actors\Stage\Sky.cpp" />
     <ClCompile Include="Game\Actors\Stage\StageObjectCollision.cpp" />
@@ -171,6 +173,8 @@
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateUltimate.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateWalk.h" />
     <ClInclude Include="Game\Actors\Character\Player\UltGage.h" />
+    <ClInclude Include="Game\Actors\Item\Heart.h" />
+    <ClInclude Include="Game\Actors\Item\ItemBase.h" />
     <ClInclude Include="Game\Actors\Stage\InvisibleWall.h" />
     <ClInclude Include="Game\Actors\Stage\Sky.h" />
     <ClInclude Include="Game\Actors\Stage\StageObjectCollision.h" />

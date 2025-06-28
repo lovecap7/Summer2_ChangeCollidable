@@ -16,6 +16,7 @@ public:
     void OnCollide(const std::shared_ptr<Collidable> other)override;
     void Draw()const override;
     void Complete() override;
+    void Dead(const std::weak_ptr<ActorManager> actorManager) override {};
 private:
     int m_modelHandle;
 };

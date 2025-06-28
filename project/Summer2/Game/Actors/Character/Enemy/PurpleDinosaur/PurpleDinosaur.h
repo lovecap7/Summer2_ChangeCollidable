@@ -23,6 +23,8 @@ public:
 	void Draw()const override;
 	//更新処理の確定
 	void Complete() override;
+	//死亡処理
+	void Dead(const std::weak_ptr<ActorManager> actorManager) override;
 	//リジッドボディ
 	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
 	//コリジョン

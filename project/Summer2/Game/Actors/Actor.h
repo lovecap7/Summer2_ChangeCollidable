@@ -40,6 +40,11 @@ public:
 	/// </summary>
 	virtual void Draw()const abstract;
 	/// <summary>
+	/// €–S‚µ‚½Û‚Ìˆ—
+	/// </summary>
+	/// <param name="actorManager"></param>
+	virtual void Dead(const std::weak_ptr<ActorManager> actorManager)abstract;
+	/// <summary>
 	/// íœƒtƒ‰ƒO
 	/// </summary>
 	/// <returns></returns>

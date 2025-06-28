@@ -14,21 +14,17 @@ Application& Application::GetInstance()
 
 bool Application::Init()
 {
-    //フルスクリーンでなく、ウィンドウモードで開くようにする
-    //こういった関数はウィンドウが開く前に(Dxlib.Init()の前)に処理しておく必要がある
-	ChangeWindowMode(Game::kDefaultWindowMode);
-	//画面サイズ変更
-	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorBitNum);
+  
 	//ゲームタイトル
 	SetWindowText("タイトル");
 	//ゲームアイコン
 	//SetWindowIconID(IDI_ICON1);
 
-	//ここに書くと一瞬フルスクリーンになるので書かない
-	//ChangeWindowMode(true);
-	//SetGraphMode(1280, 720, 32);
-
-
+	 //フルスクリーンでなく、ウィンドウモードで開くようにする
+	//こういった関数はウィンドウが開く前に(Dxlib.Init()の前)に処理しておく必要がある
+	ChangeWindowMode(Game::kDefaultWindowMode);
+	//画面サイズ変更
+	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorBitNum);
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
 		return false;			// エラーが起きたら直ちに終了

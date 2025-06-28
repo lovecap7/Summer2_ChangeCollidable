@@ -24,6 +24,8 @@ public:
 	void Draw()const override;
 	//更新処理による結果の確定
 	void Complete() override;
+	//死亡処理
+	void Dead(const std::weak_ptr<ActorManager> actorManager) override;
 	//入力中の方向キー
 	Vector2 GetStickVec() { return m_stickVec; };
 	//必殺技ゲージ

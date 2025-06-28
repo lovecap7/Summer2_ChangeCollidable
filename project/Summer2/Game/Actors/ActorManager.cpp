@@ -8,12 +8,16 @@
 #include "Attack/Strike.h"
 #include "Attack/AreaOfEffectAttack.h"
 #include "Attack/Bullet.h"
+#include "Item/Heart.h"
+#include <DxLib.h>
 
 ActorManager::ActorManager():
-	m_actorId(0)
+	m_actorId(0),
+	m_heartHandle(-1),
+	m_bombHandle(-1),
+	m_ultGageUpHandle(-1),
+	m_defenseHandle(-1)
 {
-	//ステージを作成
-	m_stageSetup = std::make_shared<StageSetup>();
 }
 
 ActorManager::~ActorManager()
@@ -22,6 +26,8 @@ ActorManager::~ActorManager()
 
 void ActorManager::Init()
 {
+	//ステージを作成
+	m_stageSetup = std::make_unique<StageSetup>();
 	//プレイヤーを受け取る
 	m_stageSetup->MovePlayerPointer(m_player);
 	std::list<std::shared_ptr<Actor>> actors;
@@ -33,6 +39,11 @@ void ActorManager::Init()
 		AddActor(actor);
 	}
 	actors.clear();//受け取ったアクターは消す
+	//ハンドル
+	m_heartHandle = MV1LoadModel("Data/Model/Item/Heart.mv1");
+	m_bombHandle = MV1LoadModel("Data/Model/Item/Bomb.mv1");
+	m_ultGageUpHandle = MV1LoadModel("Data/Model/Item/UltGageUp.mv1");
+	m_defenseHandle = MV1LoadModel("Data/Model/Item/DefenseUp.mv1");
 }
 
 void ActorManager::Update(const std::weak_ptr<Camera> camera)
@@ -70,6 +81,11 @@ void ActorManager::End()
 	//ステージセットアップの終了
 	m_stageSetup->End();
 	m_stageSetup.reset();
+	//ハンドル
+	MV1DeleteModel(m_heartHandle);
+	MV1DeleteModel(m_bombHandle);
+	MV1DeleteModel(m_ultGageUpHandle);
+	MV1DeleteModel(m_defenseHandle);
 }
 
 //プレイヤーに近い敵を取得
@@ -126,6 +142,30 @@ std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_pt
 	return attack;
 }
 
+void ActorManager::CreateItem(ItemType it, Vector3 pos)
+{
+	//攻撃を作成
+	std::shared_ptr<ItemBase> item;
+	switch (it)
+	{
+	case ItemType::Heart:
+		item = std::make_shared<Heart>(m_heartHandle, pos);
+		break;
+	case ItemType::Bomb:
+		break;
+	case ItemType::UltGageUp:
+		break;
+	case ItemType::AttackUp:
+		break;
+	case ItemType::DefenseUp:
+		break;
+	default:
+		break;
+	}
+	//アイテムを入れる
+	AddNextActor(item);
+}
+
 //アクターを追加
 void ActorManager::AddActor(std::shared_ptr<Actor> actor)
 {
@@ -144,11 +184,13 @@ void ActorManager::AddActor(std::shared_ptr<Actor> actor)
 //アクターの消滅フラグをチェックして削除
 void ActorManager::CheckDeleteActors()
 {
-	auto remIt = std::remove_if(m_actors.begin(), m_actors.end(), [](std::shared_ptr<Actor> actor) {
+	auto thisPointer = shared_from_this();
+	auto remIt = std::remove_if(m_actors.begin(), m_actors.end(), [thisPointer](std::shared_ptr<Actor> actor) {
 		bool isDead = actor->IsDelete();//死亡したかをチェック
 		if (isDead)
 		{
 			//死亡したアクターの終了処理
+			actor->Dead(thisPointer);
 			actor->End();
 		}
 		return isDead;

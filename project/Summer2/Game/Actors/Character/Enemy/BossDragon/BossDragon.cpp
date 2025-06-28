@@ -117,3 +117,7 @@ void BossDragon::Complete()
 	//モデルの座標更新
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
 }
+
+void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager)
+{
+}

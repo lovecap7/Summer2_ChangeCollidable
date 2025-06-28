@@ -27,6 +27,8 @@ public:
 	virtual void OnCollide(const std::shared_ptr<Collidable> other)override;
 	//更新処理の確定
 	void Complete() override {};
+	//死亡処理
+	void Dead(const std::weak_ptr<ActorManager> actorManager) override {};
 	//ノックバック
 	virtual Vector3 GetKnockBackVec(Position3 other);
 

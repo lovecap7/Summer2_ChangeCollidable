@@ -143,3 +143,7 @@ void Player::Complete()
 	//モデルの座標更新
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
 }
+
+void Player::Dead(const std::weak_ptr<ActorManager> actorManager)
+{
+}

@@ -408,6 +408,12 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateSweepAttack.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Item\Heart.cpp">
+      <Filter>ソース ファイル\Game\Actors\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Item\ItemBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -697,6 +703,12 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateSweepAttack.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Item\Heart.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Item\ItemBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

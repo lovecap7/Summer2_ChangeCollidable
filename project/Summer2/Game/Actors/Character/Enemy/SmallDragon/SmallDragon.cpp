@@ -22,7 +22,7 @@ namespace
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
 	//体力
-	constexpr int kHp = 50000;
+	constexpr int kHp = 500;
 	//プレイヤーを発見する距離
 	constexpr float kSearchDistance = 500.0f;
 	//プレイヤーを発見する視野角
@@ -117,5 +117,10 @@ void SmallDragon::Complete()
 	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->SetEndPos(endPos);//カプセルの移動
 	//モデルの座標更新
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
+}
+
+void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager)
+{
+	actorManager.lock()->CreateItem(ItemType::Heart, m_rb->GetPos());
 }
 

@@ -2,6 +2,7 @@
 #include <list>
 #include <memory>
 #include "Attack/AttackBase.h"
+#include "Item/ItemBase.h"
 class Player;
 class Camera;
 class Actor;
@@ -27,6 +28,8 @@ public:
 	void AddNextActor(std::shared_ptr<Actor> actor);
 	//攻撃を作成して参照を返す
 	std::weak_ptr<AttackBase> CreateAttack(AttackType at, std::weak_ptr<Actor> owner);
+	//アイテムの追加
+	void CreateItem(ItemType it, Vector3 pos);
 private:
 	//アクターを追加
 	void AddActor(std::shared_ptr<Actor> actor);
@@ -42,8 +45,14 @@ private:
 	//プレイヤー
 	std::shared_ptr<Player> m_player;
 	//ステージセットアップ
-	std::shared_ptr<StageSetup> m_stageSetup;
+	std::unique_ptr<StageSetup> m_stageSetup;
 	//ID
 	int m_actorId;//割り振る番号
+private:
+	//ハンドル
+	int m_heartHandle;			//回復
+	int m_bombHandle;			//爆弾
+	int m_ultGageUpHandle;		//必殺ゲージアップ
+	int m_defenseHandle;		//耐久アップ
 };
 
