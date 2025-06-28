@@ -345,6 +345,12 @@
     <ClCompile Include="Game\Actors\Attack\Strike.cpp">
       <Filter>ソース ファイル\Game\Actors\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\SphereAttackBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\AreaOfEffectAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -576,6 +582,12 @@
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Attack\Strike.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\SphereAttackBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\AreaOfEffectAttack.h">
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
     </ClInclude>
   </ItemGroup>

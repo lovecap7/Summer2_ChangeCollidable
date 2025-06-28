@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClCompile Include="Game\Actors\Actor.cpp" />
     <ClCompile Include="Game\Actors\ActorManager.cpp" />
+    <ClCompile Include="Game\Actors\Attack\AreaOfEffectAttack.cpp" />
     <ClCompile Include="Game\Actors\Attack\AttackBase.cpp" />
     <ClCompile Include="Game\Actors\Attack\CapsuleAttackBase.cpp" />
     <ClCompile Include="Game\Actors\Attack\Slash.cpp" />
+    <ClCompile Include="Game\Actors\Attack\SphereAttackBase.cpp" />
     <ClCompile Include="Game\Actors\Attack\Strike.cpp" />
     <ClCompile Include="Game\Actors\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actors\Character\CharacterStateBase.cpp" />
@@ -98,9 +100,11 @@
   <ItemGroup>
     <ClInclude Include="Game\Actors\Actor.h" />
     <ClInclude Include="Game\Actors\ActorManager.h" />
+    <ClInclude Include="Game\Actors\Attack\AreaOfEffectAttack.h" />
     <ClInclude Include="Game\Actors\Attack\AttackBase.h" />
     <ClInclude Include="Game\Actors\Attack\CapsuleAttackBase.h" />
     <ClInclude Include="Game\Actors\Attack\Slash.h" />
+    <ClInclude Include="Game\Actors\Attack\SphereAttackBase.h" />
     <ClInclude Include="Game\Actors\Attack\Strike.h" />
     <ClInclude Include="Game\Actors\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actors\Character\CharacterStateBase.h" />
