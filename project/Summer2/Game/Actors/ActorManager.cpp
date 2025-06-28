@@ -8,7 +8,10 @@
 #include "Attack/Strike.h"
 #include "Attack/AreaOfEffectAttack.h"
 #include "Attack/Bullet.h"
+#include "Attack/Blast.h"
 #include "Item/Heart.h"
+#include "Item/UltGageUp.h"
+#include "Item/Bomb.h"
 #include <DxLib.h>
 
 ActorManager::ActorManager():
@@ -134,6 +137,9 @@ std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_pt
 	case AttackType::Bullet:
 		attack = std::make_shared<Bullet>(owner);
 		break;
+	case AttackType::Blast:
+		attack = std::make_shared<Blast>(owner);
+		break;
 	default:
 		break;
 	}
@@ -142,7 +148,7 @@ std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_pt
 	return attack;
 }
 
-void ActorManager::CreateItem(ItemType it, Vector3 pos)
+std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 {
 	//攻撃を作成
 	std::shared_ptr<ItemBase> item;
@@ -152,8 +158,10 @@ void ActorManager::CreateItem(ItemType it, Vector3 pos)
 		item = std::make_shared<Heart>(m_heartHandle, pos);
 		break;
 	case ItemType::Bomb:
+		item = std::make_shared<Bomb>(m_bombHandle, pos);
 		break;
 	case ItemType::UltGageUp:
+		item = std::make_shared<UltGageUp>(m_ultGageUpHandle, pos);
 		break;
 	case ItemType::AttackUp:
 		break;
@@ -164,6 +172,7 @@ void ActorManager::CreateItem(ItemType it, Vector3 pos)
 	}
 	//アイテムを入れる
 	AddNextActor(item);
+	return item;
 }
 
 //アクターを追加

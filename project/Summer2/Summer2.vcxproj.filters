@@ -414,6 +414,15 @@
     <ClCompile Include="Game\Actors\Item\ItemBase.cpp">
       <Filter>ソース ファイル\Game\Actors\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Item\UltGageUp.cpp">
+      <Filter>ソース ファイル\Game\Actors\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Item\Bomb.cpp">
+      <Filter>ソース ファイル\Game\Actors\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\Blast.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -709,6 +718,15 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Item\ItemBase.h">
       <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Item\UltGageUp.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Item\Bomb.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\Blast.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -17,8 +17,9 @@ class ItemBase abstract:
 public:
     ItemBase(Shape shape);
     ~ItemBase();
-    void Dead(const std::weak_ptr<ActorManager> actorManager) override {};
+   
 protected:
- 
+    //Å‰‚Ì”ƒtƒŒ[ƒ€‚Í“–‚½‚è”»’è‚ğ‚µ‚½‚­‚È‚¢‚Ì‚Å
+    int m_noHitFrame;
 };
 

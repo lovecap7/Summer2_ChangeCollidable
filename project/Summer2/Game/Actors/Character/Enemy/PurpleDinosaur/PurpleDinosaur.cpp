@@ -118,5 +118,6 @@ void PurpleDinosaur::Complete()
 
 void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager)
 {
+	actorManager.lock()->CreateItem(ItemType::UltGageUp, m_rb->GetPos());
 }
 

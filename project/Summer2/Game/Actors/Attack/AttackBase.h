@@ -8,7 +8,8 @@ enum class AttackType
 	Slash,
 	Strike,
 	AreaOfEffect,
-	Bullet
+	Bullet,
+	Blast,
 };
 
 class CharacterStateBase;

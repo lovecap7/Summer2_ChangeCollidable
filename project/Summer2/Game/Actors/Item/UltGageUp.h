@@ -5,12 +5,12 @@
 
 class ActorManager;
 class Camera;
-class Heart :
+class UltGageUp :
 	public ItemBase
 {
 public:
-	Heart(int modelHandle, Vector3 pos);
-	virtual ~Heart();
+	UltGageUp(int modelHandle, Vector3 pos);
+	virtual ~UltGageUp();
 	//‰Šú‰»ˆ—
 	void Init()override;
 	//XVˆ—

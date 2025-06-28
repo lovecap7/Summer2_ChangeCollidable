@@ -29,7 +29,7 @@ public:
 	//攻撃を作成して参照を返す
 	std::weak_ptr<AttackBase> CreateAttack(AttackType at, std::weak_ptr<Actor> owner);
 	//アイテムの追加
-	void CreateItem(ItemType it, Vector3 pos);
+	std::weak_ptr<ItemBase> CreateItem(ItemType it, Vector3 pos);
 private:
 	//アクターを追加
 	void AddActor(std::shared_ptr<Actor> actor);

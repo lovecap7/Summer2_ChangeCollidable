@@ -1,30 +1,49 @@
-#include "Heart.h"
+#include "Bomb.h"
 #include "../../../General/game.h"
 #include "../../../General/Collision/SphereCollider.h"
 #include "../../../General/Collision/ColliderBase.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
-#include "../../../General/HitPoints.h"
+#include "../Character/Player/UltGage.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 
 namespace
 {
-	//回復量
-	constexpr float kHealValue = 100.0f;
+	//爆発までのフレーム数
+	constexpr int kBlastFrame = 180;
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
 	constexpr float kCollRadius = 50.0f;
-	//回転量
-	constexpr float kRotaAngle = 1.0f;
 	//最初の当たらないフレーム
-	constexpr int kNoHitFrame = 30;
+	constexpr int kNoHitFrame = 10;
+
+	//爆発寸前のフレーム
+	constexpr int kBeforeBlastFrame = 60;
+	//モデルの大きさ
+	const VECTOR kModelScale = { 0.5f, 0.5f, 0.5f };
+	//拡大縮小の大きさ
+	const Vector3 kAddScaleSize = { 0.1f, 0.1f, 0.1f };
+	//モデルの拡大縮小のスピード
+	constexpr float kSlowScaleSpeed = 10.0f;
+	constexpr float kFastScaleSpeed = 25.0f;
+
+	//爆発の範囲
+	constexpr float kBlastRadius = 170.0f;
+	//爆発のダメージ
+	constexpr int kBlastDamage = 200;
+	//爆発のノックバック力
+	constexpr float kBlastKnockBackPower = 25.0f;
+	//爆発の持続時間
+	constexpr float kBlastKeepFrame = 5.0f;
 }
 
-Heart::Heart(int modelHandle, Vector3 pos):
-	ItemBase(Shape::Sphere)
+Bomb::Bomb(int modelHandle, Vector3 pos) :
+	ItemBase(Shape::Sphere),
+	m_blastCountFrame(kBlastFrame),
+	m_scaleSpeed(0.0f)
 {
 	m_noHitFrame = kNoHitFrame;
 	//座標
@@ -38,11 +57,11 @@ Heart::Heart(int modelHandle, Vector3 pos):
 	m_rb->SetVecY(kJumpPower);
 }
 
-Heart::~Heart()
+Bomb::~Bomb()
 {
 }
 
-void Heart::Init()
+void Bomb::Init()
 {
 	//コライダブルの初期化
 	AllSetting(CollisionState::Normal, Priority::Low, GameTag::Item, true, false, true);
@@ -50,12 +69,14 @@ void Heart::Init()
 	Collidable::Init();
 }
 
-void Heart::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Bomb::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//移動量を初期化
-	m_rb->SetMoveVec(Vector3::Zero());
-	//回る
-	m_model->SetRot(VGet(0.0f, kRotaAngle, 0.0f));
+	//床にいるとき
+	if (m_isFloor)
+	{
+		//移動量を初期化
+		m_rb->SetMoveVec(Vector3::Zero());
+	}
 	if (m_noHitFrame > 0)
 	{
 		--m_noHitFrame;
@@ -67,22 +88,11 @@ void Heart::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Actor
 	}
 }
 
-void Heart::OnCollide(const std::shared_ptr<Collidable> other)
+void Bomb::OnCollide(const std::shared_ptr<Collidable> other)
 {
-	//消滅フラグが立ってるならリターン
-	if (m_isDelete)return;
-	//プレイヤーに当たった時の処理
-	if (other->GetGameTag() == GameTag::Player)
-	{
-		//回復
-		auto player = std::dynamic_pointer_cast<Player>(other);
-		player->GetHitPoints()->Heal(kHealValue);
-		//削除
-		m_isDelete = true;
-	}
 }
 
-void Heart::Draw() const
+void Bomb::Draw() const
 {
 #if _DEBUG
 	//衝突判定
@@ -98,10 +108,15 @@ void Heart::Draw() const
 	m_model->Draw();
 }
 
-void Heart::Complete()
+void Bomb::Complete()
 {
 	//次の座標へ
 	m_rb->m_pos = m_rb->GetNextPos();
 	//モデルの座標更新
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
+}
+
+void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager)
+{
+	auto blast = actorManager.lock()->CreateAttack(AttackType::Blast, std::dynamic_pointer_cast<Actor>(shared_from_this()));
 }

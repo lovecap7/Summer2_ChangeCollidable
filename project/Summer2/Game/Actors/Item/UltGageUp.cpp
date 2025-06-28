@@ -1,29 +1,29 @@
-#include "Heart.h"
+#include "UltGageUp.h"
 #include "../../../General/game.h"
 #include "../../../General/Collision/SphereCollider.h"
 #include "../../../General/Collision/ColliderBase.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
-#include "../../../General/HitPoints.h"
+#include "../Character/Player/UltGage.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 
 namespace
 {
-	//回復量
-	constexpr float kHealValue = 100.0f;
+	//ゲージ上昇量
+	constexpr float kGageValue = 20.0f;
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
 	constexpr float kCollRadius = 50.0f;
 	//回転量
-	constexpr float kRotaAngle = 1.0f;
+	constexpr float kRotaAngle = 2.0f;
 	//最初の当たらないフレーム
 	constexpr int kNoHitFrame = 30;
 }
 
-Heart::Heart(int modelHandle, Vector3 pos):
+UltGageUp::UltGageUp(int modelHandle, Vector3 pos) :
 	ItemBase(Shape::Sphere)
 {
 	m_noHitFrame = kNoHitFrame;
@@ -38,11 +38,11 @@ Heart::Heart(int modelHandle, Vector3 pos):
 	m_rb->SetVecY(kJumpPower);
 }
 
-Heart::~Heart()
+UltGageUp::~UltGageUp()
 {
 }
 
-void Heart::Init()
+void UltGageUp::Init()
 {
 	//コライダブルの初期化
 	AllSetting(CollisionState::Normal, Priority::Low, GameTag::Item, true, false, true);
@@ -50,7 +50,7 @@ void Heart::Init()
 	Collidable::Init();
 }
 
-void Heart::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void UltGageUp::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//移動量を初期化
 	m_rb->SetMoveVec(Vector3::Zero());
@@ -67,22 +67,22 @@ void Heart::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Actor
 	}
 }
 
-void Heart::OnCollide(const std::shared_ptr<Collidable> other)
+void UltGageUp::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	//消滅フラグが立ってるならリターン
 	if (m_isDelete)return;
 	//プレイヤーに当たった時の処理
 	if (other->GetGameTag() == GameTag::Player)
 	{
-		//回復
+		//ゲージアップ
 		auto player = std::dynamic_pointer_cast<Player>(other);
-		player->GetHitPoints()->Heal(kHealValue);
+		player->GetUltGage()->AddUltGage(kGageValue);
 		//削除
 		m_isDelete = true;
 	}
 }
 
-void Heart::Draw() const
+void UltGageUp::Draw() const
 {
 #if _DEBUG
 	//衝突判定
@@ -98,7 +98,7 @@ void Heart::Draw() const
 	m_model->Draw();
 }
 
-void Heart::Complete()
+void UltGageUp::Complete()
 {
 	//次の座標へ
 	m_rb->m_pos = m_rb->GetNextPos();
