@@ -12,8 +12,10 @@
 #include "../../../../../General/Input.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
+#include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/Camera.h"
 #include "../../../ActorManager.h"
+#include "../../../Attack/Strike.h"
 namespace
 {
 	//減速率
@@ -22,11 +24,11 @@ namespace
 	constexpr int kLeftArmIndex = 13;
 	constexpr int kLeftHandIndex = 17;
 	//左腕の当たり判定の大きさ(攻撃の大きさ)
-	constexpr float kLeftArmRadius = 20.0f;
+	constexpr float kAttackRadius = 30.0f;
 	//攻撃のダメージ
 	constexpr int kAttackDamage = 100;
 	//攻撃の持続フレーム
-	constexpr int kAttackKeepFrame = 2;
+	constexpr int kAttackKeepFrame = 4;
 	//攻撃の発生フレーム
 	constexpr int kAttackStartFrame = 40;
 	//ノックバックの大きさ
@@ -52,6 +54,8 @@ PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner)
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	//相手のほうを向く
+	coll->LookAtTarget();
 }
 
 PurpleDinosaurStateAttack::~PurpleDinosaurStateAttack()
@@ -59,6 +63,7 @@ PurpleDinosaurStateAttack::~PurpleDinosaurStateAttack()
 	//攻撃のクールタイム
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	coll->SetAttackCoolTime(kAttackCoolTime);
+	if (!m_attack.expired())m_attack.lock()->Delete();
 }
 
 void PurpleDinosaurStateAttack::Init()
@@ -70,12 +75,24 @@ void PurpleDinosaurStateAttack::Init()
 void PurpleDinosaurStateAttack::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	//死亡
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PurpleDinosaurStateDeath>(m_owner));
+		return;
+	}
+	//ヒットリアクション
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PurpleDinosaurStateHit>(m_owner));
+		return;
+	}
 	//カウント
 	++m_attackCountFrame;
 	//攻撃発生フレーム
 	if (m_attackCountFrame == kAttackStartFrame)
 	{
-		
+		CreateAttack(actorManager);
 	}
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
@@ -84,7 +101,46 @@ void PurpleDinosaurStateAttack::Update(const std::weak_ptr<Camera> camera, const
 		ChangeState(std::make_shared<PurpleDinosaurStateIdle>(m_owner));
 		return;
 	}
+	//攻撃の位置更新
+	if(!m_attack.expired()) UpdateAttackPos();
 
-	//減速
-	coll->GetRb()->SpeedDown(kMoveDeceRate);
+	//移動フレーム中は前に進む
+	if (m_attackCountFrame <= kMoveFrame)
+	{
+		//前進
+		AttackMove();
+	}
+	else
+	{
+		//減速
+		coll->GetRb()->SpeedDown(kMoveDeceRate);
+	}
+}
+
+void PurpleDinosaurStateAttack::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
+{
+	//作成と参照
+	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
+	//攻撃を作成
+	auto attack = m_attack.lock();
+	attack->SetRadius(kAttackRadius);
+	attack->AttackSetting(kAttackDamage, kAttackKeepFrame, kKnockBackPower, Battle::AttackWeight::Middle);
+}
+
+void PurpleDinosaurStateAttack::UpdateAttackPos()
+{
+	auto model = m_owner.lock()->GetModel();
+	//腕と手の座標
+	VECTOR leftArm = MV1GetFramePosition(model->GetModelHandle(), kLeftArmIndex);//左腕
+	VECTOR leftHand = MV1GetFramePosition(model->GetModelHandle(), kLeftHandIndex);//手の指先
+	//座標をセット
+	m_attack.lock()->SetStartPos(leftArm);
+	m_attack.lock()->SetEndPos(leftHand);
+}
+
+void PurpleDinosaurStateAttack::AttackMove()
+{
+	//向いてる方向に移動
+	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	coll->GetRb()->SetMoveVec(coll->GetModel()->GetDir() * kMoveSpeed);
 }

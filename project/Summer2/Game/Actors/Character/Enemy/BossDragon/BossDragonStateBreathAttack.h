@@ -1,0 +1,30 @@
+#pragma once
+#include "BossDragonStateBase.h"
+#include "../../../../../General/Battle.h"
+
+class Camera;
+class Actor;
+class ActorManager;
+class Collidable;
+class Bullet;
+class BossDragonStateBreathAttack :
+    public BossDragonStateBase, public std::enable_shared_from_this<BossDragonStateBreathAttack>
+{
+public:
+    BossDragonStateBreathAttack(std::weak_ptr<Actor> owner);
+    ~BossDragonStateBreathAttack();
+    void Init()override;
+    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+private:
+    //UŒ‚‚ÌƒtƒŒ[ƒ€‚ğ”‚¦‚é
+    int m_attackCountFrame;
+    //UŒ‚‚ÌQÆ
+    std::weak_ptr<Bullet> m_attack1;
+    std::weak_ptr<Bullet> m_attack2;
+    std::weak_ptr<Bullet> m_attack3;
+    //UŒ‚‚Ìì¬
+    void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
+    //’e‚Ìó‘Ôİ’è
+    void SetupBullet(std::weak_ptr<Bullet> bullet, float angle);
+};
+

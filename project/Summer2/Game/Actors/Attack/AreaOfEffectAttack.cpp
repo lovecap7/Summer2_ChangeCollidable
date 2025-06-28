@@ -11,6 +11,11 @@ AreaOfEffectAttack::~AreaOfEffectAttack()
 {
 }
 
+void AreaOfEffectAttack::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	AttackBase::Update();
+}
+
 void AreaOfEffectAttack::Draw() const
 {
 #if _DEBUG

@@ -11,7 +11,8 @@ AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner):
 	m_damage(0.0f),
 	m_keepFrame(0.0f),
 	m_knockBackPower(0.0f),
-	m_attackWeight(Battle::AttackWeight::Light)
+	m_attackWeight(Battle::AttackWeight::Light),
+	m_ownerTag(owner.lock()->GetGameTag())
 {
 }
 
@@ -21,11 +22,11 @@ AttackBase::~AttackBase()
 
 void AttackBase::Init()
 {
-	AllSetting(CollisionState::Normal, Priority::Low, GameTag::Attack, false, true);
+	AllSetting(CollisionState::Normal, Priority::Low, GameTag::Attack, false, true,false);
 	Collidable::Init();
 }
 
-void AttackBase::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void AttackBase::Update()
 {
 	if (m_owner.expired())
 	{
@@ -35,7 +36,7 @@ void AttackBase::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<
 	//‘±ƒtƒŒ[ƒ€‚ğŒ¸‚ç‚·
 	--m_keepFrame;
 	//‘±ƒtƒŒ[ƒ€‚ª0‚É‚È‚Á‚½‚çíœ
-	if (m_keepFrame <= 0)
+	if (m_keepFrame < 0)
 	{
 		m_isDelete = true;	//íœƒtƒ‰ƒO‚ğ—§‚Ä‚é
 		m_isThrough = true;	//“–‚½‚è”»’è‚ğ‚µ‚È‚¢
@@ -77,6 +78,7 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 			break;
 		}
 	}
+	//UŒ‚¬Œ÷
 	if (!isFind)
 	{
 		//‹L˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‹L˜^‚·‚é
@@ -86,6 +88,8 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 		{
 			std::dynamic_pointer_cast<Player>(m_owner.lock())->GetUltGage()->AddPedingUltGage();//—\–ñ‚³‚ê‚Ä‚¢‚½‰ÁZƒQ[ƒW—Ê‚ğ”½‰f
 		}
+		//UŒ‚‚ğó‚¯‚½‚Æ‚«‚Ìˆ—
+		std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
 	}
 }
 

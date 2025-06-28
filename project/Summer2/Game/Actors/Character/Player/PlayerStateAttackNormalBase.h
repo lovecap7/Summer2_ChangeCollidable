@@ -18,7 +18,9 @@ protected:
     //攻撃の作成
     void CreateAttack(float radius,int damage,int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager);
     //剣による攻撃の位置を更新する
-    void UpdateSlashAttackPos(std::weak_ptr<Slash> attack);
+    void UpdateAttackPos();
+    //前進
+    void AttackMove(float speed);
 };
 
 

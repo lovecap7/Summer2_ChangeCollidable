@@ -2,6 +2,7 @@
 #include "PurpleDinosaurStateDeath.h"
 #include "PurpleDinosaurStateAttack.h"
 #include "PurpleDinosaurStateIdle.h"
+#include "PurpleDinosaurStateHit.h"
 #include "PurpleDinosaur.h"
 #include "../EnemyBase.h"
 #include "../../../ActorManager.h"
@@ -12,11 +13,10 @@
 #include "../../../../../General/Input.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
+#include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/Camera.h"
 namespace
 {
-	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 500.0f;
 	//プレイヤーに攻撃する距離
 	constexpr float kAttackDistance = 200.0f;
 	//減速率
@@ -50,17 +50,29 @@ void PurpleDinosaurStateChase::Update(const std::weak_ptr<Camera> camera, const 
 {
 	//コライダブル
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	//死亡
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PurpleDinosaurStateDeath>(m_owner));
+		return;
+	}
+	//ヒットリアクション
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PurpleDinosaurStateHit>(m_owner));
+		return;
+	}
 	//プレイヤー
 	auto player = actorManager.lock()->GetPlayer();
-	//距離を確認
-	auto dis = coll->GetDistanceToPlayer(player);
-	//プレイヤーを見つける距離
-	if (dis <= kSearchDistance)
+	
+	auto targetData = coll->GetTargetData();
+	//プレイヤーを見つけたなら
+	if (targetData.isHitTarget)
 	{
 		//プレイヤーを見る
-		coll->LookAtPlayer(player);
+		coll->LookAtTarget();
 		//攻撃の距離
-		if (dis <= kAttackDistance)
+		if (targetData.targetDis <= kAttackDistance)
 		{
 			//攻撃のクールタイムが0なら
 			if (coll->GetAttackCoolTime() <= 0)
@@ -74,8 +86,7 @@ void PurpleDinosaurStateChase::Update(const std::weak_ptr<Camera> camera, const 
 		else
 		{
 			//プレイヤーをに近づく
-			Vector3 chaseVec = coll->GetToPlayerNomVecXZ(player);
-			coll->GetRb()->SetMoveVec(chaseVec * kChaseSpeed);
+			coll->GetRb()->SetMoveVec(targetData.targetDirXZ * kChaseSpeed);
 			return;
 		}
 	}

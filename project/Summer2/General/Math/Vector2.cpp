@@ -118,7 +118,7 @@ bool Vector2::operator!=(const Vector2& right) const
     return isX || isY;
 }
 
-float Vector2::Theata(Vector2 vec1, Vector2 vec2)
+float Vector2::GetRad(Vector2 vec1, Vector2 vec2)
 {
     //ベクトルがない
     if (vec1.Magnitude() <= 0.0f || vec2.Magnitude() <= 0.0f)
@@ -135,9 +135,9 @@ float Vector2::Theata(Vector2 vec1, Vector2 vec2)
     //クランプ
     dot = MathSub::ClampFloat(dot, -1.0f, 1.0f);
     //Θ(角度)を取得
-    float theta = acosf(dot);
+    float rad = acosf(dot);
 
-	return theta;
+	return rad;
 }
 
 Vector3 Vector2::XZ()

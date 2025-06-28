@@ -13,8 +13,9 @@
 //プレイヤー
 #include "../Game/Actors/Character/Player/Player.h"
 //敵
-
 #include "../Game/Actors/Character/Enemy/PurpleDinosaur/PurpleDinosaur.h"
+#include "../Game/Actors/Character/Enemy/SmallDragon/SmallDragon.h"
+#include "../Game/Actors/Character/Enemy/BossDragon/BossDragon.h"
 
 #include "../Game/Actors/Character/Enemy/EnemyBase.h"
 //ステージ
@@ -145,19 +146,19 @@ void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 		}
 		else if (charaData.name == "SmallDragon")
 		{
-			/*std::shared_ptr<EnemyBase> smallDragon = std::make_shared<SmallDragon>(MV1DuplicateModel(m_smallDragonHandle),
+			std::shared_ptr<EnemyBase> smallDragon = std::make_shared<SmallDragon>(MV1DuplicateModel(m_smallDragonHandle),
 				charaData.pos);
 			smallDragon->GetModel()->SetScale(charaData.scale);
 			smallDragon->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(smallDragon);*/
+			actors.emplace_back(smallDragon);
 		}
 		else if (charaData.name == "BossDragon")
 		{
-			/*std::shared_ptr<EnemyBase> bossDragon = std::make_shared<BossDragon>(MV1DuplicateModel(m_bossDragonHandle),
+			std::shared_ptr<EnemyBase> bossDragon = std::make_shared<BossDragon>(MV1DuplicateModel(m_bossDragonHandle),
 				charaData.pos);
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(bossDragon);*/
+			actors.emplace_back(bossDragon);
 		}
 		else if (charaData.name == "Bomber")
 		{

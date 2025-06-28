@@ -36,6 +36,8 @@ public:
 	std::shared_ptr<ColliderBase> GetColl() const { return m_collisionData; }
 	//コリジョンの状態を設定
 	void SetCollState(CollisionState collState) { m_collState = collState; }
+	//ターゲットのデータ
+	TargetData GetTargetData() const { return m_targetData; };
 private:
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;

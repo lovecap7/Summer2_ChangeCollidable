@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
 #include <memory>
-
+#include "Attack/AttackBase.h"
 class Player;
 class Camera;
 class Actor;
@@ -25,6 +25,8 @@ public:
 	std::weak_ptr<Actor> GetNearestEnemy() const;
 	//追加予定のアクターを追加
 	void AddNextActor(std::shared_ptr<Actor> actor);
+	//攻撃を作成して参照を返す
+	std::weak_ptr<AttackBase> CreateAttack(AttackType at, std::weak_ptr<Actor> owner);
 private:
 	//アクターを追加
 	void AddActor(std::shared_ptr<Actor> actor);

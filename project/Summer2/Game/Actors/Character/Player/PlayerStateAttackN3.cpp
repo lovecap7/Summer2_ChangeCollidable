@@ -120,8 +120,16 @@ void PlayerStateAttackN3::Update(const std::weak_ptr<Camera> camera, const std::
 	//攻撃の位置更新
 	if (!m_attack.expired())
 	{
-		UpdateSlashAttackPos(m_attack);
+		UpdateAttackPos();
 	}
-	//減速
-	coll->GetRb()->SpeedDown(kMoveDeceRate);
+	//移動フレーム中は前に進む
+	if (m_attackCountFrame <= kMoveFrame)
+	{
+		AttackMove(kMoveSpeed);
+	}
+	else
+	{
+		//減速
+		coll->GetRb()->SpeedDown(kMoveDeceRate);
+	}
 }

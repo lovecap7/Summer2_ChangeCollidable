@@ -1,6 +1,8 @@
 #include "PurpleDinosaur.h"
 #include "PurpleDinosaurStateBase.h"
 #include "PurpleDinosaurStateIdle.h"
+#include "../../../ActorManager.h"
+#include "../../Player/Player.h"
 #include <memory>
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
@@ -18,11 +20,14 @@ namespace
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
 	//体力
-	constexpr int kHp = 500;
+	constexpr int kHp = 50000;
+	//プレイヤーを発見する距離
+	constexpr float kSearchDistance = 500.0f;
+	//プレイヤーを発見する視野角
+	constexpr float kSearchAngle = 180.0f;
 }
 PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
-	EnemyBase(Shape::Capsule),
-	m_attackCoolTime(0)
+	EnemyBase(Shape::Capsule)
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
@@ -45,7 +50,7 @@ PurpleDinosaur::~PurpleDinosaur()
 void PurpleDinosaur::Init()
 {
 	//コライダブルの初期化
-	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false);
+	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false,true);
 	//Physicsに登録
 	Collidable::Init();
 
@@ -60,6 +65,12 @@ void PurpleDinosaur::Update(const std::weak_ptr<Camera> camera, const std::weak_
 {
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
+	//ターゲットを発見できたかをチェック
+	auto target = actorManager.lock()->GetPlayer();
+	if (!target.expired())
+	{
+		TargetSearch(kSearchDistance, kSearchAngle, target.lock()->GetPos());
+	}
 	//状態に合わせた更新
 	m_state->Update(camera,actorManager);
 	//状態が変わったかをチェック
@@ -77,12 +88,6 @@ void PurpleDinosaur::Update(const std::weak_ptr<Camera> camera, const std::weak_
 
 void PurpleDinosaur::OnCollide(const std::shared_ptr<Collidable> other)
 {
-	//攻撃を受けたときの処理
-	if (other->GetGameTag() == GameTag::Attack)
-	{
-		OnHitFromAttack(other);
-		return;
-	}
 }
 
 void PurpleDinosaur::Draw() const
@@ -97,8 +102,6 @@ void PurpleDinosaur::Draw() const
 		0xff0000,
 		false
 	);
-	
-
 #endif
 	m_model->Draw();
 }
@@ -113,11 +116,3 @@ void PurpleDinosaur::Complete()
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
 }
 
-void PurpleDinosaur::UpdateAttackCoolTime()
-{
-	m_attackCoolTime--;
-	if (m_attackCoolTime < 0)
-	{
-		m_attackCoolTime = 0;
-	}
-}

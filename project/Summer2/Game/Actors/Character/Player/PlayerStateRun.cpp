@@ -108,7 +108,7 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 		return;
 	}
 	auto rb = coll->GetRb();
-	//d—Í
+	//d‚ß‚Ìd—Í
 	rb->AddVec(kBigGravity);
 	//ˆÚ“®
 	rb->SetMoveVec(GetForwardVec(camera) * kMoveSpeed);

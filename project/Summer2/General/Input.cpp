@@ -48,7 +48,7 @@ void Input::Init()
 	m_inputActionMap["StopUpdate"] = { {InputType::kKeyboard,KEY_INPUT_2} };
 	m_inputActionMap["Enter"] = { {InputType::kKeyboard,KEY_INPUT_RETURN} };
 	m_inputActionMap["Enter"] = { {InputType::kKeyboard,KEY_INPUT_RETURN} };
-	m_inputActionMap["Max"] = { {InputType::kKeyboard,KEY_INPUT_M} };
+	m_inputActionMap["Max"] = { {InputType::kKeyboard,KEY_INPUT_M} ,{InputType::kPad,PAD_INPUT_5} };
 }
 
 void Input::Update()

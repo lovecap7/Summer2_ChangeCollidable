@@ -52,7 +52,7 @@ public:
 	bool operator==(const Vector2& right)const;
 	bool operator!=(const Vector2& right)const;
 
-	static float Theata(Vector2 vec1, Vector2 vec2);
+	static float GetRad(Vector2 vec1, Vector2 vec2);
 
 	Vector3 XZ();
 };

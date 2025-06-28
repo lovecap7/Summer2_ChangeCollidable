@@ -10,6 +10,7 @@
 #include "../../../../../General/Input.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
+#include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/Camera.h"
 namespace
 {
@@ -40,8 +41,21 @@ void PurpleDinosaurStateHit::Init()
 void PurpleDinosaurStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	//死亡
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<PurpleDinosaurStateDeath>(m_owner));
+		return;
+	}
+	auto model = coll->GetModel();
+	//ヒットリアクション
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		//初めから
+		model->ReplayAnim();
+	}
 	//モデルのアニメーションが終わったら
-	if (coll->GetModel()->IsFinishAnim())
+	if (model->IsFinishAnim())
 	{
 		//待機
 		ChangeState(std::make_shared<PurpleDinosaurStateIdle>(m_owner));

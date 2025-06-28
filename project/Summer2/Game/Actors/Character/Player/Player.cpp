@@ -13,6 +13,7 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../ActorManager.h"
 #include "../../../../Game/Camera/Camera.h"
 #include "UltGage.h"
 #include <DxLib.h>
@@ -27,10 +28,10 @@ namespace
 	constexpr int kHp = 1000; 
 	//必殺技ゲージの最大値
 	constexpr int kMaxUltGage = 100;
-	//トリガーの半径
-	constexpr float kSearchTriggerRadius = 200.0f;
+	//索敵距離
+	constexpr float kSearchDistance = 200.0f;
 	//視野角
-	constexpr float kSearchAngle = 20.0f * MyMath::DEG_2_RAD;
+	constexpr float kSearchAngle = 30.0f;
 }
 
 Player::Player(int modelHandle, Position3 firstPos) :
@@ -50,7 +51,7 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	//必殺技ゲージ
 	m_ultGage = std::make_shared<UltGage>(kMaxUltGage);
 	//体力
-	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Middle);
+	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Light);
 }
 
 Player::~Player()
@@ -65,7 +66,7 @@ void Player::Init()
 	//対策としてInitを使う
 
 	//コライダブルの初期化
-	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Player, false, false);
+	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Player, false, false,true);
 	//Physicsに登録
 	Collidable::Init();
 
@@ -83,8 +84,19 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 	m_stickVec.x = static_cast<float>(input.GetStickInfo().leftStickX);
 	m_stickVec.y = -static_cast<float>(input.GetStickInfo().leftStickY);
 
-#if _DEBUG
+	//ターゲットを発見できたかをチェック
+	auto target = actorManager.lock()->GetNearestEnemy();
+	if (!target.expired())
+	{
+		TargetSearch(kSearchDistance, kSearchAngle, target.lock()->GetPos());
+	}
 
+#if _DEBUG
+	if (input.IsTrigger("Max"))
+	{
+		m_ultGage->AddUltGage(10000);
+		m_hitPoints->Heal(10000);
+	}
 #endif
 	//状態に合わせた更新
 	m_state->Update(camera,actorManager);
@@ -100,14 +112,9 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 	//体力クラスのフラグリセット
 	m_hitPoints->ResetHitFlags();
 }
+
 void Player::OnCollide(const std::shared_ptr<Collidable> other)
 {
-	//攻撃を受けたときの処理
-	if (other->GetGameTag() == GameTag::Attack)
-	{
-		OnHitFromAttack(other);
-		return;
-	}
 }
 
 void Player::Draw() const
@@ -123,7 +130,6 @@ void Player::Draw() const
 		0xff0000,
 		false//地面にいると塗りつぶされる
 	);
-
 #endif
 	m_model->Draw();
 }

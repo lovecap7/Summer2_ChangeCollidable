@@ -2,6 +2,15 @@
 #include <list>
 #include "../Actor.h"
 #include "../../../General/Battle.h"
+
+enum class AttackType
+{
+	Slash,
+	Strike,
+	AreaOfEffect,
+	Bullet
+};
+
 class CharacterStateBase;
 class Actor;
 class AttackBase abstract:
@@ -13,7 +22,7 @@ public:
 	//初期化処理
 	virtual void Init()override;
 	//更新処理
-	virtual void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+	virtual void Update() ;
 	//衝突イベント
 	virtual void OnCollide(const std::shared_ptr<Collidable> other)override;
 	//更新処理の確定
@@ -38,6 +47,8 @@ public:
 	void ResetHitId() { m_hitId.clear(); };
 	//攻撃を削除する
 	void Delete() { m_isDelete = true; };
+	//持ち主のタグ
+	GameTag GetOwnerTag() { return m_ownerTag; };
 protected:
 	//ダメージ
 	int m_damage;
@@ -51,5 +62,7 @@ protected:
 	std::list<int> m_hitId;
 	//持ち主の参照
 	std::weak_ptr<Actor> m_owner;
+	//持ち主のタグ
+	GameTag m_ownerTag;
 };
 

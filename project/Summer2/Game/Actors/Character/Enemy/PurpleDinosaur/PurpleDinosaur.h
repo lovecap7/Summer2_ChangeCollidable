@@ -23,20 +23,15 @@ public:
 	void Draw()const override;
 	//更新処理の確定
 	void Complete() override;
-	//攻撃のクールタイムを取得
-	int GetAttackCoolTime() const { return m_attackCoolTime; }
-	//攻撃のクールタイムをセット
-	void SetAttackCoolTime(int coolTime) { m_attackCoolTime = coolTime; }
 	//リジッドボディ
 	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
 	//コリジョン
 	std::shared_ptr<ColliderBase> GetColl() const { return m_collisionData; }
 	//コリジョンの状態を設定
 	void SetCollState(CollisionState collState) { m_collState = collState; }
+	//ターゲットのデータ
+	TargetData GetTargetData() const { return m_targetData; };
 private:
-	//攻撃できるまでのクールタイム
-	int m_attackCoolTime;
-	//攻撃のクールタイムを更新
-	void UpdateAttackCoolTime();
+	
 };
 

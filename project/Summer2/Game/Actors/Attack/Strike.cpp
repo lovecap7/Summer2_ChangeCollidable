@@ -10,6 +10,11 @@ Strike::~Strike()
 {
 }
 
+void Strike::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	AttackBase::Update();
+}
+
 void Strike::Draw() const
 {
 #if _DEBUG

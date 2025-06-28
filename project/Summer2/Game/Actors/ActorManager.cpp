@@ -4,6 +4,10 @@
 #include "Character/Player/Player.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Math/MyMath.h"
+#include "Attack/Slash.h"
+#include "Attack/Strike.h"
+#include "Attack/AreaOfEffectAttack.h"
+#include "Attack/Bullet.h"
 
 ActorManager::ActorManager():
 	m_actorId(0)
@@ -94,6 +98,32 @@ void ActorManager::AddNextActor(std::shared_ptr<Actor> actor)
 {
 	//追加予定のアクターを追加
 	m_nextAddActors.emplace_back(actor);
+}
+
+std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_ptr<Actor> owner)
+{
+	//攻撃を作成
+	std::shared_ptr<AttackBase> attack;
+	switch (at)
+	{
+	case AttackType::Slash:
+		attack = std::make_shared<Slash>(owner);
+		break;
+	case AttackType::Strike:
+		attack = std::make_shared<Strike>(owner);
+		break;
+	case AttackType::AreaOfEffect:
+		attack = std::make_shared<AreaOfEffectAttack>(owner);
+		break;
+	case AttackType::Bullet:
+		attack = std::make_shared<Bullet>(owner);
+		break;
+	default:
+		break;
+	}
+	//攻撃を入れる
+	AddNextActor(attack);
+	return attack;
 }
 
 //アクターを追加

@@ -21,7 +21,7 @@ InvisibleWall::~InvisibleWall()
 void InvisibleWall::Init()
 {
 	//コライダブルの初期化
-	AllSetting(CollisionState::Normal, Priority::Static, GameTag::Object, false, false);
+	AllSetting(CollisionState::Normal, Priority::Static, GameTag::Object, false, false,false);
 	Collidable::Init();
 }
 

@@ -11,6 +11,11 @@ Slash::~Slash()
 {
 }
 
+void Slash::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	AttackBase::Update();
+}
+
 void Slash::Draw() const
 {
 #if _DEBUG

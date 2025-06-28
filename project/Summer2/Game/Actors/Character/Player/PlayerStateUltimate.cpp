@@ -2,6 +2,7 @@
 #include "PlayerStateIdle.h"
 #include "Player.h"
 #include "UltGage.h"
+#include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Collision/SphereCollider.h"
@@ -10,6 +11,7 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../Attack/AreaOfEffectAttack.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
@@ -20,7 +22,7 @@ namespace
 	//ノックバックの大きさ
 	constexpr float kKnockBackPower = 2.0f;
 	//攻撃判定をリセットする頻度
-	constexpr int kUltInitFrame = 10;
+	constexpr int kUltResetFrame = 10;
 	//アニメーション
 	const char* kAnim = "Player|Ult2";
 	//アニメーションの速度の初期値
@@ -44,18 +46,22 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player) :
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//必殺技
 	coll->SetCollState(CollisionState::Normal);
-	//チャージ攻撃1
 	auto model = coll->GetModel();
 	model->SetAnim(kAnim, true, m_animSpeed);
 	model->SetFixedLoopFrame(kUltKeepFrame);//指定ループ
 	//向きの更新
 	Vector2 dir = coll->GetStickVec();
 	model->SetDir(dir);
+	//ゲージを0に
+	coll->GetUltGage()->ResetUltGage();
 }
 
 
 PlayerStateUltimate::~PlayerStateUltimate()
 {
+	//攻撃判定の削除
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	if (!m_attack.expired())m_attack.lock()->Delete();
 }
 
 void PlayerStateUltimate::Init()
@@ -67,6 +73,12 @@ void PlayerStateUltimate::Init()
 void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	++m_animCountFrame;
+	if (m_animCountFrame == 1)
+	{
+		//攻撃発生
+		CreateAttack(actorManager);
+	}
+
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//アニメーションが終了したら
@@ -77,9 +89,9 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::
 		return;
 	}
 	//攻撃判定をリセット
-	if (m_animCountFrame % kUltInitFrame == 0)
+	if (m_animCountFrame % kUltResetFrame == 0)
 	{
-	
+		if (!m_attack.expired())m_attack.lock()->ResetHitId();
 	}
 	//アニメーションが一周するたびに再生速度を上げる
 	if (model->IsFinishAnim())
@@ -91,6 +103,27 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::
 			model->SetAnimSpeed(m_animSpeed);
 		}
 	}
+	//攻撃の位置更新
+	if (!m_attack.expired())UpdateAttackPos();
 	//少しずつ減速する
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
+}
+
+void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
+{
+	//作成と参照
+	m_attack = std::dynamic_pointer_cast<AreaOfEffectAttack>(actorManager.lock()->CreateAttack(AttackType::AreaOfEffect, m_owner).lock());
+	//攻撃を作成
+	auto attack = m_attack.lock();
+	attack->SetRadius(kAttackRadius);
+	attack->AttackSetting(kUltDamege, kUltKeepFrame, kKnockBackPower,Battle::AttackWeight::Heaviest);
+}
+
+void PlayerStateUltimate::UpdateAttackPos()
+{
+	auto coll = m_owner.lock();
+	auto model = coll->GetModel();
+	//プレイヤーの前あたりに出す
+	Vector3 attackPos = coll->GetPos() + model->GetDir().Normalize() * kAttackDistance;
+	m_attack.lock()->SetPos(attackPos);
 }

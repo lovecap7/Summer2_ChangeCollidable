@@ -22,17 +22,15 @@ PlayerStateChargeAttackBase::~PlayerStateChargeAttackBase()
 
 void PlayerStateChargeAttackBase::CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager)
 {
+	//作成と参照
+	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
 	//攻撃を作成
-	auto attack = std::make_shared<Strike>(m_owner);
+	auto attack = m_attack.lock();
 	attack->SetRadius(radius);
-	attack->AttackSetting(damage, keepFrame, knockBackPower, Battle::AttackWeight::Middle);
-	//参照
-	m_attack = attack;
-	//攻撃を入れる
-	actorManager.lock()->AddNextActor(attack);
+	attack->AttackSetting(damage, keepFrame, knockBackPower, aw);
 }
 
-void PlayerStateChargeAttackBase::UpdateStrikeAttackPos(std::weak_ptr<Strike> attack)
+void PlayerStateChargeAttackBase::UpdateAttackPos()
 {
 	//左足の状態を更新したら攻撃も更新される
 	auto model = m_owner.lock()->GetModel();
@@ -41,6 +39,6 @@ void PlayerStateChargeAttackBase::UpdateStrikeAttackPos(std::weak_ptr<Strike> at
 	VECTOR root = MV1GetFramePosition(model->GetModelHandle(), kRootIndex);//付け根
 	VECTOR toe = MV1GetFramePosition(model->GetModelHandle(), kToeIndex);//足先
 	//座標をセット
-	attack.lock()->SetStartPos(root);
-	attack.lock()->SetEndPos(toe);
+	m_attack.lock()->SetStartPos(root);
+	m_attack.lock()->SetEndPos(toe);
 }

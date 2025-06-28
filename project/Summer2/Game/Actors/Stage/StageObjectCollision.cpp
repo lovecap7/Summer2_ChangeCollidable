@@ -44,7 +44,7 @@ StageObjectCollision::~StageObjectCollision()
 void StageObjectCollision::Init()
 {
 	//コライダブルの初期化
-	AllSetting(CollisionState::Normal, Priority::Static, GameTag::Object, false, false);
+	AllSetting(CollisionState::Normal, Priority::Static, GameTag::Object, false, false,false);
 	Collidable::Init();
 }
 void StageObjectCollision::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)

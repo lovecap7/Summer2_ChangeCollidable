@@ -100,7 +100,7 @@ void PlayerStateCA1::Update(const std::weak_ptr<Camera> camera, const std::weak_
 	//UŒ‚‚ÌˆÊ’uXV
 	if (!m_attack.expired())
 	{
-		UpdateStrikeAttackPos(m_attack);
+		UpdateAttackPos();
 	}
 	//Œ¸‘¬
 	coll->GetRb()->SpeedDown(kMoveDeceRate);

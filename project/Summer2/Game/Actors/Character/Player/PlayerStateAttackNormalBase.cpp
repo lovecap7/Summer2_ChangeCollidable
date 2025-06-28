@@ -2,6 +2,8 @@
 #include "../../Attack/Slash.h"
 #include "../../../../General/Model.h"
 #include "../../ActorManager.h"
+#include "../../../../General/Rigidbody.h"
+#include "Player.h"
 namespace
 {
 	//武器の座標と当たり判定の情報
@@ -23,16 +25,14 @@ PlayerStateAttackNormalBase::~PlayerStateAttackNormalBase()
 }
 void PlayerStateAttackNormalBase::CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager)
 {
+	//作成と参照
+	m_attack = std::dynamic_pointer_cast<Slash>(actorManager.lock()->CreateAttack(AttackType::Slash, m_owner).lock());
 	//攻撃を作成
-	auto attack = std::make_shared<Slash>(m_owner);
+	auto attack = m_attack.lock();
 	attack->SetRadius(radius);
-	attack->AttackSetting(damage, keepFrame, knockBackPower, Battle::AttackWeight::Middle);
-	//参照
-	m_attack = attack;
-	//攻撃を入れる
-	actorManager.lock()->AddNextActor(attack);
+	attack->AttackSetting(damage, keepFrame, knockBackPower, aw);
 }
-void PlayerStateAttackNormalBase::UpdateSlashAttackPos(std::weak_ptr<Slash> attack)
+void PlayerStateAttackNormalBase::UpdateAttackPos()
 {
 	auto model = m_owner.lock()->GetModel();
 	//武器
@@ -44,6 +44,23 @@ void PlayerStateAttackNormalBase::UpdateSlashAttackPos(std::weak_ptr<Slash> atta
 	swordDir = VScale(swordDir, kSwordHeight);//武器の長さ
 	swordDir = VAdd(ringFinger, swordDir);//持ち手の座標に加算して剣先の座標を出す
 	//座標をセット
-	attack.lock()->SetStartPos(ringFinger);
-	attack.lock()->SetEndPos(swordDir);
+	m_attack.lock()->SetStartPos(ringFinger);
+	m_attack.lock()->SetEndPos(swordDir);
+}
+void PlayerStateAttackNormalBase::AttackMove(float speed)
+{
+	//ターゲットを索敵してるなら(ターゲットのほうを向く)
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	auto targetData = coll->GetTargetData();
+	//向き
+	Vector3 dir = coll->GetStickVec().XZ();
+	//ターゲットが発見できた時
+	if (targetData.isHitTarget)
+	{
+		dir = targetData.targetDirXZ;
+	}
+	//向きの更新
+	coll->GetModel()->SetDir(dir.XZ());
+	//向いてる方向に移動
+	coll->GetRb()->SetMoveVec(coll->GetModel()->GetDir() * speed);
 }

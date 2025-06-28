@@ -94,27 +94,22 @@ void Physics::Update()
 						isOneMore = true;
 					}
 
-					//これまでに当たった情報があるかをチェック
-					bool isCollAInfo = false;
-					bool isCollBInfo = false;
+					//これまでにこの組み合わせで当たった情報があるかをチェック
+					bool isCollInfo = false;
 					for (const auto& item : onCollideInfo)
 					{
 						// 既に通知リストに含まれていたら呼ばない
-						if (item.owner == collA)
+						if (item.owner == collA && item.colider == collB ||
+							item.owner == collB && item.colider == collA)
 						{
-							isCollAInfo = true;
+							isCollInfo = true;
 						}
-						if (item.owner == collB)
-						{
-							isCollBInfo = true;
-						}
+					
 					}
-					if (!isCollAInfo)
+					//ない場合
+					if (!isCollInfo)
 					{
 						onCollideInfo.emplace_back(OnCollideInfo{ collA, collB });
-					}
-					if (!isCollBInfo)
-					{
 						onCollideInfo.emplace_back(OnCollideInfo{ collB, collA });
 					}
 				}

@@ -10,12 +10,14 @@ class EnemyBase abstract :
 public:
     EnemyBase(Shape shape);
     virtual ~EnemyBase() {};
-    //プレイヤーへの向き
-    Vector3 GetToPlayerVec(const std::weak_ptr<Player> player) const;
-    Vector3 GetToPlayerNomVecXZ(const std::weak_ptr<Player> player) const;
-    //プレイヤーとの距離を計算
-    float GetDistanceToPlayer(const std::weak_ptr<Player> player) const;
-    //プレイヤーを見る
-    void LookAtPlayer(const std::weak_ptr<Player> player);
+	//攻撃のクールタイムを更新
+	virtual void UpdateAttackCoolTime();
+	//攻撃のクールタイムを取得
+	int GetAttackCoolTime() const { return m_attackCoolTime; }
+	//攻撃のクールタイムをセット
+	void SetAttackCoolTime(int coolTime) { m_attackCoolTime = coolTime; }
+protected:
+	//攻撃できるまでのクールタイム
+	int m_attackCoolTime;
 };
 

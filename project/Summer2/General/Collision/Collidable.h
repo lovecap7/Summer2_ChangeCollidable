@@ -114,7 +114,8 @@ protected:
 	/// <param name="tag">ゲームタグ</param>
 	/// <param name="isTrough">当たり判定を無視するか</param>
 	/// <param name="isTrigger">トリガー判定をするか</param>
-	void AllSetting(CollisionState collState, Priority priority, GameTag tag, bool isTrough, bool isTrigger);
+	/// <param name="isTrigger">重力を受けるか</param>
+	void AllSetting(CollisionState collState, Priority priority, GameTag tag, bool isTrough, bool isTrigger,bool isGravity);
 };
 
 

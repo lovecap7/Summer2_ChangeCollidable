@@ -118,6 +118,12 @@
     <Filter Include="ソース ファイル\Game\Actors\Character\Player">
       <UniqueIdentifier>{6e762c3c-919c-4a0f-8d71-e4fbd918cd18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\SmallDragon">
+      <UniqueIdentifier>{ee0ae453-de6c-426d-bcab-5d0dd012448f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\BossDragon">
+      <UniqueIdentifier>{d951348c-ca9c-4cd2-82b7-f968bd0afbb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -350,6 +356,57 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\Attack\AreaOfEffectAttack.cpp">
       <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragon.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateBack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateDeath.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateHit.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateIdle.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\Bullet.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragon.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBreathAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateChase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateDeath.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateHit.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateIdle.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStatePunchAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateSweepAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -589,6 +646,57 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Attack\AreaOfEffectAttack.h">
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragon.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateAttack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateBack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateDeath.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateHit.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateIdle.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\Bullet.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragon.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBreathAttack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateChase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateDeath.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateHit.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateIdle.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStatePunchAttack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateSweepAttack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossDragon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

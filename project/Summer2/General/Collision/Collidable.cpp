@@ -48,11 +48,12 @@ void Collidable::CreateCollider(Shape shape)
 	}
 }
 
-void Collidable::AllSetting(CollisionState collState, Priority priority, GameTag tag, bool isTrough, bool isTrigger)
+void Collidable::AllSetting(CollisionState collState, Priority priority, GameTag tag, bool isTrough, bool isTrigger, bool isGravity)
 {
 	m_collState = collState;		//状態
 	m_priority = priority;			//優先度
 	m_tag = tag;					//タグ
 	m_isThrough = isTrough;			//当たり判定を無視するか
 	m_isTrigger = isTrigger;		//トリガー判定をするか
+	m_rb->m_isGravity = isGravity;	//重力を受けるか
 }
