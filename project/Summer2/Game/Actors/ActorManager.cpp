@@ -12,6 +12,7 @@
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
 #include "Item/Bomb.h"
+#include "Item/DefenseUp.h"
 #include <DxLib.h>
 
 ActorManager::ActorManager():
@@ -166,6 +167,7 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 	case ItemType::AttackUp:
 		break;
 	case ItemType::DefenseUp:
+		item = std::make_shared<DefenseUp>(m_defenseHandle, pos);
 		break;
 	default:
 		break;

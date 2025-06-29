@@ -1,6 +1,5 @@
 #pragma once
 #include "PurpleDinosaurStateBase.h"
-class Input;
 class Camera;
 class ActorManager;
 class Actor;

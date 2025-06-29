@@ -8,6 +8,8 @@ class HitPoints
 public:
 	HitPoints(int hp, Battle::Armor armor);
 	~HitPoints();
+	//更新処理
+	void Update();
 	//初期化処理
 	void ResetHitFlags();
 	//体力
@@ -19,8 +21,8 @@ public:
 	//体力がなくなって死亡したかどうか
 	bool IsDead()const { return m_hp <= 0; };
 	//アーマー
-	Battle::Armor GetArmor() { return m_armor; };
-	void SetArmor(Battle::Armor am) { m_armor = am; };
+	Battle::Armor GetArmor() { return m_defence.armor; };
+	void SetArmor(Battle::Armor am) { m_defence.armor = am; };
 	//攻撃を受けたか
 	bool IsHit() { return m_isHit; };
 	void SetIsHit(bool isHit) { m_isHit = isHit; };
@@ -28,10 +30,12 @@ public:
 	bool IsHitReaction() const { return m_isHitReaction; };
 	void SetIsHitReaction(bool isHitReaction) { m_isHitReaction = isHitReaction; };
 	//ダメージカット
-	void SetDamageCutRate(float damageCutRate) { m_damageCutRate = damageCutRate; };
+	void SetDamageCutRate(float damageCutRate) { m_defence.damageCutRate = damageCutRate; };
 	//無敵
 	bool IsNoDamege() { return m_isNoDamage; };
 	void SetIsNoDamege(bool isNoDamage) { m_isNoDamage = isNoDamage; };
+	//アイテムをとった時によぶ関数
+	void DefenseBuff(Battle::Armor armor, float damageCutRate, int buffFrame);
 private:
 	//体力
 	int m_hp;
@@ -41,11 +45,20 @@ private:
 	bool m_isHit;
 	//攻撃を受けたかどうか
 	bool m_isHitReaction;
-	//アーマー
-	Battle::Armor m_armor;
-	//ダメージカット率
-	float m_damageCutRate;
 	//無敵
 	bool m_isNoDamage;
+
+	//防御面のステータス
+	struct Defense
+	{
+		//アーマー
+		Battle::Armor armor;
+		//ダメージカット率
+		float damageCutRate;
+	};
+	Defense m_defence;
+	Defense m_initDefence;	//バフ終了後の初期化用の値
+	//ダメージカットアイテムをとった際にカウントするフレーム
+	int m_buffCountFrame;
 };
 

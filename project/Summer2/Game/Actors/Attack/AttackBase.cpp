@@ -4,6 +4,7 @@
 #include "../Character/CharacterStateBase.h"
 #include "../Character/Player/UltGage.h"
 #include "../../../General/HitPoints.h"
+#include "../../../General/AttackPoints.h"
 
 AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner):
 	Actor(shape),
@@ -108,4 +109,42 @@ void AttackBase::AttackSetting(int damage, int keepFrame, int knockBackPower, Ba
 	m_keepFrame = keepFrame;
 	m_knockBackPower = knockBackPower;
 	m_attackWeight = aw;
+}
+
+int AttackBase::GetDamage()
+{
+	float damage = m_damage;
+	if (!m_owner.expired())
+	{
+		//ダメージ倍率をかける
+		auto owner = m_owner.lock();
+		if (owner->GetGameTag() == GameTag::Player ||
+			owner->GetGameTag() == GameTag::Enemy)
+		{
+			damage *= std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints()->GetDamageRate();
+		}
+	}
+	return damage;
+}
+
+Battle::AttackWeight AttackBase::GetAttackWeight()
+{
+	Battle::AttackWeight aw = m_attackWeight;
+	if (!m_owner.expired())
+	{
+		//攻撃の重さが最低値未満かどうか
+		auto owner = m_owner.lock();
+		if (owner->GetGameTag() == GameTag::Player ||
+			owner->GetGameTag() == GameTag::Enemy)
+		{
+			//持ち主の最低値
+			auto ownerAw = std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints()->GetLowestAW();
+			//持ち主のアーマーより小さいなら
+			if (!Battle::CheckFlinchAttackAndArmor(aw, ownerAw))
+			{
+				aw = ownerAw;
+			}
+		}
+	}
+	return aw;
 }

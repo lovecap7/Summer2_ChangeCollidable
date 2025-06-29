@@ -1,7 +1,9 @@
 #include "Blast.h"
 #include "AreaOfEffectAttack.h"
+#include "../Character/CharacterBase.h"
 #include "../../../General/Collision/SphereCollider.h"
 #include "../../../General/Rigidbody.h"
+#include "../../../General/HitPoints.h"
 
 Blast::Blast(std::weak_ptr<Actor> owner) :
 	SphereAttackBase(owner)
@@ -24,6 +26,46 @@ void Blast::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Actor
 		return; //何もしない
 	}
 }
+
+void Blast::OnCollide(const std::shared_ptr<Collidable> other)
+{
+	auto otherColl = other;
+	//プレイヤーか敵なら
+	if (otherColl->GetGameTag() == GameTag::Player ||
+		otherColl->GetGameTag() == GameTag::Enemy)
+	{
+		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints()->IsNoDamege())
+		{
+			//ダメージを受けない状態なら無視
+			return;
+		}
+	}
+	else
+	{
+		//それ以外のActorは無視
+		return;
+	}
+	std::shared_ptr<Actor> otherActor = std::dynamic_pointer_cast<Actor>(otherColl);
+	bool isFind = false;
+	//IDがすでに記録されているか確認
+	for (auto id : m_hitId)
+	{
+		if (id == otherActor->GetID())
+		{
+			isFind = true;
+			break;
+		}
+	}
+	//攻撃成功
+	if (!isFind)
+	{
+		//記録されていなければ記録する
+		m_hitId.emplace_back(otherActor->GetID());
+		//攻撃を受けたときの処理
+		std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
+	}
+}
+
 
 void Blast::Draw() const
 {

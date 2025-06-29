@@ -15,6 +15,7 @@
 #include "../../../../../General/Collision/SphereCollider.h"
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/AttackPoints.h"
 
 namespace
 {
@@ -41,8 +42,10 @@ SmallDragon::SmallDragon(int modelHandle, Vector3 pos) :
 	cap->SetEndPos(endPos);
 	//リジッドボディの初期化
 	m_rb->SetPos(pos);
-	//体力
+	//体力ステータス
 	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Light);
+	//攻撃ステータス
+	m_attackPoints = std::make_shared<AttackPoints>();
 }
 
 SmallDragon::~SmallDragon()

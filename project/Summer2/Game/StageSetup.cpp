@@ -9,14 +9,13 @@
 #include "../General/TransformDataLoader.h"
 //アクター
 #include "../Game/Actors/Actor.h"
-
 //プレイヤー
 #include "../Game/Actors/Character/Player/Player.h"
 //敵
 #include "../Game/Actors/Character/Enemy/PurpleDinosaur/PurpleDinosaur.h"
 #include "../Game/Actors/Character/Enemy/SmallDragon/SmallDragon.h"
 #include "../Game/Actors/Character/Enemy/BossDragon/BossDragon.h"
-
+#include "../Game/Actors/Character/Enemy/Bomber/Bomber.h"
 #include "../Game/Actors/Character/Enemy/EnemyBase.h"
 //ステージ
 #include "../Game/Actors/Stage/InvisibleWall.h"
@@ -162,11 +161,11 @@ void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 		}
 		else if (charaData.name == "Bomber")
 		{
-			/*std::shared_ptr<EnemyBase> bomber = std::make_shared<Bomber>(MV1DuplicateModel(m_bomberHandle),
+			std::shared_ptr<EnemyBase> bomber = std::make_shared<Bomber>(MV1DuplicateModel(m_bomberHandle),
 				charaData.pos);
 			bomber->GetModel()->SetScale(charaData.scale);
 			bomber->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(bomber);*/
+			actors.emplace_back(bomber);
 		}
 		else if (charaData.name == "PurpleDinosaur")
 		{

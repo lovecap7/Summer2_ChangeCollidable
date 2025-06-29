@@ -3,6 +3,8 @@
 #include "../../../General/Collision/SphereCollider.h"
 #include "../Character/CharacterBase.h"
 #include "../../../General/HitPoints.h"
+#include "../Character/Player/Player.h"
+#include "../Character/Player/UltGage.h"
 Bullet::Bullet(std::weak_ptr<Actor> owner):
 	SphereAttackBase(owner)
 {
@@ -38,6 +40,11 @@ void Bullet::OnCollide(const std::shared_ptr<Collidable> other)
 	{
 		//‚»‚êˆÈŠO‚ÌActor‚Í–³‹
 		return;
+	}
+	//ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Ìê‡•KE‹ZƒQ[ƒW‚ğ‰ÁZ‚·‚é
+	if (ownerColl->GetGameTag() == GameTag::Player)
+	{
+		std::dynamic_pointer_cast<Player>(ownerColl)->GetUltGage()->AddPedingUltGage();//—\–ñ‚³‚ê‚Ä‚¢‚½‰ÁZƒQ[ƒW—Ê‚ğ”½‰f
 	}
 	//UŒ‚‚ğó‚¯‚½‚Æ‚«‚Ìˆ—
 	std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());

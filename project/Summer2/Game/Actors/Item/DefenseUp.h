@@ -5,12 +5,12 @@
 
 class ActorManager;
 class Camera;
-class Bomb :
+class DefenseUp :
 	public ItemBase
 {
 public:
-	Bomb(int modelHandle, Vector3 pos);
-	virtual ~Bomb();
+	DefenseUp(int modelHandle, Vector3 pos);
+	virtual ~DefenseUp();
 	//初期化処理
 	void Init()override;
 	//更新処理
@@ -22,16 +22,8 @@ public:
 	//更新処理の確定
 	void Complete() override;
 	//死亡処理
-	void Dead(const std::weak_ptr<ActorManager> actorManager) override;
-	//移動量
-	void SetVec(Vector3 vec);
+	void Dead(const std::weak_ptr<ActorManager> actorManager) override {};
 private:
-	//爆発のカウント
-	int m_blastCountFrame;
-	//モデルのサイズ
-	Vector3 m_originalScale;//元のモデルのサイズを保持
-	//モデルの大きさをcosを使って変更するので角度を保持
-	float m_scaleSpeed;
-	//爆弾のアニメーション
-	void AnimBomb();
+
 };
+

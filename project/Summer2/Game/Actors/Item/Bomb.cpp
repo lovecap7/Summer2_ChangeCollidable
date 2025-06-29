@@ -7,6 +7,7 @@
 #include "../../../General/Model.h"
 #include "../Character/Player/UltGage.h"
 #include "../ActorManager.h"
+#include "../Attack/Blast.h"
 #include "../Character/Player/Player.h"
 
 namespace
@@ -23,7 +24,7 @@ namespace
 	//爆発寸前のフレーム
 	constexpr int kBeforeBlastFrame = 60;
 	//モデルの大きさ
-	const VECTOR kModelScale = { 0.5f, 0.5f, 0.5f };
+	const VECTOR kModelScale = { 0.7f, 0.7f, 0.7f };
 	//拡大縮小の大きさ
 	const Vector3 kAddScaleSize = { 0.1f, 0.1f, 0.1f };
 	//モデルの拡大縮小のスピード
@@ -43,7 +44,8 @@ namespace
 Bomb::Bomb(int modelHandle, Vector3 pos) :
 	ItemBase(Shape::Sphere),
 	m_blastCountFrame(kBlastFrame),
-	m_scaleSpeed(0.0f)
+	m_scaleSpeed(0.0f),
+	m_originalScale(kModelScale)
 {
 	m_noHitFrame = kNoHitFrame;
 	//座標
@@ -77,6 +79,7 @@ void Bomb::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorM
 		//移動量を初期化
 		m_rb->SetMoveVec(Vector3::Zero());
 	}
+	//当たり判定を無視する
 	if (m_noHitFrame > 0)
 	{
 		--m_noHitFrame;
@@ -86,7 +89,20 @@ void Bomb::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorM
 		//当たり判定をする
 		m_isThrough = false;
 	}
+	//爆発までのカウント
+	if (m_blastCountFrame > 0)
+	{
+		--m_blastCountFrame;
+		//爆弾の自作アニメーション
+		AnimBomb();
+	}
+	else
+	{
+		//消滅
+		m_isDelete = true;
+	}
 }
+
 
 void Bomb::OnCollide(const std::shared_ptr<Collidable> other)
 {
@@ -118,5 +134,31 @@ void Bomb::Complete()
 
 void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager)
 {
-	auto blast = actorManager.lock()->CreateAttack(AttackType::Blast, std::dynamic_pointer_cast<Actor>(shared_from_this()));
+	//爆発の攻撃判定を出す
+	auto attack = actorManager.lock()->CreateAttack(AttackType::Blast, std::dynamic_pointer_cast<Actor>(shared_from_this()));
+	auto blast = std::dynamic_pointer_cast<Blast> (attack.lock());
+	blast->SetPos(m_rb->m_pos);
+	blast->SetRadius(kBlastRadius);
+	blast->AttackSetting(kBlastDamage, kBlastKeepFrame, kBlastKnockBackPower, Battle::AttackWeight::Heavy);
+}
+
+void Bomb::SetVec(Vector3 vec)
+{
+	m_rb->m_vec = vec;
+}
+
+void Bomb::AnimBomb()
+{
+	if (m_blastCountFrame <= kBeforeBlastFrame)
+	{
+		//爆発までの残り時間が短いとき早くなる
+		m_scaleSpeed += kFastScaleSpeed;
+	}
+	else
+	{
+		//それ以外はゆっくり拡大縮小
+		m_scaleSpeed += kSlowScaleSpeed;
+	}
+	Vector3 modelScale = m_originalScale + kAddScaleSize * cosf(m_scaleSpeed * MyMath::DEG_2_RAD);
+	m_model->SetScale(modelScale.ToDxLibVector());
 }

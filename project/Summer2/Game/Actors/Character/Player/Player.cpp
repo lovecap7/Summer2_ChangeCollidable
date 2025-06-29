@@ -4,6 +4,7 @@
 #include "../../Attack/AttackBase.h"
 #include "../../../../General/game.h"
 #include "../../../../General/HitPoints.h"
+#include "../../../../General/AttackPoints.h"
 #include "../../../../General/Collision/CapsuleCollider.h"
 #include "../../../../General/Collision/PolygonCollider.h"
 #include "../../../../General/Collision/SphereCollider.h"
@@ -50,8 +51,10 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	m_model = std::make_shared<Model>(modelHandle, firstPos.ToDxLibVector());
 	//必殺技ゲージ
 	m_ultGage = std::make_shared<UltGage>(kMaxUltGage);
-	//体力
+	//体力ステータス
 	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Light);
+	//攻撃ステータス
+	m_attackPoints = std::make_shared<AttackPoints>();
 }
 
 Player::~Player()
@@ -109,8 +112,10 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 	}
 	//アニメーションの更新
 	m_model->Update();
-	//体力クラスのフラグリセット
-	m_hitPoints->ResetHitFlags();
+	//体力ステータスの更新
+	m_hitPoints->Update();
+	//攻撃ステータスの更新
+	m_attackPoints->Update();
 }
 
 void Player::OnCollide(const std::shared_ptr<Collidable> other)

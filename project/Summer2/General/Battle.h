@@ -12,6 +12,12 @@ namespace Battle
 	//攻撃でひるまない強さ
 	typedef AttackWeight Armor;
 
-	//攻撃とアーマーの比較
+	/// <summary>
+	/// 攻撃とアーマーの比較
+	/// 攻撃のほうが大きいならtrue
+	/// </summary>
+	/// <param name="aw"></param>
+	/// <param name="am"></param>
+	/// <returns></returns>
 	bool CheckFlinchAttackAndArmor(AttackWeight aw, Armor am);
 }

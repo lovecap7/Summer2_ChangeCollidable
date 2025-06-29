@@ -1,0 +1,111 @@
+#include "BomberStateAttack.h"
+#include "BomberStateDeath.h"
+#include "BomberStateHit.h"
+#include "BomberStateIdle.h"
+#include "Bomber.h"
+#include "../EnemyBase.h"
+#include "../../../../../General/game.h"
+#include "../../../../../General/Collision/ColliderBase.h"
+#include "../../../../../General/Collision/CapsuleCollider.h"
+#include "../../../../../General/Rigidbody.h"
+#include "../../../../../General/Collision/Collidable.h"
+#include "../../../../../General/Input.h"
+#include "../../../../../General/Model.h"
+#include "../../../../../General/Animator.h"
+#include "../../../../../General/HitPoints.h"
+#include "../../../../../Game/Camera/Camera.h"
+#include "../../../ActorManager.h"
+#include "../../../Item/Bomb.h"
+namespace
+{
+	//減速率
+	constexpr float kMoveDeceRate = 0.8f;
+	//左腕と左手のインデックス
+	constexpr int kLeftHandIndex = 17;
+	//左腕の当たり判定の大きさ(攻撃の大きさ)
+	constexpr float kLeftArmRadius = 20.0f;
+	//攻撃の発生フレーム
+	constexpr int kAttackStartFrame = 40;
+	//アニメーション
+	const char* kAnim = "CharacterArmature|Weapon";
+	//アニメーションの速度
+	constexpr float kAnimSpeed = 0.3f;
+	//次の攻撃フレーム
+	constexpr int kAttackCoolTime = 150;//2.5秒くらいの感覚で攻撃
+	//爆弾の上昇量
+	constexpr float kBombUpVecY = 10.0f; //爆弾の上昇量
+	//爆弾の移動量
+	constexpr float kBombMoveVecPower = 3.0f; //爆弾の移動量
+}
+
+BomberStateAttack::BomberStateAttack(std::weak_ptr<Actor> owner) :
+	BomberStateBase(owner),
+	m_attackCountFrame(0)
+{
+	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
+	//通常攻撃
+	coll->SetCollState(CollisionState::Normal);
+	//攻撃
+	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	//相手のほうを向く
+	coll->LookAtTarget();
+}
+
+BomberStateAttack::~BomberStateAttack()
+{
+	//攻撃のクールタイム
+	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
+	coll->SetAttackCoolTime(kAttackCoolTime);
+}
+
+void BomberStateAttack::Init()
+{
+	//次の状態を今の状態に更新
+	ChangeState(shared_from_this());
+}
+
+void BomberStateAttack::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
+	//死亡
+	if (coll->GetHitPoints()->IsDead())
+	{
+		ChangeState(std::make_shared<BomberStateDeath>(m_owner));
+		return;
+	}
+	//ヒットリアクション
+	if (coll->GetHitPoints()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<BomberStateHit>(m_owner));
+		return;
+	}
+	//カウント
+	++m_attackCountFrame;
+	//攻撃発生フレーム
+	if (m_attackCountFrame == kAttackStartFrame)
+	{
+		CreateBomb(actorManager);
+	}
+	//アニメーション終了後
+	if (coll->GetModel()->IsFinishAnim())
+	{
+		//待機状態に戻す
+		ChangeState(std::make_shared<BomberStateIdle>(m_owner));
+		return;
+	}
+	//減速
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
+}
+
+void BomberStateAttack::CreateBomb(const std::weak_ptr<ActorManager> actorManager)
+{
+	auto model = m_owner.lock()->GetModel();
+	//生成位置
+	VECTOR leftHand = MV1GetFramePosition(model->GetModelHandle(), kLeftHandIndex);//手の指先
+	auto item = actorManager.lock()->CreateItem(ItemType::Bomb, leftHand).lock();
+	//移動量
+	Vector3 moveVec = model->GetDir();
+	moveVec *= kBombMoveVecPower;
+	moveVec.y = kBombUpVecY; //上昇量を追加
+	std::dynamic_pointer_cast<Bomb>(item)->SetVec(moveVec);
+}

@@ -1,7 +1,6 @@
 #pragma once
 #include "BossDragonStateBase.h"
 class Actor;
-class Input;
 class Camera;
 class ActorManager;
 class BossDragonStateHit :

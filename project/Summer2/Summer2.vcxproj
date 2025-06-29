@@ -31,6 +31,13 @@
     <ClCompile Include="Game\Actors\Attack\Strike.cpp" />
     <ClCompile Include="Game\Actors\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actors\Character\CharacterStateBase.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\Bomber.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateAttack.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateBase.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateChase.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateDeath.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateHit.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateIdle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragon.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBreathAttack.cpp" />
@@ -76,7 +83,9 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateUltimate.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateWalk.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\UltGage.cpp" />
+    <ClCompile Include="Game\Actors\Item\AttackUp.cpp" />
     <ClCompile Include="Game\Actors\Item\Bomb.cpp" />
+    <ClCompile Include="Game\Actors\Item\DefenseUp.cpp" />
     <ClCompile Include="Game\Actors\Item\Heart.cpp" />
     <ClCompile Include="Game\Actors\Item\ItemBase.cpp" />
     <ClCompile Include="Game\Actors\Item\UltGageUp.cpp" />
@@ -88,6 +97,7 @@
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\StageSetup.cpp" />
     <ClCompile Include="General\Animator.cpp" />
+    <ClCompile Include="General\AttackPoints.cpp" />
     <ClCompile Include="General\Battle.cpp" />
     <ClCompile Include="General\Collision\CapsuleCollider.cpp" />
     <ClCompile Include="General\Collision\Collidable.cpp" />
@@ -132,6 +142,13 @@
     <ClInclude Include="Game\Actors\Attack\Strike.h" />
     <ClInclude Include="Game\Actors\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actors\Character\CharacterStateBase.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\Bomber.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateAttack.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateBase.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateChase.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateDeath.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateHit.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateIdle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragon.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBase.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBreathAttack.h" />
@@ -177,7 +194,9 @@
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateUltimate.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateWalk.h" />
     <ClInclude Include="Game\Actors\Character\Player\UltGage.h" />
+    <ClInclude Include="Game\Actors\Item\AttackUp.h" />
     <ClInclude Include="Game\Actors\Item\Bomb.h" />
+    <ClInclude Include="Game\Actors\Item\DefenseUp.h" />
     <ClInclude Include="Game\Actors\Item\Heart.h" />
     <ClInclude Include="Game\Actors\Item\ItemBase.h" />
     <ClInclude Include="Game\Actors\Item\UltGageUp.h" />
@@ -189,6 +208,7 @@
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\StageSetup.h" />
     <ClInclude Include="General\Animator.h" />
+    <ClInclude Include="General\AttackPoints.h" />
     <ClInclude Include="General\Battle.h" />
     <ClInclude Include="General\Collision\CapsuleCollider.h" />
     <ClInclude Include="General\Collision\Collidable.h" />

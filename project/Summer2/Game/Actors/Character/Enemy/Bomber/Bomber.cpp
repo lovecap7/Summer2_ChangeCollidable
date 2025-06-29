@@ -1,9 +1,10 @@
-#include "BossDragon.h"
-#include "BossDragonStateBase.h"
-#include "BossDragonStateIdle.h"
-#include <memory>
+#include "Bomber.h"
+#include "BomberStateBase.h"
+#include "BomberStateIdle.h"
+#include "../../CharacterStateBase.h"
 #include "../../../ActorManager.h"
 #include "../../Player/Player.h"
+#include <memory>
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
 #include "../../../../../Game/Camera/Camera.h"
@@ -14,22 +15,20 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
-#include "../../../Character/CharacterStateBase.h"
 
 namespace
 {
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
+	//体力
+	constexpr int kHp = 500;
 	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 1000.0f;
+	constexpr float kSearchDistance = 500.0f;
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 180.0f;
-	//体力
-	constexpr int kHp = 5000;
 }
-
-BossDragon::BossDragon(int modelHandle, Vector3 pos):
+Bomber::Bomber(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule)
 {
 	//モデルの初期化
@@ -43,16 +42,16 @@ BossDragon::BossDragon(int modelHandle, Vector3 pos):
 	//リジッドボディの初期化
 	m_rb->SetPos(pos);
 	//体力ステータス
-	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Heavy);
+	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Light);
 	//攻撃ステータス
 	m_attackPoints = std::make_shared<AttackPoints>();
 }
 
-BossDragon::~BossDragon()
+Bomber::~Bomber()
 {
 }
 
-void BossDragon::Init()
+void Bomber::Init()
 {
 	//コライダブルの初期化
 	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false, true);
@@ -60,13 +59,13 @@ void BossDragon::Init()
 	Collidable::Init();
 
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
-	auto thisPointer = std::dynamic_pointer_cast<BossDragon>(shared_from_this());
-	m_state = std::make_shared<BossDragonStateIdle>(thisPointer);
+	auto thisPointer = std::dynamic_pointer_cast<Bomber>(shared_from_this());
+	m_state = std::make_shared<BomberStateIdle>(thisPointer);
 	//次の状態を待機状態に
 	m_state->ChangeState(m_state);
 }
 
-void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Bomber::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
@@ -91,11 +90,11 @@ void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<
 	m_hitPoints->ResetHitFlags();
 }
 
-void BossDragon::OnCollide(const std::shared_ptr<Collidable> other)
+void Bomber::OnCollide(const std::shared_ptr<Collidable> other)
 {
 }
 
-void BossDragon::Draw() const
+void Bomber::Draw() const
 {
 #if _DEBUG
 	DrawCapsule3D(
@@ -111,7 +110,7 @@ void BossDragon::Draw() const
 	m_model->Draw();
 }
 
-void BossDragon::Complete()
+void Bomber::Complete()
 {
 	m_rb->m_pos = m_rb->GetNextPos();//次の座標へ
 	Vector3 endPos = m_rb->m_pos;
@@ -121,6 +120,8 @@ void BossDragon::Complete()
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
 }
 
-void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager)
+void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager)
 {
+	actorManager.lock()->CreateItem(ItemType::DefenseUp, m_rb->GetPos());
 }
+

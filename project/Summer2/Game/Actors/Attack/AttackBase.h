@@ -36,7 +36,7 @@ public:
 	//まとめて設定
 	void AttackSetting(int damage,int keepFrame,int knockBackPower, Battle::AttackWeight aw);
 	//ダメージ
-	int GetDamage() { return m_damage; };
+	int GetDamage();
 	void SetDamage(int damage) { m_damage = damage; };
 	//持続フレーム
 	void SetKeepFrame(int keepFrame) { m_keepFrame = keepFrame; };
@@ -44,7 +44,7 @@ public:
 	float GetKnockBackPower() { return m_knockBackPower; };
 	void SetKnockBackPower(float knockBackPower) { m_knockBackPower = knockBackPower; };
 	//攻撃の強さ
-	Battle::AttackWeight GetAttackWeight() { return m_attackWeight; };
+	Battle::AttackWeight GetAttackWeight();
 	void SetAttackWeight(Battle::AttackWeight ap) { m_attackWeight = ap; };
 	//当てたアクターのIDをリセット
 	void ResetHitId() { m_hitId.clear(); };
@@ -67,5 +67,6 @@ protected:
 	std::weak_ptr<Actor> m_owner;
 	//持ち主のタグ
 	GameTag m_ownerTag;
+	
 };
 

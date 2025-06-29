@@ -20,12 +20,13 @@ void CharacterBase::OnHitFromAttack(const std::shared_ptr<Collidable> other)
 	m_hitPoints->SetIsHit(true);
 	//攻撃のダメージを受ける
 	m_hitPoints->Damage(attack->GetDamage());
+	//モデルの色とサイズを変更
+	m_model->ModelHit();
 	//ダメージを受けたら反応するかをチェック
 	if (Battle::CheckFlinchAttackAndArmor(attack->GetAttackWeight(), m_hitPoints->GetArmor()))
 	{
 		m_hitPoints->SetIsHitReaction(true);				//反応する
 		m_rb->AddVec(attack->GetKnockBackVec(m_rb->m_pos));	//ノックバック
-		m_model->ModelHit();								//赤色に
 	}
 }
 

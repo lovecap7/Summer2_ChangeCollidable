@@ -5,16 +5,37 @@
 HitPoints::HitPoints(int hp, Battle::Armor armor) :
 	m_hp(hp),
 	m_maxHp(hp),
-	m_armor(armor),
-	m_damageCutRate(1.0f),
 	m_isHit(false),
 	m_isHitReaction(false),
-	m_isNoDamage(false)
+	m_isNoDamage(false),
+	m_buffCountFrame(0)
 {
+	m_defence.armor = armor;
+	m_defence.damageCutRate = 1.0f;
+	m_initDefence = m_defence;
 }
 
 HitPoints::~HitPoints()
 {
+}
+
+void HitPoints::Update()
+{
+	if (m_buffCountFrame < 0)
+	{
+		//バフが切れた時の処理
+		if (m_initDefence.armor != m_defence.armor ||
+			m_initDefence.damageCutRate != m_defence.damageCutRate )
+		{
+			m_defence = m_initDefence;
+		}
+	}
+	else
+	{
+		//バフのフレーム
+		--m_buffCountFrame;
+	}
+	ResetHitFlags();
 }
 
 void HitPoints::ResetHitFlags()
@@ -35,9 +56,16 @@ void HitPoints::Damage(int damage)
 {
 	if (m_isNoDamage)return;	//無敵なら
 	if (damage < 0.0f)damage *= -1.0f;
-	m_hp -= damage * m_damageCutRate;
+	m_hp -= damage * m_defence.damageCutRate;
 	if (m_hp <= 0)
 	{
 		m_hp = 0;
 	}
+}
+
+void HitPoints::DefenseBuff(Battle::Armor armor, float damageCutRate, int buffFrame)
+{
+	m_defence.armor = armor;
+	m_defence.damageCutRate = damageCutRate;
+	m_buffCountFrame = buffFrame;
 }
