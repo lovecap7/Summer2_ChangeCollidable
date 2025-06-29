@@ -14,6 +14,7 @@ namespace Stage
 
 class Player;
 class Actor;
+class UIBase;
 /// <summary>
 /// ステージの準備をするクラス
 /// </summary>
@@ -22,8 +23,13 @@ class StageSetup
 public:
     StageSetup(Stage::StageIndex index = Stage::StageIndex::Stage1);
     ~StageSetup();
+    //プレイヤーのポインタを移す
     void MovePlayerPointer(std::shared_ptr<Player>& player);
+    //アクターを移す
     void MoveActorsPointer(std::list<std::shared_ptr<Actor>>& actors);
+    //UIを移す
+    void MoveUIPointer(std::list<std::shared_ptr<UIBase>>& uis);
+
     void End();
 private:
     //ステージ番号
@@ -32,6 +38,8 @@ private:
     std::shared_ptr<Player> m_player;
     //アクター
     std::list<std::shared_ptr<Actor>> m_actors;
+    //UI
+    std::list<std::shared_ptr<UIBase>> m_uis;
     //ハンドル
    //キャラクター
     int m_playerHandle;
@@ -49,9 +57,9 @@ private:
 private:
     //ハンドルロード
     void LoadHandle();
-    //キャラクターの作成と配置
-    void CreateCharacter(std::list<std::shared_ptr<Actor>>& actors);
+    //キャラクターの作成と配置と必要なUIの作成
+    void CreateCharacterAndUI();
     //ステージの作成と配置
-    void CreateStage(std::list<std::shared_ptr<Actor>>& actors);
+    void CreateStage();
 };
 

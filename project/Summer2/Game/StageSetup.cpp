@@ -22,6 +22,8 @@
 #include "../Game/Actors/Stage/StageObjectCollision.h"
 #include "../Game/Actors/Stage/StageObjectDraw.h"
 #include "../Game/Actors/Stage/Sky.h"
+//UI
+#include "../Game/UI/PlayerHpUI.h"
 
 StageSetup::StageSetup(Stage::StageIndex index):
 	m_stageIndex(index)
@@ -29,9 +31,9 @@ StageSetup::StageSetup(Stage::StageIndex index):
 	//ハンドルの準備
 	LoadHandle();
 	//キャラクターの作成
-	CreateCharacter(m_actors);
+	CreateCharacterAndUI();
 	//ステージのオブジェクト配置
-	CreateStage(m_actors);
+	CreateStage();
 
 	auto floor = std::make_shared<InvisibleWall>(m_wallHandle, Vector3{ 0.0f,-10.0f,0.0f }, VGet(1000.0f, 1.0f, 1000.0f), VGet(0.0f, 0.0f, 0.0f));
 	m_actors.emplace_back(floor);
@@ -56,6 +58,13 @@ void StageSetup::MoveActorsPointer(std::list<std::shared_ptr<Actor>>& actors)
 	actors = std::move(m_actors);
 	//メモリを解放
 	m_actors.clear();
+}
+
+void StageSetup::MoveUIPointer(std::list<std::shared_ptr<UIBase>>& uis)
+{
+	//UIを渡す
+	uis = std::move(m_uis);
+	m_uis.clear();
 }
 
 void StageSetup::End()
@@ -116,7 +125,7 @@ void StageSetup::LoadHandle()
 	};
 }
 
-void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
+void StageSetup::CreateCharacterAndUI()
 {
 	//配置データを取得
 	std::string path;
@@ -138,10 +147,14 @@ void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 	{
 		if (charaData.name == "Player")
 		{
+			//プレイヤー作成
 			m_player = std::make_shared<Player>(m_playerHandle, charaData.pos);
 			m_player->GetModel()->SetScale(charaData.scale);
 			m_player->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(m_player);
+			m_actors.emplace_back(m_player);
+			//プレイヤーの体力UI
+			m_uis.emplace_back(std::make_shared<PlayerHpUI>(m_player->GetHitPoints()));
+			
 		}
 		else if (charaData.name == "SmallDragon")
 		{
@@ -149,7 +162,7 @@ void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 				charaData.pos);
 			smallDragon->GetModel()->SetScale(charaData.scale);
 			smallDragon->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(smallDragon);
+			m_actors.emplace_back(smallDragon);
 		}
 		else if (charaData.name == "BossDragon")
 		{
@@ -157,7 +170,7 @@ void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 				charaData.pos);
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(bossDragon);
+			m_actors.emplace_back(bossDragon);
 		}
 		else if (charaData.name == "Bomber")
 		{
@@ -165,7 +178,7 @@ void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 				charaData.pos);
 			bomber->GetModel()->SetScale(charaData.scale);
 			bomber->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(bomber);
+			m_actors.emplace_back(bomber);
 		}
 		else if (charaData.name == "PurpleDinosaur")
 		{
@@ -173,15 +186,15 @@ void StageSetup::CreateCharacter(std::list<std::shared_ptr<Actor>>& actors)
 				charaData.pos);
 			purpleDinosaur->GetModel()->SetScale(charaData.scale);
 			purpleDinosaur->GetModel()->SetRot(charaData.rot);
-			actors.emplace_back(purpleDinosaur);
+			m_actors.emplace_back(purpleDinosaur);
 		}
 	}
 }
 
-void StageSetup::CreateStage(std::list<std::shared_ptr<Actor>>& actors)
+void StageSetup::CreateStage()
 {
 	//空を作成
-	actors.emplace_back(std::make_shared<Sky>(m_skyHandle));
+	m_actors.emplace_back(std::make_shared<Sky>(m_skyHandle));
 	//配置データを取得
 	std::string path;
 	switch (m_stageIndex)
@@ -206,7 +219,7 @@ void StageSetup::CreateStage(std::list<std::shared_ptr<Actor>>& actors)
 		{
 			std::shared_ptr<StageObjectDraw> path =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_pathHandle), stageData.pos, stageData.scale, stageData.rot);
-			actors.emplace_back(path);
+			m_actors.emplace_back(path);
 		}
 		/*else if (stageData.name == "Plane")
 		{

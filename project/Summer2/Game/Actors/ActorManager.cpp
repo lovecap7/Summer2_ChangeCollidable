@@ -12,6 +12,7 @@
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
 #include "Item/Bomb.h"
+#include "Item/AttackUp.h"
 #include "Item/DefenseUp.h"
 #include <DxLib.h>
 
@@ -20,7 +21,8 @@ ActorManager::ActorManager():
 	m_heartHandle(-1),
 	m_bombHandle(-1),
 	m_ultGageUpHandle(-1),
-	m_defenseHandle(-1)
+	m_attackUpHandle(-1),
+	m_defenseUpHandle(-1)
 {
 }
 
@@ -28,15 +30,13 @@ ActorManager::~ActorManager()
 {
 }
 
-void ActorManager::Init()
+void ActorManager::Init(std::unique_ptr<StageSetup>& stageSetup)
 {
-	//ステージを作成
-	m_stageSetup = std::make_unique<StageSetup>();
 	//プレイヤーを受け取る
-	m_stageSetup->MovePlayerPointer(m_player);
+	stageSetup->MovePlayerPointer(m_player);
 	std::list<std::shared_ptr<Actor>> actors;
 	//アクターを受け取る
-	m_stageSetup->MoveActorsPointer(actors);
+	stageSetup->MoveActorsPointer(actors);
 	//アクターの初期化処理
 	for (auto& actor : actors)
 	{
@@ -47,7 +47,8 @@ void ActorManager::Init()
 	m_heartHandle = MV1LoadModel("Data/Model/Item/Heart.mv1");
 	m_bombHandle = MV1LoadModel("Data/Model/Item/Bomb.mv1");
 	m_ultGageUpHandle = MV1LoadModel("Data/Model/Item/UltGageUp.mv1");
-	m_defenseHandle = MV1LoadModel("Data/Model/Item/DefenseUp.mv1");
+	m_attackUpHandle = MV1LoadModel("Data/Model/Item/AttackUp.mv1");
+	m_defenseUpHandle = MV1LoadModel("Data/Model/Item/DefenseUp.mv1");
 }
 
 void ActorManager::Update(const std::weak_ptr<Camera> camera)
@@ -82,14 +83,12 @@ void ActorManager::End()
 	//メモリを解放
 	m_actors.clear();
 	m_player.reset();
-	//ステージセットアップの終了
-	m_stageSetup->End();
-	m_stageSetup.reset();
 	//ハンドル
 	MV1DeleteModel(m_heartHandle);
 	MV1DeleteModel(m_bombHandle);
 	MV1DeleteModel(m_ultGageUpHandle);
-	MV1DeleteModel(m_defenseHandle);
+	MV1DeleteModel(m_attackUpHandle);
+	MV1DeleteModel(m_defenseUpHandle);
 }
 
 //プレイヤーに近い敵を取得
@@ -165,9 +164,10 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 		item = std::make_shared<UltGageUp>(m_ultGageUpHandle, pos);
 		break;
 	case ItemType::AttackUp:
+		item = std::make_shared<AttackUp>(m_attackUpHandle, pos);
 		break;
 	case ItemType::DefenseUp:
-		item = std::make_shared<DefenseUp>(m_defenseHandle, pos);
+		item = std::make_shared<DefenseUp>(m_defenseUpHandle, pos);
 		break;
 	default:
 		break;

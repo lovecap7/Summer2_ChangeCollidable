@@ -124,6 +124,6 @@ void SmallDragon::Complete()
 
 void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager)
 {
-	actorManager.lock()->CreateItem(ItemType::Heart, m_rb->GetPos());
+	actorManager.lock()->CreateItem(ItemType::AttackUp, m_rb->GetPos());
 }
 

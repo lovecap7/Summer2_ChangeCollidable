@@ -5,15 +5,16 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
-#include "../../../General/HitPoints.h"
+#include "../../../General/AttackPoints.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 
 namespace
 {
-	
+	//ダメージ倍率
+	constexpr float kDamageRate = 1.2f;
 	//持続フレーム
-	constexpr int kDamageCutKeepFrame = 60 * 15;//15秒
+	constexpr int kAttackUpKeepFrame = 60 * 15;//15秒
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
@@ -75,9 +76,9 @@ void AttackUp::OnCollide(const std::shared_ptr<Collidable> other)
 	//プレイヤーに当たった時の処理
 	if (other->GetGameTag() == GameTag::Player)
 	{
-		
+		//攻撃アップバフ
 		auto player = std::dynamic_pointer_cast<Player>(other);
-		
+		player->GetAttackPoints()->AttackBuff(kDamageRate, Battle::AttackWeight::Heavy, kAttackUpKeepFrame);
 		//削除
 		m_isDelete = true;
 	}

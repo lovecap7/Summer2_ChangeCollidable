@@ -13,7 +13,7 @@ public:
 	ActorManager();
 	~ActorManager();
 	//初期化
-	void Init();
+	void Init(std::unique_ptr<StageSetup>& stageSetup);
 	//更新
 	void Update(const std::weak_ptr<Camera> camera);
 	//描画
@@ -44,8 +44,6 @@ private:
 	std::list<std::shared_ptr<Actor>> m_nextAddActors;
 	//プレイヤー
 	std::shared_ptr<Player> m_player;
-	//ステージセットアップ
-	std::unique_ptr<StageSetup> m_stageSetup;
 	//ID
 	int m_actorId;//割り振る番号
 private:
@@ -53,6 +51,7 @@ private:
 	int m_heartHandle;			//回復
 	int m_bombHandle;			//爆弾
 	int m_ultGageUpHandle;		//必殺ゲージアップ
-	int m_defenseHandle;		//耐久アップ
+	int m_attackUpHandle;		//攻撃アップ
+	int m_defenseUpHandle;		//耐久アップ
 };
 

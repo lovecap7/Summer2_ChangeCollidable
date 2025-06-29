@@ -3,8 +3,10 @@
 #include <DxLib.h>
 #include "../General/game.h"
 #include "Actors/ActorManager.h"
+#include "UI/UIManager.h"
 #include "../General/Collision/Physics.h"
 #include "../Game/Camera/Camera.h"
+#include "StageSetup.h"
 #include <cassert>
 
 namespace
@@ -14,8 +16,12 @@ namespace
 
 GameManager::GameManager()
 {
+	//ステージを作成
+	m_stageSetup = std::make_unique<StageSetup>();
 	//アクターマネージャー
 	m_actorManager = std::make_shared<ActorManager>();
+	//UIマネージャー
+	m_uiManager = std::make_shared<UIManager>();
 	//カメラの初期化
 	m_camera = std::make_shared<Camera>(kCameraPos);
 }
@@ -27,7 +33,9 @@ GameManager::~GameManager()
 void GameManager::Init()
 {
 	//アクターマネージャーの初期化
-	m_actorManager->Init();
+	m_actorManager->Init(m_stageSetup);
+	//UIの初期化
+	m_uiManager->Init(m_stageSetup);
 	//カメラの初期化
 	m_camera->Init(m_actorManager->GetPlayer());
 }
@@ -42,6 +50,8 @@ void GameManager::Update()
 	{
 		//アクターの更新
 		m_actorManager->Update(m_camera);
+		//UIの更新
+		m_uiManager->Update();
 		//カメラの更新
 		m_camera->Update();
 	}
@@ -72,10 +82,17 @@ void GameManager::Draw() const
 #endif
 	//アクターの描画
 	m_actorManager->Draw();
+	//UIの描画
+	m_uiManager->Draw();
 }
 
 void GameManager::End()
 {
 	//アクターマネージャーの終了
 	m_actorManager->End();
+	//UIマネージャーの終了
+	m_uiManager->End();
+	//ステージセットアップの終了
+	m_stageSetup->End();
+	m_stageSetup.reset();
 }
