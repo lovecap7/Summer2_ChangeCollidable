@@ -29,7 +29,7 @@ void PlayerHpUI::Init()
 	if (!m_hitPoints.expired())
 	{
 		m_viewHp = m_hitPoints.lock()->GetHp();
-		m_viewMaxHp = m_viewHp;
+		m_viewMaxHp = m_hitPoints.lock()->GetMaxHp();
 	}
 }
 
@@ -38,7 +38,16 @@ void PlayerHpUI::Update()
 	//XV
 	if (!m_hitPoints.expired())
 	{
-		m_viewHp = m_hitPoints.lock()->GetHp();
+		auto hitPoints = m_hitPoints.lock();
+		//‘Ì—Í‚É•Ï“®‚ª‚ ‚Á‚½Žž
+		if (m_viewHp != hitPoints->GetHp())
+		{
+			m_viewHp = hitPoints->GetHp();
+		}
+		if (m_viewMaxHp != hitPoints->GetMaxHp())
+		{
+			m_viewMaxHp = hitPoints->GetMaxHp();
+		}
 	}
 }
 

@@ -24,6 +24,7 @@
 #include "../Game/Actors/Stage/Sky.h"
 //UI
 #include "../Game/UI/PlayerHpUI.h"
+#include "../Game/UI/PlayerUltGageUI.h"
 
 StageSetup::StageSetup(Stage::StageIndex index):
 	m_stageIndex(index)
@@ -154,7 +155,8 @@ void StageSetup::CreateCharacterAndUI()
 			m_actors.emplace_back(m_player);
 			//プレイヤーの体力UI
 			m_uis.emplace_back(std::make_shared<PlayerHpUI>(m_player->GetHitPoints()));
-			
+			//プレイヤーのゲージUI
+			m_uis.emplace_back(std::make_shared<PlayerUltGageUI>(m_player->GetUltGage()));
 		}
 		else if (charaData.name == "SmallDragon")
 		{

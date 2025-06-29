@@ -14,6 +14,7 @@ public:
 	void ResetHitFlags();
 	//‘Ì—Í
 	int GetHp() { return m_hp; };
+	int GetMaxHp() { return m_maxHp; };
 	//‰ñ•œ
 	void Heal(int heal);
 	//ƒ_ƒ[ƒW
