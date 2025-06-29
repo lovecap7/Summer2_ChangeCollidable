@@ -55,7 +55,7 @@ BossDragon::~BossDragon()
 void BossDragon::Init()
 {
 	//コライダブルの初期化
-	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false, true);
+	AllSetting(CollisionState::Normal, Priority::High, GameTag::Enemy, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
 
