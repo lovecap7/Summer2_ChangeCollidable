@@ -68,13 +68,13 @@ void BomberStateAttack::Update(const std::weak_ptr<Camera> camera, const std::we
 {
 	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<BomberStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<BomberStateHit>(m_owner));
 		return;

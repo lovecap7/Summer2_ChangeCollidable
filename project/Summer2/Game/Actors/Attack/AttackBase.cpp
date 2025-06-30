@@ -57,7 +57,7 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 	if (otherColl->GetGameTag() == GameTag::Player ||
 		otherColl->GetGameTag() == GameTag::Enemy)
 	{
-		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints()->IsNoDamege())
+		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints().lock()->IsNoDamege())
 		{
 			//ダメージを受けない状態なら無視
 			return;
@@ -121,7 +121,7 @@ int AttackBase::GetDamage()
 		if (owner->GetGameTag() == GameTag::Player ||
 			owner->GetGameTag() == GameTag::Enemy)
 		{
-			damage *= std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints()->GetDamageRate();
+			damage *= std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints().lock()->GetDamageRate();
 		}
 	}
 	return damage;
@@ -138,7 +138,7 @@ Battle::AttackWeight AttackBase::GetAttackWeight()
 			owner->GetGameTag() == GameTag::Enemy)
 		{
 			//持ち主の最低値
-			auto ownerAw = std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints()->GetLowestAW();
+			auto ownerAw = std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints().lock()->GetLowestAW();
 			//持ち主のアーマーより小さいなら
 			if (!Battle::CheckFlinchAttackAndArmor(aw, ownerAw))
 			{

@@ -43,14 +43,14 @@ void SmallDragonStateHit::Update(const std::weak_ptr<Camera> camera, const std::
 {
 	auto coll = std::dynamic_pointer_cast<SmallDragon>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<SmallDragonStateDeath>(m_owner));
 		return;
 	}
 	auto model = coll->GetModel();
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		//初めから
 		model->ReplayAnim();

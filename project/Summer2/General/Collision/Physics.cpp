@@ -43,11 +43,6 @@ void Physics::Exit(std::shared_ptr<Collidable> collidable)
 	{
 		m_collidables.remove(collidable);
 	}
-	// “o˜^‚³‚ê‚Ä‚È‚©‚Á‚½‚çƒGƒ‰[
-	else
-	{
-		assert(0 && "w’è‚Ìcollidable‚ª“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
-	}
 }
 
 void Physics::Update()

@@ -38,7 +38,7 @@ namespace
 	//アニメーションの速度
 	constexpr float kAnimSpeed = 0.3f;
 	//次の攻撃フレーム
-	constexpr int kAttackCoolTime = 150;//2.5秒くらいの感覚で攻撃
+	constexpr int kAttackCoolTime = 120;//2秒くらいの感覚で攻撃
 	//移動フレーム
 	constexpr int kMoveFrame = 5;
 	//移動量
@@ -76,13 +76,13 @@ void PurpleDinosaurStateAttack::Update(const std::weak_ptr<Camera> camera, const
 {
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PurpleDinosaurStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<PurpleDinosaurStateHit>(m_owner));
 		return;

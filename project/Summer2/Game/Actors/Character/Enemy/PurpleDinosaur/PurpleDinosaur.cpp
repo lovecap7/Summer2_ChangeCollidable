@@ -23,7 +23,7 @@ namespace
 	//体力
 	constexpr int kHp = 500;
 	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 500.0f;
+	constexpr float kSearchDistance = 900.0f;
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 180.0f;
 }

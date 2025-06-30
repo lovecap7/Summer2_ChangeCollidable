@@ -22,7 +22,7 @@ namespace
 	//弾の半径の大きさ
 	constexpr float kBulletRadius = 40.0f;
 	//弾のダメージ
-	constexpr int kBulletDamage = 100;
+	constexpr int kBulletDamage = 200;
 	//弾の持続フレーム
 	constexpr int kBulletKeepFrame = 180;
 	//弾の発生フレーム
@@ -75,13 +75,13 @@ void BossDragonStateBreathAttack::Update(const std::weak_ptr<Camera> camera, con
 {
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<BossDragonStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<BossDragonStateHit>(m_owner));
 		return;

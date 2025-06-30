@@ -51,13 +51,13 @@ void PurpleDinosaurStateChase::Update(const std::weak_ptr<Camera> camera, const 
 	//コライダブル
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PurpleDinosaurStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<PurpleDinosaurStateHit>(m_owner));
 		return;

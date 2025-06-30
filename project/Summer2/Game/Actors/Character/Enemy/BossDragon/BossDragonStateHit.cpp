@@ -42,14 +42,14 @@ void BossDragonStateHit::Update(const std::weak_ptr<Camera> camera, const std::w
 {
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<BossDragonStateDeath>(m_owner));
 		return;
 	}
 	auto model = coll->GetModel();
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		//初めから
 		model->ReplayAnim();

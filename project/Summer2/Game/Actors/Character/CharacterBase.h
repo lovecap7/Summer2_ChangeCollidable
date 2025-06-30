@@ -11,9 +11,9 @@ public:
 	CharacterBase(Shape shape);
 	virtual ~CharacterBase() {};
     //体力のステータス
-    std::shared_ptr<HitPoints> GetHitPoints() const { return m_hitPoints; };
+    std::weak_ptr<HitPoints> GetHitPoints() const { return m_hitPoints; };
 	//攻撃のステータス
-    std::shared_ptr<AttackPoints> GetAttackPoints() const { return m_attackPoints; };
+    std::weak_ptr<AttackPoints> GetAttackPoints() const { return m_attackPoints; };
     //攻撃を受けたときの処理
     virtual void OnHitFromAttack(const std::shared_ptr<Collidable> other);
 	//ターゲットに関するデータ構造体

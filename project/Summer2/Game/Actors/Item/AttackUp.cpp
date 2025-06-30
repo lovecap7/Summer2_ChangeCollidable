@@ -78,7 +78,7 @@ void AttackUp::OnCollide(const std::shared_ptr<Collidable> other)
 	{
 		//攻撃アップバフ
 		auto player = std::dynamic_pointer_cast<Player>(other);
-		player->GetAttackPoints()->AttackBuff(kDamageRate, Battle::AttackWeight::Heavy, kAttackUpKeepFrame);
+		player->GetAttackPoints().lock()->AttackBuff(kDamageRate, Battle::AttackWeight::Heavy, kAttackUpKeepFrame);
 		//削除
 		m_isDelete = true;
 	}

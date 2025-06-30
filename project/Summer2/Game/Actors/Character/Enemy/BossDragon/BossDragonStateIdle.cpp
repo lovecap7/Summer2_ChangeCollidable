@@ -49,13 +49,13 @@ void BossDragonStateIdle::Update(const std::weak_ptr<Camera> camera, const std::
 	//コライダブル
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<BossDragonStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<BossDragonStateHit>(m_owner));
 		return;

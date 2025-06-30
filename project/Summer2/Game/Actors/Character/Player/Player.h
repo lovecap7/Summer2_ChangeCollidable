@@ -52,5 +52,8 @@ private:
 	bool m_isRunKeep;
 	//ダッシュ状態を解除するフレーム
 	int m_cancelRunFrame;
+
+	//落下したときに戻す座標
+	Vector3 m_initPos;
 };
 

@@ -18,9 +18,9 @@ namespace
 	//画面中央からある一定距離プレイヤーが離れた場合追従する範囲
 	constexpr float kChaseWidth = 20.0f;
 	//Z(奥行)方向に対してカメラが追従する範囲上限
-	constexpr float kChaseDepthLimit = 20.0f;
+	constexpr float kChaseDepthLimit = 500.0f;
 	//lerpの割合
-	constexpr float kLerpRate = 0.05f;
+	constexpr float kLerpRate = 0.1f;
 }
 
 
@@ -70,7 +70,7 @@ void Camera::Update()
 	auto playerPos = m_player.lock()->GetRb()->GetPos();
 	//位置の更新
 	Vector3 nextPos = m_pos;
-	nextPos.y = playerPos.y + 500.0f;//プレイヤーのY座標より高い位置
+	nextPos.y = playerPos.y + 400.0f;//プレイヤーのY座標より高い位置
 	//横方向が範囲外なら
 	if (playerPos.x > m_pos.x + kChaseWidth)//右
 	{
@@ -83,7 +83,7 @@ void Camera::Update()
 		nextPos.x += kChaseWidth;
 	}
 	//Z方向の移動
-	nextPos.z += m_player.lock()->GetRb()->GetVec().z;
+	nextPos.z = playerPos.z - 600;
 	//範囲内に収める
 	if (nextPos.z > m_cameraFirstPosZ + kChaseDepthLimit)
 	{

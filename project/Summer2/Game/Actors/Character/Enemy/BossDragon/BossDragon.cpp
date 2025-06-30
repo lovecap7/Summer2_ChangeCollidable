@@ -22,7 +22,7 @@ namespace
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
 	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 1000.0f;
+	constexpr float kSearchDistance = 1200.0f;
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 180.0f;
 	//体力

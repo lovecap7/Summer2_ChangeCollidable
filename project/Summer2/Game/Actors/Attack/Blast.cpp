@@ -34,7 +34,7 @@ void Blast::OnCollide(const std::shared_ptr<Collidable> other)
 	if (otherColl->GetGameTag() == GameTag::Player ||
 		otherColl->GetGameTag() == GameTag::Enemy)
 	{
-		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints()->IsNoDamege())
+		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints().lock()->IsNoDamege())
 		{
 			//ƒ_ƒ[ƒW‚ğó‚¯‚È‚¢ó‘Ô‚È‚ç–³‹
 			return;

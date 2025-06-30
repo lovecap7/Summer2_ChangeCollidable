@@ -27,7 +27,7 @@ namespace
 	constexpr int kLeftArmIndex = 31;
 	constexpr int kLeftHandIndex = 36;
 	//左腕の当たり判定の大きさ(攻撃の大きさ)
-	constexpr float kAttackRadius = 20.0f;
+	constexpr float kAttackRadius = 30.0f;
 	//攻撃のダメージ
 	constexpr int kAttackDamage = 100;
 	//攻撃の発生フレーム
@@ -81,13 +81,13 @@ void BossDragonStateSweepAttack::Update(const std::weak_ptr<Camera> camera, cons
 {
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<BossDragonStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<BossDragonStateHit>(m_owner));
 		return;

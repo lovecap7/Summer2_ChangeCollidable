@@ -42,7 +42,8 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	CharacterBase(Shape::Capsule),
 	m_stickVec(0.0f,0.0f),
 	m_isRunKeep(false),
-	m_cancelRunFrame(0)
+	m_cancelRunFrame(0),
+	m_initPos{}
 {
 	//座標
 	m_rb->m_pos = firstPos;
@@ -83,10 +84,16 @@ void Player::Init()
 	m_state = std::make_shared<PlayerStateIdle>(thisPointer);
 	//次の状態を待機状態に
 	m_state->ChangeState(m_state);
+
+	//初期化座標
+	m_initPos = m_rb->m_pos;
 }
 
 void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//落下した際の処理
+	if (m_rb->m_pos.y < -500.0f)m_rb->m_pos = m_initPos;
+
 	auto& input = Input::GetInstance();
 	//スティックの向きを入れる
 	m_stickVec.x = static_cast<float>(input.GetStickInfo().leftStickX);

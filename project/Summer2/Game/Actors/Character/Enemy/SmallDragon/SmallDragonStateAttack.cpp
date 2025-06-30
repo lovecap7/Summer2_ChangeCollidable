@@ -21,13 +21,13 @@ namespace
 	//弾の半径の大きさ
 	constexpr float kBulletRadius = 20.0f;
 	//弾のダメージ
-	constexpr int kBulletDamage = 100;
+	constexpr int kBulletDamage = 200;
 	//弾の持続フレーム
 	constexpr int kBulletKeepFrame = 180;
 	//弾の発生フレーム
 	constexpr int kBulletFireFrame = 20;
 	//弾のスピード
-	constexpr float kBulletSpeed = 3.0f;
+	constexpr float kBulletSpeed = 5.0f;
 	//ノックバックの大きさ
 	constexpr float kKnockBackPower = 4.0f;
 	//生成位置の高さ
@@ -70,13 +70,13 @@ void SmallDragonStateAttack::Update(const std::weak_ptr<Camera> camera, const st
 {
 	auto coll = std::dynamic_pointer_cast<SmallDragon>(m_owner.lock());
 	//死亡
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<SmallDragonStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<SmallDragonStateHit>(m_owner));
 		return;

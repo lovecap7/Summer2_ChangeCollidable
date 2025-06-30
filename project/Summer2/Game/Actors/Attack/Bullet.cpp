@@ -12,6 +12,13 @@ Bullet::Bullet(std::weak_ptr<Actor> owner):
 
 void Bullet::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//持ち主が不在なら
+	if (m_owner.expired())
+	{
+		m_isDelete = true;
+		return;
+	}
+
 	//移動
 	m_rb->m_pos = m_rb->GetNextPos();
 	//共通の処理をする
@@ -30,7 +37,7 @@ void Bullet::OnCollide(const std::shared_ptr<Collidable> other)
 	if (otherColl->GetGameTag() == GameTag::Player ||
 		otherColl->GetGameTag() == GameTag::Enemy)
 	{
-		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints()->IsNoDamege())
+		if (std::dynamic_pointer_cast<CharacterBase>(otherColl)->GetHitPoints().lock()->IsNoDamege())
 		{
 			//ダメージを受けない状態なら無視
 			return;
