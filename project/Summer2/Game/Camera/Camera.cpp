@@ -14,9 +14,9 @@ namespace
 	constexpr float kNear = 50.0f;
 	constexpr float kFar = 5000.0f;
 	//カメラ角度
-	constexpr float kCameraAngleX = 40.0f * MyMath::DEG_2_RAD;
+	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
 	//画面中央からある一定距離プレイヤーが離れた場合追従する範囲
-	constexpr float kChaseWidth = 50.0f;
+	constexpr float kChaseWidth = 20.0f;
 	//Z(奥行)方向に対してカメラが追従する範囲上限
 	constexpr float kChaseDepthLimit = 20.0f;
 	//lerpの割合
@@ -70,6 +70,7 @@ void Camera::Update()
 	auto playerPos = m_player.lock()->GetRb()->GetPos();
 	//位置の更新
 	Vector3 nextPos = m_pos;
+	nextPos.y = playerPos.y + 500.0f;//プレイヤーのY座標より高い位置
 	//横方向が範囲外なら
 	if (playerPos.x > m_pos.x + kChaseWidth)//右
 	{
@@ -94,13 +95,6 @@ void Camera::Update()
 	}
 	//次の座標
 	m_pos = Vector3::Lerp(m_pos, nextPos, kLerpRate);
-	//向きの更新
-	m_dir = Matrix4x4::RotateXMat4x4(40.0f / 180.0f * DX_PI_F) *
-		Vector3::Forward();
-	if (m_dir.Magnitude() > 0.0f)
-	{
-		m_dir = m_dir.Normalize();
-	}
 	//見てる位置
 	m_viewPos = m_pos + m_dir;
 	//設定

@@ -36,8 +36,8 @@ StageSetup::StageSetup(Stage::StageIndex index):
 	//ステージのオブジェクト配置
 	CreateStage();
 
-	auto floor = std::make_shared<InvisibleWall>(m_wallHandle, Vector3{ 0.0f,-10.0f,0.0f }, VGet(1000.0f, 1.0f, 1000.0f), VGet(0.0f, 0.0f, 0.0f));
-	m_actors.emplace_back(floor);
+	//auto floor = std::make_shared<InvisibleWall>(m_wallHandle, Vector3{ 0.0f,-10.0f,0.0f }, VGet(1000.0f, 1.0f, 1000.0f), VGet(0.0f, 0.0f, 0.0f));
+	//m_actors.emplace_back(floor);
 
 }
 
@@ -82,6 +82,7 @@ void StageSetup::End()
 		MV1DeleteModel(m_cubeHandle);
 		MV1DeleteModel(m_cylinderHandle);
 		MV1DeleteModel(m_skyHandle);
+		MV1DeleteModel(m_planeHandle);
 		break;
 	case Stage::StageIndex::Stage2:
 		break;
@@ -106,6 +107,7 @@ void StageSetup::LoadHandle()
 		m_pathHandle = MV1LoadModel("Data/Model/Stage/1/Path.mv1");
 		m_cubeHandle = MV1LoadModel("Data/Model/Collision/Cube.mv1");
 		m_cylinderHandle = MV1LoadModel("Data/Model/Collision/Cylinder.mv1");
+		m_planeHandle = MV1LoadModel("Data/Model/Collision/Plane.mv1");
 		m_skyHandle = MV1LoadModel("Data/Model/Stage/Sky/Sky_Daylight02.pmx");
 		assert(m_playerHandle >= 0);
 		assert(m_wallHandle >= 0);
@@ -223,30 +225,24 @@ void StageSetup::CreateStage()
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_pathHandle), stageData.pos, stageData.scale, stageData.rot);
 			m_actors.emplace_back(path);
 		}
-		/*else if (stageData.name == "Plane")
+		else if (stageData.name == "Plane")
 		{
 			std::shared_ptr<StageObjectDraw> plane =
-				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_cubeHandle), stageData.pos, stageData.scale, stageData.rot);
-			actors.emplace_back(plane);
-		}*/
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_planeHandle), stageData.pos, stageData.scale, stageData.rot);
+			m_actors.emplace_back(plane);
+		}
 	}
-	////当たり判定用
-	////配置データを取得
-	//auto stageCollData = TransformDataLoader::LoadDataCSV("Data/CSV/StageCollisionTransformData.csv");
-	////名前からコリジョンを配置していく
-	//for (auto& stageData : stageCollData)
-	//{
-	//	if (stageData.name == "Cube")
-	//	{
-	//		std::shared_ptr<StageObjectCollision> Cube =
-	//			std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_cubeHandle), stageData.pos, stageData.scale, stageData.rot);
-	//		actors.emplace_back(Cube);
-	//	}
-	//	else if (stageData.name == "Cylinder")
-	//	{
-	//		std::shared_ptr<StageObjectCollision> cylinder =
-	//			std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_cylinderHandle), stageData.pos, stageData.scale, stageData.rot);
-	//		actors.emplace_back(cylinder);
-	//	}
-	//}
+	//当たり判定用
+	//配置データを取得
+	auto stageCollData = TransformDataLoader::LoadDataCSV("Data/CSV/StageCollisionTransformData.csv");
+	//名前からコリジョンを配置していく
+	for (auto& stageData : stageCollData)
+	{
+		if (stageData.name == "Plane")
+		{
+			std::shared_ptr<StageObjectCollision> plane =
+				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_planeHandle), stageData.pos, stageData.scale, stageData.rot);
+			m_actors.emplace_back(plane);
+		}
+	}
 }

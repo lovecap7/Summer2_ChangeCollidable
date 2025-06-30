@@ -8,6 +8,7 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
@@ -18,8 +19,6 @@ namespace
 	const char* kAnim = "Player|Rolling";
 	//回避モーションの速度
 	constexpr float kAnimSpeed = 1.2f;
-	//重力を重めにする(坂道対策)
-	const Vector3 kBigGravity = { 0.0f,-5.0f,0.0f };
 }
 
 PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
@@ -28,14 +27,18 @@ PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
 	//回避状態
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 	//向きの更新
 	coll->GetModel()->SetDir(coll->GetStickVec());
+	//無敵
+	coll->GetHitPoints()->SetIsNoDamege(true);
 }
 
 PlayerStateRolling::~PlayerStateRolling()
 {
-	
+	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//無敵解除
+	coll->GetHitPoints()->SetIsNoDamege(false);
 }
 void PlayerStateRolling::Init()
 {
@@ -54,8 +57,6 @@ void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::w
 		return;
 	}
 	auto rb = coll->GetRb();
-	//重力
-	rb->AddVec(kBigGravity);
 	//向いてる方向に移動
 	rb->SetMoveVec(coll->GetModel()->GetDir() * kRollingMoveSpeed);
 }

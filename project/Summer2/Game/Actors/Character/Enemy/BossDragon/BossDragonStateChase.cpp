@@ -32,7 +32,7 @@ BossDragonStateChase::BossDragonStateChase(std::weak_ptr<Actor> owner) :
 	BossDragonStateBase(owner)
 {
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 	//アニメーション
 	coll->GetModel()->SetAnim(kAnim, true);
 }

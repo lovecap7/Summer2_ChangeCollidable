@@ -10,6 +10,8 @@ namespace
 {
 	//確認回数
 	constexpr int kTryNum = 30;
+	//重力を重めにする(坂道対策)
+	const Vector3 kBigGravity = { 0.0f,-5.0f,0.0f };
 }
 
 void Physics::Init()
@@ -145,8 +147,14 @@ void Physics::Gravity()
 		//重力を受けるか
 		if (!collidable->m_rb->m_isGravity)continue;
 		auto rb = collidable->m_rb;
+		//地上にいるときと空中にいるときで重力の大きさを変える
+		auto gravity = Gravity::kGroundGravity;
+		if (!collidable->IsFloor())//地上にいない場合
+		{
+			gravity = Gravity::kAirGravity;
+		}
 		//重力をかける
-		rb->m_vec += Gravity::kGravity;
+		rb->m_vec += gravity;
 		//重力に上限をつける
 		if (rb->m_vec.y < Gravity::kMaxGravityY)
 		{

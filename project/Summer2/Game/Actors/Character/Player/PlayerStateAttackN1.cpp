@@ -51,7 +51,7 @@ PlayerStateAttackN1::PlayerStateAttackN1(std::weak_ptr<Actor> player):
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//’ÊíUŒ‚1
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 	//UŒ‚1
 	coll->GetModel()->SetAnim(kAnim, false, kAN1AnimSpeed);
 	//‰ÁZƒQ[ƒW‚Ì—\–ñ

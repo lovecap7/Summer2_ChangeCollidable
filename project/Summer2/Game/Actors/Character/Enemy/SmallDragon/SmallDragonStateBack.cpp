@@ -29,7 +29,7 @@ SmallDragonStateBack::SmallDragonStateBack(std::weak_ptr<Actor> owner) :
 	//ë“ã@èÛë‘
 	auto coll = std::dynamic_pointer_cast<SmallDragon>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, true);
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 }
 
 SmallDragonStateBack::~SmallDragonStateBack()

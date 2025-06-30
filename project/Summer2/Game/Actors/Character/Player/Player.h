@@ -40,10 +40,17 @@ public:
 	void SetCollState(CollisionState collState) { m_collState = collState; }
 	//ターゲットのデータ
 	TargetData GetTargetData() const { return m_targetData; };
+	//ダッシュキープフラグ
+	bool IsRunKeep() { return m_isRunKeep; };
+	void SetIsRunKeep(bool isRunKeep) { m_isRunKeep = isRunKeep; };
 private:
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;
 	//必殺技ゲージ
 	std::shared_ptr<UltGage> m_ultGage;
+	//ダッシュ状態をキープするフラグ
+	bool m_isRunKeep;
+	//ダッシュ状態を解除するフレーム
+	int m_cancelRunFrame;
 };
 

@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "PlayerStateBase.h"
 #include "PlayerStateIdle.h"
+#include "PlayerStateRun.h"
 #include "../../Attack/AttackBase.h"
 #include "../../../../General/game.h"
 #include "../../../../General/HitPoints.h"
@@ -33,11 +34,15 @@ namespace
 	constexpr float kSearchDistance = 200.0f;
 	//視野角
 	constexpr float kSearchAngle = 30.0f;
+	//ダッシュ持続状態解除
+	constexpr int kCancelRunFrame = 5;
 }
 
 Player::Player(int modelHandle, Position3 firstPos) :
 	CharacterBase(Shape::Capsule),
-	m_stickVec(0.0f,0.0f)
+	m_stickVec(0.0f,0.0f),
+	m_isRunKeep(false),
+	m_cancelRunFrame(0)
 {
 	//座標
 	m_rb->m_pos = firstPos;
@@ -101,6 +106,22 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 		m_hitPoints->Heal(10000);
 	}
 #endif
+	//ダッシュ状態じゃないとき
+	if (std::dynamic_pointer_cast<PlayerStateRun>(m_state) == nullptr)
+	{
+		++m_cancelRunFrame;
+		//解除
+		if (m_cancelRunFrame > kCancelRunFrame)
+		{
+			m_isRunKeep = false;
+			m_cancelRunFrame = 0;
+		}
+	}
+	else
+	{
+		m_cancelRunFrame = 0;
+	}
+
 	//状態に合わせた更新
 	m_state->Update(camera,actorManager);
 	//状態が変わったかをチェック

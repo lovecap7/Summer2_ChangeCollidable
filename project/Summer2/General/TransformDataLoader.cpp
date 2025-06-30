@@ -71,7 +71,7 @@ std::vector<ObjectData> TransformDataLoader::LoadDataCSV(const char* fileName)
 		//‰ñ“]
 		objData.rot.x = std::stof(values[4]);	
 		objData.rot.y = std::stof(values[5]);
-		objData.rot.z = std::stof(values[6]);
+		objData.rot.z = -1 * std::stof(values[6]);
 		//‘å‚«‚³
 		objData.scale.x = std::stof(values[7]);	
 		objData.scale.y = std::stof(values[8]);

@@ -31,7 +31,7 @@ BomberStateChase::BomberStateChase(std::weak_ptr<Actor> owner) :
 	BomberStateBase(owner)
 {
 	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 	//アニメーション
 	coll->GetModel()->SetAnim(kAnim, true);
 }

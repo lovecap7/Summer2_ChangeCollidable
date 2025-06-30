@@ -31,7 +31,7 @@ PurpleDinosaurStateChase::PurpleDinosaurStateChase(std::weak_ptr<Actor> owner):
 	PurpleDinosaurStateBase(owner)
 {
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 	//アニメーション
 	coll->GetModel()->SetAnim(kAnim, true);
 }

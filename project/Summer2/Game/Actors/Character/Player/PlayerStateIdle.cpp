@@ -8,6 +8,7 @@
 #include "PlayerStateCharge.h"
 #include "PlayerStateDeath.h"
 #include "PlayerStateHit.h"
+#include "PlayerStateRun.h"
 #include "Player.h"
 #include "UltGage.h"
 #include "../../../../General/HitPoints.h"

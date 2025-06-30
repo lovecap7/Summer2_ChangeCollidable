@@ -51,7 +51,7 @@ PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner)
 {
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//’ÊíUŒ‚
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 	//UŒ‚
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
 	//‘ŠŽè‚Ì‚Ù‚¤‚ðŒü‚­

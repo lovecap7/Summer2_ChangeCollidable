@@ -25,9 +25,11 @@ namespace Game//属性
 namespace Gravity
 {
 	//重力
-	const Vector3 kGravity = { 0.0f, -0.5f, 0.0f };
+	const Vector3 kGroundGravity = { 0.0f, -5.0f, 0.0f };
+	//空中にいるオブジェクトに対する重力
+	const Vector3 kAirGravity = { 0.0f, -0.5f, 0.0f };
 	//落下状態に切り替わる落下ベクトルの大きさ
-	constexpr float kChangeStateFall = -2.0f;
+	constexpr float kChangeStateFall = -4.0f;
 	//落下スピードの上限(Y成分の大きさ)
 	constexpr float kMaxGravityY = -10.0f;
 }

@@ -45,7 +45,7 @@ PlayerStateCA3::PlayerStateCA3(std::weak_ptr<Actor> player) :
 	PlayerStateChargeAttackBase(player)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	coll->SetCollState(CollisionState::Normal);
+	coll->SetCollState(CollisionState::Move);
 	//ƒ`ƒƒ[ƒWUŒ‚1
 	auto model = coll->GetModel();
 	model->SetAnim(kAnim, true, kCA3AnimSpeed);

@@ -10,6 +10,7 @@ enum class CollisionState
 	Normal,
 	Jump,
 	Fall,
+	Move,
 	Dead
 };
 

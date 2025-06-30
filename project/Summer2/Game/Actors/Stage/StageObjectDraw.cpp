@@ -19,5 +19,5 @@ StageObjectDraw::~StageObjectDraw()
 
 void StageObjectDraw::Draw() const
 {
-	m_model->Draw();
+	//m_model->Draw();
 }

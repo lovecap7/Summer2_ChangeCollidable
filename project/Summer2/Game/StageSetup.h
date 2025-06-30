@@ -54,6 +54,7 @@ private:
     //ステージの当たり判定
     int m_cubeHandle;
     int m_cylinderHandle;
+    int m_planeHandle;
 private:
     //ハンドルロード
     void LoadHandle();

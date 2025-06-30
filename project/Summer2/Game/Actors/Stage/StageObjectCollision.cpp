@@ -4,16 +4,22 @@
 #include "../../../General/Collision/CapsuleCollider.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Collision/Collidable.h"
+#include "../../../General/Model.h"
 
 StageObjectCollision::StageObjectCollision(int modelHandle, VECTOR pos, VECTOR scale, VECTOR angle) :
 	Actor(Shape::Polygon),
 	m_collisionHandle(modelHandle)
 {
+	//モデル
+	m_model = std::make_shared<Model>(modelHandle, pos);
+	m_model->SetScale(scale);
+	m_model->SetRot(angle);
 	//初期位置
 	m_rb->SetPos(pos);
 	std::dynamic_pointer_cast<PolygonCollider>(m_collisionData)->m_modelHandle = m_collisionHandle;
-	DxLib::MV1SetScale(m_collisionHandle, scale);
-	DxLib::MV1SetRotationXYZ(m_collisionHandle, angle);
+	//DxLib::MV1SetScale(m_collisionHandle, scale);
+	//DxLib::MV1SetRotationXYZ(m_collisionHandle, angle);
+	//DxLib::MV1SetPosition(m_collisionHandle, pos);
 }
 
 
@@ -46,10 +52,11 @@ void StageObjectCollision::Init()
 	//コライダブルの初期化
 	AllSetting(CollisionState::Normal, Priority::Static, GameTag::Object, false, false,false);
 	Collidable::Init();
+	MV1SetupCollInfo(m_collisionHandle, -1);
 }
 void StageObjectCollision::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//なし
+	MV1RefreshCollInfo(m_collisionHandle, -1);
 }
 
 void StageObjectCollision::OnCollide(const std::shared_ptr<Collidable> other)
@@ -59,7 +66,7 @@ void StageObjectCollision::OnCollide(const std::shared_ptr<Collidable> other)
 
 void StageObjectCollision::Draw() const
 {
-	//なし
+	m_model->Draw();
 }
 
 void StageObjectCollision::Complete()
