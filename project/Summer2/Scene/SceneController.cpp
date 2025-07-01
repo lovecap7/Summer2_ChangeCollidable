@@ -60,8 +60,7 @@ void SceneController::ChangeBaseScene(std::shared_ptr<SceneBase> scene)
 	assert(!m_scenes.empty());
 	//I—¹ˆ—
 	m_scenes.front()->End();
-	m_scenes.pop_front();
-	m_scenes.emplace_front(scene);
+	m_scenes.front() = scene;
 	//‰Šú‰»ˆ—
 	m_scenes.front()->Init();
 }

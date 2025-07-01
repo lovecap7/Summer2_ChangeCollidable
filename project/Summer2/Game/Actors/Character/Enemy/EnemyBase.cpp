@@ -6,7 +6,8 @@
 
 EnemyBase::EnemyBase(Shape shape) :
 	CharacterBase(shape),
-	m_attackCoolTime(0)
+	m_attackCoolTime(0),
+	m_hpUIPos{}
 {
 }
 

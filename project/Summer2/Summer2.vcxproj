@@ -96,6 +96,8 @@
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\StageSetup.cpp" />
+    <ClCompile Include="Game\UI\EnemyUI\EnemyHPUI.cpp" />
+    <ClCompile Include="Game\UI\EnemyUI\EnemyUIBase.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerHPUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUIBase.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUltGageUI.cpp" />
@@ -214,6 +216,8 @@
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\StageSetup.h" />
+    <ClInclude Include="Game\UI\EnemyUI\EnemyHPUI.h" />
+    <ClInclude Include="Game\UI\EnemyUI\EnemyUIBase.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerHPUI.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUIBase.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUltGageUI.h" />

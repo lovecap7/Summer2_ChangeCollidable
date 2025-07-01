@@ -133,6 +133,12 @@
     <Filter Include="ソース ファイル\Game\UI\PlayerUI">
       <UniqueIdentifier>{25958fdc-824a-4f37-8567-c355a10835f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\UI\EnemyUI">
+      <UniqueIdentifier>{6d082a31-515e-4802-b118-559fa1d31d2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\UI\EnemyUI">
+      <UniqueIdentifier>{c711c5a0-4834-48ae-9b60-c248894cb5e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -482,6 +488,12 @@
     </ClCompile>
     <ClCompile Include="Scene\GameoverScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\EnemyUI\EnemyUIBase.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\EnemyUI\EnemyHPUI.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -838,6 +850,12 @@
     </ClInclude>
     <ClInclude Include="Scene\GameoverScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\EnemyUI\EnemyUIBase.h">
+      <Filter>ヘッダー ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\EnemyUI\EnemyHPUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\EnemyUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

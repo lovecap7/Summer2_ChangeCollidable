@@ -25,6 +25,7 @@
 //UI
 #include "../Game/UI/PlayerUI/PlayerHPUI.h"
 #include "../Game/UI/PlayerUI/PlayerUltGageUI.h"
+#include "../Game/UI/EnemyUI/EnemyHPUI.h"
 
 StageSetup::StageSetup(Stage::StageIndex index):
 	m_stageIndex(index)
@@ -160,6 +161,8 @@ void StageSetup::CreateCharacterAndUI()
 			smallDragon->GetModel()->SetScale(charaData.scale);
 			smallDragon->GetModel()->SetRot(charaData.rot);
 			m_actors.emplace_back(smallDragon);
+			//“G‚Ì‘Ì—ÍUI
+			m_uis.emplace_back(std::make_shared<EnemyHPUI>(smallDragon));
 		}
 		else if (charaData.name == "BossDragon")
 		{
@@ -168,6 +171,7 @@ void StageSetup::CreateCharacterAndUI()
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
 			m_actors.emplace_back(bossDragon);
+
 		}
 		else if (charaData.name == "Bomber")
 		{
@@ -176,6 +180,8 @@ void StageSetup::CreateCharacterAndUI()
 			bomber->GetModel()->SetScale(charaData.scale);
 			bomber->GetModel()->SetRot(charaData.rot);
 			m_actors.emplace_back(bomber);
+			//“G‚Ì‘Ì—ÍUI
+			m_uis.emplace_back(std::make_shared<EnemyHPUI>(bomber));
 		}
 		else if (charaData.name == "PurpleDinosaur")
 		{
@@ -184,6 +190,8 @@ void StageSetup::CreateCharacterAndUI()
 			purpleDinosaur->GetModel()->SetScale(charaData.scale);
 			purpleDinosaur->GetModel()->SetRot(charaData.rot);
 			m_actors.emplace_back(purpleDinosaur);
+			//“G‚Ì‘Ì—ÍUI
+			m_uis.emplace_back(std::make_shared<EnemyHPUI>(purpleDinosaur));
 		}
 	}
 }

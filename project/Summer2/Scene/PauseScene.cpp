@@ -48,7 +48,8 @@ void PauseScene::End()
 void PauseScene::AppearUpdate()
 {
 	++m_countFrame;
-	if (m_countFrame > kAppearInterval) {
+	if (m_countFrame > kAppearInterval) 
+	{
 		m_update = &PauseScene::NormalUpdate;
 		m_draw = &PauseScene::NormalDraw;
 		return;
@@ -59,7 +60,8 @@ void PauseScene::NormalUpdate()
 {
 	auto& input = Input::GetInstance();
 	//Pボタンでポーズ解除
-	if (input.IsTrigger("Pause")) {
+	if (input.IsTrigger("Pause")) 
+	{
 		m_update = &PauseScene::DisappearUpdate;
 		m_draw = &PauseScene::ShiftingDraw;
 		m_countFrame = kAppearInterval;
@@ -70,7 +72,8 @@ void PauseScene::NormalUpdate()
 void PauseScene::DisappearUpdate()
 {
 	--m_countFrame;
-	if (m_countFrame < 0) {
+	if (m_countFrame < 0) 
+	{
 		m_controller.PopScene();
 		return;
 	}

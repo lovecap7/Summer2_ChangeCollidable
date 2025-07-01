@@ -25,8 +25,8 @@ GameoverScene::~GameoverScene()
 
 void GameoverScene::Init()
 {
-	//Physicsを開始
-	Physics::GetInstance().StartUpdate();
+	//Physicsを止める
+	Physics::GetInstance().StopUpdate();
 }
 
 void GameoverScene::Update()
@@ -47,7 +47,8 @@ void GameoverScene::End()
 void GameoverScene::AppearUpdate()
 {
 	++m_countFrame;
-	if (m_countFrame > kAppearInterval) {
+	if (m_countFrame > kAppearInterval)
+	{
 		m_countFrame = kAppearInterval;
 		m_update = &GameoverScene::NormalUpdate;
 		return;
@@ -58,7 +59,8 @@ void GameoverScene::NormalUpdate()
 {
 	auto& input = Input::GetInstance();
 	//Aボタンで次へ
-	if (input.IsTrigger("A")) {
+	if (input.IsTrigger("A")) 
+	{
 		m_update = &GameoverScene::DisappearUpdate;
 		m_countFrame = kAppearInterval;
 		return;
@@ -68,7 +70,8 @@ void GameoverScene::NormalUpdate()
 void GameoverScene::DisappearUpdate()
 {
 	--m_countFrame;
-	if (m_countFrame < 0) {
+	if (m_countFrame < 0)
+	{
 		m_countFrame = 0;
 		//自分の下になってるシーンを切り替える
 		m_controller.ChangeBaseScene(std::make_shared<StageScene>(m_controller));
