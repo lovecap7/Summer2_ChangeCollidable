@@ -60,15 +60,16 @@ void SceneController::ChangeBaseScene(std::shared_ptr<SceneBase> scene)
 	assert(!m_scenes.empty());
 	//I—¹ˆ—
 	m_scenes.front()->End();
-	m_scenes.front() = scene;
+	m_scenes.pop_front();
+	m_scenes.emplace_front(scene);
 	//‰Šú‰»ˆ—
 	m_scenes.front()->Init();
 }
 
 void SceneController::PushScene(std::shared_ptr<SceneBase> scene)
 {
-	scene->Init();	//‰Šú‰»ˆ—
 	m_scenes.emplace_back(scene);
+	m_scenes.back()->Init();	//‰Šú‰»ˆ—
 }
 
 void SceneController::PopScene()

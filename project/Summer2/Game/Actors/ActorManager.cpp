@@ -165,19 +165,19 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 	switch (it)
 	{
 	case ItemType::Heart:
-		item = std::make_shared<Heart>(m_heartHandle, pos);
+		item = std::make_shared<Heart>(MV1DuplicateModel(m_heartHandle), pos);
 		break;
 	case ItemType::Bomb:
-		item = std::make_shared<Bomb>(m_bombHandle, pos);
+		item = std::make_shared<Bomb>(MV1DuplicateModel(m_bombHandle), pos);
 		break;
 	case ItemType::UltGageUp:
-		item = std::make_shared<UltGageUp>(m_ultGageUpHandle, pos);
+		item = std::make_shared<UltGageUp>(MV1DuplicateModel(m_ultGageUpHandle), pos);
 		break;
 	case ItemType::AttackUp:
-		item = std::make_shared<AttackUp>(m_attackUpHandle, pos);
+		item = std::make_shared<AttackUp>(MV1DuplicateModel(m_attackUpHandle), pos);
 		break;
 	case ItemType::DefenseUp:
-		item = std::make_shared<DefenseUp>(m_defenseUpHandle, pos);
+		item = std::make_shared<DefenseUp>(MV1DuplicateModel(m_defenseUpHandle), pos);
 		break;
 	default:
 		break;

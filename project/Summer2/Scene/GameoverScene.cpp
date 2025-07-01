@@ -80,7 +80,7 @@ void GameoverScene::DisappearUpdate()
 void GameoverScene::NormalDraw()
 {
 	//îwåiÇê‘Ç¡Ç€Ç≠Ç∑ÇÈ
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_countFrame);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 10 * m_countFrame);
 	DrawBox(0, 0,//ç∂è„
 		Game::kScreenWidth, Game::kScreenHeight,//âEâ∫
 		0xff5555,//ÉJÉâÅ[
