@@ -54,6 +54,11 @@ void GameManager::Update()
 		m_uiManager->Update();
 		//カメラの更新
 		m_camera->Update();
+		//プレイヤーが死亡した際の処理
+		if (m_actorManager->GetPlayer().expired())
+		{
+			m_isGameover = true;
+		}
 	}
 }
 

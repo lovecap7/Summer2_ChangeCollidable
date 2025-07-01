@@ -16,6 +16,7 @@ namespace
 
 void Physics::Init()
 {
+	m_isUpdate = true;
 	m_collChecker = std::make_shared<CollisionChecker>();
 	m_collProcessor = std::make_shared<CollisionProcess>();
 }
@@ -47,6 +48,9 @@ void Physics::Exit(std::shared_ptr<Collidable> collidable)
 
 void Physics::Update()
 {
+	//更新をしないなら
+	if (!m_isUpdate)return;
+
 	//重力
 	Gravity();
 	//床と壁のとの当たったフラグを初期化

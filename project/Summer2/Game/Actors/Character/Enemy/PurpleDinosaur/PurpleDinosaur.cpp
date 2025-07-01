@@ -124,3 +124,9 @@ void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager)
 	actorManager.lock()->CreateItem(ItemType::Heart, m_rb->GetPos());
 }
 
+void PurpleDinosaur::End()
+{
+	Collidable::End();
+	m_model->End();
+}
+

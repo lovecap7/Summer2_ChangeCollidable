@@ -45,6 +45,10 @@ public:
 	/// <param name="actorManager"></param>
 	virtual void Dead(const std::weak_ptr<ActorManager> actorManager)abstract;
 	/// <summary>
+	/// I—¹ˆ—
+	/// </summary>
+	virtual void End()abstract;
+	/// <summary>
 	/// íœƒtƒ‰ƒO
 	/// </summary>
 	/// <returns></returns>

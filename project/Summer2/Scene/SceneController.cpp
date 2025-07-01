@@ -58,17 +58,23 @@ void SceneController::ChangeBaseScene(std::shared_ptr<SceneBase> scene)
 {
 	//空の場合エラー
 	assert(!m_scenes.empty());
+	//終了処理
+	m_scenes.front()->End();
 	m_scenes.front() = scene;
+	//初期化処理
+	m_scenes.front()->Init();
 }
 
 void SceneController::PushScene(std::shared_ptr<SceneBase> scene)
 {
+	scene->Init();	//初期化処理
 	m_scenes.emplace_back(scene);
 }
 
-void SceneController::PopScene(std::shared_ptr<SceneBase> scene)
+void SceneController::PopScene()
 {
 	//実行するシーンがなくなるので許可しない
 	if (m_scenes.size() == 1)return;
-	m_scenes.pop_back();//末尾を取り除く
+	m_scenes.back()->End();	//終了処理
+	m_scenes.pop_back();	//末尾を取り除く
 }

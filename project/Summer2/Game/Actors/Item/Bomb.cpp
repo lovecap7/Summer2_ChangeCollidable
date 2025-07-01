@@ -142,6 +142,12 @@ void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager)
 	blast->AttackSetting(kBlastDamage, kBlastKeepFrame, kBlastKnockBackPower, Battle::AttackWeight::Heavy);
 }
 
+void Bomb::End()
+{
+	Collidable::End();
+	m_model->End();
+}
+
 void Bomb::SetVec(Vector3 vec)
 {
 	m_rb->m_vec = vec;

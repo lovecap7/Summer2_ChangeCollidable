@@ -23,19 +23,15 @@ class StageSetup
 public:
     StageSetup(Stage::StageIndex index = Stage::StageIndex::Stage1);
     ~StageSetup();
-    //プレイヤーのポインタを移す
-    void MovePlayerPointer(std::shared_ptr<Player>& player);
     //アクターを移す
     void MoveActorsPointer(std::list<std::shared_ptr<Actor>>& actors);
     //UIを移す
     void MoveUIPointer(std::list<std::shared_ptr<UIBase>>& uis);
-
+    //終了処理
     void End();
 private:
     //ステージ番号
     Stage::StageIndex m_stageIndex;
-    //プレイヤー
-    std::shared_ptr<Player> m_player;
     //アクター
     std::list<std::shared_ptr<Actor>> m_actors;
     //UI

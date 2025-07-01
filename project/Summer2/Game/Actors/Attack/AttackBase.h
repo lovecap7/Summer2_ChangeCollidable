@@ -30,6 +30,8 @@ public:
 	void Complete() override {};
 	//死亡処理
 	void Dead(const std::weak_ptr<ActorManager> actorManager) override {};
+	//終了処理
+	virtual void End()override;
 	//ノックバック
 	virtual Vector3 GetKnockBackVec(Position3 other);
 

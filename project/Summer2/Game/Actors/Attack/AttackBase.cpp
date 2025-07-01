@@ -87,11 +87,16 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 		//ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Ìê‡•KE‹ZƒQ[ƒW‚ğ‰ÁZ‚·‚é
 		if (ownerColl->GetGameTag() == GameTag::Player)
 		{
-			std::dynamic_pointer_cast<Player>(m_owner.lock())->GetUltGage()->AddPedingUltGage();//—\–ñ‚³‚ê‚Ä‚¢‚½‰ÁZƒQ[ƒW—Ê‚ğ”½‰f
+			std::dynamic_pointer_cast<Player>(m_owner.lock())->GetUltGage().lock()->AddPedingUltGage();//—\–ñ‚³‚ê‚Ä‚¢‚½‰ÁZƒQ[ƒW—Ê‚ğ”½‰f
 		}
 		//UŒ‚‚ğó‚¯‚½‚Æ‚«‚Ìˆ—
 		std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
 	}
+}
+
+void AttackBase::End()
+{
+	Collidable::End();
 }
 
 Vector3 AttackBase::GetKnockBackVec(Position3 other)

@@ -1,0 +1,67 @@
+#include "PlayerUltGageUI.h"
+#include "../../Actors/Character/Player/UltGage.h"
+#include "../../Actors/Character/Player/Player.h"
+#include <DxLib.h>
+namespace
+{
+	constexpr float kBarHeight = 50.0f;
+	constexpr float kBarWidth = 400.0f;
+	constexpr float kLeftPosX = 50.0f;
+	constexpr float kLeftPosY = 110.0f;
+	constexpr float kRightPosY = kLeftPosY + kBarHeight;
+}
+
+PlayerUltGageUI::PlayerUltGageUI(std::weak_ptr<Player> player):
+	PlayerUIBase(player),
+	m_viewUltGageValue(0.0f),
+	m_viewMaxUltGageValue(0.0f)
+{
+}
+
+PlayerUltGageUI::~PlayerUltGageUI()
+{
+}
+
+void PlayerUltGageUI::Init()
+{
+	//プレイヤーが消えた場合このUIも削除
+	if (m_player.expired())
+	{
+		m_isDelete = true;
+		return;
+	}
+	auto ultGage = m_player.lock()->GetUltGage().lock();
+	m_viewUltGageValue = ultGage->GetUltGageValue();
+	m_viewMaxUltGageValue = ultGage->GetMaxUltGageValue();
+}
+
+void PlayerUltGageUI::Update()
+{
+	//プレイヤーが消えた場合このUIも削除
+	if (m_player.expired())
+	{
+		m_isDelete = true;
+		return;
+	}
+	auto ultGage = m_player.lock()->GetUltGage().lock();
+	//更新
+	//体力に変動があった時
+	if (m_viewUltGageValue != ultGage->GetUltGageValue())
+	{
+		m_viewUltGageValue = ultGage->GetUltGageValue();
+	}
+	if (m_viewMaxUltGageValue != ultGage->GetMaxUltGageValue())
+	{
+		m_viewMaxUltGageValue = ultGage->GetMaxUltGageValue();
+	}
+}
+
+void PlayerUltGageUI::Draw() const
+{
+	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxUltGageValue / m_viewMaxUltGageValue) * kBarWidth, kRightPosY, 0x555555, true);
+	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewUltGageValue / m_viewMaxUltGageValue) * kBarWidth, kRightPosY, 0x5555ff, true);
+}
+
+void PlayerUltGageUI::End()
+{
+}

@@ -25,7 +25,7 @@ void Collidable::Init()
 
 void Collidable::End()
 {
-	//Physics‚É“o˜^
+	//Physics‚©‚ç“o˜^‰ğœ
 	Physics::GetInstance().Exit(shared_from_this());
 }
 

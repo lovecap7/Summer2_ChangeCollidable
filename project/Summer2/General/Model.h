@@ -14,6 +14,7 @@ public:
 	int GetModelHandle() { return m_modelHandle; };
 	void Update();
 	void Draw()const;
+	void End();
 	//セッター
 	void SetPos(VECTOR pos);
 	void SetScale(VECTOR pos);

@@ -53,7 +53,7 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player) :
 	Vector2 dir = coll->GetStickVec();
 	model->SetDir(dir);
 	//ƒQ[ƒW‚ð0‚É
-	coll->GetUltGage()->ResetUltGage();
+	coll->GetUltGage().lock()->ResetUltGage();
 }
 
 

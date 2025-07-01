@@ -23,4 +23,3 @@ public:
     /// <returns></returns>
     static std::vector<ObjectData> LoadDataCSV(const char* fileName);
 };
-

@@ -15,6 +15,8 @@ public:
     void Update();
     void Draw()const;
     void End();
+    //ゲームオーバー
+    bool IsGameover() { return m_isGameover; };
 private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;
@@ -25,6 +27,8 @@ private:
     //ステージセットアップ
     std::unique_ptr<StageSetup> m_stageSetup;
 private:
+    //ゲームオーバーフラグ
+    bool m_isGameover;
     //デバッグモード用
     bool m_isUpdateStop = false;
 };

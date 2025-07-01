@@ -2,6 +2,8 @@
 #include "../Game/GameManager.h"
 #include "ResultScene.h"
 #include "DebugScene.h"
+#include "PauseScene.h"
+#include "GameoverScene.h"
 #include "SceneController.h"
 #include "../General/Input.h"
 #include <DxLib.h>
@@ -37,11 +39,18 @@ void StageScene::Update()
 #endif
 	if (input.IsTrigger("Pause"))
 	{
-		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<ResultScene>(m_controller));
+		//ポーズ
+		m_controller.PushScene(std::make_shared<PauseScene>(m_controller));
 		return;
 	}
+	//ゲームの更新
 	m_gameManager->Update();
+	//ゲームオーバーしたときの処理
+	if (m_gameManager->IsGameover())
+	{
+		m_controller.PushScene(std::make_shared<GameoverScene>(m_controller));
+		return;
+	}
 }
 
 void StageScene::Draw()

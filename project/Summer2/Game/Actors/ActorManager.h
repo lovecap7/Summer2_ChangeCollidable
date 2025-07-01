@@ -43,7 +43,7 @@ private:
 	//追加予定のアクター
 	std::list<std::shared_ptr<Actor>> m_nextAddActors;
 	//プレイヤー
-	std::shared_ptr<Player> m_player;
+	std::weak_ptr<Player> m_player;
 	//ID
 	int m_actorId;//割り振る番号
 private:

@@ -26,6 +26,13 @@ public:
 	void Exit(std::shared_ptr<Collidable> collidable);
 	//衝突処理
 	void Update();
+
+
+	//更新を止める
+	void StopUpdate() { m_isUpdate = false; }
+
+	//更新を始める
+	void StartUpdate() { m_isUpdate = true; }
 private:
 	//当たり判定のチェックをするクラス
 	std::shared_ptr<CollisionChecker> m_collChecker;
@@ -53,5 +60,8 @@ private:
 
 	//重力
 	void Gravity();
+
+	//更新をするか
+	bool m_isUpdate;
 };
 

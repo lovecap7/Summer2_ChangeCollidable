@@ -42,7 +42,7 @@ public:
 	/// シーンをポップ(取り出す)する
 	/// </summary>
 	/// <param name=""></param>
-	void PopScene(std::shared_ptr<SceneBase> scene);
+	void PopScene();
 
 private:
 	using SceneStack_t = std::list<std::shared_ptr<SceneBase>>;//シーンをスタック構造にするための型

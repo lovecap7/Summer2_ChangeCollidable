@@ -23,8 +23,8 @@
 #include "../Game/Actors/Stage/StageObjectDraw.h"
 #include "../Game/Actors/Stage/Sky.h"
 //UI
-#include "../Game/UI/PlayerHpUI.h"
-#include "../Game/UI/PlayerUltGageUI.h"
+#include "../Game/UI/PlayerUI/PlayerHPUI.h"
+#include "../Game/UI/PlayerUI/PlayerUltGageUI.h"
 
 StageSetup::StageSetup(Stage::StageIndex index):
 	m_stageIndex(index)
@@ -43,14 +43,6 @@ StageSetup::StageSetup(Stage::StageIndex index):
 
 StageSetup::~StageSetup()
 {
-}
-
-void StageSetup::MovePlayerPointer(std::shared_ptr<Player>& player)
-{
-	//プレイヤーを渡す
-	player = std::move(m_player);
-	//メモリを解放
-	m_player.reset();
 }
 
 void StageSetup::MoveActorsPointer(std::list<std::shared_ptr<Actor>>& actors)
@@ -78,6 +70,7 @@ void StageSetup::End()
 		MV1DeleteModel(m_purpleDinosaurHandle);
 		MV1DeleteModel(m_smallDragonHandle);
 		MV1DeleteModel(m_bossDragonHandle);
+		MV1DeleteModel(m_bomberHandle);
 		MV1DeleteModel(m_pathHandle);
 		MV1DeleteModel(m_cubeHandle);
 		MV1DeleteModel(m_cylinderHandle);
@@ -151,14 +144,14 @@ void StageSetup::CreateCharacterAndUI()
 		if (charaData.name == "Player")
 		{
 			//プレイヤー作成
-			m_player = std::make_shared<Player>(m_playerHandle, charaData.pos);
-			m_player->GetModel()->SetScale(charaData.scale);
-			m_player->GetModel()->SetRot(charaData.rot);
-			m_actors.emplace_back(m_player);
+			std::shared_ptr<Player> player = std::make_shared<Player>(m_playerHandle, charaData.pos);
+			player->GetModel()->SetScale(charaData.scale);
+			player->GetModel()->SetRot(charaData.rot);
+			m_actors.emplace_back(player);
 			//プレイヤーの体力UI
-			m_uis.emplace_back(std::make_shared<PlayerHpUI>(m_player->GetHitPoints()));
+			m_uis.emplace_back(std::make_shared<PlayerHPUI>(player));
 			//プレイヤーのゲージUI
-			m_uis.emplace_back(std::make_shared<PlayerUltGageUI>(m_player->GetUltGage()));
+			m_uis.emplace_back(std::make_shared<PlayerUltGageUI>(player));
 		}
 		else if (charaData.name == "SmallDragon")
 		{

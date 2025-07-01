@@ -55,7 +55,7 @@ PlayerStateCA1::~PlayerStateCA1()
 	//UŒ‚”»’è‚Ìíœ
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
-	coll->GetUltGage()->SetPendingUltGage(0);
+	coll->GetUltGage().lock()->SetPendingUltGage(0);
 }
 void PlayerStateCA1::Init()
 {
@@ -67,13 +67,13 @@ void PlayerStateCA1::Update(const std::weak_ptr<Camera> camera, const std::weak_
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//€–S‚µ‚½‚È‚ç
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;
 	}
 	//UŒ‚‚ğó‚¯‚½‚È‚ç
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
 		return;

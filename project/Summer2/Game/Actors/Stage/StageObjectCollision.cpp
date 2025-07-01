@@ -73,3 +73,9 @@ void StageObjectCollision::Complete()
 {
 	//‚È‚µ
 }
+
+void StageObjectCollision::End()
+{
+	Collidable::End();
+	m_model->End();
+}

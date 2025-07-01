@@ -25,6 +25,8 @@ public:
 	void Complete() override;
 	//死亡処理
 	void Dead(const std::weak_ptr<ActorManager> actorManager) override;
+	//終了処理
+	void End()override;
 	//リジッドボディ
 	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
 	//コリジョン

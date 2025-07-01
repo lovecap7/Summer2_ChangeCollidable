@@ -21,6 +21,7 @@ public:
     void Draw()const override;
     void Complete() override {};
     void Dead(const std::weak_ptr<ActorManager> actorManager) override {};
+    void End()override;
 private:
 };
 

@@ -76,7 +76,7 @@ void Heart::OnCollide(const std::shared_ptr<Collidable> other)
 	{
 		//回復
 		auto player = std::dynamic_pointer_cast<Player>(other);
-		player->GetHitPoints()->Heal(kHealValue);
+		player->GetHitPoints().lock()->Heal(kHealValue);
 		//削除
 		m_isDelete = true;
 	}
@@ -104,4 +104,10 @@ void Heart::Complete()
 	m_rb->m_pos = m_rb->GetNextPos();
 	//モデルの座標更新
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
+}
+
+void Heart::End()
+{
+	Collidable::End();
+	m_model->End();
 }

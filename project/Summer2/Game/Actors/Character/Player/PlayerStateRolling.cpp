@@ -31,14 +31,14 @@ PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
 	//Œü‚«‚ÌXV
 	coll->GetModel()->SetDir(coll->GetStickVec());
 	//–³“G
-	coll->GetHitPoints()->SetIsNoDamege(true);
+	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 }
 
 PlayerStateRolling::~PlayerStateRolling()
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//–³“G‰ðœ
-	coll->GetHitPoints()->SetIsNoDamege(false);
+	coll->GetHitPoints().lock()->SetIsNoDamege(false);
 }
 void PlayerStateRolling::Init()
 {

@@ -32,17 +32,27 @@ ActorManager::~ActorManager()
 
 void ActorManager::Init(std::unique_ptr<StageSetup>& stageSetup)
 {
-	//プレイヤーを受け取る
-	stageSetup->MovePlayerPointer(m_player);
 	std::list<std::shared_ptr<Actor>> actors;
 	//アクターを受け取る
 	stageSetup->MoveActorsPointer(actors);
 	//アクターの初期化処理
 	for (auto& actor : actors)
 	{
+		//追加とIDの割り振り
 		AddActor(actor);
 	}
 	actors.clear();//受け取ったアクターは消す
+	//プレイヤーの参照
+	for (auto& actor : m_actors)
+	{
+		//プレイヤーを探す
+		if (actor->GetGameTag() == GameTag::Player)
+		{
+			m_player = std::dynamic_pointer_cast<Player>(actor);
+			break;
+		}
+	}
+
 	//ハンドル
 	m_heartHandle = MV1LoadModel("Data/Model/Item/Heart.mv1");
 	m_bombHandle = MV1LoadModel("Data/Model/Item/Bomb.mv1");
@@ -101,7 +111,7 @@ std::weak_ptr<Actor> ActorManager::GetNearestEnemy() const
 		if (actor->GetGameTag() == GameTag::Enemy)
 		{
 			//プレイヤーに近い敵を探す
-			float dis = (m_player->GetPos() - actor->GetPos()).Magnitude();
+			float dis = (m_player.lock()->GetPos() - actor->GetPos()).Magnitude();
 			if (dis < minDis)
 			{
 				minDis = dis;

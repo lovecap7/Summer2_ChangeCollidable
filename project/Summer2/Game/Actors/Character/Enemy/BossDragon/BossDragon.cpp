@@ -124,3 +124,9 @@ void BossDragon::Complete()
 void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager)
 {
 }
+
+void BossDragon::End()
+{
+	Collidable::End();
+	m_model->End();
+}

@@ -76,7 +76,7 @@ void UltGageUp::OnCollide(const std::shared_ptr<Collidable> other)
 	{
 		//ゲージアップ
 		auto player = std::dynamic_pointer_cast<Player>(other);
-		player->GetUltGage()->AddUltGage(kGageValue);
+		player->GetUltGage().lock()->AddUltGage(kGageValue);
 		//削除
 		m_isDelete = true;
 	}
@@ -104,4 +104,10 @@ void UltGageUp::Complete()
 	m_rb->m_pos = m_rb->GetNextPos();
 	//モデルの座標更新
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
+}
+
+void UltGageUp::End()
+{
+	Collidable::End();
+	m_model->End();
 }

@@ -17,15 +17,15 @@ namespace
 	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
 	//画面中央からある一定距離プレイヤーが離れた場合追従する範囲
 	constexpr float kChaseWidth = 20.0f;
-	//Z(奥行)方向に対してカメラが追従する範囲上限
-	constexpr float kChaseDepthLimit = 500.0f;
 	//lerpの割合
 	constexpr float kLerpRate = 0.1f;
 }
 
 
 Camera::Camera(Position3 firstPos):
-	m_pos(firstPos)
+	m_pos(firstPos),
+	m_dir{},
+	m_viewPos{}
 {
 }
 
@@ -43,8 +43,6 @@ void Camera::Init(std::weak_ptr<Player> player)
 	//カメラの位置と角度の設定
 	auto playerPos = m_player.lock()->GetRb()->GetPos();
 	m_pos.x = playerPos.x;//プレイヤーと横方向にを合わせる
-	//カメラのZ方向を保存
-	m_cameraFirstPosZ = m_pos.z;
 
 	//カメラの角度
 	m_dir = Matrix4x4::RotateXMat4x4(kCameraAngleX) *
@@ -66,6 +64,8 @@ void Camera::Init(std::weak_ptr<Player> player)
 
 void Camera::Update()
 {
+	//プレイヤーが消滅した場合更新終了
+	if (m_player.expired())return;
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
 	auto playerPos = m_player.lock()->GetRb()->GetPos();
 	//位置の更新
@@ -82,17 +82,8 @@ void Camera::Update()
 		nextPos.x = playerPos.x;
 		nextPos.x += kChaseWidth;
 	}
-	//Z方向の移動
-	nextPos.z = playerPos.z - 600;
-	//範囲内に収める
-	if (nextPos.z > m_cameraFirstPosZ + kChaseDepthLimit)
-	{
-		nextPos.z = m_cameraFirstPosZ + kChaseDepthLimit;
-	}
-	else if(nextPos.z < m_cameraFirstPosZ - kChaseDepthLimit)
-	{
-		nextPos.z = m_cameraFirstPosZ - kChaseDepthLimit;
-	}
+
+	
 	//次の座標
 	m_pos = Vector3::Lerp(m_pos, nextPos, kLerpRate);
 	//見てる位置

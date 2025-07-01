@@ -180,3 +180,9 @@ void Player::Complete()
 void Player::Dead(const std::weak_ptr<ActorManager> actorManager)
 {
 }
+
+void Player::End()
+{
+	Collidable::End();
+	m_model->End();
+}

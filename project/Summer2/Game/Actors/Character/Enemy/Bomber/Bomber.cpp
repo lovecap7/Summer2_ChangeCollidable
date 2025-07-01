@@ -125,3 +125,9 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager)
 	actorManager.lock()->CreateItem(ItemType::DefenseUp, m_rb->GetPos());
 }
 
+void Bomber::End()
+{
+	Collidable::End();
+	m_model->End();
+}
+

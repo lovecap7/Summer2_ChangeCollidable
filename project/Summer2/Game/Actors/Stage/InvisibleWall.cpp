@@ -44,3 +44,9 @@ void InvisibleWall::Draw() const
 void InvisibleWall::Complete()
 {
 }
+
+void InvisibleWall::End()
+{
+	Collidable::End();
+	MV1DeleteModel(m_modelHandle);
+}

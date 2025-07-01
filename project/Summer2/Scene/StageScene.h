@@ -22,6 +22,7 @@ public:
     virtual void Draw() override;
     virtual void End() override;
 private:
+    //ƒQ[ƒ€‚ÌŠÇ—
     std::unique_ptr<GameManager> m_gameManager;
 };
 

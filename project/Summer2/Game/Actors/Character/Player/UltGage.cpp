@@ -2,8 +2,8 @@
 #include "../../../../General/Math/MathSub.h"
 
 UltGage::UltGage(int max):
-	m_ultGage(0),
-	m_maxUltGage(max),
+	m_ultGageValue(0),
+	m_maxUltGageValue(max),
 	m_pendingUltGauge(0)
 {
 }
@@ -17,7 +17,7 @@ void UltGage::AddUltGage(int add)
 	//Å‘å‚È‚ç
 	if (IsMaxUlt())return;
 	//‰ÁZ
-	m_ultGage += add;
+	m_ultGageValue += add;
 	//ƒNƒ‰ƒ“ƒv
-	m_ultGage = MathSub::ClampInt(m_ultGage, 0, m_maxUltGage);
+	m_ultGageValue = MathSub::ClampInt(m_ultGageValue, 0, m_maxUltGageValue);
 }

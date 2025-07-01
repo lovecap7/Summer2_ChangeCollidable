@@ -55,13 +55,13 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//Ž€–S‚µ‚½‚È‚ç
-	if (coll->GetHitPoints()->IsDead())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;
 	}
 	//UŒ‚‚ðŽó‚¯‚½‚È‚ç
-	if (coll->GetHitPoints()->IsHitReaction())
+	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
 		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
 		return;

@@ -26,12 +26,12 @@ public:
 	void Complete() override;
 	//死亡処理
 	void Dead(const std::weak_ptr<ActorManager> actorManager) override;
+	//終了処理
+	void End()override;
 	//入力中の方向キー
 	Vector2 GetStickVec() { return m_stickVec; };
 	//必殺技ゲージ
-	std::shared_ptr<UltGage> GetUltGage() const{ return m_ultGage; };
-	//体力
-	std::shared_ptr<HitPoints> GetHitPoints() const { return m_hitPoints; };
+	std::weak_ptr<UltGage> GetUltGage() const{ return m_ultGage; };
 	//リジッドボディ
 	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
 	//コリジョン

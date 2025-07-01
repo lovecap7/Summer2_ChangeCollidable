@@ -21,3 +21,8 @@ void StageObjectDraw::Draw() const
 {
 	//m_model->Draw();
 }
+
+void StageObjectDraw::End()
+{
+	m_model->End();
+}

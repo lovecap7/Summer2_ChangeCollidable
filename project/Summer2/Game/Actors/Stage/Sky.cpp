@@ -35,3 +35,8 @@ void Sky::Draw() const
 {
 	m_model->Draw();
 }
+
+void Sky::End()
+{
+	m_model->End();
+}

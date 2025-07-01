@@ -115,6 +115,11 @@ void Model::Draw() const
 #endif
 }
 
+void Model::End()
+{
+	MV1DeleteModel(m_modelHandle);
+}
+
 void Model::SetPos(VECTOR pos)
 {
 	m_pos = pos;

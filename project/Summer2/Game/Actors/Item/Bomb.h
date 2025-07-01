@@ -23,6 +23,8 @@ public:
 	void Complete() override;
 	//€–Sˆ—
 	void Dead(const std::weak_ptr<ActorManager> actorManager) override;
+	//I—¹ˆ—
+	void End()override;
 	//ˆÚ“®—Ê
 	void SetVec(Vector3 vec);
 private:

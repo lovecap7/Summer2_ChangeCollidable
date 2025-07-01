@@ -107,3 +107,9 @@ void AttackUp::Complete()
 	//モデルの座標更新
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
 }
+
+void AttackUp::End()
+{
+	Collidable::End();
+	m_model->End();
+}

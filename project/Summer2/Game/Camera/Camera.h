@@ -25,7 +25,5 @@ private:
 	Vector3 m_viewPos;
 	//プレイヤー
 	std::weak_ptr<Player> m_player;
-	//カメラの最初のＺ座標(カメラのZ方向の移動上限に使う)
-	float m_cameraFirstPosZ;
 };
 

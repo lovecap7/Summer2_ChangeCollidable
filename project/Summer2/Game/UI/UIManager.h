@@ -17,5 +17,7 @@ public:
 private:
 	//UI
 	std::list<std::shared_ptr<UIBase>> m_uis;
+	//íœ—\’è‚ÌUI‚ğíœ
+	void CheckDelete();
 };
 

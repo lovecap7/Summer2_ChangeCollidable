@@ -1,6 +1,7 @@
 #include "UIBase.h"
 
-UIBase::UIBase()
+UIBase::UIBase():
+	m_isDelete(false)
 {
 }
 

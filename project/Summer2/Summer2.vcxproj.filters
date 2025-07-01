@@ -127,6 +127,12 @@
     <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\Bomber">
       <UniqueIdentifier>{83c8ad22-d1dd-4ea8-a4c8-e6e3c27ebc87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\UI\PlayerUI">
+      <UniqueIdentifier>{bd186ee5-2b97-48bf-9c7f-e3d5a000f676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\PlayerUI">
+      <UniqueIdentifier>{25958fdc-824a-4f37-8567-c355a10835f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -459,14 +465,23 @@
     <ClCompile Include="Game\UI\UIBase.cpp">
       <Filter>ソース ファイル\Game\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\PlayerHpUI.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Game\UI\UIManager.cpp">
       <Filter>ソース ファイル\Game\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\PlayerUltGageUI.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
+    <ClCompile Include="Game\UI\PlayerUI\PlayerHPUI.cpp">
+      <Filter>ソース ファイル\Game\UI\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\PlayerUI\PlayerUIBase.cpp">
+      <Filter>ソース ファイル\Game\UI\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\PlayerUI\PlayerUltGageUI.cpp">
+      <Filter>ソース ファイル\Game\UI\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\PauseScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameoverScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -806,14 +821,23 @@
     <ClInclude Include="Game\UI\UIBase.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\PlayerHpUI.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Game\UI\UIManager.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\PlayerUltGageUI.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
+    <ClInclude Include="Game\UI\PlayerUI\PlayerUIBase.h">
+      <Filter>ヘッダー ファイル\Game\UI\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\PlayerUI\PlayerHPUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\PlayerUI\PlayerUltGageUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\PauseScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameoverScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

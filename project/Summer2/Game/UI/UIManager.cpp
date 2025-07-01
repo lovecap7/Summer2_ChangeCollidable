@@ -22,6 +22,9 @@ void UIManager::Init(std::unique_ptr<StageSetup>& stageSetup)
 
 void UIManager::Update()
 {
+	//削除予定のUI削除
+	CheckDelete();
+	//更新
 	for (auto& ui : m_uis)
 	{
 		ui->Update();
@@ -42,6 +45,7 @@ void UIManager::End()
 	{
 		ui->End();
 	}
+	m_uis.clear();
 }
 
 void UIManager::AddUI(std::shared_ptr<UIBase> ui)
@@ -53,4 +57,18 @@ void UIManager::AddUI(std::shared_ptr<UIBase> ui)
 	ui->Init();
 	//追加
 	m_uis.emplace_back(ui);
+}
+
+void UIManager::CheckDelete()
+{
+	auto remIt = std::remove_if(m_uis.begin(), m_uis.end(), [](std::shared_ptr<UIBase> ui) {
+		bool isDead = ui->IsDelete();//チェック
+		if (isDead)
+		{
+			//UIの終了処理
+			ui->End();
+		}
+		return isDead;
+		});
+	m_uis.erase(remIt, m_uis.end());//削除
 }
