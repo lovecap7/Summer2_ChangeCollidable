@@ -9,11 +9,11 @@ namespace
 }
 class Collidable;
 class Physics;
-class CollisionProcess
+class FixNextPosition
 {
 public:
-	CollisionProcess();
-	~CollisionProcess();
+	FixNextPosition();
+	~FixNextPosition();
 
 	/// <summary>
 	/// 衝突処理
@@ -27,31 +27,31 @@ private:
 	/// </summary>
 	/// <param name="collA">球</param>
 	/// <param name="collB">球</param>
-	void ProcessSS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+	void FixNextPosSS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// 球とポリゴンの衝突処理
 	/// </summary>
 	/// <param name="collA">球</param>
 	/// <param name="collB">ポリゴン</param>
-	void ProcessSP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+	void FixNextPosSP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// カプセルとカプセルの衝突処理
 	/// </summary>
 	/// <param name="collA">カプセル</param>
 	/// <param name="collB">カプセル</param>
-	void ProcessCC(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+	void FixNextPosCC(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// カプセルと球
 	/// </summary>
 	/// <param name="collA">カプセル</param>
 	/// <param name="collB">球</param>
-	void ProcessCS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+	void FixNextPosCS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 	/// <summary>
 	/// カプセルとポリゴンの衝突処理
 	/// </summary>
 	/// <param name="collA">カプセル</param>
 	/// <param name="collB">ポリゴン</param>
-	void ProcessCP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+	void FixNextPosCP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 
 	/// <summary>
 	/// 床ポリゴンと壁ポリゴンに分ける

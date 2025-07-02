@@ -8,7 +8,7 @@
 /// </summary>
 class Collidable;
 class CollisionChecker;
-class CollisionProcess;
+class FixNextPosition;
 class Physics final
 {
 public:
@@ -37,7 +37,7 @@ private:
 	//当たり判定のチェックをするクラス
 	std::shared_ptr<CollisionChecker> m_collChecker;
 	//衝突処理
-	std::shared_ptr<CollisionProcess> m_collProcessor;
+	std::shared_ptr<FixNextPosition> m_collProcessor;
 private:
 	//シングルトンの準備
 	Physics() = default;

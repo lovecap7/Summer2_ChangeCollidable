@@ -204,7 +204,7 @@
     <ClCompile Include="General\Collision\CollisionChecker.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="General\Collision\CollisionProcess.cpp">
+    <ClCompile Include="General\Collision\FixNextPosition.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Scene\TestCollScene.cpp">
@@ -566,7 +566,7 @@
     <ClInclude Include="General\Collision\CollisionChecker.h">
       <Filter>ヘッダー ファイル\General\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="General\Collision\CollisionProcess.h">
+    <ClInclude Include="General\Collision\FixNextPosition.h">
       <Filter>ヘッダー ファイル\General\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Scene\TestCollScene.h">

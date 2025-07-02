@@ -110,7 +110,7 @@
     <ClCompile Include="General\Collision\Collidable.cpp" />
     <ClCompile Include="General\Collision\ColliderBase.cpp" />
     <ClCompile Include="General\Collision\CollisionChecker.cpp" />
-    <ClCompile Include="General\Collision\CollisionProcess.cpp" />
+    <ClCompile Include="General\Collision\FixNextPosition.cpp" />
     <ClCompile Include="General\Collision\Physics.cpp" />
     <ClCompile Include="General\Collision\PolygonCollider.cpp" />
     <ClCompile Include="General\Collision\SphereCollider.cpp" />
@@ -230,7 +230,7 @@
     <ClInclude Include="General\Collision\Collidable.h" />
     <ClInclude Include="General\Collision\ColliderBase.h" />
     <ClInclude Include="General\Collision\CollisionChecker.h" />
-    <ClInclude Include="General\Collision\CollisionProcess.h" />
+    <ClInclude Include="General\Collision\FixNextPosition.h" />
     <ClInclude Include="General\Collision\Physics.h" />
     <ClInclude Include="General\Collision\PolygonCollider.h" />
     <ClInclude Include="General\Collision\SphereCollider.h" />

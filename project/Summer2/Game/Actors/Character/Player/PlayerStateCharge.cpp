@@ -21,9 +21,9 @@
 namespace
 {
 	//チャージレベル
-	constexpr float kChargeLevel1 = 30.0f;
-	constexpr float kChargeLevel2 = 60.0f;
-	constexpr float kChargeLevel3 = 100.0f;
+	constexpr int kChargeLevel1 = 30;
+	constexpr int kChargeLevel2 = 60;
+	constexpr int kChargeLevel3 = 100;
 	//アニメーション
 	const char* kAnim = "Player|Charge";//チャージ
 	//減速率

@@ -1,4 +1,4 @@
-#include "CollisionProcess.h"
+#include "FixNextPosition.h"
 #include "Collidable.h"
 #include "../Rigidbody.h"
 #include "SphereCollider.h"
@@ -14,7 +14,7 @@ namespace
 	constexpr float kCheckTop = 800.0f;
 }
 
-CollisionProcess::CollisionProcess() :
+FixNextPosition::FixNextPosition() :
 	m_wallNum(0),
 	m_floorAndRoofNum(0),
 	m_wall{ nullptr },
@@ -22,11 +22,11 @@ CollisionProcess::CollisionProcess() :
 {
 }
 
-CollisionProcess::~CollisionProcess()
+FixNextPosition::~FixNextPosition()
 {
 }
 
-void CollisionProcess::FixNextPos(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+void FixNextPosition::FixNextPos(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
 {
 	//衝突しているオブジェクトの形状を取得
 	auto collAShape = collA->m_collisionData->m_shape;
@@ -38,19 +38,19 @@ void CollisionProcess::FixNextPos(const std::shared_ptr<Collidable> collA, const
 		if (collBShape == Shape::Sphere)
 		{
 			//ベクトルを補正する
-			ProcessSS(collA, collB);
+			FixNextPosSS(collA, collB);
 		}
 		//カプセル
 		else if (collBShape == Shape::Capsule)
 		{
 			//ベクトルを補正する
-			ProcessCS(collB, collA);
+			FixNextPosCS(collB, collA);
 		}
 		//ポリゴン
 		else if (collBShape == Shape::Polygon)
 		{
 			//ベクトルを補正する
-			ProcessSP(collA, collB);
+			FixNextPosSP(collA, collB);
 		}
 	}
 	//カプセルと
@@ -60,19 +60,19 @@ void CollisionProcess::FixNextPos(const std::shared_ptr<Collidable> collA, const
 		if (collBShape == Shape::Sphere)
 		{
 			//ベクトルを補正する
-			ProcessCS(collA, collB);
+			FixNextPosCS(collA, collB);
 		}
 		//カプセル
 		else if (collBShape == Shape::Capsule)
 		{
 			//ベクトルを補正する
-			ProcessCC(collA, collB);
+			FixNextPosCC(collA, collB);
 		}
 		//ポリゴン
 		else if (collBShape == Shape::Polygon)
 		{
 			//ベクトルを補正する
-			ProcessCP(collA, collB);
+			FixNextPosCP(collA, collB);
 		}
 	}
 	//ポリゴンと
@@ -82,18 +82,18 @@ void CollisionProcess::FixNextPos(const std::shared_ptr<Collidable> collA, const
 		if (collBShape == Shape::Sphere)
 		{
 			//ベクトルを補正する
-			ProcessSP(collB, collA);
+			FixNextPosSP(collB, collA);
 		}
 		//カプセル
 		else if (collBShape == Shape::Capsule)
 		{
 			//ベクトルを補正する
-			ProcessCP(collB, collA);
+			FixNextPosCP(collB, collA);
 		}
 	}
 }
 
-void CollisionProcess::ProcessSS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+void FixNextPosition::FixNextPosSS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
 {
 	//優先度
 	auto priorityA = collA->m_priority;
@@ -131,7 +131,7 @@ void CollisionProcess::ProcessSS(const std::shared_ptr<Collidable> collA, const 
 	}
 }
 
-void CollisionProcess::ProcessSP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+void FixNextPosition::FixNextPosSP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
 {
 	//コリジョンデータ
 	auto collDataA = std::dynamic_pointer_cast<SphereCollider>(collA->m_collisionData);
@@ -189,7 +189,7 @@ void CollisionProcess::ProcessSP(const std::shared_ptr<Collidable> collA, const 
 	DxLib::MV1CollResultPolyDimTerminate(hitDim);
 }
 
-void CollisionProcess::ProcessCC(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+void FixNextPosition::FixNextPosCC(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
 {
 	//優先度
 	auto priorityA = collA->m_priority;
@@ -235,7 +235,7 @@ void CollisionProcess::ProcessCC(const std::shared_ptr<Collidable> collA, const 
 	}
 }
 
-void CollisionProcess::ProcessCS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+void FixNextPosition::FixNextPosCS(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
 {
 	//優先度
 	auto priorityA = collA->m_priority;
@@ -276,7 +276,7 @@ void CollisionProcess::ProcessCS(const std::shared_ptr<Collidable> collA, const 
 	}
 }
 
-void CollisionProcess::ProcessCP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+void FixNextPosition::FixNextPosCP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
 {
 	//コライダーデータ
 	auto collDataA = std::dynamic_pointer_cast<CapsuleCollider>(collA->m_collisionData);
@@ -346,7 +346,7 @@ void CollisionProcess::ProcessCP(const std::shared_ptr<Collidable> collA, const 
 
 }
 
-void CollisionProcess::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const Vector3& nextPos)
+void FixNextPosition::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, const Vector3& nextPos)
 {
 	//壁ポリゴンと床ポリゴンの数を初期化する
 	m_wallNum = 0;
@@ -387,7 +387,7 @@ void CollisionProcess::AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, cons
 	}
 }
 
-Vector3 CollisionProcess::OverlapVecSphereAndPoly(int hitNum ,const Vector3& nextPos,MV1_COLL_RESULT_POLY* dim ,float shortDis)
+Vector3 FixNextPosition::OverlapVecSphereAndPoly(int hitNum ,const Vector3& nextPos,MV1_COLL_RESULT_POLY* dim ,float shortDis)
 {
 	//垂線を下して近い点を探して最短距離を求める
 	float hitShortDis = 0;//最短距離
@@ -426,7 +426,7 @@ Vector3 CollisionProcess::OverlapVecSphereAndPoly(int hitNum ,const Vector3& nex
 	return nom.Normalize() * overlap;
 }
 
-Vector3 CollisionProcess::HitWallCP(const Vector3& headPos, const Vector3& legPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis)
+Vector3 FixNextPosition::HitWallCP(const Vector3& headPos, const Vector3& legPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis)
 {
 	//垂線を下して近い点を探して最短距離を求める
 	float hitShortDis = shortDis;//最短距離
@@ -461,7 +461,7 @@ Vector3 CollisionProcess::HitWallCP(const Vector3& headPos, const Vector3& legPo
 }
 
 
-bool CollisionProcess::HitFloorCP(const std::shared_ptr<Collidable> coll, const Vector3& legPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis)
+bool FixNextPosition::HitFloorCP(const std::shared_ptr<Collidable> coll, const Vector3& legPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis)
 {
 	//リジッドボディ
 	auto rb = coll->m_rb;
@@ -504,7 +504,7 @@ bool CollisionProcess::HitFloorCP(const std::shared_ptr<Collidable> coll, const 
 	return hitFloor;
 }
 
-void CollisionProcess::HitRoofCP(const std::shared_ptr<Collidable> coll, const Vector3& headPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis)
+void FixNextPosition::HitRoofCP(const std::shared_ptr<Collidable> coll, const Vector3& headPos, int hitNum, MV1_COLL_RESULT_POLY* dim, float shortDis)
 {
 	//リジッドボディ
 	auto rb = coll->m_rb;

@@ -41,7 +41,7 @@ class Actor;
 class Rigidbody;
 class Physics;
 class CollisionChecker;
-class CollisionProcess;
+class FixNextPosition;
 class Collidable abstract : 
 	public std::enable_shared_from_this<Collidable>
 {
@@ -86,7 +86,7 @@ private:
 	//Physics‚ªCollidable‚ğ©—R‚ÉŠÇ—‚Å‚«‚é‚æ‚¤‚É
 	friend Physics;
 	friend CollisionChecker;
-	friend CollisionProcess;
+	friend FixNextPosition;
 protected:
 	//“–‚½‚è”»’è
 	std::shared_ptr<ColliderBase> m_collisionData;

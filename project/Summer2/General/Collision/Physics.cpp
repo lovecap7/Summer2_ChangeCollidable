@@ -1,8 +1,7 @@
 #include "Physics.h"
 #include "CollisionChecker.h"
-#include "CollisionProcess.h"
+#include "FixNextPosition.h"
 #include "../Rigidbody.h"
-#include "CollisionProcess.h"
 #include "../game.h"
 #include <cassert>
 
@@ -10,15 +9,13 @@ namespace
 {
 	//確認回数
 	constexpr int kTryNum = 30;
-	//重力を重めにする(坂道対策)
-	const Vector3 kBigGravity = { 0.0f,-5.0f,0.0f };
 }
 
 void Physics::Init()
 {
 	m_isUpdate = true;
 	m_collChecker = std::make_shared<CollisionChecker>();
-	m_collProcessor = std::make_shared<CollisionProcess>();
+	m_collProcessor = std::make_shared<FixNextPosition>();
 }
 
 void Physics::Entry(std::shared_ptr<Collidable> collidable)
@@ -50,7 +47,6 @@ void Physics::Update()
 {
 	//更新をしないなら
 	if (!m_isUpdate)return;
-
 	//重力
 	Gravity();
 	//床と壁のとの当たったフラグを初期化
@@ -58,7 +54,6 @@ void Physics::Update()
 	{
 		collidable->ResetHitFlag();
 	}
-
 	//遅延処理用
 	std::list<OnCollideInfo> onCollideInfo;
 	//一度も当たっていないのならループを終了する
@@ -73,7 +68,6 @@ void Physics::Update()
 			//当たり判定を行わないなら飛ばす
 			if (collA->GetGameTag() == GameTag::None)continue;
 			if (collA->m_isThrough)continue;
-
 			for (auto& collB : m_collidables)
 			{
 				//自分とは当たり判定をしない
@@ -81,7 +75,6 @@ void Physics::Update()
 				//当たり判定を行わないなら飛ばす
 				if (collB->GetGameTag() == GameTag::None)continue;
 				if (collB->m_isThrough)continue;
-
 				//当たってるなら
 				if (m_collChecker->IsCollide(collA, collB))
 				{
@@ -94,7 +87,6 @@ void Physics::Update()
 						//もう一度チェックする必要がある
 						isOneMore = true;
 					}
-
 					//これまでにこの組み合わせで当たった情報があるかをチェック
 					bool isCollInfo = false;
 					for (const auto& item : onCollideInfo)
@@ -105,7 +97,6 @@ void Physics::Update()
 						{
 							isCollInfo = true;
 						}
-					
 					}
 					//ない場合
 					if (!isCollInfo)
@@ -116,18 +107,15 @@ void Physics::Update()
 				}
 			}
 		}
-
 		//チェックの必要がないなら
 		if (!isOneMore)break;
 	}
-
 	//位置確定
 	for (auto& coll : m_collidables)
 	{
 		//位置を確定
 		coll->Complete();
 	}
-
 	// 当たり通知
 	for (auto& collInfo : onCollideInfo)
 	{
