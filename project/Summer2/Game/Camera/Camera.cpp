@@ -26,10 +26,13 @@ namespace
 	//ターゲットから少し離れるためのオフセット
 	constexpr float kOffsetNormalCameraPosY = 400.0f;
 	constexpr float kOffsetBossCameraPosY = 600.0f;
-	constexpr float kOffsetClearCameraPosY = 200.0f;
-	constexpr float kOffsetClearCameraPosZ = 200.0f;
+	constexpr float kOffsetClearCameraPosY = 50.0f;
+	constexpr float kOffsetClearCameraPosZ = -200.0f;
 	//クリア時のターゲットへの注視点オフセット
 	constexpr float kOffsetClearTargetPosY = 100.0f;
+
+	//クリア時に回転するフレーム
+	constexpr int kClearRotaFrame = 300;
 }
 
 
@@ -37,7 +40,8 @@ Camera::Camera(Position3 firstPos):
 	m_pos(firstPos),
 	m_dir{},
 	m_viewPos{},
-	m_update(&Camera::NormalUpdate)
+	m_update(&Camera::NormalUpdate),
+	m_rotaFrame(kClearRotaFrame)
 {
 }
 
@@ -137,6 +141,16 @@ void Camera::BossUpdate(const std::weak_ptr<ActorManager> actorManager)
 	//ボスが消滅したらゲームクリアカメラに
 	if (boss.expired())
 	{
+		auto player = actorManager.lock()->GetPlayer();
+		auto playerPos = player.lock()->GetPos();
+		//位置の更新
+		Vector3 nextPos = playerPos;
+		nextPos.y += kOffsetClearCameraPosY;
+		nextPos.z += kOffsetClearCameraPosZ;
+		m_pos = nextPos;
+		//見てる位置
+		m_viewPos = playerPos;
+		m_viewPos.y += kOffsetClearTargetPosY;
 		//クリアカメラ
 		m_update = &Camera::GameClearUpdate;
 		return;
@@ -162,15 +176,31 @@ void Camera::GameClearUpdate(const std::weak_ptr<ActorManager> actorManager)
 {
 	auto player = actorManager.lock()->GetPlayer();
 	auto playerPos = player.lock()->GetPos();
-	//位置の更新
-	Vector3 nextPos = playerPos;
-	nextPos.y += kOffsetClearCameraPosY;
-	nextPos.z += kOffsetClearCameraPosZ;
 	//次の座標
-	m_pos = Vector3::Lerp(m_pos, nextPos, kNormalLerpRate);
-	//見てる位置
-	m_viewPos = playerPos;
-	m_viewPos.y += kOffsetClearTargetPosY;
+	if (m_rotaFrame > 0)
+	{
+		Quaternion kClearRotaQ = Quaternion::AngleAxis((360.0f / kClearRotaFrame) * MyMath::DEG_2_RAD, Vector3::Up());
+		//位置の更新
+		Vector3 nextPos = playerPos;
+		auto vec = m_pos - playerPos;
+		vec = kClearRotaQ * vec;
+		nextPos += vec;
+		m_pos = nextPos;
+		--m_rotaFrame;
+	}
+	else
+	{
+		//位置の更新
+		Vector3 nextPos = playerPos;
+		nextPos.z += -30.0f;
+		nextPos.y += 60.0f;
+		//次の座標
+		nextPos = Vector3::Lerp(m_pos, nextPos, 0.1f);
+		m_pos = nextPos;
+		//注視点
+		m_viewPos = playerPos;
+		m_viewPos.y += 60.0f;
+	}
 	//設定
 	SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
 }

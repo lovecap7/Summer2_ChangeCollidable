@@ -1,7 +1,9 @@
 #include "PlayerStateRolling.h"
 #include "PlayerStateIdle.h"
+#include "PlayerStateWin.h"
 #include "Player.h"
 #include "../../../../General/game.h"
+#include "../../ActorManager.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Rigidbody.h"
 #include "../../../../General/Collision/Collidable.h"
@@ -49,6 +51,12 @@ void PlayerStateRolling::Init()
 void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//勝利したとき
+	if (actorManager.lock()->GetBoss().expired())
+	{
+		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
+		return;
+	}
 	//モデルのアニメーションが終わったら
 	if (coll->GetModel()->IsFinishAnim())
 	{

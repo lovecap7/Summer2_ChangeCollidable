@@ -504,6 +504,9 @@
     <ClCompile Include="Game\Actors\Attack\Breath.cpp">
       <Filter>ソース ファイル\Game\Actors\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Player\PlayerStateWin.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -874,6 +877,9 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Attack\Breath.h">
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Player\PlayerStateWin.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

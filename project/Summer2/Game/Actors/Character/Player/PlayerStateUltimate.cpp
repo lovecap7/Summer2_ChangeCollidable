@@ -1,5 +1,6 @@
 #include "PlayerStateUltimate.h"
 #include "PlayerStateIdle.h"
+#include "PlayerStateWin.h"
 #include "Player.h"
 #include "UltGage.h"
 #include "../../ActorManager.h"
@@ -87,6 +88,12 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::
 
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
+	//勝利したとき
+	if (actorManager.lock()->GetBoss().expired())
+	{
+		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
+		return;
+	}
 	//アニメーションが終了したら
 	if (model->IsFinishFixedLoop())
 	{

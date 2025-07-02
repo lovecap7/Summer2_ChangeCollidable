@@ -83,6 +83,7 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateRun.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateUltimate.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateWalk.cpp" />
+    <ClCompile Include="Game\Actors\Character\Player\PlayerStateWin.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\UltGage.cpp" />
     <ClCompile Include="Game\Actors\Item\AttackUp.cpp" />
     <ClCompile Include="Game\Actors\Item\Bomb.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateRun.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateUltimate.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateWalk.h" />
+    <ClInclude Include="Game\Actors\Character\Player\PlayerStateWin.h" />
     <ClInclude Include="Game\Actors\Character\Player\UltGage.h" />
     <ClInclude Include="Game\Actors\Item\AttackUp.h" />
     <ClInclude Include="Game\Actors\Item\Bomb.h" />

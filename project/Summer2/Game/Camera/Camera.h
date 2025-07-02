@@ -23,6 +23,8 @@ private:
 	Vector3 m_dir;
 	//カメラが見てる位置
 	Vector3 m_viewPos;
+	//クリア時の回転フレーム
+	int m_rotaFrame;
 private:
 	//状態遷移
 	using UpdateFunc_t = void(Camera::*)(const std::weak_ptr<ActorManager> actorManager);

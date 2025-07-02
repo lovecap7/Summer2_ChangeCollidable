@@ -4,6 +4,7 @@
 #include "PlayerStateRolling.h"
 #include "PlayerStateHit.h"
 #include "PlayerStateDeath.h"
+#include "PlayerStateWin.h"
 #include "../../ActorManager.h"
 #include "PlayerStateUltimate.h"
 #include "Player.h"
@@ -72,6 +73,12 @@ void PlayerStateAttackN3::Init()
 void PlayerStateAttackN3::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//Ÿ—˜‚µ‚½‚Æ‚«
+	if (actorManager.lock()->GetBoss().expired())
+	{
+		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
+		return;
+	}
 	//Ž€–S‚µ‚½‚©‚Âƒ{ƒX‚ª“|‚¹‚Ä‚È‚¢ê‡
 	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
 	{
