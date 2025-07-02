@@ -30,7 +30,7 @@ namespace
 	constexpr float kMediumMoveSpeed = 5.0f;//地上の中移動速度
 	constexpr float kHighMoveSpeed = 10.0f;//地上の大移動速度
 	//アニメーション
-	const char* kAnim = "Player|Walk";
+	const char* kAnim = "Player|Walk2";
 }
 
 PlayerStateWalk::PlayerStateWalk(std::weak_ptr<Actor> player):
