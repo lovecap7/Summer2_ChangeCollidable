@@ -245,5 +245,11 @@ void StageSetup::CreateStage()
 				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_planeHandle), stageData.pos, stageData.scale, stageData.rot);
 			m_actors.emplace_back(plane);
 		}
+		else if (stageData.name == "BossAreaWall")
+		{
+			std::shared_ptr<StageObjectCollision> plane =
+				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_planeHandle), stageData.pos, stageData.scale, stageData.rot);
+			m_actors.emplace_back(plane);
+		}
 	}
 }

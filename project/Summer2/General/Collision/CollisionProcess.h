@@ -14,16 +14,14 @@ class CollisionProcess
 public:
 	CollisionProcess();
 	~CollisionProcess();
-private:
-	//Phiysicsクラスのみ使えるクラス
-	friend Physics;
+
 	/// <summary>
 	/// 衝突処理
 	/// </summary>
 	/// <param name="collA"></param>
 	/// <param name="collB"></param>
 	void FixNextPos(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
-
+private:
 	/// <summary>
 	/// 球と球の衝突処理
 	/// </summary>

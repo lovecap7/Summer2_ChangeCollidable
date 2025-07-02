@@ -7,9 +7,7 @@ class CollisionChecker
 public:
     CollisionChecker();
     virtual ~CollisionChecker() {};
-private:
-	//Phiysicsクラスのみ使えるクラス
-    friend Physics;
+
 	/// <summary>
 	/// 当たり判定の結果を返す
 	/// </summary>
@@ -17,7 +15,7 @@ private:
 	/// <param name="collB">コライダブル</param>
 	/// <returns></returns>
 	bool IsCollide(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
-
+private:
     /// <summary>
     /// 球と球の当たり判定
     /// </summary>
