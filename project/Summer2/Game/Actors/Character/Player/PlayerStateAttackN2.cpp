@@ -6,9 +6,7 @@
 #include "PlayerStateHit.h"
 #include "PlayerStateDeath.h"
 #include "PlayerStateUltimate.h"
-#include "PlayerStateCharge.h"
-#include "PlayerStateHit.h"
-#include "PlayerStateDeath.h"
+#include "../../ActorManager.h"
 #include "Player.h"
 #include "UltGage.h"
 #include "../../Attack/Slash.h"
@@ -43,7 +41,7 @@ namespace
 	//Œ¸‘¬—¦
 	constexpr float kMoveDeceRate = 0.8f;
 	//‰ÁZƒQ[ƒW—Ê
-	constexpr int kAddUltGage = 2;
+	constexpr int kAddUltGage = 3;
 	//ˆÚ“®ƒtƒŒ[ƒ€
 	constexpr int kMoveFrame = 5;
 	//ˆÚ“®—Ê
@@ -58,6 +56,8 @@ PlayerStateAttackN2::PlayerStateAttackN2(std::weak_ptr<Actor> player) :
 	coll->SetCollState(CollisionState::Move);
 	//UŒ‚2
 	coll->GetModel()->SetAnim(kAnim, false, kAN2AnimSpeed);
+	//‰ÁZƒQ[ƒW‚Ì—\–ñ
+	coll->GetUltGage().lock()->SetPendingUltGage(kAddUltGage);
 }
 
 PlayerStateAttackN2::~PlayerStateAttackN2()
@@ -65,7 +65,6 @@ PlayerStateAttackN2::~PlayerStateAttackN2()
 	//UŒ‚”»’è‚Ìíœ
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
-	coll->GetUltGage().lock()->SetPendingUltGage(0);
 }
 void PlayerStateAttackN2::Init()
 {
@@ -75,8 +74,8 @@ void PlayerStateAttackN2::Init()
 void PlayerStateAttackN2::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//€–S‚µ‚½‚È‚ç
-	if (coll->GetHitPoints().lock()->IsDead())
+	//€–S‚µ‚½‚©‚Âƒ{ƒX‚ª“|‚¹‚Ä‚È‚¢ê‡
+	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;

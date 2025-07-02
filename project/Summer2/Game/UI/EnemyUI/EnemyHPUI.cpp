@@ -37,9 +37,9 @@ void EnemyHPUI::Init()
 	m_viewMaxHp = hp->GetMaxHp();
 }
 
-void EnemyHPUI::Update()
+void EnemyHPUI::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	//ƒvƒŒƒCƒ„[‚ªÁ‚¦‚½ê‡‚±‚ÌUI‚àíœ
+	//“G‚ªÁ‚¦‚½ê‡‚±‚ÌUI‚àíœ
 	if (m_enemy.expired())
 	{
 		m_isDelete = true;
@@ -64,6 +64,8 @@ void EnemyHPUI::Update()
 
 void EnemyHPUI::Draw() const
 {
+	//•`‰æ‚µ‚È‚¢‚È‚çreturn
+	if (!m_isDraw)return;
 	auto pos = ConvWorldPosToScreenPos(m_pos.ToDxLibVector());
 	pos.x -= kShiftLeftPosX;
 	DrawBoxAA(pos.x, pos.y, pos.x + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, pos.y - kBarHeight, 0x555555, true);

@@ -3,6 +3,7 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateRun.h"
 #include "../../Attack/AttackBase.h"
+#include "../../Character/Enemy/EnemyBase.h"
 #include "../../../../General/game.h"
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/AttackPoints.h"
@@ -105,14 +106,6 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 	{
 		TargetSearch(kSearchDistance, kSearchAngle, target.lock()->GetPos());
 	}
-
-#if _DEBUG
-	if (input.IsTrigger("Max"))
-	{
-		m_ultGage->AddUltGage(10000);
-		m_hitPoints->Heal(10000);
-	}
-#endif
 	//ダッシュ状態じゃないとき
 	if (std::dynamic_pointer_cast<PlayerStateRun>(m_state) == nullptr)
 	{
@@ -144,6 +137,14 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 	m_hitPoints->Update();
 	//攻撃ステータスの更新
 	m_attackPoints->Update();
+
+#if _DEBUG
+	if (input.IsTrigger("Max"))
+	{
+		m_ultGage->AddUltGage(10000);
+		m_hitPoints->Heal(10000);
+	}
+#endif
 }
 
 void Player::OnCollide(const std::shared_ptr<Collidable> other)

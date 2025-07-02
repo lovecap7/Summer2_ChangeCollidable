@@ -56,7 +56,7 @@ void HitPoints::Damage(int damage)
 {
 	if (m_isNoDamage)return;	//–³“G‚È‚ç
 	if (damage < 0)damage *= -1;
-	m_hp -= static_cast<float>(damage) * m_defence.damageCutRate;
+	m_hp -= static_cast<int>(static_cast<float>(damage) * m_defence.damageCutRate);
 	if (m_hp <= 0)
 	{
 		m_hp = 0;

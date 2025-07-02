@@ -6,7 +6,7 @@ class Camera;
 class Actor;
 class ActorManager;
 class Collidable;
-class Bullet;
+class Breath;
 class BossDragonStateBreathAttack :
     public BossDragonStateBase, public std::enable_shared_from_this<BossDragonStateBreathAttack>
 {
@@ -19,12 +19,12 @@ private:
     //UŒ‚‚ÌƒtƒŒ[ƒ€‚ğ”‚¦‚é
     int m_attackCountFrame;
     //UŒ‚‚ÌQÆ
-    std::weak_ptr<Bullet> m_attack1;
-    std::weak_ptr<Bullet> m_attack2;
-    std::weak_ptr<Bullet> m_attack3;
+    std::weak_ptr<Breath> m_attack1;
+    std::weak_ptr<Breath> m_attack2;
+    std::weak_ptr<Breath> m_attack3;
     //UŒ‚‚Ìì¬
     void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
     //’e‚Ìó‘Ôİ’è
-    void SetupBullet(std::weak_ptr<Bullet> bullet, float angle);
+    void SetupBreath(std::weak_ptr<Breath> bullet, float angle);
 };
 

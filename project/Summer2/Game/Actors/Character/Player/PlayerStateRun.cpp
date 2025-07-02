@@ -7,8 +7,10 @@
 #include "PlayerStateCharge.h"
 #include "PlayerStateHit.h"
 #include "PlayerStateDeath.h"
+#include "PlayerStateUltimate.h"
 #include "Player.h"
 #include "UltGage.h"
+#include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Collision/ColliderBase.h"
 #include "../../../../General/Rigidbody.h"
@@ -54,8 +56,8 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//死亡したなら
-	if (coll->GetHitPoints().lock()->IsDead())
+	//死亡したかつボスが倒せてない場合
+	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;
@@ -80,12 +82,18 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 		ChangeState(std::make_shared<PlayerStateRolling>(m_owner));
 		return;
 	}
-	
 	//ジャンプボタンを押してるならジャンプ
 	if (input.IsTrigger("B") && coll->IsFloor())
 	{
 		//ジャンプ
 		ChangeState(std::make_shared<PlayerStateJump>(m_owner));
+		return;
+	}
+	//ゲージがあるとき使える
+	if (input.IsTrigger("RB") && coll->GetUltGage().lock()->IsMaxUlt())
+	{
+		//必殺技
+		ChangeState(std::make_shared<PlayerStateUltimate>(m_owner));
 		return;
 	}
 	if (input.IsTrigger("X"))

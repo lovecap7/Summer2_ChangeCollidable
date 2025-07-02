@@ -7,6 +7,7 @@
 #include "../../../../../General/Input.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
+#include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/Camera.h"
 
 namespace
@@ -25,6 +26,8 @@ BossDragonStateDeath::BossDragonStateDeath(std::weak_ptr<Actor> owner) :
 	coll->SetCollState(CollisionState::Dead);
 	//Ž€–S
 	coll->GetModel()->SetAnim(kAnim, false);
+	//–³“G
+	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 }
 
 BossDragonStateDeath::~BossDragonStateDeath()

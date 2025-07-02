@@ -3,12 +3,12 @@
 #include "../../../General/Math/MyMath.h"
 #include <memory>
 class EnemyBase;
-class EnemyHPUI :
+class BossHPUI :
     public EnemyUIBase
 {
 public:
-    EnemyHPUI(std::weak_ptr<EnemyBase> enemy);
-    ~EnemyHPUI();
+    BossHPUI(std::weak_ptr<EnemyBase> enemy);
+    ~BossHPUI();
     void Init()override;
     void Update(const std::weak_ptr<ActorManager> actorManager)override;
     void Draw() const override;
@@ -16,7 +16,6 @@ public:
 private:
     float m_viewHp;
     float m_viewMaxHp;
-    //ï`âÊç¿ïW
-    Vector3 m_pos;
+
 };
 

@@ -495,6 +495,15 @@
     <ClCompile Include="Game\UI\EnemyUI\EnemyHPUI.cpp">
       <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Stage\BossArea.cpp">
+      <Filter>ソース ファイル\Game\Actors\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\EnemyUI\BossHPUI.cpp">
+      <Filter>ソース ファイル\Game\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\Breath.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -856,6 +865,15 @@
     </ClInclude>
     <ClInclude Include="Game\UI\EnemyUI\EnemyHPUI.h">
       <Filter>ヘッダー ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Stage\BossArea.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\EnemyUI\BossHPUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\Breath.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

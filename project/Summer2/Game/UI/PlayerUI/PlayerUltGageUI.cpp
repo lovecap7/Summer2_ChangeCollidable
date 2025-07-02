@@ -35,7 +35,7 @@ void PlayerUltGageUI::Init()
 	m_viewMaxUltGageValue = ultGage->GetMaxUltGageValue();
 }
 
-void PlayerUltGageUI::Update()
+void PlayerUltGageUI::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	//ÉvÉåÉCÉÑÅ[Ç™è¡Ç¶ÇΩèÍçáÇ±ÇÃUIÇ‡çÌèú
 	if (m_player.expired())
@@ -58,6 +58,8 @@ void PlayerUltGageUI::Update()
 
 void PlayerUltGageUI::Draw() const
 {
+	//ï`âÊÇµÇ»Ç¢Ç»ÇÁreturn
+	if (!m_isDraw)return;
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxUltGageValue / m_viewMaxUltGageValue) * kBarWidth, kRightPosY, 0x555555, true);
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewUltGageValue / m_viewMaxUltGageValue) * kBarWidth, kRightPosY, 0x5555ff, true);
 }

@@ -24,7 +24,7 @@ namespace
 	//右手のインデックス
 	constexpr int kRightHandIndex = 36;
 	//パンチの当たり判定の大きさ(攻撃の大きさ)
-	constexpr float kAttackRadius = 200.0f;
+	constexpr float kAttackRadius = 140.0f;
 	//攻撃のダメージ
 	constexpr int kAttackDamage = 100;
 	//攻撃の持続フレーム

@@ -2,6 +2,8 @@
 #include "../StageSetup.h"
 #include "Actor.h"
 #include "Character/Player/Player.h"
+#include "Character/Enemy/EnemyBase.h"
+#include "Stage/BossArea.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Math/MyMath.h"
 #include "Attack/Slash.h"
@@ -9,6 +11,7 @@
 #include "Attack/AreaOfEffectAttack.h"
 #include "Attack/Bullet.h"
 #include "Attack/Blast.h"
+#include "Attack/Breath.h"
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
 #include "Item/Bomb.h"
@@ -52,7 +55,31 @@ void ActorManager::Init(std::unique_ptr<StageSetup>& stageSetup)
 			break;
 		}
 	}
-
+	//ボスの参照
+	for (auto& actor : m_actors)
+	{
+		//敵を探す
+		if (actor->GetGameTag() == GameTag::Enemy)
+		{
+			auto enemy = std::dynamic_pointer_cast<EnemyBase>(actor);
+			//ボスなら
+			if (enemy->GetEnemyGrade() == EnemyGrade::Boss)
+			{
+				m_boss = enemy;
+				break;
+			}
+		}
+	}
+	//ボス部屋の参照
+	for (auto& actor : m_actors)
+	{
+		//ボス部屋を探す
+		if (actor->GetGameTag() == GameTag::Area)
+		{
+			m_bossArea = std::dynamic_pointer_cast<BossArea>(actor);
+			break;
+		}
+	}
 	//ハンドル
 	m_heartHandle = MV1LoadModel("Data/Model/Item/Heart.mv1");
 	m_bombHandle = MV1LoadModel("Data/Model/Item/Bomb.mv1");
@@ -150,6 +177,9 @@ std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_pt
 	case AttackType::Blast:
 		attack = std::make_shared<Blast>(owner);
 		break;
+	case AttackType::Breath:
+		attack = std::make_shared<Breath>(owner);
+		break;
 	default:
 		break;
 	}
@@ -187,6 +217,24 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 	return item;
 }
 
+void ActorManager::AllDeleteNormalEnemy()
+{
+	//敵
+	for (auto& actor : m_actors)
+	{
+		//敵を探す
+		if (actor->GetGameTag() == GameTag::Enemy)
+		{
+			auto enemy = std::dynamic_pointer_cast<EnemyBase>(actor);
+			//ボス以外なら
+			if (enemy->GetEnemyGrade() != EnemyGrade::Boss)
+			{
+				enemy->Delete();
+			}
+		}
+	}
+}
+
 //アクターを追加
 void ActorManager::AddActor(std::shared_ptr<Actor> actor)
 {
@@ -205,18 +253,24 @@ void ActorManager::AddActor(std::shared_ptr<Actor> actor)
 //アクターの消滅フラグをチェックして削除
 void ActorManager::CheckDeleteActors()
 {
-	auto thisPointer = shared_from_this();
-	auto remIt = std::remove_if(m_actors.begin(), m_actors.end(), [thisPointer](std::shared_ptr<Actor> actor) {
-		bool isDead = actor->IsDelete();//死亡したかをチェック
-		if (isDead)
-		{
-			//死亡したアクターの終了処理
-			actor->Dead(thisPointer);
-			actor->End();
-		}
-		return isDead;
-		});
-	m_actors.erase(remIt, m_actors.end());//削除
+	for (int i = 0;i < 3;++i)
+	{
+		bool isOneMore = false;
+		auto thisPointer = shared_from_this();
+		auto remIt = std::remove_if(m_actors.begin(), m_actors.end(), [thisPointer, &isOneMore](std::shared_ptr<Actor> actor) {
+			bool isDead = actor->IsDelete();//死亡したかをチェック
+			if (isDead)
+			{
+				isOneMore = true;
+				//死亡したアクターの終了処理
+				actor->Dead(thisPointer);
+				actor->End();
+			}
+			return isDead;
+			});
+		m_actors.erase(remIt, m_actors.end());//削除
+		if (!isOneMore)break;
+	}
 }
 
 //追加予定のアクターを実装

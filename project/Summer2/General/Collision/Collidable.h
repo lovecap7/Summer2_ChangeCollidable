@@ -33,6 +33,7 @@ enum class GameTag
 	Object,		//障害物
 	Field,		//フィールド
 	Attack,		//攻撃
+	Area,		//エリア
 };
 
 

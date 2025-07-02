@@ -6,6 +6,7 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/HitPoints.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
@@ -20,9 +21,11 @@ PlayerStateDeath::PlayerStateDeath(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//‘Ò‹@ó‘Ô
+	//Ž€–Só‘Ô
 	coll->GetModel()->SetAnim(kAnim, false);
 	coll->SetCollState(CollisionState::Dead);
+	//–³“G
+	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 }
 
 PlayerStateDeath::~PlayerStateDeath()

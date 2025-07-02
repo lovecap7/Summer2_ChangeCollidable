@@ -2,6 +2,7 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateDeath.h"
 #include "Player.h"
+#include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Rigidbody.h"
@@ -46,8 +47,8 @@ void PlayerStateHit::Init()
 void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//Ž€–S‚µ‚½‚È‚ç
-	if (coll->GetHitPoints().lock()->IsDead())
+	//Ž€–S‚µ‚½‚©‚Âƒ{ƒX‚ª“|‚¹‚Ä‚È‚¢ê‡
+	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;

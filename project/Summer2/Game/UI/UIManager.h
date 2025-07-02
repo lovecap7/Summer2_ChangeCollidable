@@ -3,13 +3,14 @@
 #include <list>
 class UIBase;
 class StageSetup;
+class ActorManager;
 class UIManager
 {
 public:
 	UIManager();
 	~UIManager();
 	void Init(std::unique_ptr<StageSetup>& stageSetup);
-	void Update();
+	void Update(const std::weak_ptr<ActorManager> actorManager);
 	void Draw()const;
 	void End();
 	//UI’Ç‰Á

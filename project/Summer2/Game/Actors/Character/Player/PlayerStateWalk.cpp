@@ -8,8 +8,10 @@
 #include "PlayerStateCharge.h"
 #include "PlayerStateHit.h"
 #include "PlayerStateDeath.h"
+#include "PlayerStateUltimate.h"
 #include "Player.h"
 #include "UltGage.h"
+#include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Collision/ColliderBase.h"
@@ -52,8 +54,8 @@ void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera, const std::weak
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//Ž€–S‚µ‚½‚È‚ç
-	if (coll->GetHitPoints().lock()->IsDead())
+	//Ž€–S‚µ‚½‚©‚Âƒ{ƒX‚ª“|‚¹‚Ä‚È‚¢ê‡
+	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;
@@ -82,7 +84,7 @@ void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera, const std::weak
 	if (input.IsTrigger("RB") && coll->GetUltGage().lock()->IsMaxUlt())
 	{
 		//•KŽE‹Z
-		//ChangeState(std::make_shared<PlayerStateUltimate>(m_player, actorManager));
+		ChangeState(std::make_shared<PlayerStateUltimate>(m_owner));
 		return;
 	}
 	//ƒWƒƒƒ“ƒvƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚Ä‚é‚È‚çƒWƒƒƒ“ƒv

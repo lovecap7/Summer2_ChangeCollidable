@@ -1,7 +1,5 @@
 #include "StageSetup.h"
-#include "../General/TransformDataLoader.h"
 #include "../General/Model.h"
-#include "Actors/Actor.h"
 #include <cassert>
 #include <string>
 #include <DxLib.h>
@@ -22,10 +20,12 @@
 #include "../Game/Actors/Stage/StageObjectCollision.h"
 #include "../Game/Actors/Stage/StageObjectDraw.h"
 #include "../Game/Actors/Stage/Sky.h"
+#include "../Game/Actors/Stage/BossArea.h"
 //UI
 #include "../Game/UI/PlayerUI/PlayerHPUI.h"
 #include "../Game/UI/PlayerUI/PlayerUltGageUI.h"
 #include "../Game/UI/EnemyUI/EnemyHPUI.h"
+#include "../Game/UI/EnemyUI/BossHPUI.h"
 
 StageSetup::StageSetup(Stage::StageIndex index):
 	m_stageIndex(index)
@@ -36,10 +36,8 @@ StageSetup::StageSetup(Stage::StageIndex index):
 	CreateCharacterAndUI();
 	//ステージのオブジェクト配置
 	CreateStage();
-
-	//auto floor = std::make_shared<InvisibleWall>(m_wallHandle, Vector3{ 0.0f,-10.0f,0.0f }, VGet(1000.0f, 1.0f, 1000.0f), VGet(0.0f, 0.0f, 0.0f));
-	//m_actors.emplace_back(floor);
-
+	//ボス部屋を作る
+	CreateBossArea();
 }
 
 StageSetup::~StageSetup()
@@ -171,6 +169,8 @@ void StageSetup::CreateCharacterAndUI()
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
 			m_actors.emplace_back(bossDragon);
+			//ボスのHP
+			m_uis.emplace_back(std::make_shared<BossHPUI>(bossDragon));
 
 		}
 		else if (charaData.name == "Bomber")
@@ -201,11 +201,13 @@ void StageSetup::CreateStage()
 	//空を作成
 	m_actors.emplace_back(std::make_shared<Sky>(m_skyHandle));
 	//配置データを取得
-	std::string path;
+	std::string drawPath;
+	std::string collPath;
 	switch (m_stageIndex)
 	{
 	case Stage::StageIndex::Stage1:
-		path = "Data/CSV/StageTransformData.csv";
+		drawPath = "Data/CSV/StageTransformData.csv";
+		collPath = "Data/CSV/StageCollisionTransformData.csv";
 		break;
 	case Stage::StageIndex::Stage2:
 		break;
@@ -216,7 +218,7 @@ void StageSetup::CreateStage()
 	}
 	//描画用
 	//配置データを取得
-	auto stageDrawData = TransformDataLoader::LoadDataCSV(path.c_str());
+	auto stageDrawData = TransformDataLoader::LoadDataCSV(drawPath.c_str());
 	//名前からオブジェクトを配置していく
 	for (auto& stageData : stageDrawData)
 	{
@@ -235,7 +237,7 @@ void StageSetup::CreateStage()
 	}
 	//当たり判定用
 	//配置データを取得
-	auto stageCollData = TransformDataLoader::LoadDataCSV("Data/CSV/StageCollisionTransformData.csv");
+	auto stageCollData = TransformDataLoader::LoadDataCSV(collPath.c_str());
 	//名前からコリジョンを配置していく
 	for (auto& stageData : stageCollData)
 	{
@@ -252,4 +254,39 @@ void StageSetup::CreateStage()
 			m_actors.emplace_back(plane);
 		}
 	}
+}
+
+void StageSetup::CreateBossArea()
+{
+	//配置データを取得
+	std::string path;
+	switch (m_stageIndex)
+	{
+	case Stage::StageIndex::Stage1:
+		path = "Data/CSV/BossTransformData.csv";
+		break;
+	case Stage::StageIndex::Stage2:
+		break;
+	case Stage::StageIndex::Stage3:
+		break;
+	default:
+		break;
+	}
+	//ボス部屋を作成
+	auto stageCollData = TransformDataLoader::LoadDataCSV(path.c_str());
+	VECTOR startPos = {};
+	VECTOR endPos = {};
+	//名前からコリジョンを配置していく
+	for (auto& stageData : stageCollData)
+	{
+		if (stageData.name == "Start")
+		{
+			startPos = stageData.pos;
+		}
+		else if (stageData.name == "End")
+		{
+			endPos = stageData.pos;
+		}
+	}
+	m_actors.emplace_back(std::make_shared<BossArea>(startPos, endPos));
 }

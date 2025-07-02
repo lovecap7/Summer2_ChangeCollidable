@@ -11,13 +11,14 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/HitPoints.h"
 #include "../../Attack/AreaOfEffectAttack.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
 {
 	//Ultのダメージと持続フレーム
-	constexpr int kUltDamege = 30.0f;
+	constexpr int kUltDamege = 150.0f;
 	constexpr int kUltKeepFrame = 180;
 	//ノックバックの大きさ
 	constexpr float kKnockBackPower = 2.0f;
@@ -54,6 +55,9 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player) :
 	model->SetDir(dir);
 	//ゲージを0に
 	coll->GetUltGage().lock()->ResetUltGage();
+	coll->GetUltGage().lock()->SetPendingUltGage(0);
+	//無敵
+	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 }
 
 
@@ -62,6 +66,8 @@ PlayerStateUltimate::~PlayerStateUltimate()
 	//攻撃判定の削除
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
+	//無敵
+	coll->GetHitPoints().lock()->SetIsNoDamege(false);
 }
 
 void PlayerStateUltimate::Init()

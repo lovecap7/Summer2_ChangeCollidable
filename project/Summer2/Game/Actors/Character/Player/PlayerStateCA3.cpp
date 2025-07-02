@@ -5,6 +5,7 @@
 #include "PlayerStateUltimate.h"
 #include "Player.h"
 #include "UltGage.h"
+#include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Collision/ColliderBase.h"
@@ -38,7 +39,7 @@ namespace
 	//å∏ë¨ó¶
 	constexpr float kMoveDeceRate = 0.8f;
 	//â¡éZÉQÅ[ÉWó 
-	constexpr int kAddUltGage = 3;
+	constexpr int kAddUltGage = 5;
 }
 
 PlayerStateCA3::PlayerStateCA3(std::weak_ptr<Actor> player) :
@@ -50,6 +51,8 @@ PlayerStateCA3::PlayerStateCA3(std::weak_ptr<Actor> player) :
 	auto model = coll->GetModel();
 	model->SetAnim(kAnim, true, kCA3AnimSpeed);
 	model->SetFixedLoopFrame(kCA3KeepFrame);//éwíËÉãÅ[Év
+	//â¡éZÉQÅ[ÉWÇÃó\ñÒ
+	coll->GetUltGage().lock()->SetPendingUltGage(kAddUltGage);
 }
 
 
@@ -58,7 +61,6 @@ PlayerStateCA3::~PlayerStateCA3()
 	//çUåÇîªíËÇÃçÌèú
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
-	coll->GetUltGage().lock()->SetPendingUltGage(0);
 }
 void PlayerStateCA3::Init()
 {
@@ -69,8 +71,8 @@ void PlayerStateCA3::Init()
 void PlayerStateCA3::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//éÄñSÇµÇΩÇ»ÇÁ
-	if (coll->GetHitPoints().lock()->IsDead())
+	//éÄñSÇµÇΩÇ©Ç¬É{ÉXÇ™ì|ÇπÇƒÇ»Ç¢èÍçá
+	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;

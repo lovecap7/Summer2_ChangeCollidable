@@ -32,7 +32,7 @@ namespace
 	constexpr float kHPBarY = 30.0f;
 }
 SmallDragon::SmallDragon(int modelHandle, Vector3 pos) :
-	EnemyBase(Shape::Capsule)
+	EnemyBase(Shape::Capsule,EnemyGrade::Normal)
 {
 	//ƒ‚ƒfƒ‹‚Ì‰Šú‰»
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());

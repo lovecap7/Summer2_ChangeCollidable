@@ -37,7 +37,7 @@ void GameManager::Init()
 	//UIの初期化
 	m_uiManager->Init(m_stageSetup);
 	//カメラの初期化
-	m_camera->Init(m_actorManager->GetPlayer());
+	m_camera->Init();
 }
 
 void GameManager::Update()
@@ -51,11 +51,16 @@ void GameManager::Update()
 		//アクターの更新
 		m_actorManager->Update(m_camera);
 		//UIの更新
-		m_uiManager->Update();
+		m_uiManager->Update(m_actorManager);
 		//カメラの更新
-		m_camera->Update();
+		m_camera->Update(m_actorManager);
+		//ボスを倒したとき
+		if (m_actorManager->GetBoss().expired())
+		{
+			m_isGameClear = true;
+		}
 		//プレイヤーが死亡した際の処理
-		if (m_actorManager->GetPlayer().expired())
+		else if (m_actorManager->GetPlayer().expired())
 		{
 			m_isGameover = true;
 		}

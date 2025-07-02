@@ -58,5 +58,7 @@ private:
     void CreateCharacterAndUI();
     //ステージの作成と配置
     void CreateStage();
+    //ボス部屋
+    void CreateBossArea();
 };
 

@@ -20,14 +20,14 @@ void UIManager::Init(std::unique_ptr<StageSetup>& stageSetup)
 	}
 }
 
-void UIManager::Update()
+void UIManager::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	//íœ—\’è‚ÌUIíœ
 	CheckDelete();
 	//XV
 	for (auto& ui : m_uis)
 	{
-		ui->Update();
+		ui->Update(actorManager);
 	}
 }
 

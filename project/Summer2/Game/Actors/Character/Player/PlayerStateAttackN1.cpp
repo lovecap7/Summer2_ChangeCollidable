@@ -23,7 +23,7 @@
 namespace
 {
 	//通常攻撃1のダメージと持続フレームと発生フレーム
-	constexpr int kAN1Damege = 100.0f;
+	constexpr int kAN1Damege = 130.0f;
 	constexpr int kAN1KeepFrame = 6;
 	constexpr int kAN1StartFrame = 12;
 	//ノックバックの大きさ
@@ -39,7 +39,7 @@ namespace
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//攻撃がヒットしたときの加算ゲージ量
-	constexpr int kAddUltGage = 1;
+	constexpr int kAddUltGage = 2;
 	//移動フレーム
 	constexpr int kMoveFrame = 5;
 	//移動量
@@ -63,7 +63,6 @@ PlayerStateAttackN1::~PlayerStateAttackN1()
 	//攻撃判定の削除
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
-	coll->GetUltGage().lock()->SetPendingUltGage(0);
 }
 
 void PlayerStateAttackN1::Init()
@@ -75,8 +74,8 @@ void PlayerStateAttackN1::Init()
 void PlayerStateAttackN1::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//死亡したなら
-	if (coll->GetHitPoints().lock()->IsDead())
+	//死亡したかつボスが倒せてない場合
+	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;

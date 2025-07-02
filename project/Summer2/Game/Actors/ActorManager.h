@@ -7,6 +7,8 @@ class Player;
 class Camera;
 class Actor;
 class StageSetup;
+class BossArea;
+class EnemyBase;
 class ActorManager : public std::enable_shared_from_this<ActorManager>
 {
 public:
@@ -22,14 +24,20 @@ public:
 	void End();
 	//プレイヤーを取得
 	std::weak_ptr<Player> GetPlayer() const { return m_player; }
+	//ボスを取得
+	std::weak_ptr<EnemyBase> GetBoss() const { return m_boss; }
 	//プレイヤーに近い敵を取得
 	std::weak_ptr<Actor> GetNearestEnemy() const;
+	//ボス部屋に入ったか
+	bool IsEntryBossArea()const { return m_bossArea.expired(); };
 	//追加予定のアクターを追加
 	void AddNextActor(std::shared_ptr<Actor> actor);
 	//攻撃を作成して参照を返す
 	std::weak_ptr<AttackBase> CreateAttack(AttackType at, std::weak_ptr<Actor> owner);
 	//アイテムの追加
 	std::weak_ptr<ItemBase> CreateItem(ItemType it, Vector3 pos);
+	//雑魚敵をすべて削除
+	void AllDeleteNormalEnemy();
 private:
 	//アクターを追加
 	void AddActor(std::shared_ptr<Actor> actor);
@@ -44,6 +52,10 @@ private:
 	std::list<std::shared_ptr<Actor>> m_nextAddActors;
 	//プレイヤー
 	std::weak_ptr<Player> m_player;
+	//ボス
+	std::weak_ptr<EnemyBase> m_boss;
+	//ボス部屋
+	std::weak_ptr<BossArea> m_bossArea;
 	//ID
 	int m_actorId;//割り振る番号
 private:

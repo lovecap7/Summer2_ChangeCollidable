@@ -13,7 +13,7 @@
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/Camera.h"
-#include "../../../Attack/Bullet.h"
+#include "../../../Attack/Breath.h"
 
 namespace
 {
@@ -22,7 +22,7 @@ namespace
 	//’e‚Ì”¼Œa‚Ì‘å‚«‚³
 	constexpr float kBulletRadius = 40.0f;
 	//’e‚Ìƒ_ƒ[ƒW
-	constexpr int kBulletDamage = 200;
+	constexpr int kBulletDamage = 80;
 	//’e‚Ì‘±ƒtƒŒ[ƒ€
 	constexpr int kBulletKeepFrame = 180;
 	//’e‚Ì”­¶ƒtƒŒ[ƒ€
@@ -108,16 +108,16 @@ void BossDragonStateBreathAttack::Update(const std::weak_ptr<Camera> camera, con
 void BossDragonStateBreathAttack::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
 {
 	//ì¬‚ÆQÆ
-	m_attack1 = std::dynamic_pointer_cast<Bullet>(actorManager.lock()->CreateAttack(AttackType::Bullet, m_owner).lock());
-	m_attack2 = std::dynamic_pointer_cast<Bullet>(actorManager.lock()->CreateAttack(AttackType::Bullet, m_owner).lock());
-	m_attack3 = std::dynamic_pointer_cast<Bullet>(actorManager.lock()->CreateAttack(AttackType::Bullet, m_owner).lock());
+	m_attack1 = std::dynamic_pointer_cast<Breath>(actorManager.lock()->CreateAttack(AttackType::Breath, m_owner).lock());
+	m_attack2 = std::dynamic_pointer_cast<Breath>(actorManager.lock()->CreateAttack(AttackType::Breath, m_owner).lock());
+	m_attack3 = std::dynamic_pointer_cast<Breath>(actorManager.lock()->CreateAttack(AttackType::Breath, m_owner).lock());
 	//’e‚Ìİ’è
-	SetupBullet(m_attack1, 0.0f);
-	SetupBullet(m_attack2, kBulletAngle);
-	SetupBullet(m_attack3, -kBulletAngle);
+	SetupBreath(m_attack1, 0.0f);
+	SetupBreath(m_attack2, kBulletAngle);
+	SetupBreath(m_attack3, -kBulletAngle);
 }
 
-void BossDragonStateBreathAttack::SetupBullet(std::weak_ptr<Bullet> bullet, float angle)
+void BossDragonStateBreathAttack::SetupBreath(std::weak_ptr<Breath> bullet, float angle)
 {
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//’e‚Ìİ’è

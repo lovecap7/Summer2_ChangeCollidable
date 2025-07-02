@@ -17,6 +17,8 @@ public:
     void End();
     //ゲームオーバー
     bool IsGameover() { return m_isGameover; };
+    //ゲームクリア
+    bool IsGameClear() { return m_isGameClear; };
 private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;
@@ -29,6 +31,8 @@ private:
 private:
     //ゲームオーバーフラグ
     bool m_isGameover;
+    //ゲームクリアフラグ
+    bool m_isGameClear;
     //デバッグモード用
     bool m_isUpdateStop = false;
 };

@@ -45,8 +45,15 @@ void StageScene::Update()
 	}
 	//ゲームの更新
 	m_gameManager->Update();
+	//ゲームクリアしたときの処理
+	if (m_gameManager->IsGameClear())
+	{
+		return;
+		m_controller.PushScene(std::make_shared<GameoverScene>(m_controller));
+		return;
+	}
 	//ゲームオーバーしたときの処理
-	if (m_gameManager->IsGameover())
+	else if (m_gameManager->IsGameover())
 	{
 		m_controller.PushScene(std::make_shared<GameoverScene>(m_controller));
 		return;

@@ -10,6 +10,7 @@ enum class AttackType
 	AreaOfEffect,
 	Bullet,
 	Blast,
+	Breath,
 };
 
 class CharacterStateBase;
