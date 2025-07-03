@@ -43,6 +43,8 @@ public:
 	//ダッシュキープフラグ
 	bool IsRunKeep() { return m_isRunKeep; };
 	void SetIsRunKeep(bool isRunKeep) { m_isRunKeep = isRunKeep; };
+	//ゲームクリアアニメーション終了
+	bool IsFinishClearAnim();
 private:
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;

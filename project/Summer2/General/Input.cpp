@@ -65,6 +65,8 @@ void Input::Update()
 	padState = GetJoypadInputState(DX_INPUT_PAD1);
 	mouseState = GetMouseInput();
 
+	m_isBeforePressAny = m_isPressAny;
+	m_isPressAny = false;
 	//アクション名に割り当てられているすべてのキーの入力をチェックする
 	for (const auto& keyInfo : m_inputActionMap)
 	{
@@ -89,6 +91,7 @@ void Input::Update()
 
 			if (isPress)
 			{
+				m_isPressAny = isPress;
 				break;
 			}
 		}
@@ -103,10 +106,10 @@ void Input::Update()
 	m_stickInfo.rightStickY = 0;
 
 	//スティックの入力を取得する
-	GetJoypadAnalogInput(&m_stickInfo.leftStickX, &m_stickInfo.leftStickY, DX_INPUT_PAD1);
-	GetJoypadAnalogInputRight(&m_stickInfo.rightStickX, &m_stickInfo.rightStickY, DX_INPUT_PAD1);
+	DxLib::GetJoypadAnalogInput(&m_stickInfo.leftStickX, &m_stickInfo.leftStickY, DX_INPUT_PAD1);
+	DxLib::GetJoypadAnalogInputRight(&m_stickInfo.rightStickX, &m_stickInfo.rightStickY, DX_INPUT_PAD1);
 	XINPUT_STATE* xInputState = new XINPUT_STATE;
-	GetJoypadXInputState(DX_INPUT_PAD1, xInputState);
+	DxLib::GetJoypadXInputState(DX_INPUT_PAD1, xInputState);
 	m_triggerInfo.left = xInputState->LeftTrigger;
 	m_triggerInfo.right = xInputState->RightTrigger;
 }
@@ -269,5 +272,23 @@ bool Input::IsPushTrigger(bool right, int power)
 bool Input::IsPushTrigger(bool right)
 {
 	return IsPushTrigger(right, kTriggerPower);
+}
+
+bool Input::IsPlessAny()
+{
+	return m_isPressAny;
+}
+
+bool Input::IsTriggerAny()
+{
+	if (m_isPressAny)
+	{
+		//前のフレーム押していなかったら
+		if (m_isBeforePressAny != m_isPressAny)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 

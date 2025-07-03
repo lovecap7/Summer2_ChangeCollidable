@@ -132,6 +132,7 @@
     <ClCompile Include="Main\Application.cpp" />
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Scene\DebugScene.cpp" />
+    <ClCompile Include="Scene\GameClearScene.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
     <ClCompile Include="Scene\PauseScene.cpp" />
     <ClCompile Include="Scene\ResultScene.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="Main\Application.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\DebugScene.h" />
+    <ClInclude Include="Scene\GameClearScene.h" />
     <ClInclude Include="Scene\GameoverScene.h" />
     <ClInclude Include="Scene\PauseScene.h" />
     <ClInclude Include="Scene\ResultScene.h" />

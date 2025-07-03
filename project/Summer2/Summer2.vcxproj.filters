@@ -507,6 +507,9 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateWin.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\GameClearScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -880,6 +883,9 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateWin.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameClearScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

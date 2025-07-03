@@ -36,7 +36,7 @@ void SelectStageScene::Update()
 		return;
 	}
 #endif
-	if (input.IsTrigger("A"))
+	if (input.IsTriggerAny())
 	{
 		//Ÿ‚ÌƒV[ƒ“‚Ö
 		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));

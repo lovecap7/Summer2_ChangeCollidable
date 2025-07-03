@@ -2,6 +2,7 @@
 #include "PlayerStateBase.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateRun.h"
+#include "PlayerStateWin.h"
 #include "../../Attack/AttackBase.h"
 #include "../../Character/Enemy/EnemyBase.h"
 #include "../../../../General/game.h"
@@ -186,4 +187,15 @@ void Player::End()
 {
 	Collidable::End();
 	m_model->End();
+}
+
+bool Player::IsFinishClearAnim()
+{
+	//勝利状態以外はfalse
+	if (std::dynamic_pointer_cast<PlayerStateWin>(m_state) == nullptr)
+	{
+		return false;
+	}
+	//勝利状態の時にアニメーションが終了したらtrue
+	return m_model->IsFinishAnim();
 }

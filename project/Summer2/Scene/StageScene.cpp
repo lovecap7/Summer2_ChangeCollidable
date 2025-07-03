@@ -4,6 +4,7 @@
 #include "DebugScene.h"
 #include "PauseScene.h"
 #include "GameoverScene.h"
+#include "GameClearScene.h"
 #include "SceneController.h"
 #include "../General/Input.h"
 #include <DxLib.h>
@@ -48,8 +49,7 @@ void StageScene::Update()
 	//ゲームクリアしたときの処理
 	if (m_gameManager->IsGameClear())
 	{
-		return;
-		m_controller.PushScene(std::make_shared<GameoverScene>(m_controller));
+		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller));
 		return;
 	}
 	//ゲームオーバーしたときの処理

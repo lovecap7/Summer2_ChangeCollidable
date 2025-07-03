@@ -3,6 +3,7 @@
 #include <DxLib.h>
 #include "../General/game.h"
 #include "Actors/ActorManager.h"
+#include "Actors/Character/Player/Player.h"
 #include "UI/UIManager.h"
 #include "../General/Collision/Physics.h"
 #include "../Game/Camera/Camera.h"
@@ -57,7 +58,11 @@ void GameManager::Update()
 		//ボスを倒したとき
 		if (m_actorManager->GetBoss().expired())
 		{
-			m_isGameClear = true;
+			//プレイヤーの勝利アニメーションが終了したら
+			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim())
+			{
+				m_isGameClear = true;
+			}
 		}
 		//プレイヤーが死亡した際の処理
 		else if (m_actorManager->GetPlayer().expired())

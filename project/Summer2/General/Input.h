@@ -152,6 +152,17 @@ public:
 	/// <returns></returns>
 	bool IsPushTrigger(bool right);
 
+	/// <summary>
+	/// 何かキーやボタンを押したときにtrue
+	/// </summary>
+	/// <returns></returns>
+	bool IsPlessAny();
+
+	/// <summary>
+	/// 何かキーかボタンを押した瞬間true
+	/// </summary>
+	/// <returns></returns>
+	bool IsTriggerAny();
 private:
 	/// <summary>
 	/// 入力の種類
@@ -178,7 +189,9 @@ private:
 	StickInfo m_stickInfo = StickInfo();
 	//トリガーの状態
 	TriggerInfo m_triggerInfo = TriggerInfo();
-	
+	//何か押したらtrue
+	bool m_isPressAny = false;
+	bool m_isBeforePressAny = false;
 };
 
 

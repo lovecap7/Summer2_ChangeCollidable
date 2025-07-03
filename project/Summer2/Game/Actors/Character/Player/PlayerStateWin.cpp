@@ -50,5 +50,10 @@ void PlayerStateWin::Update(const std::weak_ptr<Camera> camera, const std::weak_
 		auto dir = camera.lock()->GetPos() - coll->GetPos();
 		coll->GetModel()->SetDir(dir.XZ());
 	}
+	//アニメーション終了後
+	if (coll->GetModel()->IsFinishAnim())
+	{
+		
+	}
 }
 

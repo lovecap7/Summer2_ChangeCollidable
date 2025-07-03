@@ -39,7 +39,7 @@ void TitleScene::Update()
 		return;
 	}
 #endif
-	if (input.IsTrigger("Pause"))
+	if (input.IsTriggerAny())
 	{
 		//Ÿ‚ÌƒV[ƒ“‚Ö
 		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
