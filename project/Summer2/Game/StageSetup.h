@@ -47,6 +47,7 @@ private:
     int m_wallHandle;
     int m_pathHandle;
     int m_skyHandle;
+    int m_blockGrassHandle; //草の地面
     //ステージの当たり判定
     int m_cubeHandle;
     int m_cylinderHandle;

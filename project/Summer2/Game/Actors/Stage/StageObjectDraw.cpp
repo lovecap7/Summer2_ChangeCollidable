@@ -17,9 +17,14 @@ StageObjectDraw::~StageObjectDraw()
 {
 }
 
+void StageObjectDraw::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	m_model->Update();
+}
+
 void StageObjectDraw::Draw() const
 {
-	//m_model->Draw();
+	m_model->Draw();
 }
 
 void StageObjectDraw::End()

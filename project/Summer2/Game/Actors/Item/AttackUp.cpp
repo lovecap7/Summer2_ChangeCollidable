@@ -67,6 +67,7 @@ void AttackUp::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Ac
 		//“–‚½‚è”»’è‚ð‚·‚é
 		m_isThrough = false;
 	}
+	m_model->Update();
 }
 
 void AttackUp::OnCollide(const std::shared_ptr<Collidable> other)

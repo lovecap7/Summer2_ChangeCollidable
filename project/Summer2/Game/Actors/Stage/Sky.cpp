@@ -29,6 +29,7 @@ void Sky::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorMa
 {
 	m_model->SetPos(camera.lock()->GetPos().ToDxLibVector());
 	m_model->SetRot(VGet(0.0f, kRotaAngle, 0.0f));
+	m_model->Update();
 }
 
 void Sky::Draw() const

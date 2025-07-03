@@ -93,16 +93,11 @@ void Model::Update()
 		//大きさ
 		m_scale -= m_beforeScaleDif / kHitFrame;
 	}
+	ApplyMat();
 }
 
 void Model::Draw() const
 {
-	Matrix4x4 mat;
-	auto pMat = Matrix4x4::TranslateMat4x4(m_pos.x, m_pos.y, m_pos.z);
-	auto rMat = m_rotation.GetMatrix();
-	auto sMat = Matrix4x4::ScaleMatrix4x4(m_scale);
-	mat = sMat * rMat * pMat;
-	MV1SetMatrix(m_modelHandle, mat.ToDxLibMATRIX());
 	//描画
 	auto err = MV1DrawModel(m_modelHandle);
 	assert(err != -1 && L"モデルが描画できません");
@@ -296,4 +291,13 @@ bool Model::IsFinishFixedLoop()
 {
 	//指定ループ終了
 	return m_animator->IsFinishFixedLoop();
+}
+void Model::ApplyMat()
+{
+	Matrix4x4 mat;
+	auto pMat = Matrix4x4::TranslateMat4x4(m_pos.x, m_pos.y, m_pos.z);
+	auto rMat = m_rotation.GetMatrix();
+	auto sMat = Matrix4x4::ScaleMatrix4x4(m_scale);
+	mat = sMat * rMat * pMat;
+	MV1SetMatrix(m_modelHandle, mat.ToDxLibMATRIX());
 }

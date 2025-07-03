@@ -69,5 +69,7 @@ private:
 	//攻撃を食らった時に少し大きくするので差を覚えておく
 	Vector3 m_beforeScaleDif;
 	Vector3 m_beforeScale;
+	//モデルに行列を適用させる
+	void ApplyMat();
 };
 

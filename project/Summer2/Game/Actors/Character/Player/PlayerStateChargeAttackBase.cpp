@@ -6,8 +6,8 @@
 namespace
 {
 	//左足の根本と足先のインデックス
-	constexpr int kRootIndex = 64;
-	constexpr int kToeIndex = 68;
+	constexpr int kRootIndex = 60;
+	constexpr int kToeIndex = 64;
 }
 
 PlayerStateChargeAttackBase::PlayerStateChargeAttackBase(std::weak_ptr<Actor> player):

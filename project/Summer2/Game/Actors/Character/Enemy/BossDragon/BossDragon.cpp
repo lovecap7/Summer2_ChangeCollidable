@@ -123,6 +123,7 @@ void BossDragon::Complete()
 
 void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager)
 {
+	if (!m_hitPoints->IsDead())return;//‘Ì—Í‚ª‚È‚­‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Í–³‹
 }
 
 void BossDragon::End()

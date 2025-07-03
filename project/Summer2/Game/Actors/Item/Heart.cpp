@@ -65,6 +65,7 @@ void Heart::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Actor
 		//“–‚½‚è”»’è‚ð‚·‚é
 		m_isThrough = false;
 	}
+	m_model->Update();
 }
 
 void Heart::OnCollide(const std::shared_ptr<Collidable> other)

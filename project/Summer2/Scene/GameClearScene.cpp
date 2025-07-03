@@ -83,7 +83,7 @@ void GameClearScene::DisappearUpdate()
 void GameClearScene::NormalDraw()
 {
 	//”wŒi‚ğ”’‚Á‚Û‚­‚·‚é
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 10 * m_countFrame);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 7 * m_countFrame);
 	DrawBox(0, 0,//¶ã
 		Game::kScreenWidth, Game::kScreenHeight,//‰E‰º
 		0xffffff,//ƒJƒ‰[

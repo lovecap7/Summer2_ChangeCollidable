@@ -57,6 +57,7 @@ void StageObjectCollision::Init()
 void StageObjectCollision::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	MV1RefreshCollInfo(m_collisionHandle, -1);
+	m_model->Update();
 }
 
 void StageObjectCollision::OnCollide(const std::shared_ptr<Collidable> other)
@@ -66,7 +67,7 @@ void StageObjectCollision::OnCollide(const std::shared_ptr<Collidable> other)
 
 void StageObjectCollision::Draw() const
 {
-	m_model->Draw();
+	//m_model->Draw();
 }
 
 void StageObjectCollision::Complete()

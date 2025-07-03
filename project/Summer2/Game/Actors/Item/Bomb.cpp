@@ -101,6 +101,7 @@ void Bomb::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorM
 		//Á–Å
 		m_isDelete = true;
 	}
+	m_model->Update();
 }
 
 

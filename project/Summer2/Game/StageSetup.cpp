@@ -75,6 +75,7 @@ void StageSetup::End()
 		MV1DeleteModel(m_cylinderHandle);
 		MV1DeleteModel(m_skyHandle);
 		MV1DeleteModel(m_planeHandle);
+		MV1DeleteModel(m_blockGrassHandle);
 		break;
 	case Stage::StageIndex::Stage2:
 		break;
@@ -97,6 +98,7 @@ void StageSetup::LoadHandle()
 		m_bomberHandle = MV1LoadModel("Data/Model/Enemy/Bomber.mv1");
 		m_bossDragonHandle = MV1LoadModel("Data/Model/Enemy/BossDragon.mv1");
 		m_pathHandle = MV1LoadModel("Data/Model/Stage/1/Path.mv1");
+		m_blockGrassHandle = MV1LoadModel("Data/Model/Stage/1/Block_Grass.mv1");
 		m_cubeHandle = MV1LoadModel("Data/Model/Collision/Cube.mv1");
 		m_cylinderHandle = MV1LoadModel("Data/Model/Collision/Cylinder.mv1");
 		m_planeHandle = MV1LoadModel("Data/Model/Collision/Plane.mv1");
@@ -110,6 +112,7 @@ void StageSetup::LoadHandle()
 		assert(m_cubeHandle >= 0);
 		assert(m_cylinderHandle >= 0);
 		assert(m_skyHandle >= 0);
+		assert(m_blockGrassHandle >= 0);
 		break;
 	case Stage::StageIndex::Stage2:
 		break;
@@ -228,11 +231,13 @@ void StageSetup::CreateStage()
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_pathHandle), stageData.pos, stageData.scale, stageData.rot);
 			m_actors.emplace_back(path);
 		}
-		else if (stageData.name == "Plane")
+		else if (stageData.name == "Block_Grass")
 		{
-			std::shared_ptr<StageObjectDraw> plane =
-				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_planeHandle), stageData.pos, stageData.scale, stageData.rot);
-			m_actors.emplace_back(plane);
+			//‘å‚«‚³‚ð1/100‚µ‚È‚¢‚Æ‘å‚«‚·‚¬‚é‚Ì‚Å
+			stageData.scale = VScale(stageData.scale, 0.01f);
+			std::shared_ptr<StageObjectDraw> blockGrass =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_blockGrassHandle), stageData.pos, stageData.scale, stageData.rot);
+			m_actors.emplace_back(blockGrass);
 		}
 	}
 	//“–‚½‚è”»’è—p

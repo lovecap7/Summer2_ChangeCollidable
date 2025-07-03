@@ -27,7 +27,7 @@ namespace
 	constexpr float kOffsetNormalCameraPosY = 400.0f;
 	constexpr float kOffsetBossCameraPosY = 600.0f;
 	constexpr float kOffsetClearCameraPosY = 50.0f;
-	constexpr float kOffsetClearCameraPosZ = -200.0f;
+	constexpr float kOffsetClearCameraPosZ = -300.0f;
 	//クリア時のターゲットへの注視点オフセット
 	constexpr float kOffsetClearTargetPosY = 100.0f;
 
@@ -185,6 +185,7 @@ void Camera::GameClearUpdate(const std::weak_ptr<ActorManager> actorManager)
 		auto vec = m_pos - playerPos;
 		vec = kClearRotaQ * vec;
 		nextPos += vec;
+		nextPos.y += 0.5f;
 		m_pos = nextPos;
 		--m_rotaFrame;
 	}
