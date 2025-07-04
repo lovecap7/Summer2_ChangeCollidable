@@ -1,0 +1,8 @@
+OwnerName,AttackName,Damage,KeepFrame,StartFrame,KnockBackPower,Anim,AnimSpeed,Radius,AddUltGage,MoveFrame,MoveSpeed
+Player,NA1,120,6,12,3,Player|NA1,1.3,20,2,5,10
+Player,NA2,150,6,15,3,Player|NA2,1.3,20,2,5,10
+Player,NA3,190,13,15,5,Player|NA3,1.3,20,2,5,10
+PurpleDinosaur,NA2,130,6,12,3,Player|NA2,1.3,20,2,5,10
+SmallDragon,NA3,130,6,12,3,Player|NA3,1.3,20,2,5,10
+Bomber,NA4,130,6,12,3,Player|NA4,1.3,20,2,5,10
+BossDragon,NA5,130,6,12,3,Player|NA5,1.3,20,2,5,10

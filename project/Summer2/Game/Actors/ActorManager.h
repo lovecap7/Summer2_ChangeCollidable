@@ -3,6 +3,7 @@
 #include <memory>
 #include "Attack/AttackBase.h"
 #include "Item/ItemBase.h"
+#include "../../General/CSVDataLoader.h"
 class Player;
 class Camera;
 class Actor;
@@ -38,6 +39,8 @@ public:
 	std::weak_ptr<ItemBase> CreateItem(ItemType it, Vector3 pos);
 	//雑魚敵をすべて削除
 	void AllDeleteNormalEnemy();
+	//攻撃データを返す
+	AttackData GetAttackData(std::string& ownerName, std::string& attackName);
 private:
 	//アクターを追加
 	void AddActor(std::shared_ptr<Actor> actor);
@@ -45,6 +48,8 @@ private:
 	void CheckNextAddActors();
 	//削除予定のアクターを削除
 	void CheckDeleteActors();
+	//攻撃データの作成
+	void CreateAttackData();
 private:
 	//アクター
 	std::list<std::shared_ptr<Actor>> m_actors;
@@ -58,6 +63,8 @@ private:
 	std::weak_ptr<BossArea> m_bossArea;
 	//ID
 	int m_actorId;//割り振る番号
+	//攻撃データ
+	std::vector<AttackData> m_attackDatas;
 private:
 	//ハンドル
 	int m_heartHandle;			//回復

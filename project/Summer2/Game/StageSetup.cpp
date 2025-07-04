@@ -4,7 +4,7 @@
 #include <string>
 #include <DxLib.h>
 //配置データ
-#include "../General/TransformDataLoader.h"
+#include "../General/CSVDataLoader.h"
 //アクター
 #include "../Game/Actors/Actor.h"
 //プレイヤー
@@ -139,7 +139,7 @@ void StageSetup::CreateCharacterAndUI()
 	default:
 		break;
 	}
-	auto characterData = TransformDataLoader::LoadDataCSV(path.c_str());
+	auto characterData = CSVDataLoader::LoadTransformDataCSV(path.c_str());
 	//名前からオブジェクトを配置していく
 	for (auto& charaData : characterData)
 	{
@@ -221,7 +221,7 @@ void StageSetup::CreateStage()
 	}
 	//描画用
 	//配置データを取得
-	auto stageDrawData = TransformDataLoader::LoadDataCSV(drawPath.c_str());
+	auto stageDrawData = CSVDataLoader::LoadTransformDataCSV(drawPath.c_str());
 	//名前からオブジェクトを配置していく
 	for (auto& stageData : stageDrawData)
 	{
@@ -242,7 +242,7 @@ void StageSetup::CreateStage()
 	}
 	//当たり判定用
 	//配置データを取得
-	auto stageCollData = TransformDataLoader::LoadDataCSV(collPath.c_str());
+	auto stageCollData = CSVDataLoader::LoadTransformDataCSV(collPath.c_str());
 	//名前からコリジョンを配置していく
 	for (auto& stageData : stageCollData)
 	{
@@ -278,7 +278,7 @@ void StageSetup::CreateBossArea()
 		break;
 	}
 	//ボス部屋を作成
-	auto stageCollData = TransformDataLoader::LoadDataCSV(path.c_str());
+	auto stageCollData = CSVDataLoader::LoadTransformDataCSV(path.c_str());
 	VECTOR startPos = {};
 	VECTOR endPos = {};
 	//名前からコリジョンを配置していく

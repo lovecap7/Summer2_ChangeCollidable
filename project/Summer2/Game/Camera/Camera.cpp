@@ -69,7 +69,7 @@ void Camera::Init()
 	//視野角
 	SetupCamera_Perspective(60.0f / 180.0f * DX_PI_F);
 	//ディレクショナルライト
-	ChangeLightTypeDir(VGet(0.0f, -0.5f, 0.0f));
+	ChangeLightTypeDir(m_dir.ToDxLibVector());
 }
 
 void Camera::Update(const std::weak_ptr<ActorManager> actorManager)

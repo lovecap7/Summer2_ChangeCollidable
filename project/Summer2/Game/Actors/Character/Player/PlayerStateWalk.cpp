@@ -2,7 +2,7 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateJump.h"
 #include "PlayerStateFall.h"
-#include "PlayerStateAttackN1.h"
+#include "PlayerStateNA.h"
 #include "PlayerStateRolling.h"
 #include "PlayerStateRun.h"
 #include "PlayerStateCharge.h"
@@ -104,7 +104,7 @@ void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera, const std::weak
 	if (input.IsTrigger("X"))
 	{
 		//çUåÇ
-		ChangeState(std::make_shared<PlayerStateAttackN1>(m_owner));
+		ChangeState(std::make_shared<PlayerStateNA>(m_owner, actorManager));
 		return;
 	}
 	if (input.IsTrigger("Y"))

@@ -64,10 +64,6 @@
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateIdle.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\Player.cpp" />
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateAttackN1.cpp" />
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateAttackN2.cpp" />
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateAttackN3.cpp" />
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateAttackNormalBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA1.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA2.cpp" />
@@ -79,6 +75,7 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateIdle.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateJump.cpp" />
+    <ClCompile Include="Game\Actors\Character\Player\PlayerStateNA.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateRolling.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateRun.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateUltimate.cpp" />
@@ -98,6 +95,7 @@
     <ClCompile Include="Game\Actors\Stage\StageObjectDraw.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\GameManager.cpp" />
+    <ClCompile Include="Game\GameRule\Score.cpp" />
     <ClCompile Include="Game\StageSetup.cpp" />
     <ClCompile Include="Game\UI\EnemyUI\BossHPUI.cpp" />
     <ClCompile Include="Game\UI\EnemyUI\EnemyHPUI.cpp" />
@@ -128,7 +126,7 @@
     <ClCompile Include="General\Math\Vector3.cpp" />
     <ClCompile Include="General\Model.cpp" />
     <ClCompile Include="General\Rigidbody.cpp" />
-    <ClCompile Include="General\TransformDataLoader.cpp" />
+    <ClCompile Include="General\CSVDataLoader.cpp" />
     <ClCompile Include="Main\Application.cpp" />
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Scene\DebugScene.cpp" />
@@ -189,10 +187,6 @@
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateIdle.h" />
     <ClInclude Include="Game\Actors\Character\Player\Player.h" />
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateAttackN1.h" />
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateAttackN2.h" />
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateAttackN3.h" />
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateAttackNormalBase.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateBase.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA1.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA2.h" />
@@ -204,6 +198,7 @@
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateIdle.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateJump.h" />
+    <ClInclude Include="Game\Actors\Character\Player\PlayerStateNA.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateRolling.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateRun.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateUltimate.h" />
@@ -223,6 +218,7 @@
     <ClInclude Include="Game\Actors\Stage\StageObjectDraw.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\GameManager.h" />
+    <ClInclude Include="Game\GameRule\Score.h" />
     <ClInclude Include="Game\StageSetup.h" />
     <ClInclude Include="Game\UI\EnemyUI\BossHPUI.h" />
     <ClInclude Include="Game\UI\EnemyUI\EnemyHPUI.h" />
@@ -255,7 +251,7 @@
     <ClInclude Include="General\Math\Vector3.h" />
     <ClInclude Include="General\Model.h" />
     <ClInclude Include="General\Rigidbody.h" />
-    <ClInclude Include="General\TransformDataLoader.h" />
+    <ClInclude Include="General\CSVDataLoader.h" />
     <ClInclude Include="Main\Application.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\DebugScene.h" />
@@ -333,7 +329,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -351,7 +347,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -369,7 +365,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -387,7 +383,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

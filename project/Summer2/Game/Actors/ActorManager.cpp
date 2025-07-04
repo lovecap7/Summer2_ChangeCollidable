@@ -86,6 +86,8 @@ void ActorManager::Init(std::unique_ptr<StageSetup>& stageSetup)
 	m_ultGageUpHandle = MV1LoadModel("Data/Model/Item/UltGageUp.mv1");
 	m_attackUpHandle = MV1LoadModel("Data/Model/Item/AttackUp.mv1");
 	m_defenseUpHandle = MV1LoadModel("Data/Model/Item/DefenseUp.mv1");
+	//攻撃の情報を作成
+	CreateAttackData();
 }
 
 void ActorManager::Update(const std::weak_ptr<Camera> camera)
@@ -234,6 +236,20 @@ void ActorManager::AllDeleteNormalEnemy()
 		}
 	}
 }
+AttackData ActorManager::GetAttackData(std::string& ownerName, std::string& attackName)
+{
+	AttackData attackData;
+	for (auto data : m_attackDatas)
+	{
+		//持ち主と攻撃の名前が同じなら
+		if (data.ownerName == ownerName && data.attackName == attackName)
+		{
+			attackData = data;
+			break;
+		}
+	}
+	return attackData;
+}
 
 //アクターを追加
 void ActorManager::AddActor(std::shared_ptr<Actor> actor)
@@ -281,4 +297,10 @@ void ActorManager::CheckNextAddActors()
 		AddActor(actor);
 	}
 	m_nextAddActors.clear();//追加予定のアクターは消す
+}
+
+//攻撃データの取得
+void ActorManager::CreateAttackData()
+{
+	m_attackDatas = CSVDataLoader::LoadAttackDataCSV("Data/CSV/CharacterAttackData.csv");
 }
