@@ -6,6 +6,8 @@ namespace
 {
 	//名前、座標XYZ、回転XYZ、大きさXYZ　で合計10
 	constexpr int kTransformElementNum = 10;
+	//攻撃のデータ数
+	constexpr int kAttackDataElementNum = 13;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
 	constexpr float kUnityToDXPosition = 100.0f;
 }
@@ -60,7 +62,7 @@ std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV(const char* fileName)
 	std::vector<AttackData> attackDatas;
 
 	//データをすべて読み込む
-	auto valuesDatas = GetStringList(fileName, 12);
+	auto valuesDatas = GetStringList(fileName, kAttackDataElementNum);
 
 	for (auto values : valuesDatas)
 	{
@@ -91,6 +93,12 @@ std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV(const char* fileName)
 		attackData.moveFrame = std::stoi(values[10]);
 		//前進速度
 		attackData.moveSpeed = std::stof(values[11]);
+		//攻撃の重さ
+		auto aw = values[12];
+		if (aw == "Light")		attackData.attackWeight	= Battle::AttackWeight::Light;
+		if (aw == "Middle")		attackData.attackWeight	= Battle::AttackWeight::Middle;
+		if (aw == "Heavy")		attackData.attackWeight	= Battle::AttackWeight::Heavy;
+		if (aw == "Heaviest")	attackData.attackWeight = Battle::AttackWeight::Heaviest;
 
 		//配列に追加
 		attackDatas.emplace_back(attackData);

@@ -82,8 +82,8 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		//攻撃作成
-		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame, m_attackData.knockBackPower
-			, Battle::AttackWeight::Middle, actorManager);
+		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame, 
+			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
 	}
 	//モデルのアニメーションが終わったら
 	if (model->IsFinishAnim())

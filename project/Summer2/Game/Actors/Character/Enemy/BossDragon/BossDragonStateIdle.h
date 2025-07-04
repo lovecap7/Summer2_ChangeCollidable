@@ -14,5 +14,5 @@ public:
 	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
 	//UŒ‚‚ğ‘I‚Ô
-	void ThinkAttack();
+	void ThinkAttack(const std::weak_ptr<ActorManager> actorManager);
 };

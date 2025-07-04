@@ -19,41 +19,25 @@ namespace
 {
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
-	//弾の半径の大きさ
-	constexpr float kBulletRadius = 40.0f;
-	//弾のダメージ
-	constexpr int kBulletDamage = 80;
-	//弾の持続フレーム
-	constexpr int kBulletKeepFrame = 180;
-	//弾の発生フレーム
-	constexpr int kBulletFireFrame = 40;
-	//弾のスピード
-	constexpr float kBulletSpeed = 7.0f;
 	//弾の発射角度
 	constexpr float kBulletAngle = 30.0f / 180.0f * DX_PI_F;
 	//弾の生成位置のY座標
 	constexpr float kBulletCreatePosY = 150.0f;
-	//ノックバックの大きさ
-	constexpr float kKnockBackPower = 12.0f;
-
-	//アニメーション
-	const char* kAnim = "CharacterArmature|Headbutt";
-	//アニメーションの速度
-	constexpr float kAnimSpeed = 0.2f;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 100;
 }
 
 
-BossDragonStateBreathAttack::BossDragonStateBreathAttack(std::weak_ptr<Actor> owner) :
+BossDragonStateBreathAttack::BossDragonStateBreathAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager) :
 	BossDragonStateBase(owner),
 	m_attackCountFrame(0)
 {
+	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kBreathName);
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//通常攻撃
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃
-	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
 }
@@ -89,7 +73,7 @@ void BossDragonStateBreathAttack::Update(const std::weak_ptr<Camera> camera, con
 	//カウント
 	++m_attackCountFrame;
 	//攻撃発生フレーム
-	if (m_attackCountFrame == kBulletFireFrame)
+	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		CreateAttack(actorManager);
 	}
@@ -122,14 +106,15 @@ void BossDragonStateBreathAttack::SetupBreath(std::weak_ptr<Breath> bullet, floa
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//弾の設定
 	auto attack = bullet.lock();
-	attack->SetRadius(kBulletRadius);
-	attack->AttackSetting(kBulletDamage, kBulletKeepFrame, kKnockBackPower, Battle::AttackWeight::Middle);
+	attack->SetRadius(m_attackData.radius);
+	attack->AttackSetting(m_attackData.damege, m_attackData.keepFrame, 
+		m_attackData.knockBackPower, m_attackData.attackWeight);
 	//生成位置
 	Vector3 bulletPos = coll->GetPos();
 	bulletPos.y += kBulletCreatePosY;
 	attack->SetPos(bulletPos);
 	//弾の進行方向とスピード
-	auto vec = coll->GetModel()->GetDir() * kBulletSpeed;
+	auto vec = coll->GetModel()->GetDir() * m_attackData.moveSpeed;
 	vec = Quaternion::AngleAxis(angle, Vector3::Up()) * vec;
 	attack->SetVec(vec);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "SmallDragonStateBase.h"
 #include "../../../../../General/Battle.h"
+#include "../../../../../General/CSVDataLoader.h"
 
 class Camera;
 class Actor;
@@ -11,7 +12,7 @@ class SmallDragonStateAttack :
 	public SmallDragonStateBase, public std::enable_shared_from_this<SmallDragonStateAttack>
 {
 public:
-	SmallDragonStateAttack(std::weak_ptr<Actor> owner);
+	SmallDragonStateAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager);
 	~SmallDragonStateAttack();
 	void Init()override;
 	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
@@ -22,5 +23,7 @@ private:
 	std::weak_ptr<Bullet> m_attack;
 	//çUåÇÇÃçÏê¨
 	void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
+	//çUåÇÉfÅ[É^
+	AttackData m_attackData;
 };
 

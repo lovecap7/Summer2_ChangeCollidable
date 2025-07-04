@@ -18,39 +18,31 @@
 
 namespace
 {
-	//Ultのダメージと持続フレーム
-	constexpr int kUltDamege = 150.0f;
-	constexpr int kUltKeepFrame = 180;
-	//ノックバックの大きさ
-	constexpr float kKnockBackPower = 2.0f;
 	//攻撃判定をリセットする頻度
 	constexpr int kUltResetFrame = 10;
-	//アニメーション
-	const char* kAnim = "Player|Ult2";
-	//アニメーションの速度の初期値
-	constexpr float kAnimSpeed = 0.7f;
 	//アニメーションの速度の変化量
 	constexpr float kAddAnimSpeed = 0.2f;
 	//アニメーションの最高速度
 	constexpr float kMaxAnimSpeed = 2.0f;
-	//武器の座標と当たり判定の情報
-	constexpr float kAttackDistance = 200.0f;//プレイヤーの前方に攻撃判定を出す際の距離
-	constexpr float kAttackRadius = 200.0f;
+	//プレイヤーの前方に攻撃判定を出す際の距離
+	constexpr float kAttackDistance = 200.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 }
 
-PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player) :
+PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager) :
 	PlayerStateBase(player),
-	m_animCountFrame(0),
-	m_animSpeed(kAnimSpeed)
+	m_animCountFrame(0)
 {
+	//チャージフレームが持続フレームより大きいかを比較
+	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kULTName);
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//必殺技
 	coll->SetCollState(CollisionState::Normal);
 	auto model = coll->GetModel();
-	model->SetAnim(kAnim, true, m_animSpeed);
-	model->SetFixedLoopFrame(kUltKeepFrame);//指定ループ
+	m_animSpeed = m_attackData.animSpeed;
+	model->SetAnim(m_attackData.anim.c_str(), true, m_animSpeed);
+	model->SetFixedLoopFrame(m_attackData.keepFrame);//指定ループ
 	//向きの更新
 	Vector2 dir = coll->GetStickVec();
 	model->SetDir(dir);
@@ -128,8 +120,9 @@ void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorMa
 	m_attack = std::dynamic_pointer_cast<AreaOfEffectAttack>(actorManager.lock()->CreateAttack(AttackType::AreaOfEffect, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
-	attack->SetRadius(kAttackRadius);
-	attack->AttackSetting(kUltDamege, kUltKeepFrame, kKnockBackPower,Battle::AttackWeight::Heaviest);
+	attack->SetRadius(m_attackData.radius);
+	attack->AttackSetting(m_attackData.damege, m_attackData.keepFrame, 
+		m_attackData.knockBackPower, m_attackData.attackWeight);
 }
 
 void PlayerStateUltimate::UpdateAttackPos()

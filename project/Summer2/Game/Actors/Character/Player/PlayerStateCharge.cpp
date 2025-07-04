@@ -1,8 +1,6 @@
 #include "PlayerStateCharge.h"
 #include "PlayerStateRolling.h"
-#include "PlayerStateCA1.h"
-#include "PlayerStateCA2.h"
-#include "PlayerStateCA3.h"
+#include "PlayerStateCA.h"
 #include "PlayerStateHit.h"
 #include "PlayerStateDeath.h"
 #include "PlayerStateUltimate.h"
@@ -22,10 +20,6 @@
 
 namespace
 {
-	//チャージレベル
-	constexpr int kChargeLevel1 = 30;
-	constexpr int kChargeLevel2 = 60;
-	constexpr int kChargeLevel3 = 100;
 	//アニメーション
 	const char* kAnim = "Player|Charge";//チャージ
 	//減速率
@@ -91,32 +85,11 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 	{
 		//タメ攻撃チャージ
 		++m_chargeFrame;
-		//最大
-		if (m_chargeFrame > kChargeLevel3)
-		{
-			m_chargeFrame = kChargeLevel3;
-		}
 	}
 	//ボタンを離す
 	else
 	{
-		if (m_chargeFrame <= kChargeLevel1)
-		{
-			//CA1
-			ChangeState(std::make_shared<PlayerStateCA1>(m_owner));
-			return;
-		}
-		else if (m_chargeFrame <= kChargeLevel2)
-		{
-			//CA2
-			ChangeState(std::make_shared<PlayerStateCA2>(m_owner));
-			return;
-		}
-		else if (m_chargeFrame <= kChargeLevel3)
-		{
-			//CA3
-			ChangeState(std::make_shared<PlayerStateCA3>(m_owner));
-			return;
-		}
+		ChangeState(std::make_shared<PlayerStateCA>(m_owner, actorManager, m_chargeFrame));
+		return;
 	}
 }

@@ -78,7 +78,7 @@ void BomberStateChase::Update(const std::weak_ptr<Camera> camera, const std::wea
 			if (coll->GetAttackCoolTime() <= 0)
 			{
 				//UŒ‚ó‘Ô‚É‚·‚é
-				ChangeState(std::make_shared<BomberStateAttack>(m_owner));
+				ChangeState(std::make_shared<BomberStateAttack>(m_owner, actorManager));
 				return;
 			}
 		}

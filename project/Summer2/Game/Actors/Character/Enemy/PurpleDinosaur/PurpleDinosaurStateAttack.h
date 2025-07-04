@@ -1,6 +1,7 @@
 #pragma once
 #include "PurpleDinosaurStateBase.h"
 #include "../../../../../General/Battle.h"
+#include "../../../../../General/CSVDataLoader.h"
 
 class Camera;
 class Actor;
@@ -11,7 +12,7 @@ class PurpleDinosaurStateAttack :
 	public PurpleDinosaurStateBase, public std::enable_shared_from_this<PurpleDinosaurStateAttack>
 {
 public:
-	PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner);
+	PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager);
 	~PurpleDinosaurStateAttack();
 	void Init()override;
 	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
@@ -26,5 +27,7 @@ private:
 	void UpdateAttackPos();
 	//攻撃時に前進する
 	void AttackMove();
+	//攻撃データ
+	AttackData m_attackData;
 };
 

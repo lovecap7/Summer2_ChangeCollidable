@@ -91,7 +91,7 @@ void PlayerStateWalk::Update(const std::weak_ptr<Camera> camera, const std::weak
 	if (input.IsTrigger("RB") && coll->GetUltGage().lock()->IsMaxUlt())
 	{
 		//必殺技
-		ChangeState(std::make_shared<PlayerStateUltimate>(m_owner));
+		ChangeState(std::make_shared<PlayerStateUltimate>(m_owner, actorManager));
 		return;
 	}
 	//ジャンプボタンを押してるならジャンプ

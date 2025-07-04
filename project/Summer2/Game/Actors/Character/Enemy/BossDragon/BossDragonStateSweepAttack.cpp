@@ -26,34 +26,21 @@ namespace
 	//左腕と左手のインデックス
 	constexpr int kLeftArmIndex = 31;
 	constexpr int kLeftHandIndex = 36;
-	//左腕の当たり判定の大きさ(攻撃の大きさ)
-	constexpr float kAttackRadius = 30.0f;
-	//攻撃のダメージ
-	constexpr int kAttackDamage = 100;
-	//攻撃の発生フレーム
-	constexpr int kAttackStartFrame = 40;
-	//攻撃の持続フレーム
-	constexpr int kAttackKeepFrame = kAllAttackFrame - (kAttackStartFrame + 30);
 	//予備動作中の回転
 	constexpr float kStartRotaAngle = 1.0f;
-	//攻撃の回転量
-	constexpr float kAttackRotaAngle = -(360.0f + kStartRotaAngle * kAttackStartFrame) / static_cast<float>(kAttackKeepFrame);
-	//ノックバックの大きさ
-	constexpr float kKnockBackPower = 24.0f;
 	//アニメーション
-	const char* kAttackAnim = "CharacterArmature|Punch";
 	const char* kStartAnim = "CharacterArmature|No";
 	//アニメーションの速度
-	constexpr float kAttackAnimSpeed = 0.6f;
 	constexpr float kStartAnimSpeed = 0.5f;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 30;
 }
 
-BossDragonStateSweepAttack::BossDragonStateSweepAttack(std::weak_ptr<Actor> owner) :
+BossDragonStateSweepAttack::BossDragonStateSweepAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager) :
 	BossDragonStateBase(owner),
 	m_attackCountFrame(0)
 {
+	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kSweepName);
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//通常攻撃
 	coll->SetCollState(CollisionState::Normal);
@@ -61,6 +48,8 @@ BossDragonStateSweepAttack::BossDragonStateSweepAttack(std::weak_ptr<Actor> owne
 	coll->GetModel()->SetAnim(kStartAnim, false, kStartAnimSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
+	//回転量
+	m_attackRotaAngle = -(360.0f + kStartRotaAngle * m_attackData.startFrame) / static_cast<float>(m_attackData.keepFrame);
 }
 
 BossDragonStateSweepAttack::~BossDragonStateSweepAttack()
@@ -95,19 +84,19 @@ void BossDragonStateSweepAttack::Update(const std::weak_ptr<Camera> camera, cons
 	//カウント
 	++m_attackCountFrame;
 	//攻撃発生フレーム
-	if (m_attackCountFrame == kAttackStartFrame)
+	if (m_attackCountFrame == m_attackData.startFrame)
 	{
-		coll->GetModel()->SetAnim(kAttackAnim, false, kAttackAnimSpeed);
+		coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 		CreateAttack(actorManager);
 	}
 	//攻撃が終了するまで回転
 	auto model = coll->GetModel();
-	if (m_attackCountFrame >= kAttackStartFrame)
+	if (m_attackCountFrame >= m_attackData.startFrame)
 	{
 		//攻撃判定中回転
 		if (!m_attack.expired())
 		{
-			model->SetRot(VGet(0.0f, kAttackRotaAngle, 0.0f));
+			model->SetRot(VGet(0.0f, m_attackRotaAngle, 0.0f));
 		}
 	}
 	else
@@ -136,8 +125,9 @@ void BossDragonStateSweepAttack::CreateAttack(const std::weak_ptr<ActorManager> 
 	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
-	attack->SetRadius(kAttackRadius);
-	attack->AttackSetting(kAttackDamage, kAttackKeepFrame, kKnockBackPower, Battle::AttackWeight::Middle);
+	attack->SetRadius(m_attackData.radius);
+	attack->AttackSetting(m_attackData.damege, m_attackData.keepFrame,
+		m_attackData.knockBackPower, m_attackData.attackWeight);
 }
 
 void BossDragonStateSweepAttack::UpdateAttackPos()

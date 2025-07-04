@@ -23,37 +23,20 @@ namespace
 	//左腕と左手のインデックス
 	constexpr int kLeftArmIndex = 13;
 	constexpr int kLeftHandIndex = 17;
-	//左腕の当たり判定の大きさ(攻撃の大きさ)
-	constexpr float kAttackRadius = 30.0f;
-	//攻撃のダメージ
-	constexpr int kAttackDamage = 100;
-	//攻撃の持続フレーム
-	constexpr int kAttackKeepFrame = 4;
-	//攻撃の発生フレーム
-	constexpr int kAttackStartFrame = 40;
-	//ノックバックの大きさ
-	constexpr float kKnockBackPower = 3.0f;
-	//アニメーション
-	const char* kAnim = "CharacterArmature|Weapon";
-	//アニメーションの速度
-	constexpr float kAnimSpeed = 0.3f;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 120;//2秒くらいの感覚で攻撃
-	//移動フレーム
-	constexpr int kMoveFrame = 5;
-	//移動量
-	constexpr float kMoveSpeed = 10.0f;
 }
 
-PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner):
+PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager):
 	PurpleDinosaurStateBase(owner),
 	m_attackCountFrame(0)
 {
+	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kAttackName);
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//通常攻撃
 	coll->SetCollState(CollisionState::Move);
 	//攻撃
-	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
 }
@@ -90,7 +73,7 @@ void PurpleDinosaurStateAttack::Update(const std::weak_ptr<Camera> camera, const
 	//カウント
 	++m_attackCountFrame;
 	//攻撃発生フレーム
-	if (m_attackCountFrame == kAttackStartFrame)
+	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		CreateAttack(actorManager);
 	}
@@ -105,7 +88,7 @@ void PurpleDinosaurStateAttack::Update(const std::weak_ptr<Camera> camera, const
 	if(!m_attack.expired()) UpdateAttackPos();
 
 	//移動フレーム中は前に進む
-	if (m_attackCountFrame <= kMoveFrame)
+	if (m_attackCountFrame <= m_attackData.moveFrame)
 	{
 		//前進
 		AttackMove();
@@ -123,8 +106,9 @@ void PurpleDinosaurStateAttack::CreateAttack(const std::weak_ptr<ActorManager> a
 	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
-	attack->SetRadius(kAttackRadius);
-	attack->AttackSetting(kAttackDamage, kAttackKeepFrame, kKnockBackPower, Battle::AttackWeight::Middle);
+	attack->SetRadius(m_attackData.radius);
+	attack->AttackSetting(m_attackData.damege, m_attackData.keepFrame, 
+		m_attackData.knockBackPower, m_attackData.attackWeight);
 }
 
 void PurpleDinosaurStateAttack::UpdateAttackPos()
@@ -142,5 +126,5 @@ void PurpleDinosaurStateAttack::AttackMove()
 {
 	//向いてる方向に移動
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
-	coll->GetRb()->SetMoveVec(coll->GetModel()->GetDir() * kMoveSpeed);
+	coll->GetRb()->SetMoveVec(coll->GetModel()->GetDir() * m_attackData.moveSpeed);
 }

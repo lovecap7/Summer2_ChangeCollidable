@@ -70,7 +70,7 @@ void BossDragonStateIdle::Update(const std::weak_ptr<Camera> camera, const std::
 		if (coll->GetAttackCoolTime() <= 0)
 		{
 			//攻撃状態にする
-			ThinkAttack();
+			ThinkAttack(actorManager);
 			return;
 		}
 	}
@@ -78,7 +78,7 @@ void BossDragonStateIdle::Update(const std::weak_ptr<Camera> camera, const std::
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
 
-void BossDragonStateIdle::ThinkAttack()
+void BossDragonStateIdle::ThinkAttack(const std::weak_ptr<ActorManager> actorManager)
 {
 	//ランダムに決定
 	auto rand = GetRand(2);
@@ -91,15 +91,15 @@ void BossDragonStateIdle::ThinkAttack()
 		break;
 	case 1:
 		//薙ぎ払い
-		ChangeState(std::make_shared<BossDragonStateSweepAttack>(m_owner));
+		ChangeState(std::make_shared<BossDragonStateSweepAttack>(m_owner, actorManager));
 		break;
 	case 2:
 		//ブレス
-		ChangeState(std::make_shared<BossDragonStateBreathAttack>(m_owner));
+		ChangeState(std::make_shared<BossDragonStateBreathAttack>(m_owner, actorManager));
 		break;
 	default:
 		//ブレス
-		ChangeState(std::make_shared<BossDragonStateBreathAttack>(m_owner));
+		ChangeState(std::make_shared<BossDragonStateBreathAttack>(m_owner, actorManager));
 		break;
 	}
 	return;

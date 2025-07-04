@@ -72,7 +72,7 @@ void SmallDragonStateIdle::Update(const std::weak_ptr<Camera> camera, const std:
 		if (coll->GetAttackCoolTime() <= 0)
 		{
 			//UŒ‚
-			ChangeState(std::make_shared<SmallDragonStateAttack>(m_owner));
+			ChangeState(std::make_shared<SmallDragonStateAttack>(m_owner,actorManager));
 			return;
 		}
 		//‰º‚ª‚é‹——£

@@ -1,6 +1,7 @@
 #pragma once
 #include "BossDragonStateBase.h"
 #include "../../../../../General/Battle.h"
+#include "../../../../../General/CSVDataLoader.h"
 class Camera;
 class Actor;
 class ActorManager;
@@ -10,7 +11,7 @@ class BossDragonStatePunchAttack :
 	public BossDragonStateBase, public std::enable_shared_from_this<BossDragonStatePunchAttack>
 {
 public:
-	BossDragonStatePunchAttack(std::weak_ptr<Actor> owner);
+	BossDragonStatePunchAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager);
 	~BossDragonStatePunchAttack();
 	void Init()override;
 	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
@@ -23,5 +24,7 @@ private:
 	void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
 	//攻撃の位置を更新する
 	void UpdateAttackPos();
+	//攻撃データ
+	AttackData m_attackData;
 };
 

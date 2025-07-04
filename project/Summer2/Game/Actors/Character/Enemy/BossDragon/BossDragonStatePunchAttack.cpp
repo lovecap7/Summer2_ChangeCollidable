@@ -23,34 +23,21 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//右手のインデックス
 	constexpr int kRightHandIndex = 36;
-	//パンチの当たり判定の大きさ(攻撃の大きさ)
-	constexpr float kAttackRadius = 140.0f;
-	//攻撃のダメージ
-	constexpr int kAttackDamage = 100;
-	//攻撃の持続フレーム
-	constexpr int kAttackKeepFrame = 3;
-	//攻撃の発生フレーム
-	constexpr int kAttackStartFrame = 26;
-	//ノックバックの大きさ
-	constexpr float kKnockBackPower = 20.0f;
-	//アニメーション
-	const char* kAnim = "CharacterArmature|Punch";
-	//アニメーションの速度
-	constexpr float kAnimSpeed = 0.4f;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 40;
 }
 
 
-BossDragonStatePunchAttack::BossDragonStatePunchAttack(std::weak_ptr<Actor> owner) :
+BossDragonStatePunchAttack::BossDragonStatePunchAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager) :
 	BossDragonStateBase(owner),
 	m_attackCountFrame(0)
 {
+	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kPunchName);
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//通常攻撃
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃
-	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
 }
@@ -87,7 +74,7 @@ void BossDragonStatePunchAttack::Update(const std::weak_ptr<Camera> camera, cons
 	//カウント
 	++m_attackCountFrame;
 	//攻撃発生フレーム
-	if (m_attackCountFrame == kAttackStartFrame)
+	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		CreateAttack(actorManager);
 	}
@@ -111,8 +98,9 @@ void BossDragonStatePunchAttack::CreateAttack(const std::weak_ptr<ActorManager> 
 	m_attack = std::dynamic_pointer_cast<AreaOfEffectAttack>(actorManager.lock()->CreateAttack(AttackType::AreaOfEffect, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
-	attack->SetRadius(kAttackRadius);
-	attack->AttackSetting(kAttackDamage, kAttackKeepFrame, kKnockBackPower, Battle::AttackWeight::Middle);
+	attack->SetRadius(m_attackData.radius);
+	attack->AttackSetting(m_attackData.damege, m_attackData.keepFrame, 
+		m_attackData.knockBackPower, m_attackData.attackWeight);
 }
 
 void BossDragonStatePunchAttack::UpdateAttackPos()

@@ -309,15 +309,6 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateBase.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA1.cpp">
-      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA2.cpp">
-      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA3.cpp">
-      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateCharge.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
@@ -353,9 +344,6 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\Attack\Slash.cpp">
       <Filter>ソース ファイル\Game\Actors\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actors\Character\Player\PlayerStateChargeAttackBase.cpp">
-      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actors\Attack\Strike.cpp">
       <Filter>ソース ファイル\Game\Actors\Attack</Filter>
@@ -508,6 +496,9 @@
       <Filter>ソース ファイル\Game\GameRule</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateNA.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -680,15 +671,6 @@
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateBase.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA1.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA2.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA3.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateCharge.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
@@ -724,9 +706,6 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Attack\Slash.h">
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actors\Character\Player\PlayerStateChargeAttackBase.h">
-      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Attack\Strike.h">
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
@@ -879,6 +858,9 @@
       <Filter>ヘッダー ファイル\Game\GameRule</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateNA.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>

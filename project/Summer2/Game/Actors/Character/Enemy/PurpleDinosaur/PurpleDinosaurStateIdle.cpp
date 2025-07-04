@@ -74,7 +74,7 @@ void PurpleDinosaurStateIdle::Update(const std::weak_ptr<Camera> camera, const s
 			if (coll->GetAttackCoolTime() <= 0)
 			{
 				//UŒ‚ó‘Ô‚É‚·‚é
-				ChangeState(std::make_shared<PurpleDinosaurStateAttack>(m_owner));
+				ChangeState(std::make_shared<PurpleDinosaurStateAttack>(m_owner,actorManager));
 				return;
 			}
 		}

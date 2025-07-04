@@ -100,7 +100,7 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 	if (input.IsTrigger("RB") && coll->GetUltGage().lock()->IsMaxUlt())
 	{
 		//•KŽE‹Z
-		ChangeState(std::make_shared<PlayerStateUltimate>(m_owner));
+		ChangeState(std::make_shared<PlayerStateUltimate>(m_owner, actorManager));
 		return;
 	}
 	if (input.IsTrigger("X"))

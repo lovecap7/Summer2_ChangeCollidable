@@ -25,5 +25,9 @@ namespace
 	std::string kNA1Name	= "NA1";
 	std::string kNA2Name	= "NA2";
 	std::string kNA3Name	= "NA3";
+	std::string kCA1Name	= "CA1";
+	std::string kCA2Name	= "CA2";
+	std::string kCA3Name	= "CA3";
+	std::string kULTName	= "ULT";
 }
 

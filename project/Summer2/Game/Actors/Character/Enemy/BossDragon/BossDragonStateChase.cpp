@@ -79,7 +79,7 @@ void BossDragonStateChase::Update(const std::weak_ptr<Camera> camera, const std:
 			if (coll->GetAttackCoolTime() <= 0)
 			{
 				//UŒ‚ó‘Ô‚É‚·‚é
-				ChangeState(std::make_shared<BossDragonStatePunchAttack>(m_owner));
+				ChangeState(std::make_shared<BossDragonStatePunchAttack>(m_owner, actorManager));
 				return;
 			}
 		}

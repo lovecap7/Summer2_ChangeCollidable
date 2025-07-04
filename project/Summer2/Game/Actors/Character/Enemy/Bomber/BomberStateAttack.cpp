@@ -22,14 +22,6 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//左腕と左手のインデックス
 	constexpr int kLeftHandIndex = 17;
-	//左腕の当たり判定の大きさ(攻撃の大きさ)
-	constexpr float kLeftArmRadius = 20.0f;
-	//攻撃の発生フレーム
-	constexpr int kAttackStartFrame = 40;
-	//アニメーション
-	const char* kAnim = "CharacterArmature|Weapon";
-	//アニメーションの速度
-	constexpr float kAnimSpeed = 0.3f;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 150;//2.5秒くらいの感覚で攻撃
 	//爆弾の上昇量
@@ -38,15 +30,16 @@ namespace
 	constexpr float kBombMoveVecPower = 3.0f; //爆弾の移動量
 }
 
-BomberStateAttack::BomberStateAttack(std::weak_ptr<Actor> owner) :
+BomberStateAttack::BomberStateAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager) :
 	BomberStateBase(owner),
 	m_attackCountFrame(0)
 {
+	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kAttackName);
 	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
 	//通常攻撃
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃
-	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
 }
@@ -82,7 +75,7 @@ void BomberStateAttack::Update(const std::weak_ptr<Camera> camera, const std::we
 	//カウント
 	++m_attackCountFrame;
 	//攻撃発生フレーム
-	if (m_attackCountFrame == kAttackStartFrame)
+	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		CreateBomb(actorManager);
 	}

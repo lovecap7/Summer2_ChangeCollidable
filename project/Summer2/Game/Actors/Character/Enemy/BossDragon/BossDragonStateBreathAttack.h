@@ -1,6 +1,7 @@
 #pragma once
 #include "BossDragonStateBase.h"
 #include "../../../../../General/Battle.h"
+#include "../../../../../General/CSVDataLoader.h"
 
 class Camera;
 class Actor;
@@ -11,7 +12,7 @@ class BossDragonStateBreathAttack :
     public BossDragonStateBase, public std::enable_shared_from_this<BossDragonStateBreathAttack>
 {
 public:
-    BossDragonStateBreathAttack(std::weak_ptr<Actor> owner);
+    BossDragonStateBreathAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager);
     ~BossDragonStateBreathAttack();
     void Init()override;
     void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
@@ -26,5 +27,7 @@ private:
     void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
     //’e‚Ìó‘Ôİ’è
     void SetupBreath(std::weak_ptr<Breath> bullet, float angle);
+    //UŒ‚ƒf[ƒ^
+    AttackData m_attackData;
 };
 
