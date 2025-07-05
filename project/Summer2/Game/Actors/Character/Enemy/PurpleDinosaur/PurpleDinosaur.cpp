@@ -14,6 +14,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../GameRule/Score.h"
 
 namespace
 {
@@ -124,9 +125,11 @@ void PurpleDinosaur::Complete()
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
 }
 
-void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager)
+void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	if (!m_hitPoints->IsDead())return;//‘Ì—Í‚ª‚È‚­‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Í–³Ž‹
+	//ƒXƒRƒA‰ÁŽZ
+	score.lock()->AddKillScore(ScoreDataName::kPurpleDinosaur);
 	actorManager.lock()->CreateItem(ItemType::Heart, m_rb->GetPos());
 }
 

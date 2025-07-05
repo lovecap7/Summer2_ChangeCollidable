@@ -1,15 +1,16 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include "../Scene/StageScene.h"
 
 class Camera;
 class ActorManager;
 class UIManager;
-class StageSetup;
+class Score;
 class GameManager
 {
 public:
-    GameManager();
+    GameManager(Stage::StageIndex index = Stage::StageIndex::Stage1);
     ~GameManager();
     void Init();
     void Update();
@@ -26,8 +27,8 @@ private:
 	std::shared_ptr<UIManager> m_uiManager;
     //カメラ
     std::shared_ptr<Camera> m_camera;
-    //ステージセットアップ
-    std::unique_ptr<StageSetup> m_stageSetup;
+    //スコア
+    std::shared_ptr<Score> m_score;
 private:
     //ゲームオーバーフラグ
     bool m_isGameover;

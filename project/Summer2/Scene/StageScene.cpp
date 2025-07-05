@@ -11,8 +11,9 @@
 #include <vector>
 #include "../General/game.h"
 
-StageScene::StageScene(SceneController& controller):
-	SceneBase(controller)
+StageScene::StageScene(SceneController& controller, Stage::StageIndex index):
+	SceneBase(controller),
+	m_stageIndex(index)
 {
 	m_gameManager = std::make_unique<GameManager>();
 }

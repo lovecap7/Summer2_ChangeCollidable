@@ -16,6 +16,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../GameRule/Score.h"
 
 namespace
 {
@@ -127,9 +128,11 @@ void SmallDragon::Complete()
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
 }
 
-void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager)
+void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	if (!m_hitPoints->IsDead())return;//‘Ì—Í‚ª‚È‚­‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Í–³Ž‹
+	//ƒXƒRƒA‰ÁŽZ
+	score.lock()->AddKillScore(ScoreDataName::kSmallDragon);
 	actorManager.lock()->CreateItem(ItemType::AttackUp, m_rb->GetPos());
 }
 

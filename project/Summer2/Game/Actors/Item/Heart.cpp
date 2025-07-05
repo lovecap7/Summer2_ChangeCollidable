@@ -8,7 +8,7 @@
 #include "../../../General/HitPoints.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
-
+#include "../../GameRule/Score.h"
 namespace
 {
 	//回復量
@@ -105,6 +105,12 @@ void Heart::Complete()
 	m_rb->m_pos = m_rb->GetNextPos();
 	//モデルの座標更新
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
+}
+
+void Heart::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
+{
+	//スコア加算
+	score.lock()->AddKillScore(ScoreDataName::kHeart);
 }
 
 void Heart::End()

@@ -8,7 +8,7 @@
 #include "../Character/Player/UltGage.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
-
+#include "../../GameRule/Score.h"
 namespace
 {
 	//ゲージ上昇量
@@ -105,6 +105,12 @@ void UltGageUp::Complete()
 	m_rb->m_pos = m_rb->GetNextPos();
 	//モデルの座標更新
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
+}
+
+void UltGageUp::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
+{
+	//スコア加算
+	score.lock()->AddKillScore(ScoreDataName::kUltGageUp);
 }
 
 void UltGageUp::End()

@@ -3,6 +3,16 @@
 #include <vector>
 #include <memory>
 
+namespace Stage
+{
+    enum class StageIndex : int
+    {
+        Stage1 = 1,
+        Stage2 = 2,
+        Stage3 = 3,
+    };
+}
+
 class SceneController;
 class Input;
 class GameManager;
@@ -10,7 +20,7 @@ class StageScene :
     public SceneBase
 {
 public:
-    StageScene(SceneController& controller);
+    StageScene(SceneController& controller, Stage::StageIndex index = Stage::StageIndex::Stage1);
     ~StageScene();
     /// <summary>
     /// ”h¶ƒNƒ‰ƒX‚ÅÀ‘•‚ğÀ‘•
@@ -22,7 +32,7 @@ public:
     virtual void Draw() override;
     virtual void End() override;
 private:
-    //ƒQ[ƒ€‚ÌŠÇ—
     std::unique_ptr<GameManager> m_gameManager;
+    Stage::StageIndex m_stageIndex;
 };
 

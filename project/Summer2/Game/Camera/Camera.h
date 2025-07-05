@@ -6,7 +6,7 @@ class Rigidbody;
 class Camera
 {
 public:
-	Camera(Position3 firstPos);
+	Camera();
 	~Camera();
 	//‰Šú‰»ˆ—
 	void Init();

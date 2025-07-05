@@ -249,9 +249,6 @@
     <ClCompile Include="Game\GameManager.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\StageSetup.cpp">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClCompile>
     <ClCompile Include="General\Collision\Physics.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
     </ClCompile>
@@ -501,6 +498,9 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\ScoreUI.cpp">
+      <Filter>ソース ファイル\Game\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -606,12 +606,6 @@
       <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameManager.h">
-      <Filter>ヘッダー ファイル\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\StageScene.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\StageSetup.h">
       <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
     <ClInclude Include="General\Collision\Physics.h">
@@ -862,6 +856,12 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\StageScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\ScoreUI.h">
+      <Filter>ヘッダー ファイル\Game\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

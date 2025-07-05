@@ -9,7 +9,7 @@
 #include "../ActorManager.h"
 #include "../Attack/Blast.h"
 #include "../Character/Player/Player.h"
-
+#include "../../GameRule/Score.h"
 namespace
 {
 	//”š”­‚Ü‚Å‚ÌƒtƒŒ[ƒ€”
@@ -133,7 +133,7 @@ void Bomb::Complete()
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
 }
 
-void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager)
+void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	//”š”­‚ÌUŒ‚”»’è‚ðo‚·
 	auto attack = actorManager.lock()->CreateAttack(AttackType::Blast, std::dynamic_pointer_cast<Actor>(shared_from_this()));

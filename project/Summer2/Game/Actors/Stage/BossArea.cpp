@@ -46,7 +46,7 @@ void BossArea::Draw() const
 	DrawLine3D(m_startPos.ToDxLibVector(), m_endPos.ToDxLibVector(), 0xff0000);
 }
 
-void BossArea::Dead(const std::weak_ptr<ActorManager> actorManager)
+void BossArea::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	//ƒ{ƒXˆÈŠO‚ðíœ
 	actorManager.lock()->AllDeleteNormalEnemy();

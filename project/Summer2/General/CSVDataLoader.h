@@ -26,6 +26,12 @@ struct AttackData {
     float       moveSpeed;              //移動量
     Battle::AttackWeight attackWeight;  //攻撃の重さ(これを基準に怯むかどうかを計算)
 };
+//スコアの情報を格納する構造体
+struct ScoreData {
+    std::string dataName;  //データ名
+    int         score;     //スコア
+};
+
 
 class CSVDataLoader
 {
@@ -47,6 +53,13 @@ public:
     /// <param name="name"></param>
     /// <returns></returns>
     static std::vector<AttackData> LoadAttackDataCSV(const char* fileName);
+
+    /// <summary>
+    /// スコアデータの読み取り
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    static std::vector<ScoreData> LoadScoreDataCSV(const char* fileName);
 
 private:
     static const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);

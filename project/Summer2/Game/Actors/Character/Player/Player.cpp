@@ -179,7 +179,7 @@ void Player::Complete()
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
 }
 
-void Player::Dead(const std::weak_ptr<ActorManager> actorManager)
+void Player::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 }
 

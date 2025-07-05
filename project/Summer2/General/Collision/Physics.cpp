@@ -123,6 +123,11 @@ void Physics::Update()
 	}
 }
 
+void Physics::Reset()
+{
+	m_collidables.clear();
+}
+
 Physics::~Physics()
 {
 }

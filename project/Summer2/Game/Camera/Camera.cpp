@@ -25,6 +25,7 @@ namespace
 	constexpr float kBossLerpRate = 0.3f;
 	//ターゲットから少し離れるためのオフセット
 	constexpr float kOffsetNormalCameraPosY = 400.0f;
+	constexpr float kNormalCameraPosZ = -600.0f;
 	constexpr float kOffsetBossCameraPosY = 600.0f;
 	constexpr float kOffsetClearCameraPosY = 50.0f;
 	constexpr float kOffsetClearCameraPosZ = -300.0f;
@@ -36,8 +37,8 @@ namespace
 }
 
 
-Camera::Camera(Position3 firstPos):
-	m_pos(firstPos),
+Camera::Camera():
+	m_pos{},
 	m_dir{},
 	m_viewPos{},
 	m_update(&Camera::NormalUpdate),
@@ -53,7 +54,6 @@ void Camera::Init()
 {
 	//奥行50～3000までをカメラの描画範囲とする
 	SetCameraNearFar(kNear, kFar);
-
 	//カメラの角度
 	m_dir = Matrix4x4::RotateXMat4x4(kNormalCameraAngleX) *
 		Vector3::Forward();
@@ -112,6 +112,7 @@ void Camera::NormalUpdate(const std::weak_ptr<ActorManager> actorManager)
 	auto playerPos = player.lock()->GetRb()->GetPos();
 	//位置の更新
 	Vector3 nextPos = m_pos;
+	nextPos.z = kNormalCameraPosZ;
 	nextPos.y = playerPos.y + kOffsetNormalCameraPosY;//プレイヤーのY座標より高い位置
 	//横方向が範囲外なら
 	if (playerPos.x > m_pos.x + kChaseWidth)//右

@@ -1,4 +1,4 @@
-OwnerName,AttackName,Damage,KeepFrame,StartFrame,KnockBackPower,Anim,AnimSpeed,Radius,AddUltGage,MoveFrame,MoveSpeed,AttackWeight
+キャラ,攻撃名,ダメージ,持続フレーム,発生フレーム,ノックバックの大きさ,アニメーション名,アニメーション速度,当たり判定の半径,ウルトゲージの増加量,前進フレーム,前進速度/弾の速度,攻撃の重さ
 Player,NA1,130,6,12,3,Player|NA1,1.3,20,2,5,10,Middle
 Player,NA2,150,6,15,3,Player|NA2,1.3,20,2,5,10,Middle
 Player,NA3,190,13,15,5,Player|NA3,1.3,20,2,5,10,Middle

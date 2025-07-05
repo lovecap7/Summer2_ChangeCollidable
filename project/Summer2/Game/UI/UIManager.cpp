@@ -1,6 +1,15 @@
 #include "UIManager.h"
 #include "UIBase.h"
-#include "../StageSetup.h"
+#include "../Actors/ActorManager.h"
+//プレイヤー
+#include "PlayerUI/PlayerHPUI.h"
+#include "PlayerUI/PlayerUltGageUI.h"
+//ボス
+#include "EnemyUI/BossHPUI.h"
+//敵
+#include "EnemyUI/EnemyHPUI.h"
+//スコア
+#include "ScoreUI.h"
 
 UIManager::UIManager()
 {
@@ -10,14 +19,8 @@ UIManager::~UIManager()
 {
 }
 
-void UIManager::Init(std::unique_ptr<StageSetup>& stageSetup)
+void UIManager::Init()
 {
-	//UIを受け取る
-	stageSetup->MoveUIPointer(m_uis);
-	for (auto& ui : m_uis)
-	{
-		ui->Init();
-	}
 }
 
 void UIManager::Update(const std::weak_ptr<ActorManager> actorManager)
@@ -57,6 +60,27 @@ void UIManager::AddUI(std::shared_ptr<UIBase> ui)
 	ui->Init();
 	//追加
 	m_uis.emplace_back(ui);
+}
+
+void UIManager::CreatePlayerUI(const std::weak_ptr<Player> player)
+{
+	AddUI(std::make_shared<PlayerHPUI>(player));
+	AddUI(std::make_shared<PlayerUltGageUI>(player));
+}
+
+void UIManager::CreateBossUI(const std::weak_ptr<EnemyBase> boss)
+{
+	AddUI(std::make_shared<BossHPUI>(boss));
+}
+
+void UIManager::CreateEnemyUI(const std::weak_ptr<EnemyBase> enemy)
+{
+	AddUI(std::make_shared<EnemyHPUI>(enemy));
+}
+
+void UIManager::CreateScoreUI(const std::weak_ptr<Score> score)
+{
+	AddUI(std::make_shared<ScoreUI>(score));
 }
 
 void UIManager::CheckDelete()

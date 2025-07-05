@@ -6,6 +6,7 @@
 class ActorManager;
 class Camera;
 class Collidable;
+class Score;
 class Model;
 /// <summary>
 /// ゲーム中に配置可能な物体の基底クラス
@@ -43,7 +44,7 @@ public:
 	/// 死亡した際の処理
 	/// </summary>
 	/// <param name="actorManager"></param>
-	virtual void Dead(const std::weak_ptr<ActorManager> actorManager)abstract;
+	virtual void Dead(const std::weak_ptr<ActorManager> actorManager,const std::weak_ptr<Score> score)abstract;
 	/// <summary>
 	/// 終了処理
 	/// </summary>

@@ -20,7 +20,7 @@ public:
 	//更新処理の確定
 	void Complete() override;
 	//死亡処理
-	void Dead(const std::weak_ptr<ActorManager> actorManager) override;
+	void Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score) override;
 	//終了処理
 	void End() override;
 	//リジッドボディ

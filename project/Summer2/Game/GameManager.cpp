@@ -7,24 +7,20 @@
 #include "UI/UIManager.h"
 #include "../General/Collision/Physics.h"
 #include "../Game/Camera/Camera.h"
-#include "StageSetup.h"
+#include "../Game/GameRule/Score.h"
 #include <cassert>
 
-namespace
+GameManager::GameManager(Stage::StageIndex index)
 {
-	const Vector3 kCameraPos = { 0.0f, 600.0f, -600.0f };
-}
-
-GameManager::GameManager()
-{
-	//ステージを作成
-	m_stageSetup = std::make_unique<StageSetup>();
-	//アクターマネージャー
-	m_actorManager = std::make_shared<ActorManager>();
 	//UIマネージャー
 	m_uiManager = std::make_shared<UIManager>();
 	//カメラの初期化
-	m_camera = std::make_shared<Camera>(kCameraPos);
+	m_camera = std::make_shared<Camera>();
+	//アクターマネージャー
+	m_actorManager = std::make_shared<ActorManager>(index, m_uiManager);
+	//スコア
+	m_score = std::make_shared<Score>();
+	m_uiManager->CreateScoreUI(m_score);
 }
 
 GameManager::~GameManager()
@@ -33,10 +29,10 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	//アクターマネージャーの初期化
-	m_actorManager->Init(m_stageSetup);
 	//UIの初期化
-	m_uiManager->Init(m_stageSetup);
+	m_uiManager->Init();
+	//アクターマネージャーの初期化
+	m_actorManager->Init();
 	//カメラの初期化
 	m_camera->Init();
 }
@@ -50,7 +46,7 @@ void GameManager::Update()
 #endif
 	{
 		//アクターの更新
-		m_actorManager->Update(m_camera);
+		m_actorManager->Update(m_camera,m_score);
 		//UIの更新
 		m_uiManager->Update(m_actorManager);
 		//カメラの更新
@@ -107,7 +103,4 @@ void GameManager::End()
 	m_actorManager->End();
 	//UIマネージャーの終了
 	m_uiManager->End();
-	//ステージセットアップの終了
-	m_stageSetup->End();
-	m_stageSetup.reset();
 }

@@ -26,6 +26,8 @@ public:
 	void Exit(std::shared_ptr<Collidable> collidable);
 	//Õ“Ëˆ—
 	void Update();
+	//“o˜^‚µ‚Ä‚¢‚éCollidable‚ğ‘S‚Äíœ
+	void Reset();
 
 
 	//XV‚ğ~‚ß‚é
