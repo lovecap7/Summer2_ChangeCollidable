@@ -71,8 +71,10 @@ void Application::Run()
 		Input::GetInstance().Update();
 		sceneController->Update();
 		Physics::GetInstance().Update();
+		EffekseerManager::GetInstance().Update();
 		//描画
 		sceneController->Draw();
+		EffekseerManager::GetInstance().Draw();
 
 		//画面の切り替わりを待つ必要がある
 		ScreenFlip();//1/60秒経過するまで待つ
@@ -96,6 +98,8 @@ void Application::Run()
 
 void Application::Terminate()
 {
+	Physics::GetInstance().Reset();
+	EffekseerManager::GetInstance().End();
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 }
 
