@@ -10,7 +10,8 @@
 #include "EnemyUI/EnemyHPUI.h"
 //スコア
 #include "ScoreUI.h"
-
+//タイマー
+#include "TimerUI.h"
 UIManager::UIManager()
 {
 }
@@ -81,6 +82,11 @@ void UIManager::CreateEnemyUI(const std::weak_ptr<EnemyBase> enemy)
 void UIManager::CreateScoreUI(const std::weak_ptr<Score> score)
 {
 	AddUI(std::make_shared<ScoreUI>(score));
+}
+
+void UIManager::CreateTimerUI(const std::weak_ptr<Timer> timer)
+{
+	AddUI(std::make_shared<TimerUI>(timer));
 }
 
 void UIManager::CheckDelete()

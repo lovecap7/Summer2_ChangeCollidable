@@ -13,7 +13,7 @@
 
 GameManager::GameManager(Stage::StageIndex index):
 	m_isGameover(false),
-	m_isGameClear(false),
+	m_isGameClear(false)
 {
 	//UIマネージャー
 	m_uiManager = std::make_shared<UIManager>();
@@ -26,6 +26,7 @@ GameManager::GameManager(Stage::StageIndex index):
 	m_uiManager->CreateScoreUI(m_score);
 	//タイマー
 	m_timer = std::make_shared<Timer>();
+	m_uiManager->CreateTimerUI(m_timer);
 }
 
 GameManager::~GameManager()
@@ -52,6 +53,8 @@ void GameManager::Update()
 	{
 		//アクターの更新
 		m_actorManager->Update(m_camera,m_score);
+		//タイマー
+		m_timer->Update();
 		//UIの更新
 		m_uiManager->Update(m_actorManager);
 		//カメラの更新

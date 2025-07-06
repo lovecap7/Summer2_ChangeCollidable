@@ -6,6 +6,7 @@ class ActorManager;
 class Player;
 class EnemyBase;
 class Score;
+class Timer;
 class UIManager
 {
 public:
@@ -23,6 +24,8 @@ public:
 	void CreateEnemyUI(const std::weak_ptr<EnemyBase> enemy);
 	//スコア
 	void CreateScoreUI(const std::weak_ptr<Score> score);
+	//タイマー
+	void CreateTimerUI(const std::weak_ptr<Timer> timer);
 private:
 	//UI
 	std::list<std::shared_ptr<UIBase>> m_uis;
