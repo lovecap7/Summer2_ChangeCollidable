@@ -4,6 +4,7 @@
 #include "../Scene/SceneController.h"
 #include  "../General/Input.h"
 #include  "../General/Collision/Physics.h"
+#include  "../General/EffekseerManager.h"
 
 Application& Application::GetInstance()
 {
@@ -14,9 +15,8 @@ Application& Application::GetInstance()
 
 bool Application::Init()
 {
-  
 	//ゲームタイトル
-	SetWindowText("タイトル");
+	SetWindowText("Spinning Knight");
 	//ゲームアイコン
 	//SetWindowIconID(IDI_ICON1);
 
@@ -43,6 +43,8 @@ bool Application::Init()
 
 	//Physicsの初期化
 	Physics::GetInstance().Init();
+	//エフェクトの初期化
+	EffekseerManager::GetInstance().Init();
 
     return true;
 }

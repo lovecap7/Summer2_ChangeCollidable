@@ -19,10 +19,6 @@ namespace
 	constexpr float kHighPowerStickMin = kMediumPowerStickMax;
 }
 
-Input::~Input()
-{
-}
-
 void Input::Init()
 {
 	m_inputActionMap["Ok"] = { {InputType::kKeyboard,KEY_INPUT_RETURN},{InputType::kPad,PAD_INPUT_A} };

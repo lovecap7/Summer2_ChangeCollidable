@@ -11,6 +11,16 @@ class CollisionChecker;
 class FixNextPosition;
 class Physics final
 {
+private:
+	//シングルトンの準備
+	Physics() = default;
+	~Physics() = default;
+	//コピー禁止
+	Physics(const Physics&) = delete;
+	Physics& operator = (const Physics&) = delete;
+	//ムーブ禁止
+	Physics(Physics&&) = delete;
+	Physics& operator = (Physics&&) = delete;
 public:
 	//インスタンスを取得
 	static Physics& GetInstance()
@@ -18,6 +28,7 @@ public:
 		static Physics instance;
 		return instance;
 	}
+	
 	//初期化処理
 	void Init();
 	//登録
@@ -40,14 +51,6 @@ private:
 	std::shared_ptr<CollisionChecker> m_collChecker;
 	//衝突処理
 	std::shared_ptr<FixNextPosition> m_collProcessor;
-private:
-	//シングルトンの準備
-	Physics() = default;
-	~Physics();
-	Physics(const Physics&) = delete;
-	Physics& operator = (const Physics&) = delete;
-	Physics(Physics&&) = delete;
-	Physics& operator = (Physics&&) = delete;
 private:
 	//登録されているコライダブルのリスト
 	std::list<std::shared_ptr<Collidable>> m_collidables;

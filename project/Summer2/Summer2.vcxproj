@@ -115,6 +115,7 @@
     <ClCompile Include="General\Collision\Physics.cpp" />
     <ClCompile Include="General\Collision\PolygonCollider.cpp" />
     <ClCompile Include="General\Collision\SphereCollider.cpp" />
+    <ClCompile Include="General\EffekseerManager.cpp" />
     <ClCompile Include="General\HitPoints.cpp" />
     <ClCompile Include="General\Input.cpp" />
     <ClCompile Include="General\Math\MathSub.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="General\Collision\Physics.h" />
     <ClInclude Include="General\Collision\PolygonCollider.h" />
     <ClInclude Include="General\Collision\SphereCollider.h" />
+    <ClInclude Include="General\EffekseerManager.h" />
     <ClInclude Include="General\game.h" />
     <ClInclude Include="General\HitPoints.h" />
     <ClInclude Include="General\Input.h" />

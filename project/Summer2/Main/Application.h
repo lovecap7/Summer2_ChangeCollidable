@@ -5,6 +5,16 @@
 /// </summary>
 class Application
 {
+private:
+	//シングルトンの準備
+	Application() = default;
+	~Application() = default;
+	//コピー禁止
+	Application(const Application&) = delete;
+	Application& operator = (const Application&) = delete;
+	//ムーブ禁止
+	Application(Application&&) = delete;
+	Application& operator = (Application&&) = delete;
 public:
 	/// <summary>
 	/// シングルトンオブジェクトを返す関数
@@ -20,24 +30,12 @@ public:
 	/// </summary>
 	/// <returns>ture:初期化成功, false:失敗</returns>
 	bool Init();
-
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Run();
-
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Terminate();
-private:
-	Application() {}
-	//関数宣言の後に = deleteでその関数の使用を禁止できる
-	Application(const Application&) {}
-	void operator=(const Application&) {}
 };
-
-//const
-//値の変更ができない
-//関数の後ろについている場合はconstの持ち主の状態が変更不可
-
-//static
-//アドレスを確定させる
-//どこからでもアクセスできる(グローバル)
-//ローカル変数がstaticの場合はそのローカル変数の持ち主しかアクセスできない
-//シングルトンオブジェクトはただ一つだけであることを保証されているためアクセスによって
-//別のオブジェクトを見ているというようなことは起きない

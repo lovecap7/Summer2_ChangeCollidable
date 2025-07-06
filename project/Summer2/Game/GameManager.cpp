@@ -66,7 +66,7 @@ void GameManager::Update()
 			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim())
 			{
 				//タイマーをスコアに加算
-				m_score->AddTimeScore(m_timer->GetSeconds());
+				m_score->AddTimeScore(m_timer->GetTime());
 				//クリア
 				m_isGameClear = true;
 			}

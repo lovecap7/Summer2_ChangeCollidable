@@ -507,6 +507,9 @@
     <ClCompile Include="Game\UI\TimerUI.cpp">
       <Filter>ソース ファイル\Game\UI</Filter>
     </ClCompile>
+    <ClCompile Include="General\EffekseerManager.cpp">
+      <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -874,6 +877,9 @@
     </ClInclude>
     <ClInclude Include="Game\UI\TimerUI.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="General\EffekseerManager.h">
+      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

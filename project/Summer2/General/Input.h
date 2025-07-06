@@ -4,14 +4,16 @@
 #include <vector>
 #include <list>
 
-class Input
+class Input final
 {
 private:
 	//シングルトンの準備
 	Input() = default;
-	~Input();
+	~Input() = default;
+	//コピー禁止
 	Input(const Input&) = delete;
 	Input& operator = (const Input&) = delete;
+	//ムーブ禁止
 	Input(Input&&) = delete;
 	Input& operator = (Input&&) = delete;
 public:

@@ -128,10 +128,6 @@ void Physics::Reset()
 	m_collidables.clear();
 }
 
-Physics::~Physics()
-{
-}
-
 void Physics::Gravity()
 {
 	for (auto& collidable : m_collidables)
