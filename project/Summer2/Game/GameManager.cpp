@@ -60,17 +60,21 @@ void GameManager::Update()
 		//カメラの更新
 		m_camera->Update(m_actorManager);
 		//ボスを倒したとき
-		if (m_actorManager->GetBoss().expired())
+		if (m_actorManager->GetBoss().expired() && !m_isGameClear)
 		{
 			//プレイヤーの勝利アニメーションが終了したら
 			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim())
 			{
+				//タイマーをスコアに加算
+				m_score->AddTimeScore(m_timer->GetSeconds());
+				//クリア
 				m_isGameClear = true;
 			}
 		}
 		//プレイヤーが死亡した際の処理
-		else if (m_actorManager->GetPlayer().expired())
+		else if (m_actorManager->GetPlayer().expired() && !m_isGameover)
 		{
+			//ゲームオーバー
 			m_isGameover = true;
 		}
 	}

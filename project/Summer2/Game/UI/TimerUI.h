@@ -15,9 +15,6 @@ public:
     void Draw() const override;
     void End()override;
 private:
-    int m_millisecond;
-    int m_seconds;
-    int m_minutes;
     std::weak_ptr<Timer> m_timer;
 };
 
