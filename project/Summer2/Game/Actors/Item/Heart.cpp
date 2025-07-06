@@ -110,7 +110,7 @@ void Heart::Complete()
 void Heart::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	//ƒXƒRƒA‰ÁŽZ
-	score.lock()->AddKillScore(ScoreDataName::kHeart);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kHeart);
 }
 
 void Heart::End()

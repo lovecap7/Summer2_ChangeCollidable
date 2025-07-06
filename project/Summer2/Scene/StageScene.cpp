@@ -50,7 +50,7 @@ void StageScene::Update()
 	//ゲームクリアしたときの処理
 	if (m_gameManager->IsGameClear())
 	{
-		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller));
+		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_gameManager->GetScore()));
 		return;
 	}
 	//ゲームオーバーしたときの処理

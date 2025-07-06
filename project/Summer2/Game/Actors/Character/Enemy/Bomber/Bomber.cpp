@@ -130,7 +130,7 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 {
 	if (!m_hitPoints->IsDead())return;//‘Ì—Í‚ª‚È‚­‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Í–³Ž‹
 	//ƒXƒRƒA‰ÁŽZ
-	score.lock()->AddKillScore(ScoreDataName::kBomber);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kBomber);
 	actorManager.lock()->CreateItem(ItemType::DefenseUp, m_rb->GetPos());
 }
 

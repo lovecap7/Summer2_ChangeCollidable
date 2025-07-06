@@ -132,7 +132,7 @@ void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std
 {
 	if (!m_hitPoints->IsDead())return;//‘Ì—Í‚ª‚È‚­‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Í–³Ž‹
 	//ƒXƒRƒA‰ÁŽZ
-	score.lock()->AddKillScore(ScoreDataName::kSmallDragon);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kSmallDragon);
 	actorManager.lock()->CreateItem(ItemType::AttackUp, m_rb->GetPos());
 }
 

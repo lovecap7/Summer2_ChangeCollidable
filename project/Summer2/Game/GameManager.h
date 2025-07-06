@@ -7,6 +7,7 @@ class Camera;
 class ActorManager;
 class UIManager;
 class Score;
+class Timer;
 class GameManager
 {
 public:
@@ -20,6 +21,8 @@ public:
     bool IsGameover() { return m_isGameover; };
     //ゲームクリア
     bool IsGameClear() { return m_isGameClear; };
+    //スコア
+    std::shared_ptr<Score> GetScore() { return m_score; };
 private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;
@@ -29,6 +32,8 @@ private:
     std::shared_ptr<Camera> m_camera;
     //スコア
     std::shared_ptr<Score> m_score;
+    //タイマー
+    std::shared_ptr<Timer> m_timer;
 private:
     //ゲームオーバーフラグ
     bool m_isGameover;

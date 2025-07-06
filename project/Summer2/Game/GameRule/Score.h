@@ -10,9 +10,13 @@ public:
 	~Score();
 	//スコア
 	int GetScore();
+	int GetTimeScore()	{ return m_timeScore; };
+	int GetKillScore()	{ return m_killScore; };
+	int GetItemScore()	{ return m_itemScore; };
+	int GetHPScore()	{ return m_hpScore; };
 	//スコア加算
 	void AddTimeScore(int time);
-	void AddKillScore(std::string dataName);
+	void AddKillOrItemScore(std::string dataName);
 	void AddHPScore(std::weak_ptr<HitPoints> hp);
 private:
 	//現在のスコア

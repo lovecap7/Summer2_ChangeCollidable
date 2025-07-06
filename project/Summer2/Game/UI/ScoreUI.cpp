@@ -1,6 +1,7 @@
 #include "ScoreUI.h"
 #include "../../General/Math/MathSub.h"
 #include "../../General/game.h"
+#include "../Actors/ActorManager.h"
 #include "../GameRule/Score.h"
 #include <DxLib.h>
 
@@ -21,7 +22,8 @@ void ScoreUI::Init()
 
 void ScoreUI::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	if (m_score.expired())
+	//プレイヤーまたはボスが消えた場合はこのUIも削除
+	if (actorManager.lock()->GetPlayer().expired() || actorManager.lock()->GetBoss().expired())
 	{
 		m_isDelete = true;
 		return;

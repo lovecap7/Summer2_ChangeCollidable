@@ -110,7 +110,7 @@ void UltGageUp::Complete()
 void UltGageUp::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	//ƒXƒRƒA‰ÁŽZ
-	score.lock()->AddKillScore(ScoreDataName::kUltGageUp);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kUltGageUp);
 }
 
 void UltGageUp::End()

@@ -501,6 +501,9 @@
     <ClCompile Include="Game\UI\ScoreUI.cpp">
       <Filter>ソース ファイル\Game\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameRule\Timer.cpp">
+      <Filter>ソース ファイル\Game\GameRule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -862,6 +865,9 @@
     </ClInclude>
     <ClInclude Include="Game\UI\ScoreUI.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameRule\Timer.h">
+      <Filter>ヘッダー ファイル\Game\GameRule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

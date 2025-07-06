@@ -8,9 +8,12 @@
 #include "../General/Collision/Physics.h"
 #include "../Game/Camera/Camera.h"
 #include "../Game/GameRule/Score.h"
+#include "../Game/GameRule/Timer.h"
 #include <cassert>
 
-GameManager::GameManager(Stage::StageIndex index)
+GameManager::GameManager(Stage::StageIndex index):
+	m_isGameover(false),
+	m_isGameClear(false),
 {
 	//UIマネージャー
 	m_uiManager = std::make_shared<UIManager>();
@@ -21,6 +24,8 @@ GameManager::GameManager(Stage::StageIndex index)
 	//スコア
 	m_score = std::make_shared<Score>();
 	m_uiManager->CreateScoreUI(m_score);
+	//タイマー
+	m_timer = std::make_shared<Timer>();
 }
 
 GameManager::~GameManager()

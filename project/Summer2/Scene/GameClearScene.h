@@ -1,11 +1,13 @@
 #pragma once
 #include "SceneBase.h"
+#include <memory>
 class SceneController;
+class Score;
 class GameClearScene :
     public SceneBase
 {
 public:
-    GameClearScene(SceneController& controller);
+    GameClearScene(SceneController& controller,std::shared_ptr<Score> score);
     ~GameClearScene();
     //”h¶ƒNƒ‰ƒX‚ÅÀ‘•‚ğÀ‘•
     virtual void Init()override;
@@ -28,5 +30,6 @@ private:
     void NormalDraw();
 private:
     int m_countFrame;
+    std::shared_ptr<Score> m_score;
 };
 

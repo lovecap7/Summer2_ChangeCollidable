@@ -129,7 +129,7 @@ void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager, const 
 {
 	if (!m_hitPoints->IsDead())return;//‘Ì—Í‚ª‚È‚­‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Í–³Ž‹
 	//ƒXƒRƒA‰ÁŽZ
-	score.lock()->AddKillScore(ScoreDataName::kPurpleDinosaur);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kPurpleDinosaur);
 	actorManager.lock()->CreateItem(ItemType::Heart, m_rb->GetPos());
 }
 

@@ -113,7 +113,7 @@ void AttackUp::Complete()
 void AttackUp::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	//ƒXƒRƒA‰ÁŽZ
-	score.lock()->AddKillScore(ScoreDataName::kAttackUp);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kAttackUp);
 }
 
 void AttackUp::End()

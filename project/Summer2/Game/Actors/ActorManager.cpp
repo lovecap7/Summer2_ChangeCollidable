@@ -3,6 +3,7 @@
 #include "../../General/Rigidbody.h"
 #include "../../General/Math/MyMath.h"
 #include "../UI/UIManager.h"
+#include "../GameRule/Score.h"
 #include <DxLib.h>
 #include <cassert>
 //配置データ
@@ -67,6 +68,12 @@ void ActorManager::Update(const std::weak_ptr<Camera> camera, const std::weak_pt
 	for (auto& actor : m_actors)
 	{
 		actor->Update(camera,shared_from_this());
+	}
+	//ボスが倒されたとき
+	if (m_boss.expired())
+	{
+		//プレイヤーの体力からスコアを加算
+		score.lock()->AddHPScore(m_player.lock()->GetHitPoints());
 	}
 	//消滅フラグチェック
 	CheckDeleteActors(score);

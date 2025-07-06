@@ -5,14 +5,16 @@
 #include<DxLib.h>
 #include "../General/game.h"
 #include "../General/Collision/Physics.h"
+#include "../Game/GameRule/Score.h"
 
 namespace {
 	constexpr int kAppearInterval = 20;
 	constexpr int kFrameMargin = 10;//ゲーム画面からポーズ画面までの幅
 }
 
-GameClearScene::GameClearScene(SceneController& controller) :
+GameClearScene::GameClearScene(SceneController& controller, std::shared_ptr<Score> score):
 	SceneBase(controller),
+	m_score(score),
 	m_update(&GameClearScene::AppearUpdate),
 	m_draw(&GameClearScene::NormalDraw),
 	m_countFrame(0)
@@ -89,4 +91,14 @@ void GameClearScene::NormalDraw()
 		0xffffff,//カラー
 		true);//塗り潰す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//スコア表示
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 100.0f, 0xff2222, "TotalScore : %5d", m_score->GetScore());
+	//撃破スコア
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 150.0f, 0xff2222, "KillScore : %5d", m_score->GetKillScore());
+	//アイテムゲットスコア
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 200.0f, 0xff2222, "ItemScore : %5d", m_score->GetItemScore());
+	//タイムスコア
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 250.0f, 0xff2222, "TimeScore : %5d", m_score->GetTimeScore());
+	//体力スコア
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 300.0f, 0xff2222, "HPScore : %5d", m_score->GetHPScore());
 }

@@ -44,19 +44,37 @@ int Score::GetScore()
 void Score::AddTimeScore(int time)
 {
 	m_timeScore = m_timeScoreData - (m_decTimeScoreData * time);
+	m_timeScore = MathSub::ClampInt(m_timeScore, 0, m_timeScoreData);
 }
 
-void Score::AddKillScore(std::string dataName)
+void Score::AddKillOrItemScore(std::string dataName)
 {
-	//データに一致するものを探す
-	for (auto data : m_scoreData)
-	{
-		if (data.dataName == dataName)
+		//データに一致するものを探す
+		for (auto data : m_scoreData)
 		{
-			m_killScore += data.score;
-			break;
+			//見つかった時
+			if (dataName == data.dataName)
+			{
+				//敵なら
+				if (dataName == ScoreDataName::kPurpleDinosaur ||
+					dataName == ScoreDataName::kSmallDragon ||
+					dataName == ScoreDataName::kBomber ||
+					dataName == ScoreDataName::kBossDragon)
+				{
+					m_killScore += data.score;
+					break;
+				}
+				//アイテムなら
+				else if (dataName == ScoreDataName::kAttackUp ||
+					dataName == ScoreDataName::kDefenseUp ||
+					dataName == ScoreDataName::kHeart ||
+					dataName == ScoreDataName::kUltGageUp)
+				{
+					m_itemScore += data.score;
+					break;
+				}
+			}
 		}
-	}
 }
 
 void Score::AddHPScore(std::weak_ptr<HitPoints> hp)

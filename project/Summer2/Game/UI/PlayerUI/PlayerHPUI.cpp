@@ -1,6 +1,7 @@
 #include "PlayerHPUI.h"
 #include "../../../General/HitPoints.h"
 #include "../../Actors/Character/Player/Player.h"
+#include "../../Actors/ActorManager.h"
 #include <DxLib.h>
 
 namespace
@@ -40,8 +41,8 @@ void PlayerHPUI::Init()
 
 void PlayerHPUI::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	//プレイヤーが消えた場合このUIも削除
-	if (m_player.expired())
+	//プレイヤーまたはボスが消えた場合はこのUIも削除
+	if (m_player.expired() || actorManager.lock()->GetBoss().expired())
 	{
 		m_isDelete = true;
 		return;

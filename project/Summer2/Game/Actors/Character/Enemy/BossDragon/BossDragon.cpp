@@ -126,7 +126,7 @@ void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std:
 {
 	if (!m_hitPoints->IsDead())return;//‘Ì—Í‚ª‚È‚­‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Í–³Ž‹
 	//ƒXƒRƒA‰ÁŽZ
-	score.lock()->AddKillScore(ScoreDataName::kBossDragon);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kBossDragon);
 }
 
 void BossDragon::End()
