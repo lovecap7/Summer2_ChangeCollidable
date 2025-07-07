@@ -104,7 +104,7 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateTrackActorEffect(std::string nam
 void EffekseerManager::LoadHandle()
 {
 	m_handles["PowerUp"] = { LoadEffekseerEffect("Data/Effects/PowerUp.efkefc") };
-	m_handles["SwordTest"] = { LoadEffekseerEffect("Data/Effects/SwordTest.efkefc") };
+	m_handles["SwordTest"] = { LoadEffekseerEffect("Data/Effects/SwordEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

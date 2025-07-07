@@ -122,9 +122,11 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 			return;
 		}
 	}
-
-	//攻撃の位置更新
-	UpdateAttackPos();
+	if (!m_attack.expired())
+	{
+		//攻撃の位置更新
+		UpdateAttackPos();
+	}
 	//移動フレーム中は前に進む
 	if (m_attackCountFrame <= m_attackData.moveFrame)
 	{
@@ -161,12 +163,9 @@ void PlayerStateNA::UpdateAttackPos()
 	{
 		m_eff.lock()->SetPos(swordDir);
 	}
-	if (!m_attack.expired())
-	{
-		//座標をセット
-		m_attack.lock()->SetStartPos(ringFinger);
-		m_attack.lock()->SetEndPos(swordDir);
-	}
+	//座標をセット
+	m_attack.lock()->SetStartPos(ringFinger);
+	m_attack.lock()->SetEndPos(swordDir);
 }
 void PlayerStateNA::AttackMove(float speed)
 {
