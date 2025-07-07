@@ -23,6 +23,11 @@ bool Application::Init()
 	 //フルスクリーンでなく、ウィンドウモードで開くようにする
 	//こういった関数はウィンドウが開く前に(Dxlib.Init()の前)に処理しておく必要がある
 	ChangeWindowMode(Game::kDefaultWindowMode);
+
+	// DirectX11を使用するようにする。(DirectX9も可、一部機能不可)
+	// Effekseerを使用するには必ず設定する。
+	SetUseDirect3DVersion(DX_DIRECT3D_11);
+
 	//画面サイズ変更
 	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorBitNum);
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
@@ -55,6 +60,11 @@ void Application::Run()
 	SceneController* sceneController = new SceneController();
 	//コントローラー
 	Input::GetInstance().Init();
+	//Physics(衝突処理)
+	auto& physics = Physics::GetInstance();
+	//エフェクト
+	auto& effect = EffekseerManager::GetInstance();
+
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -70,11 +80,11 @@ void Application::Run()
 		//更新
 		Input::GetInstance().Update();
 		sceneController->Update();
-		Physics::GetInstance().Update();
-		EffekseerManager::GetInstance().Update();
+		physics.Update();
+		effect.Update();
 		//描画
 		sceneController->Draw();
-		EffekseerManager::GetInstance().Draw();
+		effect.Draw();
 
 		//画面の切り替わりを待つ必要がある
 		ScreenFlip();//1/60秒経過するまで待つ

@@ -125,6 +125,7 @@
     <ClCompile Include="General\Math\Vector2.cpp" />
     <ClCompile Include="General\Math\Vector3.cpp" />
     <ClCompile Include="General\Model.cpp" />
+    <ClCompile Include="General\MyEffect.cpp" />
     <ClCompile Include="General\Rigidbody.cpp" />
     <ClCompile Include="General\CSVDataLoader.cpp" />
     <ClCompile Include="Main\Application.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="General\Math\Vector2.h" />
     <ClInclude Include="General\Math\Vector3.h" />
     <ClInclude Include="General\Model.h" />
+    <ClInclude Include="General\MyEffect.h" />
     <ClInclude Include="General\Rigidbody.h" />
     <ClInclude Include="General\CSVDataLoader.h" />
     <ClInclude Include="Main\Application.h" />

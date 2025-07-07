@@ -1,4 +1,5 @@
 #include "EffekseerManager.h"
+#include "MyEffect.h"
 #include <EffekseerForDXLib.h>
 
 namespace
@@ -6,6 +7,23 @@ namespace
 	constexpr int kMaxParticleNum = 8000;
 }
 
+void EffekseerManager::Entry(std::shared_ptr<MyEffect> eff)
+{
+	//‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é‚È‚ç‚µ‚È‚¢
+	auto it = std::find(m_effects.begin(), m_effects.end(), eff);
+	if (it != m_effects.end())return;
+	//“o˜^
+	m_effects.emplace_back(eff);
+}
+
+void EffekseerManager::Exit(std::shared_ptr<MyEffect> eff)
+{
+	//“o˜^‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç‚µ‚È‚¢
+	auto it = std::find(m_effects.begin(), m_effects.end(), eff);
+	if (it == m_effects.end())return;
+	//‰ğœ
+	m_effects.remove(eff);
+}
 void EffekseerManager::Init()
 {
 	//ƒp[ƒeƒBƒNƒ‹”‚ğİ’è

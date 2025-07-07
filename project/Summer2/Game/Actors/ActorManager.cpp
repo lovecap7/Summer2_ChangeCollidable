@@ -54,6 +54,31 @@ ActorManager::~ActorManager()
 {
 }
 
+//アクターを追加
+void ActorManager::Entry(std::shared_ptr<Actor> actor)
+{
+	//すでに登録されているならしない
+	auto it = std::find(m_actors.begin(), m_actors.end(), actor);
+	if (it != m_actors.end())return;
+	//アクターの初期化
+	actor->Init();
+	//アクターのIDを設定
+	actor->SetID(m_actorId);
+	m_actorId++;
+	//アクターを追加
+	m_actors.emplace_back(actor);
+}
+
+void ActorManager::Exit(std::shared_ptr<Actor> actor)
+{
+	//登録されていないならしない
+	auto it = std::find(m_actors.begin(), m_actors.end(), actor);
+	if (it == m_actors.end())return;
+	actor->End();
+	m_actors.remove(actor);
+}
+
+
 void ActorManager::Init()
 {
 	//アクターを実装
@@ -90,13 +115,18 @@ void ActorManager::Draw() const
 
 void ActorManager::End()
 {
+	//メモリを解放
 	//アクターの終了処理
+	std::list<std::shared_ptr<Actor>> deleteActer;
 	for (auto& actor : m_actors)
 	{
-		actor->End();
+		deleteActer.emplace_back(actor);
 	}
-	//メモリを解放
-	m_actors.clear();
+	for (auto& actor : deleteActer)
+	{
+		Exit(actor);
+	}
+	deleteActer.clear();
 	m_nextAddActors.clear();
 	m_player.reset();
 	m_boss.reset();
@@ -283,41 +313,32 @@ AttackData ActorManager::GetAttackData(std::string& ownerName, std::string& atta
 	return attackData;
 }
 
-
-//アクターを追加
-void ActorManager::AddActor(std::shared_ptr<Actor> actor)
-{
-	//すでに登録されているならしない
-	auto it = std::find(m_actors.begin(), m_actors.end(), actor);
-	if (it != m_actors.end())return;
-	//アクターの初期化
-	actor->Init();
-	//アクターのIDを設定
-	actor->SetID(m_actorId);
-	m_actorId++;
-	//アクターを追加
-	m_actors.emplace_back(actor);
-}
-
 //アクターの消滅フラグをチェックして削除
 void ActorManager::CheckDeleteActors(const std::weak_ptr<Score> score)
 {
+	std::list<std::shared_ptr<Actor>> deleteActer;
 	for (int i = 0;i < 3;++i)
 	{
 		bool isOneMore = false;
 		auto thisPointer = shared_from_this();
-		auto remIt = std::remove_if(m_actors.begin(), m_actors.end(), [thisPointer, &isOneMore, score](std::shared_ptr<Actor> actor) {
+		for (auto& actor : m_actors)
+		{
 			bool isDead = actor->IsDelete();//死亡したかをチェック
 			if (isDead)
 			{
 				isOneMore = true;
 				//死亡したアクターの終了処理
 				actor->Dead(thisPointer, score);
-				actor->End();
+				//削除候補
+				deleteActer.emplace_back(actor);
 			}
-			return isDead;
-			});
-		m_actors.erase(remIt, m_actors.end());//削除
+		}
+		//削除
+		for (auto& actor : deleteActer)
+		{
+			thisPointer->Exit(actor);
+		}
+		deleteActer.clear();
 		if (!isOneMore)break;
 	}
 }
@@ -327,7 +348,7 @@ void ActorManager::CheckNextAddActors()
 {
 	for (auto& actor : m_nextAddActors)
 	{
-		AddActor(actor);
+		Entry(actor);
 	}
 	m_nextAddActors.clear();//追加予定のアクターは消す
 }

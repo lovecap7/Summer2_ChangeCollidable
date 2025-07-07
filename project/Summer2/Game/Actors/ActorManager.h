@@ -48,6 +48,10 @@ class ActorManager : public std::enable_shared_from_this<ActorManager>
 public:
 	ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiManager);
 	~ActorManager();
+	//登録
+	void Entry(std::shared_ptr<Actor> actor);
+	//解除
+	void Exit(std::shared_ptr<Actor> actor);
 	//初期化
 	void Init();
 	//更新
@@ -79,8 +83,6 @@ public:
 	//攻撃データを返す
 	AttackData GetAttackData(std::string& ownerName, std::string& attackName);
 private:
-	//アクターを追加
-	void AddActor(std::shared_ptr<Actor> actor);
 	//追加予定のアクターを実装
 	void CheckNextAddActors();
 	//削除予定のアクターを削除
