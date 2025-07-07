@@ -4,7 +4,7 @@
 #include "../Scene/SceneController.h"
 #include  "../General/Input.h"
 #include  "../General/Collision/Physics.h"
-#include  "../General/EffekseerManager.h"
+#include  "../General/Effect/EffekseerManager.h"
 
 Application& Application::GetInstance()
 {

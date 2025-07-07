@@ -145,6 +145,12 @@
     <Filter Include="ソース ファイル\Game\GameRule">
       <UniqueIdentifier>{b69a8c14-0e52-4cdb-8b94-bec7dfe6d29b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\General\Effect">
+      <UniqueIdentifier>{16326b3b-bea3-45dd-a048-af201d9e449e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\General\Effect">
+      <UniqueIdentifier>{3b17f0c5-0f3f-460a-a674-e9e2fa6f8c41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -507,11 +513,14 @@
     <ClCompile Include="Game\UI\TimerUI.cpp">
       <Filter>ソース ファイル\Game\UI</Filter>
     </ClCompile>
-    <ClCompile Include="General\EffekseerManager.cpp">
-      <Filter>ソース ファイル\General</Filter>
+    <ClCompile Include="General\Effect\EffekseerManager.cpp">
+      <Filter>ソース ファイル\General\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="General\MyEffect.cpp">
-      <Filter>ソース ファイル\General</Filter>
+    <ClCompile Include="General\Effect\MyEffect.cpp">
+      <Filter>ソース ファイル\General\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="General\Effect\TrackActorEffect.cpp">
+      <Filter>ソース ファイル\General\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -881,11 +890,14 @@
     <ClInclude Include="Game\UI\TimerUI.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
     </ClInclude>
-    <ClInclude Include="General\EffekseerManager.h">
-      <Filter>ヘッダー ファイル\General</Filter>
+    <ClInclude Include="General\Effect\EffekseerManager.h">
+      <Filter>ヘッダー ファイル\General\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="General\MyEffect.h">
-      <Filter>ヘッダー ファイル\General</Filter>
+    <ClInclude Include="General\Effect\MyEffect.h">
+      <Filter>ヘッダー ファイル\General\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="General\Effect\TrackActorEffect.h">
+      <Filter>ヘッダー ファイル\General\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

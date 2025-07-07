@@ -130,24 +130,11 @@ void ActorManager::End()
 	m_nextAddActors.clear();
 	m_player.reset();
 	m_boss.reset();
-	//ハンドル
-	MV1DeleteModel(m_playerHandle);
-	MV1DeleteModel(m_wallHandle);
-	MV1DeleteModel(m_purpleDinosaurHandle);
-	MV1DeleteModel(m_smallDragonHandle);
-	MV1DeleteModel(m_bossDragonHandle);
-	MV1DeleteModel(m_bomberHandle);
-	MV1DeleteModel(m_pathHandle);
-	MV1DeleteModel(m_cubeHandle);
-	MV1DeleteModel(m_cylinderHandle);
-	MV1DeleteModel(m_skyHandle);
-	MV1DeleteModel(m_planeHandle);
-	MV1DeleteModel(m_blockGrassHandle);
-	MV1DeleteModel(m_heartHandle);
-	MV1DeleteModel(m_bombHandle);
-	MV1DeleteModel(m_ultGageUpHandle);
-	MV1DeleteModel(m_attackUpHandle);
-	MV1DeleteModel(m_defenseUpHandle);
+	//ハンドルをすべて削除
+	for (const auto& [key, value] : m_handles) {
+		MV1DeleteModel(value);
+	}
+	m_handles.clear();
 }
 
 //新規アクターの追加予定を受け取る(public)
@@ -167,27 +154,27 @@ std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(CharacterType ch, Vec
 	{
 	case CharacterType::Player:
 		//プレイヤー作成
-		chara = std::make_shared<Player>(m_playerHandle, pos);
+		chara = std::make_shared<Player>(m_handles["Player"], pos);
 		//プレイヤーに必要なUI作成
 		uiManager->CreatePlayerUI(std::dynamic_pointer_cast<Player>(chara));
 		break;
 	case CharacterType::PurpleDinosaur:
-		chara = std::make_shared<PurpleDinosaur>(MV1DuplicateModel(m_purpleDinosaurHandle), pos);
+		chara = std::make_shared<PurpleDinosaur>(MV1DuplicateModel(m_handles["PurpleDinosaur"]), pos);
 		//敵に必要なUI作成
 		uiManager->CreateEnemyUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
 	case CharacterType::SmallDragon:
-		chara = std::make_shared<SmallDragon>(MV1DuplicateModel(m_smallDragonHandle), pos);
+		chara = std::make_shared<SmallDragon>(MV1DuplicateModel(m_handles["SmallDragon"]), pos);
 		//敵に必要なUI作成
 		uiManager->CreateEnemyUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
 	case CharacterType::Bomber:
-		chara = std::make_shared<Bomber>(MV1DuplicateModel(m_bomberHandle), pos);
+		chara = std::make_shared<Bomber>(MV1DuplicateModel(m_handles["Bomber"]), pos);
 		//敵に必要なUI作成
 		uiManager->CreateEnemyUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
 	case CharacterType::BossDragon:
-		chara = std::make_shared<BossDragon>(MV1DuplicateModel(m_bossDragonHandle), pos);
+		chara = std::make_shared<BossDragon>(MV1DuplicateModel(m_handles["BossDragon"]), pos);
 		//ボスに必要なUI作成
 		uiManager->CreateBossUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
@@ -237,19 +224,19 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 	switch (it)
 	{
 	case ItemType::Heart:
-		item = std::make_shared<Heart>(MV1DuplicateModel(m_heartHandle), pos);
+		item = std::make_shared<Heart>(MV1DuplicateModel(m_handles["Heart"]), pos);
 		break;
 	case ItemType::Bomb:
-		item = std::make_shared<Bomb>(MV1DuplicateModel(m_bombHandle), pos);
+		item = std::make_shared<Bomb>(MV1DuplicateModel(m_handles["Bomb"]), pos);
 		break;
 	case ItemType::UltGageUp:
-		item = std::make_shared<UltGageUp>(MV1DuplicateModel(m_ultGageUpHandle), pos);
+		item = std::make_shared<UltGageUp>(MV1DuplicateModel(m_handles["UltGageUp"]), pos);
 		break;
 	case ItemType::AttackUp:
-		item = std::make_shared<AttackUp>(MV1DuplicateModel(m_attackUpHandle), pos);
+		item = std::make_shared<AttackUp>(MV1DuplicateModel(m_handles["AttackUp"]), pos);
 		break;
 	case ItemType::DefenseUp:
-		item = std::make_shared<DefenseUp>(MV1DuplicateModel(m_defenseUpHandle), pos);
+		item = std::make_shared<DefenseUp>(MV1DuplicateModel(m_handles["DefenseUp"]), pos);
 		break;
 	default:
 		break;
@@ -361,40 +348,28 @@ void ActorManager::CreateAttackData()
 
 void ActorManager::LoadHandle()
 {
-	m_playerHandle = MV1LoadModel("Data/Model/Player/Player.mv1");
-	assert(m_playerHandle >= 0);
-	m_wallHandle = MV1LoadModel("Data/Model/Stage/InvisibleWall.mv1");
-	assert(m_wallHandle >= 0);
-	m_purpleDinosaurHandle = MV1LoadModel("Data/Model/Enemy/PurpleDinosaur.mv1");
-	assert(m_purpleDinosaurHandle >= 0);
-	m_smallDragonHandle = MV1LoadModel("Data/Model/Enemy/SmallDragon.mv1");
-	assert(m_smallDragonHandle >= 0);
-	m_bomberHandle = MV1LoadModel("Data/Model/Enemy/Bomber.mv1");
-	assert(m_bomberHandle >= 0);
-	m_bossDragonHandle = MV1LoadModel("Data/Model/Enemy/BossDragon.mv1");
-	assert(m_bossDragonHandle >= 0);
-	m_pathHandle = MV1LoadModel("Data/Model/Stage/1/Path.mv1");
-	assert(m_pathHandle >= 0);
-	m_blockGrassHandle = MV1LoadModel("Data/Model/Stage/1/Block_Grass.mv1");
-	assert(m_blockGrassHandle >= 0);
-	m_cubeHandle = MV1LoadModel("Data/Model/Collision/Cube.mv1");
-	assert(m_cubeHandle >= 0);
-	m_cylinderHandle = MV1LoadModel("Data/Model/Collision/Cylinder.mv1");
-	assert(m_cylinderHandle >= 0);
-	m_planeHandle = MV1LoadModel("Data/Model/Collision/Plane.mv1");
-	assert(m_planeHandle >= 0);
-	m_skyHandle = MV1LoadModel("Data/Model/Stage/Sky/Sky_Daylight02.pmx");
-	assert(m_skyHandle >= 0);
-	m_heartHandle = MV1LoadModel("Data/Model/Item/Heart.mv1");
-	assert(m_heartHandle >= 0);
-	m_bombHandle = MV1LoadModel("Data/Model/Item/Bomb.mv1");
-	assert(m_bombHandle >= 0);
-	m_ultGageUpHandle = MV1LoadModel("Data/Model/Item/UltGageUp.mv1");
-	assert(m_ultGageUpHandle >= 0);
-	m_attackUpHandle = MV1LoadModel("Data/Model/Item/AttackUp.mv1");
-	assert(m_attackUpHandle >= 0);
-	m_defenseUpHandle = MV1LoadModel("Data/Model/Item/DefenseUp.mv1");
-	assert(m_defenseUpHandle >= 0);
+	m_handles["Player"]			= { MV1LoadModel("Data/Model/Player/Player.mv1") };
+	m_handles["InvisibleWall"]	= { MV1LoadModel("Data/Model/Stage/InvisibleWall.mv1") };
+	m_handles["PurpleDinosaur"] = { MV1LoadModel("Data/Model/Enemy/PurpleDinosaur.mv1") };
+	m_handles["SmallDragon"]	= { MV1LoadModel("Data/Model/Enemy/SmallDragon.mv1") };
+	m_handles["Bomber"]			= { MV1LoadModel("Data/Model/Enemy/Bomber.mv1") };
+	m_handles["BossDragon"]		= { MV1LoadModel("Data/Model/Enemy/BossDragon.mv1") };
+	m_handles["Path"]			= { MV1LoadModel("Data/Model/Stage/1/Path.mv1") };
+	m_handles["Block_Grass"]	= { MV1LoadModel("Data/Model/Stage/1/Block_Grass.mv1") };
+	m_handles["Cube"]			= { MV1LoadModel("Data/Model/Collision/Cube.mv1")};
+	m_handles["Cylinder"]		= { MV1LoadModel("Data/Model/Collision/Cylinder.mv1") };
+	m_handles["Plane"]			= { MV1LoadModel("Data/Model/Collision/Plane.mv1") };
+	m_handles["Sky"]			= { MV1LoadModel("Data/Model/Stage/Sky/Sky_Daylight02.pmx") };
+	m_handles["Sky"]			= { MV1LoadModel("Data/Model/Stage/Sky/Sky_Daylight02.pmx") };
+	m_handles["Heart"]			= { MV1LoadModel("Data/Model/Item/Heart.mv1") };
+	m_handles["Bomb"]			= { MV1LoadModel("Data/Model/Item/Bomb.mv1") };
+	m_handles["UltGageUp"]		= { MV1LoadModel("Data/Model/Item/UltGageUp.mv1") };
+	m_handles["AttackUp"]		= { MV1LoadModel("Data/Model/Item/AttackUp.mv1") };
+	m_handles["DefenseUp"]		= { MV1LoadModel("Data/Model/Item/DefenseUp.mv1") };
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_handles) {
+		assert(value >= 0);
+	}
 }
 void ActorManager::LoadStage(Stage::StageIndex index)
 {
@@ -457,7 +432,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		}
 	}
 	//空を作成
-	m_actors.emplace_back(std::make_shared<Sky>(m_skyHandle));
+	m_actors.emplace_back(std::make_shared<Sky>(m_handles["Sky"]));
 	//描画用
 	//配置データを取得
 	auto stageDrawData = CSVDataLoader::LoadTransformDataCSV(drawPath.c_str());
@@ -467,7 +442,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		if (stageData.name == "Path")
 		{
 			std::shared_ptr<StageObjectDraw> path =
-				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_pathHandle), stageData.pos, stageData.scale, stageData.rot);
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Path"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(path);
 		}
 		else if (stageData.name == "Block_Grass")
@@ -475,7 +450,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			//大きさを1/100しないと大きすぎるので
 			stageData.scale = VScale(stageData.scale, 0.01f);
 			std::shared_ptr<StageObjectDraw> blockGrass =
-				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_blockGrassHandle), stageData.pos, stageData.scale, stageData.rot);
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Block_Grass"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(blockGrass);
 		}
 	}
@@ -485,16 +460,10 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	//名前からコリジョンを配置していく
 	for (auto& stageData : stageCollData)
 	{
-		if (stageData.name == "Plane")
+		if (stageData.name == "Plane" || stageData.name == "BossAreaWall")
 		{
 			std::shared_ptr<StageObjectCollision> plane =
-				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_planeHandle), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(plane);
-		}
-		else if (stageData.name == "BossAreaWall")
-		{
-			std::shared_ptr<StageObjectCollision> plane =
-				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_planeHandle), stageData.pos, stageData.scale, stageData.rot);
+				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(plane);
 		}
 	}

@@ -1,14 +1,21 @@
 #include "MyEffect.h"
 #include <EffekseerForDXLib.h>
+namespace
+{
+	constexpr float kDefaultScale = 100.0f;
+}
 
 MyEffect::MyEffect(int playHandle, Vector3 pos):
 	m_playHandle(playHandle),
 	m_pos(pos),
 	m_rot{},
-	m_scale{1.0f,1.0f,1.0f},
+	m_scale{ kDefaultScale,kDefaultScale,kDefaultScale },
 	m_playSpeed(1.0f),
 	m_isDelete(false)
 {
+	SetPos(m_pos);
+	SetRot(m_rot);
+	SetScale(m_scale);
 }
 
 MyEffect::~MyEffect()
@@ -23,6 +30,11 @@ void MyEffect::Update()
 		Delete();
 		return;
 	}
+}
+
+void MyEffect::End()
+{
+	Delete();
 }
 
 void MyEffect::Play()

@@ -18,6 +18,8 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/Effect/EffekseerManager.h"
+#include "../../../../General/Effect/MyEffect.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
@@ -122,10 +124,7 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 	}
 
 	//攻撃の位置更新
-	if (!m_attack.expired())
-	{
-		UpdateAttackPos();
-	}
+	UpdateAttackPos();
 	//移動フレーム中は前に進む
 	if (m_attackCountFrame <= m_attackData.moveFrame)
 	{
@@ -157,9 +156,17 @@ void PlayerStateNA::UpdateAttackPos()
 	VECTOR swordDir = VNorm(VSub(indexFinger, ringFinger));
 	swordDir = VScale(swordDir, kSwordHeight);//武器の長さ
 	swordDir = VAdd(ringFinger, swordDir);//持ち手の座標に加算して剣先の座標を出す
-	//座標をセット
-	m_attack.lock()->SetStartPos(ringFinger);
-	m_attack.lock()->SetEndPos(swordDir);
+	//エフェクトの位置更新
+	if (!m_eff.expired())
+	{
+		m_eff.lock()->SetPos(swordDir);
+	}
+	if (!m_attack.expired())
+	{
+		//座標をセット
+		m_attack.lock()->SetStartPos(ringFinger);
+		m_attack.lock()->SetEndPos(swordDir);
+	}
 }
 void PlayerStateNA::AttackMove(float speed)
 {
@@ -181,6 +188,8 @@ void PlayerStateNA::AttackMove(float speed)
 
 void PlayerStateNA::InitAttackData(const std::weak_ptr<ActorManager> actorManager)
 {
+	//斬撃エフェクト
+	m_eff = EffekseerManager::GetInstance().CreateEffect("SwordTest", m_owner.lock()->GetPos());
 	std::string attackName;
 	switch (m_comboNum)
 	{

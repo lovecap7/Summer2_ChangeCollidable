@@ -5,6 +5,7 @@
 #include <memory>
 class Slash;
 class ActorManager;
+class MyEffect;
 class PlayerStateNA :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateNA>
 {
@@ -30,6 +31,8 @@ protected:
     AttackData m_attackData;
     //UŒ‚‰ñ”
     int m_comboNum;
+    //aŒ‚‚ÌQÆ
+    std::weak_ptr<MyEffect> m_eff;
 };
 
 

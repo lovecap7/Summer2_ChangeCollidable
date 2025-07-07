@@ -1,7 +1,12 @@
 #pragma once
 #include <memory>
 #include <list>
+#include <map>
+#include <string>
+#include "../Math/MyMath.h"
+
 class MyEffect;
+class Actor;
 /// <summary>
 /// エフェクトを管理するシングルトンクラス
 /// </summary>
@@ -36,8 +41,22 @@ public:
 	void Draw()const;
 	//終了処理
 	void End();
+	//すべてのエフェクトを削除
+	void AllDeleteEffect();
+	//エフェクトを作成
+	std::weak_ptr<MyEffect> CreateEffect(std::string name, Vector3 pos);
+	std::weak_ptr<MyEffect> CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor);
 private:
+	//ハンドル
+	std::map<std::string, int> m_handles;
 	//エフェクトの配列
 	std::list<std::shared_ptr<MyEffect>> m_effects;
+private:
+	//ハンドルロード
+	void LoadHandle();
+	//ハンドルをすべて削除
+	void AllDeleteHandle();
+	//削除候補のエフェクトを削除
+	void CheckDeleteEffect();
 };
 

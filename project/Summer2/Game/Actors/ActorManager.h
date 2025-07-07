@@ -5,6 +5,7 @@
 #include "Item/ItemBase.h"
 #include "../../General/CSVDataLoader.h"
 #include "../../Scene/StageScene.h"
+#include <map>
 
 //キャラクターの種類
 enum class CharacterType : int
@@ -112,26 +113,6 @@ private:
 	std::weak_ptr<UIManager> m_uiManager;
 private:
 	//ハンドル
-	 //キャラクター
-	int m_playerHandle;
-	int m_purpleDinosaurHandle;
-	int m_smallDragonHandle;
-	int m_bomberHandle;
-	int m_bossDragonHandle;
-	//ステージのオブジェクト
-	int m_wallHandle;
-	int m_pathHandle;
-	int m_skyHandle;
-	int m_blockGrassHandle; //草の地面
-	//ステージの当たり判定
-	int m_cubeHandle;
-	int m_cylinderHandle;
-	int m_planeHandle;
-	//アイテム
-	int m_heartHandle;			//回復
-	int m_bombHandle;			//爆弾
-	int m_ultGageUpHandle;		//必殺ゲージアップ
-	int m_attackUpHandle;		//攻撃アップ
-	int m_defenseUpHandle;		//耐久アップ
+	std::map<std::string, int> m_handles;
 };
 

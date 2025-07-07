@@ -6,6 +6,7 @@
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
 #include "../../../General/AttackPoints.h"
+#include "../../../General/Effect/EffekseerManager.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../../GameRule/Score.h"
@@ -81,6 +82,8 @@ void AttackUp::OnCollide(const std::shared_ptr<Collidable> other)
 		//攻撃アップバフ
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetAttackPoints().lock()->AttackBuff(kDamageRate, Battle::AttackWeight::Heavy, kAttackUpKeepFrame);
+		//パワーアップエフェクト
+		EffekseerManager::GetInstance().CreateTrackActorEffect("PowerUp", player);
 		//削除
 		m_isDelete = true;
 	}
