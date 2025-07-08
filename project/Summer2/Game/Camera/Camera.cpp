@@ -1,4 +1,6 @@
 #include "Camera.h"
+#include "CameraStateBase.h"
+#include "CameraStateNormal.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/game.h"
@@ -25,7 +27,7 @@ namespace
 	constexpr float kBossLerpRate = 0.3f;
 	//ターゲットから少し離れるためのオフセット
 	constexpr float kOffsetNormalCameraPosY = 400.0f;
-	constexpr float kNormalCameraPosZ = -600.0f;
+	constexpr float kNormalCameraPosZ = -200.0f;
 	constexpr float kOffsetBossCameraPosY = 600.0f;
 	constexpr float kOffsetClearCameraPosY = 50.0f;
 	constexpr float kOffsetClearCameraPosZ = -300.0f;
@@ -40,9 +42,7 @@ namespace
 Camera::Camera():
 	m_pos{},
 	m_dir{},
-	m_viewPos{},
-	m_update(&Camera::NormalUpdate),
-	m_rotaFrame(kClearRotaFrame)
+	m_viewPos{}
 {
 }
 
@@ -70,14 +70,26 @@ void Camera::Init()
 	SetupCamera_Perspective(60.0f / 180.0f * DX_PI_F);
 	//ディレクショナルライト
 	ChangeLightTypeDir(m_dir.ToDxLibVector());
+	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
+	m_state = std::make_shared<CameraStateNormal>(shared_from_this());
+	//状態を変化する
+	m_state->ChangeState(m_state);
 }
 
 void Camera::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	(this->*m_update)(actorManager);
+	//状態に合わせた更新
+	m_state->Update(actorManager);
+	//状態が変わったかをチェック
+	if (m_state != m_state->GetNextState())
+	{
+		//状態を変化する
+		m_state = m_state->GetNextState();
+		m_state->Init();
+	}
 }
 
-Vector3 Camera::GetDir()
+Vector3 Camera::GetDir()const
 {
 	Vector3 dir = m_dir;
 	if (dir.Magnitude() > 0.0f)
@@ -87,122 +99,11 @@ Vector3 Camera::GetDir()
 	return dir;
 }
 
-void Camera::NormalUpdate(const std::weak_ptr<ActorManager> actorManager)
+void Camera::SetDir(Vector3 dir)
 {
-	auto player = actorManager.lock()->GetPlayer();
-	//プレイヤーが消滅した場合更新終了
-	if (player.expired())return;
-	//ボス部屋なら
-	if (actorManager.lock()->IsEntryBossArea())
+	if (dir.Magnitude() > 0.0f)
 	{
-		//カメラの角度
-		m_dir = Matrix4x4::RotateXMat4x4(kBossCameraAngleX) *
-			Vector3::Forward();
-		if (m_dir.Magnitude() > 0.0f)
-		{
-			m_dir = m_dir.Normalize();
-		}
-		//見てる位置
-		m_viewPos = m_pos + m_dir;
-		//ボスカメラ
-		m_update = &Camera::BossUpdate;
-		return;
+		dir = dir.Normalize();
 	}
-	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
-	auto playerPos = player.lock()->GetRb()->GetPos();
-	//位置の更新
-	Vector3 nextPos = m_pos;
-	nextPos.z = kNormalCameraPosZ;
-	nextPos.y = playerPos.y + kOffsetNormalCameraPosY;//プレイヤーのY座標より高い位置
-	//横方向が範囲外なら
-	if (playerPos.x > m_pos.x + kChaseWidth)//右
-	{
-		nextPos.x = playerPos.x;
-		nextPos.x -= kChaseWidth;
-	}
-	else if (playerPos.x < m_pos.x - kChaseWidth)//左
-	{
-		nextPos.x = playerPos.x;
-		nextPos.x += kChaseWidth;
-	}
-	//次の座標
-	m_pos = Vector3::Lerp(m_pos, nextPos, kNormalLerpRate);
-	//見てる位置
-	m_viewPos = m_pos + m_dir;
-	//設定
-	SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
-}
-
-void Camera::BossUpdate(const std::weak_ptr<ActorManager> actorManager)
-{
-	auto player = actorManager.lock()->GetPlayer();
-	auto boss = actorManager.lock()->GetBoss();
-	//プレイヤーか消滅した場合更新終了
-	if (player.expired())return;
-	//ボスが消滅したらゲームクリアカメラに
-	if (boss.expired())
-	{
-		auto player = actorManager.lock()->GetPlayer();
-		auto playerPos = player.lock()->GetPos();
-		//位置の更新
-		Vector3 nextPos = playerPos;
-		nextPos.y += kOffsetClearCameraPosY;
-		nextPos.z += kOffsetClearCameraPosZ;
-		m_pos = nextPos;
-		//見てる位置
-		m_viewPos = playerPos;
-		m_viewPos.y += kOffsetClearTargetPosY;
-		//クリアカメラ
-		m_update = &Camera::GameClearUpdate;
-		return;
-	}
-	//プレイヤーとボスの間の座標に合わせる
-	auto playerPos = player.lock()->GetPos();
-	auto bossPos = boss.lock()->GetPos();
-	//間の位置
-	auto centerPos = Vector3::Lerp(playerPos, bossPos, kBossLerpRate);
-	//位置の更新
-	Vector3 nextPos = m_pos;
-	nextPos.y = centerPos.y + kOffsetBossCameraPosY;//中心のY座標より高い位置
-	nextPos.x = centerPos.x;
-	//次の座標
-	m_pos = Vector3::Lerp(m_pos, nextPos, kNormalLerpRate);
-	//見てる位置
-	m_viewPos = m_pos + m_dir;
-	//設定
-	SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
-}
-
-void Camera::GameClearUpdate(const std::weak_ptr<ActorManager> actorManager)
-{
-	auto player = actorManager.lock()->GetPlayer();
-	auto playerPos = player.lock()->GetPos();
-	//次の座標
-	if (m_rotaFrame > 0)
-	{
-		Quaternion kClearRotaQ = Quaternion::AngleAxis((360.0f / kClearRotaFrame) * MyMath::DEG_2_RAD, Vector3::Up());
-		//位置の更新
-		Vector3 nextPos = playerPos;
-		auto vec = m_pos - playerPos;
-		vec = kClearRotaQ * vec;
-		nextPos += vec;
-		nextPos.y += 0.5f;
-		m_pos = nextPos;
-		--m_rotaFrame;
-	}
-	else
-	{
-		//位置の更新
-		Vector3 nextPos = playerPos;
-		nextPos.z += -30.0f;
-		nextPos.y += 60.0f;
-		//次の座標
-		nextPos = Vector3::Lerp(m_pos, nextPos, 0.1f);
-		m_pos = nextPos;
-		//注視点
-		m_viewPos = playerPos;
-		m_viewPos.y += 60.0f;
-	}
-	//設定
-	SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
+	m_dir = dir;
 }

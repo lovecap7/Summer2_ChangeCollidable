@@ -91,6 +91,10 @@
     <ClCompile Include="Game\Actors\Stage\StageObjectCollision.cpp" />
     <ClCompile Include="Game\Actors\Stage\StageObjectDraw.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
+    <ClCompile Include="Game\Camera\CameraStateAreaLock.cpp" />
+    <ClCompile Include="Game\Camera\CameraStateBase.cpp" />
+    <ClCompile Include="Game\Camera\CameraStateClear.cpp" />
+    <ClCompile Include="Game\Camera\CameraStateNormal.cpp" />
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\GameRule\Score.cpp" />
     <ClCompile Include="Game\GameRule\Timer.cpp" />
@@ -216,6 +220,10 @@
     <ClInclude Include="Game\Actors\Stage\StageObjectCollision.h" />
     <ClInclude Include="Game\Actors\Stage\StageObjectDraw.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
+    <ClInclude Include="Game\Camera\CameraStateAreaLock.h" />
+    <ClInclude Include="Game\Camera\CameraStateBase.h" />
+    <ClInclude Include="Game\Camera\CameraStateClear.h" />
+    <ClInclude Include="Game\Camera\CameraStateNormal.h" />
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\GameRule\Score.h" />
     <ClInclude Include="Game\GameRule\Timer.h" />

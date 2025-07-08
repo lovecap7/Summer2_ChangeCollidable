@@ -522,6 +522,18 @@
     <ClCompile Include="General\Effect\TrackActorEffect.cpp">
       <Filter>ソース ファイル\General\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Camera\CameraStateBase.cpp">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\CameraStateNormal.cpp">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\CameraStateAreaLock.cpp">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\CameraStateClear.cpp">
+      <Filter>ソース ファイル\Game\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -898,6 +910,18 @@
     </ClInclude>
     <ClInclude Include="General\Effect\TrackActorEffect.h">
       <Filter>ヘッダー ファイル\General\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\CameraStateBase.h">
+      <Filter>ヘッダー ファイル\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\CameraStateNormal.h">
+      <Filter>ヘッダー ファイル\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\CameraStateAreaLock.h">
+      <Filter>ヘッダー ファイル\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\CameraStateClear.h">
+      <Filter>ヘッダー ファイル\Game\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

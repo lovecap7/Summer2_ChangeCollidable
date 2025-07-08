@@ -63,7 +63,7 @@ void PurpleDinosaur::Init()
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<PurpleDinosaur>(shared_from_this());
 	m_state = std::make_shared<PurpleDinosaurStateIdle>(thisPointer);
-	//次の状態を待機状態に
+	//状態を変化する
 	m_state->ChangeState(m_state);
 }
 
