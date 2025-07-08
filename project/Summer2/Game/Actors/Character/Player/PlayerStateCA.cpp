@@ -16,6 +16,8 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/Effect/EffekseerManager.h"
+#include "../../../../General/Effect/MyEffect.h"
 #include "../../../../Game/Camera/Camera.h"
 #include "../../Attack/Strike.h"
 
@@ -52,6 +54,9 @@ PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 	model->SetFixedLoopFrame(m_attackData.keepFrame);//指定ループ
 	//加算ゲージの予約
 	coll->GetUltGage().lock()->SetPendingUltGage(m_attackData.addUltGage);
+
+	//キックエフェクト
+	m_eff = EffekseerManager::GetInstance().CreateEffect("CAKickEff", m_owner.lock()->GetPos());
 }
 
 PlayerStateCA::~PlayerStateCA()
@@ -59,6 +64,8 @@ PlayerStateCA::~PlayerStateCA()
 	//攻撃判定の削除
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
+	//エフェクトの削除
+	m_eff.lock()->Delete();
 }
 void PlayerStateCA::Init()
 {
@@ -147,4 +154,9 @@ void PlayerStateCA::UpdateAttackPos()
 	//座標をセット
 	m_attack.lock()->SetStartPos(root);
 	m_attack.lock()->SetEndPos(toe);
+	//エフェクトの位置更新
+	if (!m_eff.expired())
+	{
+		m_eff.lock()->SetPos(toe);
+	}
 }

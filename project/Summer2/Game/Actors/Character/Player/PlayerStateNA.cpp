@@ -188,7 +188,7 @@ void PlayerStateNA::AttackMove(float speed)
 void PlayerStateNA::InitAttackData(const std::weak_ptr<ActorManager> actorManager)
 {
 	//斬撃エフェクト
-	m_eff = EffekseerManager::GetInstance().CreateEffect("SwordTest", m_owner.lock()->GetPos());
+	m_eff = EffekseerManager::GetInstance().CreateEffect("NAEff", m_owner.lock()->GetPos());
 	std::string attackName;
 	switch (m_comboNum)
 	{

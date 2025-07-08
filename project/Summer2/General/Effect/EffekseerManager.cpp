@@ -81,9 +81,13 @@ void EffekseerManager::AllDeleteEffect()
 std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3 pos)
 {
 	std::shared_ptr<MyEffect> effect;
-	if (name == "SwordTest")
+	if (name == "NAEff")
 	{
-		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["SwordTest"]), pos);
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["NAEff"]), pos);
+	}
+	else if (name == "CAKickEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["CAKickEff"]), pos);
 	}
 	Entry(effect);
 	return effect;
@@ -104,7 +108,8 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateTrackActorEffect(std::string nam
 void EffekseerManager::LoadHandle()
 {
 	m_handles["PowerUp"] = { LoadEffekseerEffect("Data/Effects/PowerUp.efkefc") };
-	m_handles["SwordTest"] = { LoadEffekseerEffect("Data/Effects/SwordEff.efkefc") };
+	m_handles["NAEff"] = { LoadEffekseerEffect("Data/Effects/NAEff.efkefc") };
+	m_handles["CAKickEff"] = { LoadEffekseerEffect("Data/Effects/CAKickEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);
