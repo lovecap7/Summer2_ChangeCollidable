@@ -1,53 +1,56 @@
 #include "BossArea.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
-
-BossArea::BossArea(VECTOR startPos, VECTOR endPos):
-	Actor(Shape::None),
-	m_startPos(startPos),
-	m_endPos(endPos)
+#include "../Character/Enemy/EnemyBase.h"
+#include "../../../General/Collision/Physics.h"
+#include "../../Camera/Camera.h"
+BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
+	EventArea(start,end),
+	m_isEntryBossArea(false),
+	m_update(&BossArea::EntryCheckUpdate)
 {
-	//終点より始点のほうが原点より離れているなら
-	if (abs(m_startPos.x) > abs(m_endPos.x))
-	{
-		//入れ替え
-		auto temp = m_startPos;
-		m_startPos = m_endPos;
-		m_endPos = temp;
-	}
 }
 
 BossArea::~BossArea()
 {
-	
-}
-
-void BossArea::Init()
-{
-	//タグをエリアに
-	m_tag = GameTag::Area;
 }
 
 void BossArea::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//プレイヤーのポインタ
-	auto player = actorManager.lock()->GetPlayer();
-	if (player.expired())return;
-	//範囲内にプレイヤーがいるか
-	auto playerPosX = player.lock()->GetNextPos().x;
-	if (playerPosX >= m_startPos.x && playerPosX <= m_endPos.x)
+	
+}
+
+void BossArea::End()
+{
+}
+
+void BossArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	if (actorManager.lock()->GetPlayer().expired())return;
+	auto player = actorManager.lock()->GetPlayer().lock();
+	//座標から範囲に入ったかをチェック
+	auto playerPos = player->GetPos();
+	auto startPos = m_start.lock()->GetPos();
+	auto endPos = m_end.lock()->GetPos();
+	//範囲内なら
+	if (playerPos.x > startPos.x && playerPos.x < endPos.x)
 	{
-		m_isDelete = true;
+		//イベント開始情報をカメラに設定
+		camera.lock()->EventStart(startPos.x, endPos.x);
+		//ボスエリアに入ったフラグ
+		m_isEntryBossArea = true;
+		m_update = &BossArea::EventUpdate;
+		return;
 	}
 }
 
-void BossArea::Draw() const
+void BossArea::EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	DrawLine3D(m_startPos.ToDxLibVector(), m_endPos.ToDxLibVector(), 0xff0000);
-}
-
-void BossArea::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
-{
-	//ボス以外を削除
-	actorManager.lock()->AllDeleteNormalEnemy();
+	//ボスが倒れたら
+	if (actorManager.lock()->GetBoss().expired())
+	{
+		//範囲内の敵がすべて消えたら
+		//カメラにイベントが終了したことを設定
+		camera.lock()->EventEnd();
+	}
 }

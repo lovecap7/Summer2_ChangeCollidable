@@ -10,18 +10,18 @@ class EventArea:
 {
 public:
 	EventArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end);
-	~EventArea();
-    void Init()override {};
-    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
-    void OnCollide(const std::shared_ptr<Collidable> other)override {};
-    void Draw()const override {};
-    void Complete() override {};
-    void Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score) override {};
-    void End()override;
-private:
+    virtual ~EventArea();
+    virtual void Init()override {};
+    virtual void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    virtual void OnCollide(const std::shared_ptr<Collidable> other)override {};
+    virtual void Draw()const override {};
+    virtual void Complete() override {};
+    virtual void Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score) override {};
+    virtual void End()override;
+protected:
     std::weak_ptr<Actor> m_start;
     std::weak_ptr<Actor> m_end;
-    std::list<std::weak_ptr<EnemyBase>> m_areaEnemies;
+private:
     //状態遷移
     using UpdateFunc_t = void(EventArea::*)(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager);
     UpdateFunc_t m_update;
@@ -29,5 +29,7 @@ private:
     void EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager);
     //イベント状態
     void EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager);
+    //範囲内の敵のリスト
+    std::list<std::weak_ptr<EnemyBase>> m_areaEnemies;
 };
 

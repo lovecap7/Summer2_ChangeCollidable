@@ -74,9 +74,11 @@ public:
 	void AllDeleteNormalEnemy();
 
 	//プレイヤーを取得
-	std::weak_ptr<Player> GetPlayer() const { return m_player; }
+	std::weak_ptr<Player> GetPlayer() const { return m_player; };
 	//ボスを取得
-	std::weak_ptr<EnemyBase> GetBoss() const { return m_boss; }
+	std::weak_ptr<EnemyBase> GetBoss() const { return m_boss; };
+	//ボス部屋
+	std::weak_ptr<BossArea> GetBossArea() const { return m_bossArea; };
 	//プレイヤーに近い敵を取得
 	std::weak_ptr<Actor> GetNearestEnemy() const;
 	//攻撃データを返す
@@ -101,6 +103,8 @@ private:
 	std::weak_ptr<Player> m_player;
 	//ボス
 	std::weak_ptr<EnemyBase> m_boss;
+	//ボス部屋
+	std::weak_ptr<BossArea> m_bossArea;
 	//ID
 	int m_actorId;//割り振る番号
 	//攻撃データ

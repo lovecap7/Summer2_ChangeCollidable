@@ -14,20 +14,32 @@ namespace
 	//nearとfar
 	constexpr float kNear = 50.0f;
 	constexpr float kFar = 5000.0f;
+	//視野角
+	constexpr float kPerspective = 60.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
-	constexpr float kNormalCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
-	constexpr float kBossCameraAngleX = 40.0f * MyMath::DEG_2_RAD;
+	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
 	//lerpの割合
-	constexpr float kNormalLerpRate = 0.05f;
-	constexpr float kBossLerpRate = 0.3f;
+	constexpr float kLerpRate = 0.05f;
 	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetNormalCameraPosY = 400.0f;
-	constexpr float kNormalCameraPosZ = -200.0f;
+	constexpr float kOffsetCameraPosY = 400.0f;
+	constexpr float kCameraPosZ = -200.0f;
 }
 
 CameraStateNormal::CameraStateNormal(std::weak_ptr<Camera> camera):
 	CameraStateBase(camera)
 {
+	auto owner = m_camera.lock();
+	//カメラの角度
+	owner->SetDir(Matrix4x4::RotateXMat4x4(kCameraAngleX) *
+		Vector3::Forward());
+	//見てる位置
+	owner->SetViewPos(owner->GetPos() + owner->GetDir());
+	//カメラの座標と注視点
+	SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
+	//視野角
+	SetupCamera_Perspective(kPerspective);
+	//ディレクショナルライト
+	ChangeLightTypeDir(owner->GetDir().ToDxLibVector());
 }
 
 void CameraStateNormal::Init()
@@ -53,11 +65,11 @@ void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();
 	Vector3 nextPos = camera->GetPos();
-	nextPos.z = kNormalCameraPosZ;
-	nextPos.y = playerPos.y + kOffsetNormalCameraPosY;//プレイヤーのY座標より高い位置
+	nextPos.z = kCameraPosZ;
+	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
 	nextPos.x = playerPos.x;
 	//次の座標
-	nextPos = Vector3::Lerp(oldPos, nextPos, kNormalLerpRate);
+	nextPos = Vector3::Lerp(oldPos, nextPos, kLerpRate);
 	//見ている向き
 	Vector3 dir = camera->GetDir();
 	//見てる位置

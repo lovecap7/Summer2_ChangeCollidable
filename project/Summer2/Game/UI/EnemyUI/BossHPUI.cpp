@@ -3,6 +3,7 @@
 #include "../../Actors/Character/Enemy/EnemyBase.h"
 #include "../../../General/game.h"
 #include "../../Actors/ActorManager.h"
+#include "../../Actors/Stage/BossArea.h"
 #include <DxLib.h>
 
 namespace
@@ -50,7 +51,7 @@ void BossHPUI::Update(const std::weak_ptr<ActorManager> actorManager)
 		return;
 	}
 	//ƒ{ƒX•”‰®‚É“ü‚Á‚½Žž•`‰æ
-	if (m_enemy.lock()->IsSearch())
+	if (actorManager.lock()->GetBossArea().lock()->IsEntryBossArea())
 	{
 		m_isDraw = true;
 	}

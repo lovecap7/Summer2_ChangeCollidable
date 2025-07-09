@@ -17,32 +17,14 @@ namespace
 	//nearとfar
 	constexpr float kNear = 50.0f;
 	constexpr float kFar = 5000.0f;
-	//カメラ角度
-	constexpr float kNormalCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
-	constexpr float kBossCameraAngleX = 40.0f * MyMath::DEG_2_RAD;
-	//画面中央からある一定距離プレイヤーが離れた場合追従する範囲
-	constexpr float kChaseWidth = 20.0f;
-	//lerpの割合
-	constexpr float kNormalLerpRate = 0.1f;
-	constexpr float kBossLerpRate = 0.3f;
-	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetNormalCameraPosY = 400.0f;
-	constexpr float kNormalCameraPosZ = -200.0f;
-	constexpr float kOffsetBossCameraPosY = 600.0f;
-	constexpr float kOffsetClearCameraPosY = 50.0f;
-	constexpr float kOffsetClearCameraPosZ = -300.0f;
-	//クリア時のターゲットへの注視点オフセット
-	constexpr float kOffsetClearTargetPosY = 100.0f;
-
-	//クリア時に回転するフレーム
-	constexpr int kClearRotaFrame = 300;
 }
 
 
 Camera::Camera():
 	m_pos{},
 	m_dir{},
-	m_viewPos{}
+	m_viewPos{},
+	m_isEvent(false)
 {
 }
 
@@ -54,22 +36,6 @@ void Camera::Init()
 {
 	//奥行50～3000までをカメラの描画範囲とする
 	SetCameraNearFar(kNear, kFar);
-	//カメラの角度
-	m_dir = Matrix4x4::RotateXMat4x4(kNormalCameraAngleX) *
-		Vector3::Forward();
-	if (m_dir.Magnitude() > 0.0f)
-	{
-		m_dir = m_dir.Normalize();
-	}
-	//見てる位置
-	m_viewPos = m_pos + m_dir;
-
-	//カメラの座標と注視点
-	SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
-	//視野角
-	SetupCamera_Perspective(60.0f / 180.0f * DX_PI_F);
-	//ディレクショナルライト
-	ChangeLightTypeDir(m_dir.ToDxLibVector());
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	m_state = std::make_shared<CameraStateNormal>(shared_from_this());
 	//状態を変化する

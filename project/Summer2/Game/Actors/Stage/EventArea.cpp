@@ -8,7 +8,8 @@
 EventArea::EventArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
 	Actor(Shape::None),
 	m_start(start),
-	m_end(end)
+	m_end(end),
+	m_update(&EventArea::EntryCheckUpdate)
 {
 }
 

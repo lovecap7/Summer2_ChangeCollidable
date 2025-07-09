@@ -3,6 +3,7 @@
 #include "BossDragonStateIdle.h"
 #include <memory>
 #include "../../../ActorManager.h"
+#include "../../../Stage/BossArea.h"
 #include "../../Player/Player.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
@@ -23,7 +24,7 @@ namespace
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
 	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 1300.0f;
+	constexpr float kSearchDistance = 2000.0f;
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 180.0f;
 	//体力
@@ -69,6 +70,8 @@ void BossDragon::Init()
 
 void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//ボス部屋に入った時行動開始
+	if (!actorManager.lock()->GetBossArea().lock()->IsEntryBossArea())return;
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
 	//ターゲットを発見できたかをチェック

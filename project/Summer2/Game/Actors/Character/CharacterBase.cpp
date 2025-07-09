@@ -6,8 +6,7 @@
 
 CharacterBase::CharacterBase(Shape shape) :
 	Actor(shape),
-	m_targetData{},
-	m_isActive(true)
+	m_targetData{}
 {
 }
 

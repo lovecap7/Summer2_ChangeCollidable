@@ -24,6 +24,7 @@
 #include "Stage/StageObjectDraw.h"
 #include "Stage/Sky.h"
 #include "Stage/EventArea.h"
+#include "Stage/BossArea.h"
 //アイテム
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
@@ -377,6 +378,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	std::string charaPath;
 	std::string drawPath;
 	std::string collPath;
+	std::string eventAreaPath;
 	std::string bossAreaPath;
 	switch (index)
 	{
@@ -384,7 +386,8 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		charaPath = "Data/CSV/CharacterTransformData.csv";
 		drawPath = "Data/CSV/StageTransformData.csv";
 		collPath = "Data/CSV/StageCollisionTransformData.csv";
-		bossAreaPath = "Data/CSV/EventTransformData.csv";
+		eventAreaPath = "Data/CSV/EventTransformData.csv";
+		bossAreaPath = "Data/CSV/BossTransformData.csv";
 		break;
 	case Stage::StageIndex::Stage2:
 		break;
@@ -467,28 +470,55 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			m_nextAddActors.emplace_back(plane);
 		}
 	}
-	//ボス部屋を作成
-	auto bossAreaData = CSVDataLoader::LoadTransformDataCSV(bossAreaPath.c_str());
-	VECTOR startPos = {};
-	VECTOR endPos = {};
+	//イベント部屋を作成
+	auto eventAreaData = CSVDataLoader::LoadTransformDataCSV(eventAreaPath.c_str());
+	std::shared_ptr<StageObjectCollision> startColl;
+	std::shared_ptr<StageObjectCollision> endColl;
 	bool isSet = false;
 	//名前からコリジョンを配置していく
-	for (auto& stageData : bossAreaData)
+	for (auto& stageData : eventAreaData)
 	{
 		if (stageData.name == "EventAreaS")
 		{
-			startPos = stageData.pos;
+			startColl = std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(startColl);
 		}
 		else if (stageData.name == "EventAreaE")
 		{
-			endPos = stageData.pos;
+			endColl = std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(endColl);
 			isSet = true;
 		}
 		if (isSet)
 		{
-			auto eventArea = std::make_shared<EventArea>(startPos, endPos);
+			auto eventArea = std::make_shared<EventArea>(startColl, endColl);
 			m_nextAddActors.emplace_back(eventArea);
 			isSet = false;
+		}
+	}
+	//ボス部屋を作成
+	auto bossAreaData = CSVDataLoader::LoadTransformDataCSV(bossAreaPath.c_str());
+	isSet = false;
+	//名前からコリジョンを配置していく
+	for (auto& stageData : bossAreaData)
+	{
+		if (stageData.name == "Start")
+		{
+			startColl = std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(startColl);
+		}
+		else if (stageData.name == "End")
+		{
+			endColl = std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(endColl);
+			isSet = true;
+		}
+		if (isSet)
+		{
+			auto bossArea = std::make_shared<BossArea>(startColl, endColl);
+			m_bossArea = bossArea;
+			m_nextAddActors.emplace_back(bossArea);
+			break;
 		}
 	}
 }
