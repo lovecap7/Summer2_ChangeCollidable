@@ -54,9 +54,8 @@ void CameraStateAreaLock::Init()
 
 void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	auto boss = actorManager.lock()->GetBoss();
 	//ボスが消滅したらゲームクリアカメラに
-	if (boss.expired())
+	if (actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<CameraStateClear>(m_camera, actorManager));
 		return;
@@ -65,25 +64,5 @@ void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
 	auto camera = m_camera.lock();
 	//プレイヤーか消滅した場合更新終了
 	if (player.expired())return;
-	//プレイヤーとボスの間の座標に合わせる
-	auto playerPos = player.lock()->GetPos();
-	auto bossPos = boss.lock()->GetPos();
-	//間の位置
-	auto centerPos = Vector3::Lerp(playerPos, bossPos, kBossLerpRate);
-	//位置の更新
-	Vector3 oldPos = camera->GetPos();
-	Vector3 nextPos = camera->GetPos();
-	nextPos.y = centerPos.y + kOffsetBossCameraPosY;//中心のY座標より高い位置
-	nextPos.x = centerPos.x;
-	//次の座標
-	nextPos = Vector3::Lerp(oldPos, nextPos, kNormalLerpRate);
-	//見てる向き
-	Vector3 dir = camera->GetDir();
-	//見てる位置
-	Vector3 viewPos = nextPos + dir;
-	//位置更新
-	SetCameraPositionAndTarget_UpVecY(nextPos.ToDxLibVector(), viewPos.ToDxLibVector());
-	camera->SetPos(nextPos);
-	camera->SetDir(dir);
-	camera->SetViewPos(viewPos);
+
 }

@@ -50,7 +50,7 @@ void BossHPUI::Update(const std::weak_ptr<ActorManager> actorManager)
 		return;
 	}
 	//ƒ{ƒX•”‰®‚É“ü‚Á‚½Žž•`‰æ
-	if (actorManager.lock()->IsEntryBossArea())
+	if (m_enemy.lock()->IsSearch())
 	{
 		m_isDraw = true;
 	}

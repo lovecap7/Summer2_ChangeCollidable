@@ -27,6 +27,8 @@ public:
 	Vector3 GetHPUIPos() { return m_hpUIPos; };
 	//敵の階級
 	EnemyGrade GetEnemyGrade()const { return m_enemyGrade; };
+	//プレイヤーを発見できたか
+	bool IsSearch()const { return m_targetData.isHitTarget; };
 protected:
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;

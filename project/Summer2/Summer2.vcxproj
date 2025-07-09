@@ -86,6 +86,7 @@
     <ClCompile Include="Game\Actors\Item\ItemBase.cpp" />
     <ClCompile Include="Game\Actors\Item\UltGageUp.cpp" />
     <ClCompile Include="Game\Actors\Stage\BossArea.cpp" />
+    <ClCompile Include="Game\Actors\Stage\EventArea.cpp" />
     <ClCompile Include="Game\Actors\Stage\InvisibleWall.cpp" />
     <ClCompile Include="Game\Actors\Stage\Sky.cpp" />
     <ClCompile Include="Game\Actors\Stage\StageObjectCollision.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Game\Actors\Item\ItemBase.h" />
     <ClInclude Include="Game\Actors\Item\UltGageUp.h" />
     <ClInclude Include="Game\Actors\Stage\BossArea.h" />
+    <ClInclude Include="Game\Actors\Stage\EventArea.h" />
     <ClInclude Include="Game\Actors\Stage\InvisibleWall.h" />
     <ClInclude Include="Game\Actors\Stage\Sky.h" />
     <ClInclude Include="Game\Actors\Stage\StageObjectCollision.h" />

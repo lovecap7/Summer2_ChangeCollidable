@@ -128,6 +128,22 @@ void Physics::Reset()
 	m_collidables.clear();
 }
 
+std::list<std::weak_ptr<Collidable>> Physics::GetAreaXCollidable(float startX, float endX)
+{
+	std::list<std::weak_ptr<Collidable>> collList;
+	for (auto& collidable : m_collidables)
+	{
+		if (collidable->GetGameTag() == GameTag::None)continue;
+		auto collPos = collidable->m_rb->m_pos;
+		//”ÍˆÍ“à‚É‚¢‚½‚ç
+		if (collPos.x > startX && collPos.x < endX)
+		{
+			collList.emplace_back(collidable);
+		}
+	}
+	return collList;
+}
+
 void Physics::Gravity()
 {
 	for (auto& collidable : m_collidables)

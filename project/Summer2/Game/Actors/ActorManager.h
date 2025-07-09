@@ -79,8 +79,6 @@ public:
 	std::weak_ptr<EnemyBase> GetBoss() const { return m_boss; }
 	//プレイヤーに近い敵を取得
 	std::weak_ptr<Actor> GetNearestEnemy() const;
-	//ボス部屋に入ったか
-	bool IsEntryBossArea()const { return m_bossArea.expired(); };
 	//攻撃データを返す
 	AttackData GetAttackData(std::string& ownerName, std::string& attackName);
 private:
@@ -103,8 +101,6 @@ private:
 	std::weak_ptr<Player> m_player;
 	//ボス
 	std::weak_ptr<EnemyBase> m_boss;
-	//ボス部屋
-	std::weak_ptr<BossArea> m_bossArea;
 	//ID
 	int m_actorId;//割り振る番号
 	//攻撃データ

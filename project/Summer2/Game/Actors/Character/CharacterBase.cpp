@@ -4,9 +4,10 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Model.h"
 
-CharacterBase::CharacterBase(Shape shape):
+CharacterBase::CharacterBase(Shape shape) :
 	Actor(shape),
-	m_targetData{}
+	m_targetData{},
+	m_isActive(true)
 {
 }
 

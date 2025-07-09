@@ -534,6 +534,9 @@
     <ClCompile Include="Game\Camera\CameraStateClear.cpp">
       <Filter>ソース ファイル\Game\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Stage\EventArea.cpp">
+      <Filter>ソース ファイル\Game\Actors\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -922,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="Game\Camera\CameraStateClear.h">
       <Filter>ヘッダー ファイル\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Stage\EventArea.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

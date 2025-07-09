@@ -43,9 +43,10 @@ public:
 
 	//更新を止める
 	void StopUpdate() { m_isUpdate = false; }
-
 	//更新を始める
 	void StartUpdate() { m_isUpdate = true; }
+	//指定された範囲内のCollidableを返す(X座標を見て)
+	std::list<std::weak_ptr<Collidable>> GetAreaXCollidable(float startX,float endX);
 private:
 	//当たり判定のチェックをするクラス
 	std::shared_ptr<CollisionChecker> m_collChecker;

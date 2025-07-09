@@ -23,7 +23,7 @@
 #include "Stage/StageObjectCollision.h"
 #include "Stage/StageObjectDraw.h"
 #include "Stage/Sky.h"
-#include "Stage/BossArea.h"
+#include "Stage/EventArea.h"
 //アイテム
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
@@ -384,7 +384,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		charaPath = "Data/CSV/CharacterTransformData.csv";
 		drawPath = "Data/CSV/StageTransformData.csv";
 		collPath = "Data/CSV/StageCollisionTransformData.csv";
-		bossAreaPath = "Data/CSV/BossTransformData.csv";
+		bossAreaPath = "Data/CSV/EventTransformData.csv";
 		break;
 	case Stage::StageIndex::Stage2:
 		break;
@@ -471,19 +471,24 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	auto bossAreaData = CSVDataLoader::LoadTransformDataCSV(bossAreaPath.c_str());
 	VECTOR startPos = {};
 	VECTOR endPos = {};
+	bool isSet = false;
 	//名前からコリジョンを配置していく
 	for (auto& stageData : bossAreaData)
 	{
-		if (stageData.name == "Start")
+		if (stageData.name == "EventAreaS")
 		{
 			startPos = stageData.pos;
 		}
-		else if (stageData.name == "End")
+		else if (stageData.name == "EventAreaE")
 		{
 			endPos = stageData.pos;
+			isSet = true;
+		}
+		if (isSet)
+		{
+			auto eventArea = std::make_shared<EventArea>(startPos, endPos);
+			m_nextAddActors.emplace_back(eventArea);
+			isSet = false;
 		}
 	}
-	auto bossArea = std::make_shared<BossArea>(startPos, endPos);
-	m_bossArea = bossArea;
-	m_nextAddActors.emplace_back(bossArea);
 }
