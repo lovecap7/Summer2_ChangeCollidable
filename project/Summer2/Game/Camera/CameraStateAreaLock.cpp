@@ -8,6 +8,7 @@
 #include "../Actors/Character/Player/Player.h"
 #include "../Actors/Character/Enemy/EnemyBase.h"
 #include "../Actors/ActorManager.h"
+#include "../Actors/Stage/EventArea.h"
 #include <DxLib.h>
 
 namespace
@@ -16,14 +17,14 @@ namespace
 	constexpr float kNear = 50.0f;
 	constexpr float kFar = 5000.0f;
 	//視野角
-	constexpr float kPerspective = 60.0f * MyMath::DEG_2_RAD;
+	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
 	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
 	//lerpの割合
 	constexpr float kLerpRate = 0.1f;
 	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetCameraPosY = 500.0f;
-	constexpr float kCameraPosZ = -300.0f;
+	constexpr float kOffsetCameraPosY = 800.0f;
+	constexpr float kOffsetCameraPosZ = -1000.0f;
 	//壁からの距離
 	constexpr float kDistanceFromWall = 300.0f;
 }
@@ -58,7 +59,8 @@ void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
 		return;
 	}
 	auto camera = m_camera.lock();
-	if (!camera->IsEvent())
+	//イベントが消滅したら
+	if (camera->GetEventArea().expired())
 	{
 		//通常のカメラへ
 		ChangeState(std::make_shared<CameraStateNormal>(m_camera));
@@ -68,24 +70,27 @@ void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
 	//プレイヤーか消滅した場合更新終了
 	if (player.expired())return;
 	//エリアの始点と終点
-	auto startAndEndPosX = camera->StartXAndEndX();
+	auto area = camera->GetEventArea().lock();
+	auto startPos = area->GetEventStartPos();
+	auto endPos = area->GetEventEndPos();
 	//プレイヤーの座標
 	auto playerPos = player.lock()->GetPos();
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();
 	Vector3 nextPos = camera->GetPos();
-	nextPos.z = kCameraPosZ;
 	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
 	//エリアの外にカメラが近づいたら止まる
 	nextPos.x = playerPos.x;
-	if (nextPos.x <= startAndEndPosX.x + kDistanceFromWall)
+	if (nextPos.x <= startPos.x + kDistanceFromWall)
 	{
-		nextPos.x = startAndEndPosX.x + kDistanceFromWall;
+		nextPos.x = startPos.x + kDistanceFromWall;
 	}
-	else if (nextPos.x >= startAndEndPosX.y - kDistanceFromWall)
+	else if (nextPos.x >= endPos.x - kDistanceFromWall)
 	{
-		nextPos.x = startAndEndPosX.y - kDistanceFromWall;
+		nextPos.x = endPos.x - kDistanceFromWall;
 	}
+	nextPos.z = playerPos.z + kOffsetCameraPosZ;
+	
 	//次の座標
 	nextPos = Vector3::Lerp(oldPos, nextPos, kLerpRate);
 	//見ている向き

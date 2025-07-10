@@ -9,7 +9,8 @@ EventArea::EventArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
 	Actor(Shape::None),
 	m_start(start),
 	m_end(end),
-	m_update(&EventArea::EntryCheckUpdate)
+	m_update(&EventArea::EntryCheckUpdate),
+	m_isEvent(false)
 {
 }
 
@@ -50,7 +51,8 @@ void EventArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::
 			}
 		}
 		//イベント開始情報をカメラに設定
-		camera.lock()->EventStart(startPos.x, endPos.x);
+		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventArea>(shared_from_this()));
+		m_isEvent = true;
 		m_update = &EventArea::EventUpdate;
 		return;
 	}
@@ -65,8 +67,8 @@ void EventArea::EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_
 		if (!coll.expired())return;
 	}
 	//範囲内の敵がすべて消えたら
-	//カメラにイベントが終了したことを設定
-	camera.lock()->EventEnd();
+	//イベント終了
+	m_isEvent = false;
 	//削除
 	m_isDelete = true;
 	//壁も削除

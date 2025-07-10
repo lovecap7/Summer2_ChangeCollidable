@@ -7,6 +7,7 @@
 #include "../Actors/Character/Player/Player.h"
 #include "../Actors/Character/Enemy/EnemyBase.h"
 #include "../Actors/ActorManager.h"
+#include "../Actors/Stage/EventArea.h"
 #include <DxLib.h>
 
 namespace
@@ -15,14 +16,14 @@ namespace
 	constexpr float kNear = 50.0f;
 	constexpr float kFar = 5000.0f;
 	//視野角
-	constexpr float kPerspective = 60.0f * MyMath::DEG_2_RAD;
+	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
 	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
 	//lerpの割合
-	constexpr float kLerpRate = 0.05f;
+	constexpr float kLerpRate = 0.09f;
 	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetCameraPosY = 400.0f;
-	constexpr float kCameraPosZ = -200.0f;
+	constexpr float kOffsetCameraPosY = 800.0f;
+	constexpr float kCameraPosZ = -1000.0f;
 }
 
 CameraStateNormal::CameraStateNormal(std::weak_ptr<Camera> camera):
@@ -55,10 +56,13 @@ void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 	//プレイヤーが消滅した場合更新終了
 	if (player.expired())return;
 	//イベントエリアなら
-	if (camera->IsEvent())
+	if (!camera->GetEventArea().expired())
 	{
-		ChangeState(std::make_shared<CameraStateAreaLock>(m_camera));
-		return;
+		if (camera->GetEventArea().lock()->IsEvent())
+		{
+			ChangeState(std::make_shared<CameraStateAreaLock>(m_camera));
+			return;
+		}
 	}
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
 	auto playerPos = player.lock()->GetRb()->GetPos();

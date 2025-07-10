@@ -23,8 +23,7 @@ namespace
 Camera::Camera():
 	m_pos{},
 	m_dir{},
-	m_viewPos{},
-	m_isEvent(false)
+	m_viewPos{}
 {
 }
 
@@ -72,16 +71,4 @@ void Camera::SetDir(Vector3 dir)
 		dir = dir.Normalize();
 	}
 	m_dir = dir;
-}
-
-void Camera::EventStart(float startPosX, float endPosX)
-{
-	m_startXAndEndX.x = startPosX;
-	m_startXAndEndX.y = endPosX;
-	m_isEvent = true;
-}
-
-void Camera::EventEnd()
-{
-	m_isEvent = false;
 }

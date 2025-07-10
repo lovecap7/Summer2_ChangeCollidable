@@ -18,9 +18,16 @@ public:
     virtual void Complete() override {};
     virtual void Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score) override {};
     virtual void End()override;
+    //イベント中
+    bool IsEvent()const { return m_isEvent; };
+    //スタートとエンドのX座標
+    Vector3 GetEventStartPos()const { return m_start.lock()->GetPos(); };
+    Vector3 GetEventEndPos()const { return m_end.lock()->GetPos(); };
 protected:
     std::weak_ptr<Actor> m_start;
     std::weak_ptr<Actor> m_end;
+    //イベント中フラグ
+    bool m_isEvent;
 private:
     //状態遷移
     using UpdateFunc_t = void(EventArea::*)(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager);

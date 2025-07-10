@@ -17,7 +17,7 @@ BossArea::~BossArea()
 
 void BossArea::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	
+	(this->*m_update)(camera, actorManager);
 }
 
 void BossArea::End()
@@ -36,7 +36,8 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::w
 	if (playerPos.x > startPos.x && playerPos.x < endPos.x)
 	{
 		//イベント開始情報をカメラに設定
-		camera.lock()->EventStart(startPos.x, endPos.x);
+		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventArea>(shared_from_this()));
+		m_isEvent = true;
 		//ボスエリアに入ったフラグ
 		m_isEntryBossArea = true;
 		m_update = &BossArea::EventUpdate;
@@ -50,7 +51,9 @@ void BossArea::EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_p
 	if (actorManager.lock()->GetBoss().expired())
 	{
 		//範囲内の敵がすべて消えたら
-		//カメラにイベントが終了したことを設定
-		camera.lock()->EventEnd();
+		//イベント終了
+		m_isEvent = false;
+		//このエリアも消す
+		m_isDelete = true;
 	}
 }
