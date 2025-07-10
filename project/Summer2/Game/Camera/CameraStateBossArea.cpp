@@ -1,3 +1,4 @@
+#include "CameraStateBossArea.h"
 #include "CameraStateAreaLock.h"
 #include "CameraStateClear.h"
 #include "CameraStateNormal.h"
@@ -30,8 +31,7 @@ namespace
 	//壁からの距離
 	constexpr float kDistanceFromWall = 300.0f;
 }
-
-CameraStateAreaLock::CameraStateAreaLock(std::weak_ptr<Camera> camera):
+CameraStateBossArea::CameraStateBossArea(std::weak_ptr<Camera> camera):
 	CameraStateBase(camera)
 {
 	auto owner = m_camera.lock();
@@ -46,13 +46,13 @@ CameraStateAreaLock::CameraStateAreaLock(std::weak_ptr<Camera> camera):
 	DxLib::SetupCamera_Perspective(kPerspective);
 }
 
-void CameraStateAreaLock::Init()
+void CameraStateBossArea::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
 
-void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
+void CameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	//ボスが消滅したらゲームクリアカメラに
 	if (actorManager.lock()->GetBoss().expired())
@@ -77,12 +77,14 @@ void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
 	auto endPos = area->GetEventEndPos();
 	//プレイヤーの座標
 	auto playerPos = player.lock()->GetPos();
+	//間の位置
+	Vector3 center = (actorManager.lock()->GetBoss().lock()->GetPos() + playerPos) / 2.0f;
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();
 	Vector3 nextPos = camera->GetPos();
-	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
+	nextPos.y = center.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
 	//エリアの外にカメラが近づいたら止まる
-	nextPos.x = playerPos.x;
+	nextPos.x = center.x;
 	if (nextPos.x <= startPos.x + kDistanceFromWall)
 	{
 		nextPos.x = startPos.x + kDistanceFromWall;
@@ -91,12 +93,11 @@ void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
 	{
 		nextPos.x = endPos.x - kDistanceFromWall;
 	}
-	nextPos.z = playerPos.z + kOffsetCameraPosZ;
+	nextPos.z = center.z + kOffsetCameraPosZ;
 	//次の座標
 	nextPos.x = MathSub::Lerp(oldPos.x, nextPos.x, kLerpRateX);
 	nextPos.y = MathSub::Lerp(oldPos.y, nextPos.y, kLerpRateY);
 	nextPos.z = MathSub::Lerp(oldPos.z, nextPos.z, kLerpRateZ);
-
 	//見ている向き
 	Vector3 dir = camera->GetDir();
 	//見てる位置

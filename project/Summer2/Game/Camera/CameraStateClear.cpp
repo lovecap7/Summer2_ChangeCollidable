@@ -19,16 +19,17 @@ namespace
 	//画面中央からある一定距離プレイヤーが離れた場合追従する範囲
 	constexpr float kChaseWidth = 20.0f;
 	//lerpの割合
-	constexpr float kNormalLerpRate = 0.1f;
-	constexpr float kBossLerpRate = 0.3f;
+	constexpr float kClearEndLerpRate = 0.05f;
 	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetNormalCameraPosY = 400.0f;
-	constexpr float kNormalCameraPosZ = -200.0f;
-	constexpr float kOffsetBossCameraPosY = 600.0f;
-	constexpr float kOffsetClearCameraPosY = 50.0f;
-	constexpr float kOffsetClearCameraPosZ = -300.0f;
+	//クリアして回転してるとき
+	constexpr float kOffsetClearStartCameraPosY = 50.0f;
+	constexpr float kOffsetClearStartCameraPosZ = -500.0f;
+	//回転終了後のアップ
+	constexpr float kOffsetClearEndCameraPosY = 30.0f;
+	constexpr float kOffsetClearEndCameraPosZ = -90.0f;
 	//クリア時のターゲットへの注視点オフセット
-	constexpr float kOffsetClearTargetPosY = 100.0f;
+	constexpr float kOffsetClearStartViewPosY = 100.0f;
+	constexpr float kOffsetClearEndViewPosY = 50.0f;
 
 	//クリア時に回転するフレーム
 	constexpr int kClearRotaFrame = 300;
@@ -42,12 +43,12 @@ CameraStateClear::CameraStateClear(std::weak_ptr<Camera> camera, const std::weak
 	auto playerPos = player.lock()->GetPos();
 	//位置の更新
 	Vector3 nextPos = playerPos;
-	nextPos.y += kOffsetClearCameraPosY;
-	nextPos.z += kOffsetClearCameraPosZ;
+	nextPos.y += kOffsetClearStartCameraPosY;
+	nextPos.z += kOffsetClearStartCameraPosZ;
 	owner->SetPos(nextPos);
 	//見てる位置
 	auto viewPos = playerPos;
-	viewPos.y += kOffsetClearTargetPosY;
+	viewPos.y += kOffsetClearStartViewPosY;
 	owner->SetViewPos(viewPos);
 }
 
@@ -80,14 +81,14 @@ void CameraStateClear::Update(const std::weak_ptr<ActorManager> actorManager)
 	{
 		//位置の更新
 		Vector3 nextPos = playerPos;
-		nextPos.z += -30.0f;
-		nextPos.y += 60.0f;
+		nextPos.z += kOffsetClearEndCameraPosZ;
+		nextPos.y += kOffsetClearEndCameraPosY;
 		//次の座標
-		nextPos = Vector3::Lerp(camera->GetPos(), nextPos, 0.1f);
+		nextPos = Vector3::Lerp(camera->GetPos(), nextPos, kClearEndLerpRate);
 		camera->SetPos(nextPos);
 		//注視点
 		viewPos = playerPos;
-		viewPos.y += 60.0f;
+		viewPos.y += kOffsetClearEndViewPosY;
 		camera->SetViewPos(viewPos);
 	}
 	//設定

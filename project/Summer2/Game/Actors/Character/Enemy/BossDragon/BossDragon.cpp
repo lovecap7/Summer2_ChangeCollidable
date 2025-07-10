@@ -70,6 +70,13 @@ void BossDragon::Init()
 
 void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+#if _DEBUG
+	if (Input::GetInstance().IsTrigger("BossDead"))
+	{
+		m_isDelete = true;
+	}
+#endif
+
 	//ボス部屋に入った時行動開始
 	if (!actorManager.lock()->GetBossArea().lock()->IsEntryBossArea())return;
 	//攻撃のクールタイムを減らす
