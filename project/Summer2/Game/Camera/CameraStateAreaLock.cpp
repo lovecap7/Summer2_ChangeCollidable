@@ -96,7 +96,6 @@ void CameraStateAreaLock::Update(const std::weak_ptr<ActorManager> actorManager)
 	nextPos.x = MathSub::Lerp(oldPos.x, nextPos.x, kLerpRateX);
 	nextPos.y = MathSub::Lerp(oldPos.y, nextPos.y, kLerpRateY);
 	nextPos.z = MathSub::Lerp(oldPos.z, nextPos.z, kLerpRateZ);
-
 	//Œ©‚Ä‚¢‚éŒü‚«
 	Vector3 dir = camera->GetDir();
 	//Œ©‚Ä‚éˆÊ’u

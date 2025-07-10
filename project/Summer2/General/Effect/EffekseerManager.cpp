@@ -93,13 +93,18 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	return effect;
 }
 
-std::weak_ptr<MyEffect> EffekseerManager::CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor)
+std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor)
 {
-	std::shared_ptr<MyEffect> effect;
+	std::shared_ptr<TrackActorEffect> effect;
 	//攻撃バフ
 	if (name == "PowerUp")
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["PowerUp"]), actor);
+	}
+	//チャージ攻撃
+	else if (name == "CATornade")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["CATornade"]), actor);
 	}
 	Entry(effect);
 	return effect;
@@ -110,6 +115,8 @@ void EffekseerManager::LoadHandle()
 	m_handles["PowerUp"] = { LoadEffekseerEffect("Data/Effects/PowerUp.efkefc") };
 	m_handles["NAEff"] = { LoadEffekseerEffect("Data/Effects/NAEff.efkefc") };
 	m_handles["CAKickEff"] = { LoadEffekseerEffect("Data/Effects/CAKickEff.efkefc") };
+	m_handles["CATornade"] = { LoadEffekseerEffect("Data/Effects/CATornade.efkefc") };
+	m_handles["HitEffect"] = { LoadEffekseerEffect("Data/Effects/HitEffect.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

@@ -17,7 +17,7 @@
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
 #include "../../../../General/Effect/EffekseerManager.h"
-#include "../../../../General/Effect/MyEffect.h"
+#include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../../../Game/Camera/Camera.h"
 #include "../../Attack/Strike.h"
 
@@ -56,7 +56,7 @@ PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 	coll->GetUltGage().lock()->SetPendingUltGage(m_attackData.addUltGage);
 
 	//キックエフェクト
-	m_eff = EffekseerManager::GetInstance().CreateEffect("CAKickEff", m_owner.lock()->GetPos());
+	m_eff = EffekseerManager::GetInstance().CreateTrackActorEffect("CATornade", m_owner.lock());
 }
 
 PlayerStateCA::~PlayerStateCA()
@@ -154,9 +154,4 @@ void PlayerStateCA::UpdateAttackPos()
 	//座標をセット
 	m_attack.lock()->SetStartPos(root);
 	m_attack.lock()->SetEndPos(toe);
-	//エフェクトの位置更新
-	if (!m_eff.expired())
-	{
-		m_eff.lock()->SetPos(toe);
-	}
 }

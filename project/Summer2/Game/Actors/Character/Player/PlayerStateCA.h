@@ -4,7 +4,7 @@
 #include "../../../../General/CSVDataLoader.h"
 class Actor;
 class Strike;
-class MyEffect;
+class TrackActorEffect;
 class PlayerStateCA :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateCA>
 {
@@ -25,6 +25,6 @@ protected:
     //攻撃データ
     AttackData m_attackData;
     //斬撃の参照
-    std::weak_ptr<MyEffect> m_eff;
+    std::weak_ptr<TrackActorEffect> m_eff;
 };
 

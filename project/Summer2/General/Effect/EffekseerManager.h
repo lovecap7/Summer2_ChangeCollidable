@@ -6,6 +6,7 @@
 #include "../Math/MyMath.h"
 
 class MyEffect;
+class TrackActorEffect;
 class Actor;
 /// <summary>
 /// エフェクトを管理するシングルトンクラス
@@ -45,7 +46,7 @@ public:
 	void AllDeleteEffect();
 	//エフェクトを作成
 	std::weak_ptr<MyEffect> CreateEffect(std::string name, Vector3 pos);
-	std::weak_ptr<MyEffect> CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor);
+	std::weak_ptr<TrackActorEffect> CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor);
 private:
 	//ハンドル
 	std::map<std::string, int> m_handles;
