@@ -49,6 +49,7 @@ PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 
 PlayerStateNA::~PlayerStateNA()
 {
+	m_eff.lock()->Delete();
 }
 void PlayerStateNA::Init()
 {
@@ -86,6 +87,8 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 		//攻撃作成
 		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame, 
 			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
+		//斬撃エフェクト
+		m_eff = EffekseerManager::GetInstance().CreateEffect("SlashtTrajectEff", m_owner.lock()->GetPos());
 	}
 	//モデルのアニメーションが終わったら
 	if (model->IsFinishAnim())
@@ -122,11 +125,8 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 			return;
 		}
 	}
-	if (!m_attack.expired())
-	{
-		//攻撃の位置更新
-		UpdateAttackPos();
-	}
+	//攻撃の位置更新
+	UpdateAttackPos();
 	//移動フレーム中は前に進む
 	if (m_attackCountFrame <= m_attackData.moveFrame)
 	{
@@ -140,6 +140,7 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 }
 void PlayerStateNA::CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager)
 {
+	auto owner = m_owner.lock();
 	//作成と参照
 	m_attack = std::dynamic_pointer_cast<Slash>(actorManager.lock()->CreateAttack(AttackType::Slash, m_owner).lock());
 	//攻撃を作成
@@ -158,14 +159,17 @@ void PlayerStateNA::UpdateAttackPos()
 	VECTOR swordDir = VNorm(VSub(indexFinger, ringFinger));
 	swordDir = VScale(swordDir, kSwordHeight);//武器の長さ
 	swordDir = VAdd(ringFinger, swordDir);//持ち手の座標に加算して剣先の座標を出す
-	//エフェクトの位置更新
-	if (!m_eff.expired())
+	if (!m_attack.expired())
 	{
-		m_eff.lock()->SetPos(swordDir);
+		//座標をセット
+		m_attack.lock()->SetStartPos(ringFinger);
+		m_attack.lock()->SetEndPos(swordDir);
+		if (!m_eff.expired())
+		{
+			//エフェクトの位置更新
+			m_eff.lock()->SetPos(((Vector3(ringFinger) + swordDir) / 2.0f));
+		}
 	}
-	//座標をセット
-	m_attack.lock()->SetStartPos(ringFinger);
-	m_attack.lock()->SetEndPos(swordDir);
 }
 void PlayerStateNA::AttackMove(float speed)
 {
@@ -187,8 +191,6 @@ void PlayerStateNA::AttackMove(float speed)
 
 void PlayerStateNA::InitAttackData(const std::weak_ptr<ActorManager> actorManager)
 {
-	//斬撃エフェクト
-	m_eff = EffekseerManager::GetInstance().CreateEffect("NAEff", m_owner.lock()->GetPos());
 	std::string attackName;
 	switch (m_comboNum)
 	{

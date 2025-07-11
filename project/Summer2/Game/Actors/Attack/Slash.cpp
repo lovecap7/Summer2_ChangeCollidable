@@ -1,6 +1,8 @@
 #include "Slash.h"
 #include "../../../General/Collision/CapsuleCollider.h"
 #include "../../../General/Rigidbody.h"
+#include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Effect/MyEffect.h"
 
 Slash::Slash(std::weak_ptr<Actor> owner):
 	CapsuleAttackBase(owner)
@@ -23,4 +25,16 @@ void Slash::Draw() const
 	DrawCapsule3D(m_rb->m_pos.ToDxLibVector(), coll->m_endPos.ToDxLibVector(),
 		coll->m_radius,16,0xff0000,0xff0000,false);
 #endif
+}
+
+void Slash::OnCollide(const std::shared_ptr<Collidable> other)
+{
+	AttackBase::OnCollide(other);
+	if (m_isHit)
+	{
+		//ヒットエフェクト
+		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
+		auto HitPos = (m_rb->m_pos + coll->m_endPos) / 2.0f;
+		auto eff = EffekseerManager::GetInstance().CreateEffect("SlashHitEff", HitPos);
+	}
 }

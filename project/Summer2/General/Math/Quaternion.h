@@ -44,6 +44,11 @@ public:
 	/// <returns>回転クオータニオン</returns>
 	static Quaternion Euler(float xDeg, float yDeg, float zDeg);
 	/// <summary>
+	/// クオータニオンからオイラー角を取得
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetEuler();
+	/// <summary>
 	/// マトリクスに変換
 	/// </summary>
 	/// <param name="q">クォータニオン</param>

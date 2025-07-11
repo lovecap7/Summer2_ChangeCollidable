@@ -155,6 +155,37 @@ Quaternion Quaternion::Euler(float xDeg, float yDeg, float zDeg)
 	return rQ.NormQ();
 }
 
+Vector3 Quaternion::GetEuler()
+{
+	Vector3 euler;
+
+	//正規化安全のため）
+	Quaternion q = this->NormQ();
+
+	//ロールX軸の回転）
+	float numeX = 2.0f * (q.w * q.x + q.y * q.z);
+	float denoX = 1.0f - 2.0f * (q.x * q.x + q.y * q.y);
+	numeX = MathSub::ClampFloat(numeX, -1.0f, 1.0f);
+	denoX = MathSub::ClampFloat(denoX, -1.0f, 1.0f);
+	euler.x = std::atan2(numeX, denoX);
+
+	//ピッチ(Y軸の回転）
+	float sinp = 2.0f * (q.w * q.y - q.z * q.x);
+	if (std::abs(sinp) >= 1.0f)//誤差があるなら
+	{
+		sinp = MathSub::ClampFloat(sinp, -1.0f, 1.0f);
+	}
+	euler.y = std::asin(sinp);
+
+	//ヨー(Z軸の回転）
+	float numeZ = 2.0f * (q.w * q.z + q.x * q.y);
+	float denoZ = 1.0f - 2.0f * (q.y * q.y + q.z * q.z);
+	numeZ = MathSub::ClampFloat(numeZ, -1.0f, 1.0f);
+	denoZ = MathSub::ClampFloat(denoZ, -1.0f, 1.0f);
+	euler.z = std::atan2(numeZ, denoZ);
+
+	return euler;
+}
 Matrix4x4 Quaternion::GetMatrix() const
 {
 	Matrix4x4 rM = Matrix4x4::IdentityMat4x4();

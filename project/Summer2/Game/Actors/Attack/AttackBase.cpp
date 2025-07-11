@@ -5,6 +5,8 @@
 #include "../Character/Player/UltGage.h"
 #include "../../../General/HitPoints.h"
 #include "../../../General/AttackPoints.h"
+#include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Rigidbody.h"
 
 AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner):
 	Actor(shape),
@@ -13,7 +15,8 @@ AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner):
 	m_keepFrame(0.0f),
 	m_knockBackPower(0.0f),
 	m_attackWeight(Battle::AttackWeight::Light),
-	m_ownerTag(owner.lock()->GetGameTag())
+	m_ownerTag(owner.lock()->GetGameTag()),
+	m_isHit(false)
 {
 }
 
@@ -47,6 +50,7 @@ void AttackBase::Update()
 
 void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 {
+	m_isHit = false;
 	auto ownerColl = m_owner.lock();
 	auto otherColl = other;
 
@@ -91,6 +95,8 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 		}
 		//UŒ‚‚ğó‚¯‚½‚Æ‚«‚Ìˆ—
 		std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
+		//UŒ‚‚ª“–‚½‚Á‚½‚Ì‚Å
+		m_isHit = true;
 	}
 }
 

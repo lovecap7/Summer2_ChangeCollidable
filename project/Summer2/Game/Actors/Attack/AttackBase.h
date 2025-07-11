@@ -60,6 +60,7 @@ protected:
 	std::weak_ptr<Actor> m_owner;
 	//持ち主のタグ
 	GameTag m_ownerTag;
-	
+	//当たったフラグ
+	bool m_isHit;
 };
 

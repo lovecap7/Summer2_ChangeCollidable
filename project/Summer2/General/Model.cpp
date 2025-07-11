@@ -93,6 +93,7 @@ void Model::Update()
 		//‘å‚«‚³
 		m_scale -= m_beforeScaleDif / kHitFrame;
 	}
+	//s—ñ“K—p
 	ApplyMat();
 }
 

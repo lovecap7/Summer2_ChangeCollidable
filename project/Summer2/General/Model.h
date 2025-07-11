@@ -27,6 +27,8 @@ public:
 	Vector3 GetScale() const { return m_scale; };
 	//向き
 	Vector3 GetDir();
+	//回転
+	Quaternion GetRot()const { return m_rotation; };
 	//攻撃を喰らった時のモデルのリアクション(攻撃を喰らった時に呼ぶ)
 	void ModelHit();
 	//アニメーション関係
