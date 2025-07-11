@@ -114,6 +114,11 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["CATornade"]), actor);
 	}
+	//チャージ
+	else if (name == "ChargeEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["ChargeEff"]), actor);
+	}
 	Entry(effect);
 	return effect;
 }
@@ -123,6 +128,7 @@ void EffekseerManager::LoadHandle()
 	m_handles["PowerUp"] = { LoadEffekseerEffect("Data/Effects/PowerUp.efkefc") };
 	m_handles["SlashtTrajectEff"] = { LoadEffekseerEffect("Data/Effects/SlashtTrajectEff.efkefc") };
 	m_handles["CATornade"] = { LoadEffekseerEffect("Data/Effects/CATornade.efkefc") };
+	m_handles["ChargeEff"] = { LoadEffekseerEffect("Data/Effects/ChargeEff.efkefc") };
 	m_handles["SlashHitEff"] = { LoadEffekseerEffect("Data/Effects/SlashHitEffect.efkefc") };
 	m_handles["ImpactHitEff"] = { LoadEffekseerEffect("Data/Effects/ImpactHitEff.efkefc") };
 	//ロードに成功したかチェック

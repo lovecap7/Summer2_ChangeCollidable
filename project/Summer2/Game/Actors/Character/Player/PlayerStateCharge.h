@@ -2,6 +2,7 @@
 #include "PlayerStateBase.h"
 class Actor;
 class Camera;
+class TrackActorEffect;
 class PlayerStateCharge :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateCharge>
 {
@@ -13,7 +14,8 @@ public:
 private:
     //タメ時間
     int m_chargeFrame;
-    
+    //エフェクト
+    std::weak_ptr<TrackActorEffect> m_eff;
 };
 
 

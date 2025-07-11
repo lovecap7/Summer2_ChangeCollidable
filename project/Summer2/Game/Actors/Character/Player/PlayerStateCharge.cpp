@@ -16,6 +16,8 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/Effect/EffekseerManager.h"
+#include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
@@ -35,10 +37,13 @@ PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player) :
 	coll->SetCollState(CollisionState::Normal);
 	//チャージ
 	coll->GetModel()->SetAnim(kAnim, true);
+	//チャージエフェクト
+	m_eff = EffekseerManager::GetInstance().CreateTrackActorEffect(std::string("ChargeEff"), m_owner);
 }
 
 PlayerStateCharge::~PlayerStateCharge()
 {
+	m_eff.lock()->Delete();
 }
 void PlayerStateCharge::Init()
 {
