@@ -4,6 +4,7 @@
 #include "../../../General/Collision/SphereCollider.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/HitPoints.h"
+#include "../../../General/Effect/EffekseerManager.h"
 
 Blast::Blast(std::weak_ptr<Actor> owner) :
 	SphereAttackBase(owner)
@@ -63,6 +64,9 @@ void Blast::OnCollide(const std::shared_ptr<Collidable> other)
 		m_hitId.emplace_back(otherActor->GetID());
 		//攻撃を受けたときの処理
 		std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
+		//ヒットエフェクト
+		auto HitPos = m_rb->m_pos;
+		EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", HitPos);
 	}
 }
 

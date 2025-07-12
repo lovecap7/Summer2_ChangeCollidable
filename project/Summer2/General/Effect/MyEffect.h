@@ -16,6 +16,8 @@ public:
 	void SetPos(Vector3 pos);		//座標
 	void SetRot(Vector3 rot);		//回転
 	void SetScale(Vector3 scale);	//拡大
+	//指定フレーム再生
+	void SpecificFrame(int frame);
 protected:
 	//再生ハンドル
 	int m_playHandle;
@@ -29,5 +31,8 @@ protected:
 	float m_playSpeed;
 	//削除フラグ
 	bool m_isDelete;
+	//指定フレーム後に削除
+	int m_specificFrame;
+	bool m_isSpecificFrame;
 };
 

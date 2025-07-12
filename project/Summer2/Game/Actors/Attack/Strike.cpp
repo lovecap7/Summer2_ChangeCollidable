@@ -39,7 +39,5 @@ void Strike::OnCollide(const std::shared_ptr<Collidable> other)
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
 		auto eff = EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", coll->m_endPos);
-		//角度
-		eff.lock()->SetRot(Vector3(0.0f, kHitEffAngleY, 0.0f));
 	}
 }

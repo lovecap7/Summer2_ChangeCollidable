@@ -28,6 +28,8 @@ namespace
 	constexpr int kToeIndex = 64;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
+	//エフェクトの削除を遅らせる
+	constexpr int kDeleteEffectDelayFrame = 20;
 }
 
 PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager, int chargeFrame)	:
@@ -64,8 +66,8 @@ PlayerStateCA::~PlayerStateCA()
 	//攻撃判定の削除
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
-	//エフェクトの削除
-	m_eff.lock()->Delete();
+	//エフェクトを数フレーム後削除
+	m_eff.lock()->SpecificFrame(kDeleteEffectDelayFrame);
 }
 void PlayerStateCA::Init()
 {

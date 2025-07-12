@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Collision/SphereCollider.h"
+#include "../../../General/Effect/EffekseerManager.h"
 #include "../Character/CharacterBase.h"
 #include "../../../General/HitPoints.h"
 #include "../Character/Player/Player.h"
@@ -57,6 +58,9 @@ void Bullet::OnCollide(const std::shared_ptr<Collidable> other)
 	std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
 	//消滅
 	m_isDelete = true;
+	//ヒットエフェクト
+	auto HitPos = m_rb->m_pos;
+	EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", HitPos);
 }
 
 void Bullet::Draw() const

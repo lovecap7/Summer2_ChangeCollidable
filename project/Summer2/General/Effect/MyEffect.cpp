@@ -11,7 +11,9 @@ MyEffect::MyEffect(int playHandle, Vector3 pos):
 	m_rot{},
 	m_scale{ kDefaultScale,kDefaultScale,kDefaultScale },
 	m_playSpeed(1.0f),
-	m_isDelete(false)
+	m_isDelete(false),
+	m_specificFrame(0),
+	m_isSpecificFrame(false)
 {
 	SetPos(m_pos);
 	SetRot(m_rot);
@@ -24,11 +26,24 @@ MyEffect::~MyEffect()
 
 void MyEffect::Update()
 {
-	//再生終了したら
-	if (IsEffekseer3DEffectPlaying(m_playHandle) != 0)
+	//指定フレーム再生なら
+	if (m_isSpecificFrame)
 	{
-		Delete();
-		return;
+		if (m_specificFrame <= 0)
+		{
+			Delete();
+			return;
+		}
+		--m_specificFrame;
+	}
+	else
+	{
+		//再生終了したら
+		if (IsEffekseer3DEffectPlaying(m_playHandle) != 0)
+		{
+			Delete();
+			return;
+		}
 	}
 }
 
@@ -78,4 +93,10 @@ void MyEffect::SetScale(Vector3 scale)
 	m_scale = scale;
 	SetScalePlayingEffekseer3DEffect(m_playHandle,
 		m_scale.x, m_scale.y, m_scale.z);
+}
+
+void MyEffect::SpecificFrame(int frame)
+{
+	m_specificFrame = frame;
+	m_isSpecificFrame = true;
 }

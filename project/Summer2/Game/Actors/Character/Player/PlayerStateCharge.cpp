@@ -63,6 +63,7 @@ PlayerStateCharge::~PlayerStateCharge()
 	//アーマーを一つ下げる
 	std::dynamic_pointer_cast<Player>(m_owner.lock())->GetHitPoints().lock()->AddArmor(-1);
 	m_legEff.lock()->Delete();
+	//エフェクトを数フレーム後削除
 	m_levelEff.lock()->Delete();
 }
 void PlayerStateCharge::Init()
