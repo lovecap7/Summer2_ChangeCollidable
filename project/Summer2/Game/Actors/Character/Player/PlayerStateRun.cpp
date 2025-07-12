@@ -112,7 +112,7 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 	if (input.IsTrigger("Y"))
 	{
 		//チャージ
-		ChangeState(std::make_shared<PlayerStateCharge>(m_owner));
+		ChangeState(std::make_shared<PlayerStateCharge>(m_owner, actorManager));
 		return;
 	}
 	//入力がないなら待機

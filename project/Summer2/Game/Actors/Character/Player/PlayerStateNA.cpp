@@ -121,7 +121,7 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 		if (input.IsTrigger("Y"))
 		{
 			//ƒ`ƒƒ[ƒW
-			ChangeState(std::make_shared<PlayerStateCharge>(m_owner));
+			ChangeState(std::make_shared<PlayerStateCharge>(m_owner, actorManager));
 			return;
 		}
 	}

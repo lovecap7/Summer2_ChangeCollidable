@@ -63,6 +63,18 @@ void HitPoints::Damage(int damage)
 	}
 }
 
+void HitPoints::SetArmor(Battle::Armor am)
+{
+	m_defence.armor = am;
+	m_initDefence.armor = am;
+}
+
+void HitPoints::AddArmor(int am)
+{
+	m_defence.armor = m_defence.armor + am;
+	m_initDefence.armor = m_defence.armor;
+}
+
 void HitPoints::DefenseBuff(Battle::Armor armor, float damageCutRate, int buffFrame)
 {
 	m_defence.armor = armor;

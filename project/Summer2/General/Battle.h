@@ -11,6 +11,9 @@ namespace Battle
 	};
 	//攻撃でひるまない強さ
 	typedef AttackWeight Armor;
+	//演算子オーバーロード
+	Battle::AttackWeight operator+(const Battle::AttackWeight& left, const Battle::AttackWeight& right);
+	Battle::AttackWeight operator+(const Battle::AttackWeight& left, const int right);
 
 	/// <summary>
 	/// 攻撃とアーマーの比較

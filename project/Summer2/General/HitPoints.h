@@ -23,7 +23,8 @@ public:
 	bool IsDead()const { return m_hp <= 0; };
 	//アーマー
 	Battle::Armor GetArmor() { return m_defence.armor; };
-	void SetArmor(Battle::Armor am) { m_defence.armor = am; };
+	void SetArmor(Battle::Armor am);
+	void AddArmor(int am);
 	//攻撃を受けたか
 	bool IsHit() { return m_isHit; };
 	void SetIsHit(bool isHit) { m_isHit = isHit; };
