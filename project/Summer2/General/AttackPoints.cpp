@@ -1,6 +1,7 @@
 #include "AttackPoints.h"
 
-AttackPoints::AttackPoints()
+AttackPoints::AttackPoints():
+	m_buffCountFrame(0)
 {
 	m_attack.damageRate = 1.0f;
 	m_attack.lowestAttackWeight = Battle::AttackWeight::Light;

@@ -7,6 +7,7 @@
 #include "../../../General/Model.h"
 #include "../../../General/AttackPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Effect/TrackActorEffect.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../../GameRule/Score.h"
@@ -14,13 +15,13 @@
 namespace
 {
 	//ダメージ倍率
-	constexpr float kDamageRate = 1.2f;
+	constexpr float kDamageRate = 1.5f;
 	//持続フレーム
 	constexpr int kAttackUpKeepFrame = 60 * 15;//15秒
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
-	constexpr float kCollRadius = 50.0f;
+	constexpr float kCollRadius = 80.0f;
 	//回転量
 	constexpr float kRotaAngle = 1.0f;
 	//最初の当たらないフレーム
@@ -83,7 +84,9 @@ void AttackUp::OnCollide(const std::shared_ptr<Collidable> other)
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetAttackPoints().lock()->AttackBuff(kDamageRate, Battle::AttackWeight::Heavy, kAttackUpKeepFrame);
 		//パワーアップエフェクト
-		EffekseerManager::GetInstance().CreateTrackActorEffect("PowerUp", player);
+		EffekseerManager::GetInstance().CreateTrackActorEffect("GetAttackUpEff", player);
+		auto eff = EffekseerManager::GetInstance().CreateTrackActorEffect("AttackUpEff", player);
+		eff.lock()->SpecificFrame(kAttackUpKeepFrame);
 		//削除
 		m_isDelete = true;
 	}

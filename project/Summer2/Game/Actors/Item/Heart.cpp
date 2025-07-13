@@ -6,6 +6,7 @@
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
 #include "../../../General/HitPoints.h"
+#include "../../../General/Effect/EffekseerManager.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../../GameRule/Score.h"
@@ -16,7 +17,7 @@ namespace
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
-	constexpr float kCollRadius = 50.0f;
+	constexpr float kCollRadius = 80.0f;
 	//回転量
 	constexpr float kRotaAngle = 1.0f;
 	//最初の当たらないフレーム
@@ -78,6 +79,8 @@ void Heart::OnCollide(const std::shared_ptr<Collidable> other)
 		//回復
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetHitPoints().lock()->Heal(kHealValue);
+		//回復エフェクト
+		EffekseerManager::GetInstance().CreateTrackActorEffect("GetHealEff", player);
 		//削除
 		m_isDelete = true;
 	}

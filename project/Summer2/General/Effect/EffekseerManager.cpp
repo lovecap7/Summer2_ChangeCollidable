@@ -114,10 +114,35 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor)
 {
 	std::shared_ptr<TrackActorEffect> effect;
-	//攻撃バフ
-	if (name == "PowerUp")
+	//獲得攻撃バフ
+	if (name == "GetAttackUpEff")
 	{
-		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["PowerUp"]), actor);
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["GetAttackUpEff"]), actor);
+	}
+	//攻撃バフ
+	if (name == "AttackUpEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["AttackUpEff"]), actor);
+	}
+	//獲得回復
+	else if (name == "GetHealEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["GetHealEff"]), actor);
+	}
+	//獲得防御バフ
+	else if (name == "GetDefenseUpEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["GetDefenseUpEff"]), actor);
+	}
+	//防御バフ
+	else if (name == "DefenseUpEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["DefenseUpEff"]), actor);
+	}
+	//必殺ゲージアップ
+	else if (name == "GetUltGageUpEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["GetUltGageUpEff"]), actor);
 	}
 	//チャージ攻撃
 	else if (name == "CATornade")
@@ -165,7 +190,12 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 
 void EffekseerManager::LoadHandle()
 {
-	m_handles["PowerUp"] = { LoadEffekseerEffect("Data/Effects/PowerUp.efkefc") };
+	m_handles["GetAttackUpEff"] = { LoadEffekseerEffect("Data/Effects/GetAttackUpEff.efkefc") };
+	m_handles["AttackUpEff"] = { LoadEffekseerEffect("Data/Effects/AttackUpEff.efkefc") };
+	m_handles["GetHealEff"] = { LoadEffekseerEffect("Data/Effects/GetHealEff.efkefc") };
+	m_handles["GetDefenseUpEff"] = { LoadEffekseerEffect("Data/Effects/GetDefenseUpEff.efkefc") };
+	m_handles["DefenseUpEff"] = { LoadEffekseerEffect("Data/Effects/DefenseUpEff.efkefc") };
+	m_handles["GetUltGageUpEff"] = { LoadEffekseerEffect("Data/Effects/GetUltGageUpEff.efkefc") };
 	m_handles["SlashtTrajectEff"] = { LoadEffekseerEffect("Data/Effects/SlashtTrajectEff.efkefc") };
 	m_handles["CATornade"] = { LoadEffekseerEffect("Data/Effects/CATornade.efkefc") };
 	m_handles["ChargeEff"] = { LoadEffekseerEffect("Data/Effects/ChargeEff.efkefc") };

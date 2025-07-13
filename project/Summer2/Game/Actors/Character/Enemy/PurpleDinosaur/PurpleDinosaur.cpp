@@ -130,7 +130,12 @@ void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager, const 
 	if (!m_hitPoints->IsDead())return;//体力がなくなっていない場合は無視
 	//スコア加算
 	score.lock()->AddKillOrItemScore(ScoreDataName::kPurpleDinosaur);
-	actorManager.lock()->CreateItem(ItemType::Heart, m_rb->GetPos());
+	//アイテムをランダムで落とす
+	auto actorM = actorManager.lock();
+	if (GetRand(1))
+	{
+		actorM->CreateItem(ItemType::Heart, m_rb->GetPos());
+	}
 }
 
 void PurpleDinosaur::End()

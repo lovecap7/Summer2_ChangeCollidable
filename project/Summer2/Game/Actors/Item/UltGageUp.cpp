@@ -5,6 +5,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
+#include "../../../General/Effect/EffekseerManager.h"
 #include "../Character/Player/UltGage.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
@@ -16,7 +17,7 @@ namespace
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
-	constexpr float kCollRadius = 50.0f;
+	constexpr float kCollRadius = 80.0f;
 	//回転量
 	constexpr float kRotaAngle = 2.0f;
 	//最初の当たらないフレーム
@@ -78,6 +79,8 @@ void UltGageUp::OnCollide(const std::shared_ptr<Collidable> other)
 		//ゲージアップ
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetUltGage().lock()->AddUltGage(kGageValue);
+		//ゲージアップエフェクト
+		EffekseerManager::GetInstance().CreateTrackActorEffect("GetUltGageUpEff", player);
 		//削除
 		m_isDelete = true;
 	}

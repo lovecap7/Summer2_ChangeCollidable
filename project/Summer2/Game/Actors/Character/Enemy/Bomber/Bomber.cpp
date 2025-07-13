@@ -131,7 +131,16 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 	if (!m_hitPoints->IsDead())return;//体力がなくなっていない場合は無視
 	//スコア加算
 	score.lock()->AddKillOrItemScore(ScoreDataName::kBomber);
-	actorManager.lock()->CreateItem(ItemType::DefenseUp, m_rb->GetPos());
+	//アイテムをランダムで落とす
+	auto actorM = actorManager.lock();
+	if (GetRand(1))
+	{
+		actorM->CreateItem(ItemType::UltGageUp, m_rb->GetPos());
+	}
+	else
+	{
+		actorM->CreateItem(ItemType::DefenseUp, m_rb->GetPos());
+	}
 }
 
 void Bomber::End()

@@ -40,7 +40,7 @@ CameraStateClear::CameraStateClear(std::weak_ptr<Camera> camera, const std::weak
 {
 	auto owner = m_camera.lock();
 	auto player = actorManager.lock()->GetPlayer();
-	auto playerPos = player.lock()->GetPos();
+	auto playerPos = player.lock()->GetNextPos();
 	//ˆÊ’u‚ÌXV
 	Vector3 nextPos = playerPos;
 	nextPos.y += kOffsetClearStartCameraPosY;
