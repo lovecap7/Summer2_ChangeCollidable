@@ -1,6 +1,15 @@
 #pragma once
 #include <memory>
 #include "../../General/Math/MyMath.h"
+
+enum class ShakePower : int
+{
+	None = 0,
+	Low = 4,
+	Middle = 6,
+	High = 12,
+};
+
 class ActorManager;
 class Rigidbody;
 class EventArea;
@@ -27,6 +36,9 @@ public:
 	//イベントエリア
 	std::weak_ptr<EventArea> GetEventArea()const { return m_eventArea; };
 	void SetEventArea(std::weak_ptr<EventArea> event) { m_eventArea = event; };
+	//カメラシェイク
+	void UpdateCameraShake();
+	void SetCameraShake(ShakePower power,int frame);
 private:
 	//自分の座標
 	Position3 m_pos;
@@ -36,7 +48,10 @@ private:
 	Vector3 m_viewPos;
 	//イベントエリア
 	std::weak_ptr<EventArea> m_eventArea;
-private:
+	//振動
+	ShakePower m_shakePower;
+	int m_shakeFrame;
+
 	//状態遷移
 	std::shared_ptr<CameraStateBase> m_state;
 };

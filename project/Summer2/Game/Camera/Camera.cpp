@@ -23,7 +23,9 @@ namespace
 Camera::Camera():
 	m_pos{},
 	m_dir{},
-	m_viewPos{}
+	m_viewPos{},
+	m_shakePower(ShakePower::None),
+	m_shakeFrame(0)
 {
 }
 
@@ -52,6 +54,8 @@ void Camera::Update(const std::weak_ptr<ActorManager> actorManager)
 		m_state = m_state->GetNextState();
 		m_state->Init();
 	}
+	//カメラシェイク
+	UpdateCameraShake();
 }
 
 Vector3 Camera::GetDir()const
@@ -71,4 +75,35 @@ void Camera::SetDir(Vector3 dir)
 		dir = dir.Normalize();
 	}
 	m_dir = dir;
+}
+
+void Camera::UpdateCameraShake()
+{
+	if (m_shakeFrame > 0)
+	{
+		auto pos = m_pos;
+		auto viewPos = m_viewPos;
+		auto shakePower = static_cast<int>(m_shakePower);
+		--m_shakeFrame;
+		if (m_shakeFrame % 2 == 0)
+		{
+			shakePower *= -1;
+		}
+		pos.x += shakePower;
+		viewPos.x += shakePower;
+		//振動強めの時のみ縦揺れも入れる
+		if (m_shakePower == ShakePower::High)
+		{
+			pos.y += shakePower;
+			viewPos.y += shakePower;
+		}
+		//位置更新
+		SetCameraPositionAndTarget_UpVecY(pos.ToDxLibVector(), viewPos.ToDxLibVector());
+	}
+}
+
+void Camera::SetCameraShake(ShakePower power, int frame)
+{
+	m_shakePower = power;
+	m_shakeFrame = frame;
 }

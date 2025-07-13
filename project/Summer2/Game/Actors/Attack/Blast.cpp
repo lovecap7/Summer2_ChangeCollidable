@@ -5,6 +5,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/HitPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../../Camera/Camera.h"
 
 Blast::Blast(std::weak_ptr<Actor> owner) :
 	SphereAttackBase(owner)

@@ -4,8 +4,10 @@
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../Character/CharacterBase.h"
 #include "../../../General/HitPoints.h"
+#include "../../Camera/Camera.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Player/UltGage.h"
+
 Bullet::Bullet(std::weak_ptr<Actor> owner):
 	SphereAttackBase(owner)
 {
@@ -19,7 +21,6 @@ void Bullet::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 		m_isDelete = true;
 		return;
 	}
-
 	//ˆÚ“®
 	m_rb->m_pos = m_rb->GetNextPos();
 	//‹¤’Ê‚Ìˆ—‚ğ‚·‚é

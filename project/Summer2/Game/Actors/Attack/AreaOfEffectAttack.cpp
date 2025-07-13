@@ -3,6 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
+#include "../../Camera/Camera.h"
 #include "../Character/CharacterBase.h"
 
 AreaOfEffectAttack::AreaOfEffectAttack(std::weak_ptr<Actor> owner):
