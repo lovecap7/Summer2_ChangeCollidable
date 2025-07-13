@@ -28,6 +28,7 @@ void Bullet::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 
 void Bullet::OnCollide(const std::shared_ptr<Collidable> other)
 {
+	if (m_owner.expired())return;
 	auto ownerColl = m_owner.lock();
 	auto otherColl = other;
 

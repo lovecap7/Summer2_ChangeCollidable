@@ -17,6 +17,8 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
+#include "../../../../General/Effect/EffekseerManager.h"
+#include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../ActorManager.h"
 #include "../../../../Game/Camera/Camera.h"
 #include "UltGage.h"
@@ -106,21 +108,10 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 	{
 		TargetSearch(kSearchDistance, kSearchAngle, target.lock()->GetPos());
 	}
-	//ダッシュ状態じゃないとき
-	if (std::dynamic_pointer_cast<PlayerStateRun>(m_state) == nullptr)
-	{
-		++m_cancelRunFrame;
-		//解除
-		if (m_cancelRunFrame > kCancelRunFrame)
-		{
-			m_isRunKeep = false;
-			m_cancelRunFrame = 0;
-		}
-	}
-	else
-	{
-		m_cancelRunFrame = 0;
-	}
+	//走りを継続するか
+	CheckRunKeep();
+	//必殺ゲージが最大の時エフェクトをつける
+	CheckUltMax();
 
 	//状態に合わせた更新
 	m_state->Update(camera,actorManager);
@@ -197,4 +188,36 @@ bool Player::IsFinishClearAnim()
 	}
 	//勝利状態の時にアニメーションが終了したらtrue
 	return m_model->IsFinishAnim();
+}
+
+void Player::CheckRunKeep()
+{
+	//ダッシュ状態じゃないとき
+	if (std::dynamic_pointer_cast<PlayerStateRun>(m_state) == nullptr)
+	{
+		++m_cancelRunFrame;
+		//解除
+		if (m_cancelRunFrame > kCancelRunFrame)
+		{
+			m_isRunKeep = false;
+			m_cancelRunFrame = 0;
+		}
+	}
+	else
+	{
+		m_cancelRunFrame = 0;
+	}
+}
+
+void Player::CheckUltMax()
+{
+	//エフェクトをだしてなくて必殺ゲージ最大ならエフェクトをつける
+	if (m_ultMaxEff.expired() && m_ultGage->IsMaxUlt())
+	{
+		m_ultMaxEff = EffekseerManager::GetInstance().CreateTrackActorEffect("UltGageMaxEff", std::dynamic_pointer_cast<Actor>(shared_from_this()));
+	}
+	else if (!m_ultMaxEff.expired() && !m_ultGage->IsMaxUlt())
+	{
+		m_ultMaxEff.lock()->Delete();
+	}
 }

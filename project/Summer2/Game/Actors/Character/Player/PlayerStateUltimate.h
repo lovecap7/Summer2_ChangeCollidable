@@ -6,6 +6,7 @@ class Actor;
 class AreaOfEffectAttack;
 class Camera;
 class ActorManager;
+class TrackActorEffect;
 class PlayerStateUltimate :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateUltimate>
 {

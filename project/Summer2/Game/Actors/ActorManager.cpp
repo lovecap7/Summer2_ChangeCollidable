@@ -48,6 +48,7 @@ ActorManager::ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiMa
 	m_actorId(0),
 	m_uiManager(uiManager)
 {
+	m_csvLoader = std::unique_ptr<CSVDataLoader>();
 	//ハンドルロード
 	LoadHandle();
 	//ステージ情報をロード
@@ -137,8 +138,12 @@ void ActorManager::End()
 	m_player.reset();
 	m_boss.reset();
 	//ハンドルをすべて削除
-	for (const auto& [key, value] : m_handles) {
-		MV1DeleteModel(value);
+	for (auto& [key, value] : m_handles) {
+		if (value >= 0)
+		{
+			auto result = MV1DeleteModel(value);
+			assert(result == 0);
+		}
 	}
 	m_handles.clear();
 }
@@ -160,7 +165,7 @@ std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(CharacterType ch, Vec
 	{
 	case CharacterType::Player:
 		//プレイヤー作成
-		chara = std::make_shared<Player>(m_handles["Player"], pos);
+		chara = std::make_shared<Player>(MV1DuplicateModel(m_handles["Player"]), pos);
 		//プレイヤーに必要なUI作成
 		uiManager->CreatePlayerUI(std::dynamic_pointer_cast<Player>(chara));
 		break;
@@ -349,7 +354,7 @@ void ActorManager::CheckNextAddActors()
 //攻撃データの取得
 void ActorManager::CreateAttackData()
 {
-	m_attackDatas = CSVDataLoader::LoadAttackDataCSV("Data/CSV/CharacterAttackData.csv");
+	m_attackDatas = m_csvLoader->LoadAttackDataCSV("Data/CSV/CharacterAttackData.csv");
 }
 
 void ActorManager::LoadHandle()
@@ -366,14 +371,13 @@ void ActorManager::LoadHandle()
 	m_handles["Cylinder"]		= { MV1LoadModel("Data/Model/Collision/Cylinder.mv1") };
 	m_handles["Plane"]			= { MV1LoadModel("Data/Model/Collision/Plane.mv1") };
 	m_handles["Sky"]			= { MV1LoadModel("Data/Model/Stage/Sky/Sky_Daylight02.pmx") };
-	m_handles["Sky"]			= { MV1LoadModel("Data/Model/Stage/Sky/Sky_Daylight02.pmx") };
 	m_handles["Heart"]			= { MV1LoadModel("Data/Model/Item/Heart.mv1") };
 	m_handles["Bomb"]			= { MV1LoadModel("Data/Model/Item/Bomb.mv1") };
 	m_handles["UltGageUp"]		= { MV1LoadModel("Data/Model/Item/UltGageUp.mv1") };
 	m_handles["AttackUp"]		= { MV1LoadModel("Data/Model/Item/AttackUp.mv1") };
 	m_handles["DefenseUp"]		= { MV1LoadModel("Data/Model/Item/DefenseUp.mv1") };
 	//ロードに成功したかチェック
-	for (const auto& [key, value] : m_handles) {
+	for (auto& [key, value] : m_handles) {
 		assert(value >= 0);
 	}
 }
@@ -399,7 +403,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	default:
 		break;
 	}
-	auto characterData = CSVDataLoader::LoadTransformDataCSV(charaPath.c_str());
+	auto characterData = m_csvLoader->LoadTransformDataCSV(charaPath.c_str());
 	//名前からオブジェクトを配置していく
 	for (auto& charaData : characterData)
 	{
@@ -438,10 +442,10 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		}
 	}
 	//空を作成
-	m_actors.emplace_back(std::make_shared<Sky>(m_handles["Sky"]));
+	m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
 	//描画用
 	//配置データを取得
-	auto stageDrawData = CSVDataLoader::LoadTransformDataCSV(drawPath.c_str());
+	auto stageDrawData = m_csvLoader->LoadTransformDataCSV(drawPath.c_str());
 	//名前からオブジェクトを配置していく
 	for (auto& stageData : stageDrawData)
 	{
@@ -462,7 +466,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	}
 	//当たり判定用
 	//配置データを取得
-	auto stageCollData = CSVDataLoader::LoadTransformDataCSV(collPath.c_str());
+	auto stageCollData = m_csvLoader->LoadTransformDataCSV(collPath.c_str());
 	//名前からコリジョンを配置していく
 	for (auto& stageData : stageCollData)
 	{
@@ -474,7 +478,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		}
 	}
 	//イベント部屋を作成
-	auto eventAreaData = CSVDataLoader::LoadTransformDataCSV(eventAreaPath.c_str());
+	auto eventAreaData = m_csvLoader->LoadTransformDataCSV(eventAreaPath.c_str());
 	std::list<std::shared_ptr<StageObjectCollision>> eventAreaParts;
 	std::list<std::shared_ptr<StageObjectCollision>> bossAreaParts;
 	//名前からコリジョンを配置していく

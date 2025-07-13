@@ -37,9 +37,12 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::w
 	{
 		//イベント開始情報をカメラに設定
 		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventArea>(shared_from_this()));
+		//イベントフラグ
 		m_isEvent = true;
 		//ボスエリアに入ったフラグ
 		m_isEntryBossArea = true;
+		//ボス以外の雑魚敵を削除
+		actorManager.lock()->AllDeleteNormalEnemy();
 		m_update = &BossArea::EventUpdate;
 		return;
 	}

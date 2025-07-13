@@ -44,7 +44,7 @@ public:
     /// </summary>
     /// <param name="fileName">csv</param>
     /// <returns></returns>
-    static std::vector<ObjectData> LoadTransformDataCSV(const char* fileName);
+    std::vector<ObjectData> LoadTransformDataCSV(const char* fileName);
 
     /// <summary>
     /// 攻撃データの読み取り
@@ -52,15 +52,15 @@ public:
     /// <param name="fileName"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    static std::vector<AttackData> LoadAttackDataCSV(const char* fileName);
+    std::vector<AttackData> LoadAttackDataCSV(const char* fileName);
 
     /// <summary>
     /// スコアデータの読み取り
     /// </summary>
     /// <param name="fileName"></param>
     /// <returns></returns>
-    static std::vector<ScoreData> LoadScoreDataCSV(const char* fileName);
+    std::vector<ScoreData> LoadScoreDataCSV(const char* fileName);
 
 private:
-    static const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
+    const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
 };

@@ -39,6 +39,13 @@ private:
     bool m_isGameover;
     //ゲームクリアフラグ
     bool m_isGameClear;
+    //影
+    int m_shadowMapHandle;
     //デバッグモード用
     bool m_isUpdateStop = false;
+private:
+    //シャドウマップの初期化
+    void InitShadow();
+    //描画範囲更新
+    void UpdateShadowDrawArea();
 };

@@ -67,7 +67,7 @@ PlayerStateCA::~PlayerStateCA()
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
 	//エフェクトを数フレーム後削除
-	m_eff.lock()->SpecificFrame(kDeleteEffectDelayFrame);
+	if (!m_eff.expired())m_eff.lock()->SpecificFrame(kDeleteEffectDelayFrame);
 }
 void PlayerStateCA::Init()
 {

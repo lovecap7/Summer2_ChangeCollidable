@@ -12,6 +12,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../../Game/Camera/Camera.h"
 #include "../../../Attack/Breath.h"
 
@@ -99,6 +100,10 @@ void BossDragonStateBreathAttack::CreateAttack(const std::weak_ptr<ActorManager>
 	SetupBreath(m_attack1, 0.0f);
 	SetupBreath(m_attack2, kBulletAngle);
 	SetupBreath(m_attack3, -kBulletAngle);
+	//エフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("BreathEff", std::dynamic_pointer_cast<Actor>(m_attack1.lock()));
+	EffekseerManager::GetInstance().CreateTrackActorEffect("BreathEff", std::dynamic_pointer_cast<Actor>(m_attack2.lock()));
+	EffekseerManager::GetInstance().CreateTrackActorEffect("BreathEff", std::dynamic_pointer_cast<Actor>(m_attack3.lock()));
 }
 
 void BossDragonStateBreathAttack::SetupBreath(std::weak_ptr<Breath> bullet, float angle)

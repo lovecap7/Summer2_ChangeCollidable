@@ -101,6 +101,11 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["ChargeEff"]), pos);
 	}
+	//爆発
+	else if (name == "ExplosionEff") 
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["ExplosionEff"]), pos);
+	}
 
 	Entry(effect);
 	return effect;
@@ -134,6 +139,26 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["ChargeLevel3Eff"]), actor);
 	}
+	//必殺エフェクト
+	else if (name == "UltEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["UltEff"]), actor);
+	}
+	//必殺ゲージMAXエフェクト
+	else if (name == "UltGageMaxEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["UltGageMaxEff"]), actor);
+	}
+	//弾のエフェクト
+	else if (name == "BulletEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BulletEff"]), actor);
+	}
+	//ブレスのエフェクト
+	else if (name == "BreathEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BreathEff"]), actor);
+	}
 	Entry(effect);
 	return effect;
 }
@@ -149,6 +174,11 @@ void EffekseerManager::LoadHandle()
 	m_handles["ChargeLevel3Eff"] = { LoadEffekseerEffect("Data/Effects/ChargeLevel3Eff.efkefc") };
 	m_handles["SlashHitEff"] = { LoadEffekseerEffect("Data/Effects/SlashHitEffect.efkefc") };
 	m_handles["ImpactHitEff"] = { LoadEffekseerEffect("Data/Effects/ImpactHitEff.efkefc") };
+	m_handles["ExplosionEff"] = { LoadEffekseerEffect("Data/Effects/ExplosionEff.efkefc") };
+	m_handles["UltEff"] = { LoadEffekseerEffect("Data/Effects/UltEff.efkefc") };
+	m_handles["UltGageMaxEff"] = { LoadEffekseerEffect("Data/Effects/UltGageMaxEff.efkefc") };
+	m_handles["BulletEff"] = { LoadEffekseerEffect("Data/Effects/BulletEff.efkefc") };
+	m_handles["BreathEff"] = { LoadEffekseerEffect("Data/Effects/BreathEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

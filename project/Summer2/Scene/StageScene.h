@@ -32,7 +32,9 @@ public:
     virtual void Draw() override;
     virtual void End() override;
 private:
+    //ゲームマネージャー
     std::unique_ptr<GameManager> m_gameManager;
+    //ステージ番号
     Stage::StageIndex m_stageIndex;
 };
 

@@ -13,6 +13,8 @@
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
 #include "../../../../General/HitPoints.h"
+#include "../../../../General/Effect/EffekseerManager.h"
+#include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../Attack/AreaOfEffectAttack.h"
 #include "../../../../Game/Camera/Camera.h"
 
@@ -24,8 +26,6 @@ namespace
 	constexpr float kAddAnimSpeed = 0.2f;
 	//アニメーションの最高速度
 	constexpr float kMaxAnimSpeed = 2.0f;
-	//プレイヤーの前方に攻撃判定を出す際の距離
-	constexpr float kAttackDistance = 200.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 }
@@ -51,6 +51,8 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	coll->GetUltGage().lock()->SetPendingUltGage(0);
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//攻撃発生
+	CreateAttack(actorManager);
 }
 
 
@@ -67,19 +69,17 @@ void PlayerStateUltimate::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
+	//必殺エフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("UltEff", m_owner);
 }
 
 void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	++m_animCountFrame;
-	if (m_animCountFrame == 1)
-	{
-		//攻撃発生
-		CreateAttack(actorManager);
-	}
-
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
+	//回転
+	model->SetRot(VGet(0.0f, m_animCountFrame, 0.0f));
 	//勝利したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
@@ -110,8 +110,18 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::
 	}
 	//攻撃の位置更新
 	if (!m_attack.expired())UpdateAttackPos();
-	//少しずつ減速する
-	coll->GetRb()->SpeedDown(kMoveDeceRate);
+	auto& input = Input::GetInstance();
+	//入力があるなら
+	if (input.GetStickInfo().IsLeftStickInput())
+	{
+		//移動
+		coll->GetRb()->SetMoveVec(GetForwardVec(camera) * m_attackData.moveSpeed);
+	}
+	else
+	{
+		//少しずつ減速する
+		coll->GetRb()->SpeedDown(kMoveDeceRate);
+	}
 }
 
 void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
@@ -128,8 +138,5 @@ void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorMa
 void PlayerStateUltimate::UpdateAttackPos()
 {
 	auto coll = m_owner.lock();
-	auto model = coll->GetModel();
-	//プレイヤーの前あたりに出す
-	Vector3 attackPos = coll->GetPos() + model->GetDir().Normalize() * kAttackDistance;
-	m_attack.lock()->SetPos(attackPos);
+	m_attack.lock()->SetPos(coll->GetPos());
 }

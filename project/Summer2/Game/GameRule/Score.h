@@ -3,6 +3,7 @@
 #include <vector>
 #include "../../General/CSVDataLoader.h"
 class HitPoints;
+class CSVDataLoader;
 class Score
 {
 public:
@@ -37,6 +38,8 @@ private:
 	int m_timeScoreData;
 	//タイマーの減少量データ
 	int m_decTimeScoreData;
+	//CSV
+	std::unique_ptr<CSVDataLoader> m_csvLoader;
 };
 namespace ScoreDataName
 {

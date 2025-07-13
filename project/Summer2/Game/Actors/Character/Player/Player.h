@@ -8,6 +8,7 @@ class UltGage;
 class Camera;
 class CharacterStateBase;
 class HitPoints;
+class TrackActorEffect;
 class Player :
 	public CharacterBase
 {
@@ -54,8 +55,15 @@ private:
 	bool m_isRunKeep;
 	//ダッシュ状態を解除するフレーム
 	int m_cancelRunFrame;
+	//必殺ゲージMAXエフェクト
+	std::weak_ptr<TrackActorEffect> m_ultMaxEff;
 
 	//落下したときに戻す座標
 	Vector3 m_initPos;
+private:
+	//走りを継続するか
+	void CheckRunKeep();
+	//必殺ゲージが最大か確認
+	void CheckUltMax();
 };
 

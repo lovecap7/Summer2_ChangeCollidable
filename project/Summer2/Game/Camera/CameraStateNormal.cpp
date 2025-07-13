@@ -42,8 +42,6 @@ CameraStateNormal::CameraStateNormal(std::weak_ptr<Camera> camera):
 	SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//視野角
 	SetupCamera_Perspective(kPerspective);
-	//ディレクショナルライト
-	ChangeLightTypeDir(owner->GetDir().ToDxLibVector());
 }
 
 void CameraStateNormal::Init()

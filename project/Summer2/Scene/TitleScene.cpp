@@ -3,6 +3,7 @@
 #include  "../General/Input.h"
 #include "SceneController.h"
 #include "SelectStageScene.h"
+#include "../General/Collision/Physics.h"
 #include <memory>
 #if _DEBUG
 //デバッグモード

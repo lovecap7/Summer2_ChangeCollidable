@@ -11,6 +11,19 @@
 #include "../Game/GameRule/Timer.h"
 #include <cassert>
 
+namespace
+{
+	//シャドウマップの描画サイズ
+	constexpr int kShadowMapWidth = 1024;
+	constexpr int kShadowMapHeight = 1024;
+	//ライトの向き
+	const VECTOR kLightDir = { 0.0f, -1.0f, 0.5f };
+	//シャドウマップの範囲
+	constexpr float kShadowMapHorizon = 2000.0f;
+	constexpr float kShadowMapVerticalMin = -1.0f;
+	constexpr float kShadowMapVerticalMax = 1000.0f;
+}
+
 GameManager::GameManager(Stage::StageIndex index):
 	m_isGameover(false),
 	m_isGameClear(false)
@@ -27,6 +40,8 @@ GameManager::GameManager(Stage::StageIndex index):
 	//タイマー
 	m_timer = std::make_shared<Timer>();
 	m_uiManager->CreateTimerUI(m_timer);
+	//シャドウマップの準備
+	InitShadow();
 }
 
 GameManager::~GameManager()
@@ -78,6 +93,9 @@ void GameManager::Update()
 			m_isGameover = true;
 		}
 	}
+	//シャドウマップに描画する範囲を設定
+	//カメラの周囲のみ
+	UpdateShadowDrawArea();
 }
 
 void GameManager::Draw() const
@@ -103,10 +121,20 @@ void GameManager::Draw() const
 	screenPos = ConvWorldPosToScreenPos(VGet(0, 0, -500));
 	DrawString(screenPos.x, screenPos.y, "Z-", 0xffffff);
 #endif
+	//シャドウマップへの描画の準備
+	ShadowMap_DrawSetup(m_shadowMapHandle);
+	//シャドウマップへのアクターの描画
+	m_actorManager->Draw();
+	//シャドウマップへの描画を終了
+	ShadowMap_DrawEnd();
+	//描画に使用するシャドウマップを設定
+	SetUseShadowMap(0, m_shadowMapHandle);
 	//アクターの描画
 	m_actorManager->Draw();
 	//UIの描画
 	m_uiManager->Draw();
+	//描画に使用するシャドウマップの設定を解除
+	SetUseShadowMap(0, -1);
 }
 
 void GameManager::End()
@@ -115,4 +143,29 @@ void GameManager::End()
 	m_actorManager->End();
 	//UIマネージャーの終了
 	m_uiManager->End();
+	//シャドウマップの削除
+	DeleteShadowMap(m_shadowMapHandle);
+}
+
+void GameManager::InitShadow()
+{
+	//ディレクショナルライト
+	ChangeLightTypeDir(kLightDir);
+	//シャドウマップハンドルの作成
+	m_shadowMapHandle = MakeShadowMap(kShadowMapWidth, kShadowMapHeight);
+	//シャドウマップが想定するライトの方向もセット
+	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
+}
+
+void GameManager::UpdateShadowDrawArea()
+{
+	auto shadowMinPos = m_camera->GetPos();
+	shadowMinPos.x += -kShadowMapHorizon;
+	shadowMinPos.y = kShadowMapVerticalMin;
+	shadowMinPos.z += -kShadowMapHorizon;
+	auto shadowMaxPos = m_camera->GetPos();
+	shadowMaxPos.x += kShadowMapHorizon;
+	shadowMaxPos.y = kShadowMapVerticalMax;
+	shadowMaxPos.z += kShadowMapHorizon;
+	SetShadowMapDrawArea(m_shadowMapHandle, shadowMinPos.ToDxLibVector(), shadowMaxPos.ToDxLibVector());
 }

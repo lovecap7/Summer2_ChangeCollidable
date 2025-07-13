@@ -4,11 +4,6 @@
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
 
-namespace
-{
-	constexpr float kHitEffAngleY = 90.0f * MyMath::DEG_2_RAD;
-}
-
 Strike::Strike(std::weak_ptr<Actor> owner):
 	CapsuleAttackBase(owner)
 {

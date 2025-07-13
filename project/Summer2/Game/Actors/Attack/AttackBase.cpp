@@ -50,6 +50,7 @@ void AttackBase::Update()
 
 void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 {
+	if (m_owner.expired())return;
 	m_isHit = false;
 	auto ownerColl = m_owner.lock();
 	auto otherColl = other;

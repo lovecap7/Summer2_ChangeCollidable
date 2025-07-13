@@ -12,6 +12,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../../Game/Camera/Camera.h"
 #include "../../../Attack/Bullet.h"
 namespace
@@ -101,4 +102,6 @@ void SmallDragonStateAttack::CreateAttack(const std::weak_ptr<ActorManager> acto
 	attack->SetPos(bulletPos);
 	//弾の進行方向とスピード
 	attack->SetVec(coll->GetModel()->GetDir() * m_attackData.moveSpeed);
+	//エフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("BulletEff", std::dynamic_pointer_cast<Actor>(attack));
 }

@@ -113,7 +113,7 @@ void Model::Draw() const
 
 void Model::End()
 {
-	MV1DeleteModel(m_modelHandle);
+	assert(MV1DeleteModel(m_modelHandle) == 0);
 }
 
 void Model::SetPos(VECTOR pos)

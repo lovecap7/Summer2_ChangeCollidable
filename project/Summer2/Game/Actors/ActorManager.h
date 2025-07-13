@@ -43,6 +43,7 @@ class BossArea;
 class EnemyBase;
 class UIManager;
 class Score;
+class CSVDataLoader;
 class CharacterBase;
 class ActorManager : public std::enable_shared_from_this<ActorManager>
 {
@@ -99,6 +100,8 @@ private:
 	std::list<std::shared_ptr<Actor>> m_actors;
 	//追加予定のアクター
 	std::list<std::shared_ptr<Actor>> m_nextAddActors;
+	//CSVロード
+	std::unique_ptr<CSVDataLoader> m_csvLoader;
 	//プレイヤー
 	std::weak_ptr<Player> m_player;
 	//ボス

@@ -49,7 +49,10 @@ PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 
 PlayerStateNA::~PlayerStateNA()
 {
-	m_eff.lock()->Delete();
+	if (!m_eff.expired())
+	{
+		m_eff.lock()->Delete();
+	}
 }
 void PlayerStateNA::Init()
 {

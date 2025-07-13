@@ -12,7 +12,8 @@ Score::Score():
 	m_timeScoreData(0),
 	m_decTimeScoreData(0)
 {
-	m_scoreData = CSVDataLoader::LoadScoreDataCSV("Data/CSV/ScoreData.csv");
+	m_csvLoader = std::make_unique<CSVDataLoader>();
+	m_scoreData = m_csvLoader->LoadScoreDataCSV("Data/CSV/ScoreData.csv");
 	//ƒf[ƒ^‚Éˆê’v‚·‚é‚à‚Ì‚ğ’T‚·
 	for (auto data : m_scoreData)
 	{

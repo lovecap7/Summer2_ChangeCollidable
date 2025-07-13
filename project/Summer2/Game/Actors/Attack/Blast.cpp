@@ -15,6 +15,13 @@ Blast::~Blast()
 {
 }
 
+void Blast::Init()
+{
+	AttackBase::Init();
+	//爆発エフェクト
+	EffekseerManager::GetInstance().CreateEffect("ExplosionEff", m_rb->m_pos);
+}
+
 void Blast::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//持続フレームを減らす
