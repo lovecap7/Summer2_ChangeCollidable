@@ -7,8 +7,8 @@
 namespace
 {
 	constexpr float kAnimSpeed = 0.5f;//再生速度
-	//回転フレーム
-	constexpr int kRotaFrame = 10;
+	//回転速度
+	constexpr int kRotaSpeed = 10;
 	//ヒット効果フレーム
 	constexpr int kHitFrame = 30.0f;
 	//ヒット効果でモデルが大きくなる倍率
@@ -22,6 +22,7 @@ Model::Model(int modelHandle, VECTOR pos) :
 	m_rotation(Quaternion::AngleAxis(180 * MyMath::DEG_2_RAD, Vector3::Up())),
 	m_rotaQ(Quaternion::IdentityQ()),
 	m_rotaFrame(0),
+	m_rotaSpeed(kRotaSpeed),
 	m_pos(pos),
 	m_scale{ 1.0f,1.0f,1.0f },
 	m_hitCountFrame(0),
@@ -102,13 +103,6 @@ void Model::Draw() const
 	//描画
 	auto err = MV1DrawModel(m_modelHandle);
 	assert(err != -1 && L"モデルが描画できません");
-	
-#if _DEBUG
-	//見てる方向
-	auto forward = m_forward * 50.0f;
-	auto pos = m_pos + forward;
-	DrawSphere3D(pos.ToDxLibVector(), 20, 16, 0xffffff, 0xffffff, true);
-#endif
 }
 
 void Model::End()
@@ -160,9 +154,9 @@ void Model::SetDir(Vector2 vec)
 		axis = Vector3::Up();
 	}
 	//回転クォータニオン作成
-	m_rotaQ = Quaternion::AngleAxis(angle/ kRotaFrame, axis);
+	m_rotaQ = Quaternion::AngleAxis(angle/ m_rotaSpeed, axis);
 	//フレームをセット
-	m_rotaFrame = kRotaFrame;
+	m_rotaFrame = m_rotaSpeed;
 	//次の正面ベクトルを記録
 	m_nextForward = dir.XZ();
 }

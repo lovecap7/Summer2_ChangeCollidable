@@ -7,6 +7,7 @@
 #include "../../Camera/Camera.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Player/UltGage.h"
+#include "../ActorManager.h"
 
 Bullet::Bullet(std::weak_ptr<Actor> owner):
 	SphereAttackBase(owner)
@@ -15,16 +16,19 @@ Bullet::Bullet(std::weak_ptr<Actor> owner):
 
 void Bullet::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//持ち主が不在なら
-	if (m_owner.expired())
+	//攻撃が当たったなら
+	if (m_isHit)
 	{
+		//ヒットストップ
+		actorManager.lock()->HitStop(m_shakePower, m_hitStopFrame);
+		//削除
 		m_isDelete = true;
 		return;
 	}
+	//共通の処理をする
+	AttackBase::Update(actorManager);
 	//移動
 	m_rb->m_pos = m_rb->GetNextPos();
-	//共通の処理をする
-	AttackBase::Update();
 }
 
 void Bullet::OnCollide(const std::shared_ptr<Collidable> other)
@@ -58,11 +62,11 @@ void Bullet::OnCollide(const std::shared_ptr<Collidable> other)
 	}
 	//攻撃を受けたときの処理
 	std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
-	//消滅
-	m_isDelete = true;
 	//ヒットエフェクト
 	auto HitPos = m_rb->m_pos;
 	EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", HitPos);
+	//攻撃を当てたので
+	m_isHit = true;
 }
 
 void Bullet::Draw() const

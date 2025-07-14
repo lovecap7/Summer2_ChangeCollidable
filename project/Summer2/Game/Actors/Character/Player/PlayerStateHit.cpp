@@ -3,6 +3,7 @@
 #include "PlayerStateDeath.h"
 #include "PlayerStateWin.h"
 #include "Player.h"
+#include "../Enemy/EnemyBase.h"
 #include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/HitPoints.h"
@@ -48,14 +49,22 @@ void PlayerStateHit::Init()
 void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//勝利したとき
+	//ボスが完全に消滅したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
+	//ボスの体力がなくなった場合またはモデルのアニメーションが終わったら
+	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+		coll->GetModel()->IsFinishAnim())
+	{
+		//待機
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
+		return;
+	}
 	//死亡したかつボスが倒せてない場合
-	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;
@@ -66,13 +75,7 @@ void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_
 		//最初から再生
 		coll->GetModel()->ReplayAnim();
 	}
-	//モデルのアニメーションが終わったら
-	if (coll->GetModel()->IsFinishAnim())
-	{
-		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
-		return;
-	}
+	
 	//だんだん減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }

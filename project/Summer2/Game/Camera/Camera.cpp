@@ -25,7 +25,8 @@ Camera::Camera():
 	m_dir{},
 	m_viewPos{},
 	m_shakePower(ShakePower::None),
-	m_shakeFrame(0)
+	m_shakeFrame(0),
+	m_maxShakeFrame(0)
 {
 }
 
@@ -79,12 +80,15 @@ void Camera::SetDir(Vector3 dir)
 
 void Camera::UpdateCameraShake()
 {
+	//ÉJÉÅÉâÇóhÇÁÇ∑
 	if (m_shakeFrame > 0)
 	{
 		auto pos = m_pos;
 		auto viewPos = m_viewPos;
-		auto shakePower = static_cast<int>(m_shakePower);
+		float rate = static_cast<float>(m_shakeFrame) / static_cast<float>(m_maxShakeFrame);
+		auto shakePower = static_cast<int>(m_shakePower) * rate;
 		--m_shakeFrame;
+		//ç∂âEÇ…óhÇÁÇ∑
 		if (m_shakeFrame % 2 == 0)
 		{
 			shakePower *= -1;
@@ -106,4 +110,5 @@ void Camera::SetCameraShake(ShakePower power, int frame)
 {
 	m_shakePower = power;
 	m_shakeFrame = frame;
+	m_maxShakeFrame = m_shakeFrame;
 }

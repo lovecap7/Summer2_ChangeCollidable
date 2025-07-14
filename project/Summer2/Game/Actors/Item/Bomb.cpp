@@ -31,14 +31,9 @@ namespace
 	constexpr float kSlowScaleSpeed = 10.0f;
 	constexpr float kFastScaleSpeed = 25.0f;
 
-	//爆発の範囲
-	constexpr float kBlastRadius = 170.0f;
-	//爆発のダメージ
-	constexpr int kBlastDamage = 200;
-	//爆発のノックバック力
-	constexpr float kBlastKnockBackPower = 25.0f;
-	//爆発の持続時間
-	constexpr float kBlastKeepFrame = 5.0f;
+	//攻撃のデータを検索するときに使う
+	std::string kOwnerName = "Bomb";
+	std::string kAttackName = "Bomber";
 }
 
 Bomb::Bomb(int modelHandle, Vector3 pos) :
@@ -135,12 +130,17 @@ void Bomb::Complete()
 
 void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
+	//攻撃データ
+	auto data = actorManager.lock()->GetAttackData(kOwnerName, kAttackName);
 	//爆発の攻撃判定を出す
 	auto attack = actorManager.lock()->CreateAttack(AttackType::Blast, std::dynamic_pointer_cast<Actor>(shared_from_this()));
 	auto blast = std::dynamic_pointer_cast<Blast> (attack.lock());
 	blast->SetPos(m_rb->m_pos);
-	blast->SetRadius(kBlastRadius);
-	blast->AttackSetting(kBlastDamage, kBlastKeepFrame, kBlastKnockBackPower, Battle::AttackWeight::Heavy);
+	//大きさ
+	blast->SetRadius(data.radius);
+	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
+	blast->AttackSetting(data.damege, data.keepFrame,
+		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
 }
 
 void Bomb::End()

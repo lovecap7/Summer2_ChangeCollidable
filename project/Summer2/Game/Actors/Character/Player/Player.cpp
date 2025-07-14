@@ -37,7 +37,7 @@ namespace
 	//索敵距離
 	constexpr float kSearchDistance = 200.0f;
 	//視野角
-	constexpr float kSearchAngle = 30.0f;
+	constexpr float kSearchAngle = 60.0f * MyMath::DEG_2_RAD;
 	//ダッシュ持続状態解除
 	constexpr int kCancelRunFrame = 5;
 }
@@ -130,10 +130,18 @@ void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Acto
 	m_attackPoints->Update();
 
 #if _DEBUG
+	//ゲージマックス
 	if (input.IsTrigger("Max"))
 	{
 		m_ultGage->AddUltGage(10000);
 		m_hitPoints->Heal(10000);
+	}
+	//ボスの頭上に飛ぶ
+	if (input.IsPress("BossArea"))
+	{
+		auto bossPos = actorManager.lock()->GetBoss().lock()->GetPos();
+		m_rb->m_pos.y = bossPos.y + 1000.0f;
+		m_rb->m_pos.x = bossPos.x;
 	}
 #endif
 }
@@ -155,6 +163,18 @@ void Player::Draw() const
 		0xff0000,
 		false//地面にいると塗りつぶされる
 	);
+	//探索範囲
+	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
+	//見てる方向
+	auto forward = m_model->GetDir();
+	forward = forward * kSearchDistance;
+	//視野角
+	auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	//描画
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
 #endif
 	m_model->Draw();
 }

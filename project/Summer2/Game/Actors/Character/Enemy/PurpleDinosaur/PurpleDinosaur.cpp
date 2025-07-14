@@ -26,15 +26,18 @@ namespace
 	//プレイヤーを発見する距離
 	constexpr float kSearchDistance = 900.0f;
 	//プレイヤーを発見する視野角
-	constexpr float kSearchAngle = 180.0f;
+	constexpr float kSearchAngle = 180.0f * MyMath::DEG_2_RAD;
 	//体力バー表示位置
 	constexpr float kHPBarY = 30.0f;
+	//モデルの旋回速度
+	constexpr int kRotaSpeed = 30;
 }
 PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule, EnemyGrade::Normal)
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
+	m_model->SetRotSpeed(kRotaSpeed);
 	//衝突判定
 	Vector3 endPos = pos;
 	endPos += kCapsuleHeight; //カプセルの上端
@@ -111,6 +114,18 @@ void PurpleDinosaur::Draw() const
 		0xff0000,
 		false
 	);
+	//探索範囲
+	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
+	//見てる方向
+	auto forward = m_model->GetDir();
+	forward = forward * kSearchDistance;
+	//視野角
+	auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	//描画
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
 #endif
 	m_model->Draw();
 }

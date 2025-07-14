@@ -5,9 +5,9 @@
 enum class ShakePower : int
 {
 	None = 0,
-	Low = 4,
-	Middle = 6,
-	High = 12,
+	Low = 5,
+	Middle = 10,
+	High = 20,
 };
 
 class ActorManager;
@@ -51,6 +51,7 @@ private:
 	//U“®
 	ShakePower m_shakePower;
 	int m_shakeFrame;
+	int m_maxShakeFrame;
 
 	//ó‘Ô‘JˆÚ
 	std::shared_ptr<CameraStateBase> m_state;

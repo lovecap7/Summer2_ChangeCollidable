@@ -2,10 +2,12 @@
 #include "CameraStateAreaLock.h"
 #include "CameraStateClear.h"
 #include "CameraStateNormal.h"
+#include "CameraStateBossDeath.h"
 #include "Camera.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/game.h"
+#include "../../General/HitPoints.h"
 #include "../Actors/Character/Player/Player.h"
 #include "../Actors/Character/Enemy/EnemyBase.h"
 #include "../Actors/ActorManager.h"
@@ -54,10 +56,17 @@ void CameraStateBossArea::Init()
 
 void CameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	//ボスが消滅したらゲームクリアカメラに
-	if (actorManager.lock()->GetBoss().expired())
+	auto boss = actorManager.lock()->GetBoss();
+	//通常は通ることはないがボスが消滅したらゲームクリアカメラに
+	if (boss.expired())
 	{
 		ChangeState(std::make_shared<CameraStateClear>(m_camera, actorManager));
+		return;
+	}
+	//ボスが死亡した場合
+	if (boss.lock()->GetHitPoints().lock()->IsDead())
+	{
+		ChangeState(std::make_shared<CameraStateBossDeath>(m_camera, actorManager));
 		return;
 	}
 	auto camera = m_camera.lock();
@@ -78,7 +87,7 @@ void CameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorManager)
 	//プレイヤーの座標
 	auto playerPos = player.lock()->GetPos();
 	//間の位置
-	Vector3 center = (actorManager.lock()->GetBoss().lock()->GetPos() + playerPos) / 2.0f;
+	Vector3 center = (boss.lock()->GetPos() + playerPos) / 2.0f;
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();
 	Vector3 nextPos = camera->GetPos();

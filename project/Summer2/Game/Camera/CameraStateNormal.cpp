@@ -2,9 +2,11 @@
 #include "CameraStateNormal.h"
 #include "CameraStateAreaLock.h"
 #include "CameraStateBossArea.h"
+#include "CameraStateBossDeath.h"
 #include "CameraStateClear.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
+#include "../../General/HitPoints.h"
 #include "../../General/game.h"
 #include "../Actors/Character/Player/Player.h"
 #include "../Actors/Character/Enemy/EnemyBase.h"
@@ -52,10 +54,17 @@ void CameraStateNormal::Init()
 
 void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	//ボスが消滅したらゲームクリアカメラに
-	if (actorManager.lock()->GetBoss().expired())
+	auto boss = actorManager.lock()->GetBoss();
+	//通常は通らないがボスが消滅したらゲームクリアカメラに
+	if (boss.expired())
 	{
 		ChangeState(std::make_shared<CameraStateClear>(m_camera, actorManager));
+		return;
+	}
+	//ボスが死亡した場合
+	if (boss.lock()->GetHitPoints().lock()->IsDead())
+	{
+		ChangeState(std::make_shared<CameraStateBossDeath>(m_camera, actorManager));
 		return;
 	}
 	auto player = actorManager.lock()->GetPlayer();

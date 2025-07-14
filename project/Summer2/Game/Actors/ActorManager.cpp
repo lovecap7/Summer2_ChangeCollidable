@@ -4,6 +4,7 @@
 #include "../../General/Math/MyMath.h"
 #include "../UI/UIManager.h"
 #include "../GameRule/Score.h"
+#include "../../General/Collision/Physics.h"
 #include <DxLib.h>
 #include <cassert>
 //配置データ
@@ -44,9 +45,12 @@ namespace
 	constexpr int kAreaPartsNum = 2;
 }
 
-ActorManager::ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiManager):
+ActorManager::ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera):
 	m_actorId(0),
-	m_uiManager(uiManager)
+	m_uiManager(uiManager),
+	m_camera(camera),
+	m_isUpdate(true),
+	m_delayFrame(0)
 {
 	m_csvLoader = std::unique_ptr<CSVDataLoader>();
 	//ハンドルロード
@@ -92,14 +96,25 @@ void ActorManager::Init()
 	CheckNextAddActors();
 }
 
-void ActorManager::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Score> score)
+void ActorManager::Update(const std::weak_ptr<Score> score)
 {
+	//遅延処理
+	if (m_delayFrame > 0)
+	{
+		--m_delayFrame;
+		if (m_delayFrame <= 0)
+		{
+			m_isUpdate = true;
+		}
+	}
+	//更新をしないなら
+	if (!m_isUpdate || m_delayFrame > 0)return;
 	//新規アクターの追加
 	CheckNextAddActors();
 	//アクターの更新
 	for (auto& actor : m_actors)
 	{
-		actor->Update(camera,shared_from_this());
+		actor->Update(m_camera,shared_from_this());
 	}
 	//ボスが倒されたとき
 	if (m_boss.expired())
@@ -339,6 +354,20 @@ void ActorManager::CheckDeleteActors(const std::weak_ptr<Score> score)
 		deleteActer.clear();
 		if (!isOneMore)break;
 	}
+}
+
+void ActorManager::DelayUpdate(int frame)
+{
+	m_delayFrame = frame;
+	m_isUpdate = false;
+}
+
+void ActorManager::HitStop(ShakePower sp, int frame)
+{
+	if (m_delayFrame > frame)return;
+	Physics::GetInstance().DelayUpdate(frame);
+	m_camera.lock()->SetCameraShake(sp, frame);
+	this->DelayUpdate(frame);
 }
 
 //追加予定のアクターを実装

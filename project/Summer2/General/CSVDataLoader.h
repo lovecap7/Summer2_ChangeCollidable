@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Battle.h"
+#include "../Game/Camera/Camera.h"
 //オブジェクトの情報を格納する構造体
 struct ObjectData {
     std::string name;      //オブジェクト名
@@ -12,19 +13,21 @@ struct ObjectData {
 };
 //オブジェクトの情報を格納する構造体
 struct AttackData {
-    std::string ownerName;              //キャラクター名
-	std::string attackName;		        //攻撃名
-	int         damege;		            //ダメージ
-	int         keepFrame;		        //持続
-	int         startFrame;		        //発生
-	float       knockBackPower;	        //ノックバックの大きさ
-	std::string anim;	                //アニメーション
-	float       animSpeed;	            //アニメーションの速度
-	float       radius;                 //攻撃の半径
-	int         addUltGage;             //攻撃がヒットしたときの加算ゲージ量
-	int         moveFrame;              //前進するフレーム
-    float       moveSpeed;              //移動量
-    Battle::AttackWeight attackWeight;  //攻撃の重さ(これを基準に怯むかどうかを計算)
+    std::string                 ownerName;     //キャラクター名
+	std::string                 attackName;	   //攻撃名
+	int                         damege;		   //ダメージ
+	int                         keepFrame;	   //持続
+	int                         startFrame;	   //発生
+	float                       knockBackPower;//ノックバックの大きさ
+	std::string                 anim;	       //アニメーション
+	float                       animSpeed;	   //アニメーションの速度
+	float                       radius;        //攻撃の半径
+	int                         addUltGage;    //攻撃がヒットしたときの加算ゲージ量
+	int                         moveFrame;     //前進するフレーム
+    float                       moveSpeed;     //移動量
+    Battle::AttackWeight        attackWeight;  //攻撃の重さ(これを基準に怯むかどうかを計算)
+    int                         hitStopFrame;  //ヒットストップの長さ
+    ShakePower                  shakePower;    //カメラの揺れ
 };
 //スコアの情報を格納する構造体
 struct ScoreData {

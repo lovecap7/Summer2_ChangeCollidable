@@ -5,6 +5,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/HitPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../ActorManager.h"
 #include "../../Camera/Camera.h"
 
 Blast::Blast(std::weak_ptr<Actor> owner) :
@@ -25,6 +26,11 @@ void Blast::Init()
 
 void Blast::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//攻撃が当たったなら
+	if (m_isHit)
+	{
+		actorManager.lock()->HitStop(m_shakePower, m_hitStopFrame);
+	}
 	//持続フレームを減らす
 	--m_keepFrame;
 	//持続フレームが0になったら削除
@@ -34,6 +40,8 @@ void Blast::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Actor
 		m_isThrough = true;	//当たり判定をしない
 		return; //何もしない
 	}
+	//初期化
+	m_isHit = false;
 }
 
 void Blast::OnCollide(const std::shared_ptr<Collidable> other)
@@ -75,6 +83,8 @@ void Blast::OnCollide(const std::shared_ptr<Collidable> other)
 		//ヒットエフェクト
 		auto HitPos = m_rb->m_pos;
 		EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", HitPos);
+		//攻撃が当たったので
+		m_isHit = true;
 	}
 }
 

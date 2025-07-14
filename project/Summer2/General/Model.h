@@ -29,6 +29,8 @@ public:
 	Vector3 GetDir();
 	//回転
 	Quaternion GetRot()const { return m_rotation; };
+	//回転速度
+	void SetRotSpeed(int speed) { m_rotaSpeed = speed; };
 	//攻撃を喰らった時のモデルのリアクション(攻撃を喰らった時に呼ぶ)
 	void ModelHit();
 	//アニメーション関係
@@ -59,6 +61,8 @@ private:
 	Quaternion m_rotaQ;
 	//回転フレーム
 	int m_rotaFrame;
+	//回転速度
+	int m_rotaSpeed;
 	//自分の座標
 	Vector3 m_pos;
 	//大きさ

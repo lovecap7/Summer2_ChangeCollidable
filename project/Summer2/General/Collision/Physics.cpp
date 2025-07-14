@@ -14,6 +14,7 @@ namespace
 void Physics::Init()
 {
 	m_isUpdate = true;
+	m_delayFrame = 0;
 	m_collChecker = std::make_shared<CollisionChecker>();
 	m_collProcessor = std::make_shared<FixNextPosition>();
 }
@@ -45,8 +46,17 @@ void Physics::Exit(std::shared_ptr<Collidable> collidable)
 
 void Physics::Update()
 {
+	//遅延処理
+	if (m_delayFrame > 0)
+	{
+		--m_delayFrame;
+		if (m_delayFrame <= 0)
+		{
+			m_isUpdate = true;
+		}
+	}
 	//更新をしないなら
-	if (!m_isUpdate)return;
+	if (!m_isUpdate || m_delayFrame > 0)return;
 	//重力
 	Gravity();
 	//床と壁のとの当たったフラグを初期化
@@ -126,6 +136,12 @@ void Physics::Update()
 void Physics::Reset()
 {
 	m_collidables.clear();
+}
+
+void Physics::DelayUpdate(int frame)
+{
+	m_delayFrame = frame;
+	m_isUpdate = false;
 }
 
 std::list<std::weak_ptr<Collidable>> Physics::GetAreaXCollidable(float startX, float endX)

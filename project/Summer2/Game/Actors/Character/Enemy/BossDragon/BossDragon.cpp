@@ -26,9 +26,11 @@ namespace
 	//プレイヤーを発見する距離
 	constexpr float kSearchDistance = 2000.0f;
 	//プレイヤーを発見する視野角
-	constexpr float kSearchAngle = 180.0f;
+	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
 	//体力
 	constexpr int kHp = 5000;
+	//モデルの旋回速度
+	constexpr int kRotaSpeed = 40;
 }
 
 BossDragon::BossDragon(int modelHandle, Vector3 pos):
@@ -36,6 +38,7 @@ BossDragon::BossDragon(int modelHandle, Vector3 pos):
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
+	m_model->SetRotSpeed(kRotaSpeed);
 	//衝突判定
 	Vector3 endPos = pos;
 	endPos += kCapsuleHeight; //カプセルの上端
@@ -71,6 +74,7 @@ void BossDragon::Init()
 void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 #if _DEBUG
+	//ボスを死亡させる
 	if (Input::GetInstance().IsTrigger("BossDead"))
 	{
 		m_isDelete = true;
@@ -118,6 +122,18 @@ void BossDragon::Draw() const
 		0xff0000,
 		false
 	);
+	//探索範囲
+	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
+	//見てる方向
+	auto forward = m_model->GetDir();
+	forward = forward * kSearchDistance;
+	//視野角
+	auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	//描画
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
 #endif
 	m_model->Draw();
 }

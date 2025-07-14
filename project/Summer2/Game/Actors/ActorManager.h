@@ -5,6 +5,7 @@
 #include "Item/ItemBase.h"
 #include "../../General/CSVDataLoader.h"
 #include "../../Scene/StageScene.h"
+#include "../Camera/Camera.h"
 #include <map>
 
 //キャラクターの種類
@@ -48,7 +49,7 @@ class CharacterBase;
 class ActorManager : public std::enable_shared_from_this<ActorManager>
 {
 public:
-	ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiManager);
+	ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera);
 	~ActorManager();
 	//登録
 	void Entry(std::shared_ptr<Actor> actor);
@@ -57,7 +58,7 @@ public:
 	//初期化
 	void Init();
 	//更新
-	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<Score> score);
+	void Update(const std::weak_ptr<Score> score);
 	//描画
 	void Draw() const;
 	//終了処理
@@ -84,6 +85,15 @@ public:
 	std::weak_ptr<Actor> GetNearestEnemy() const;
 	//攻撃データを返す
 	AttackData GetAttackData(std::string& ownerName, std::string& attackName);
+
+	//更新を止める
+	void StopUpdate() { m_isUpdate = false; };
+	//更新を開始
+	void StartUpdate() { m_isUpdate = true; };
+	//更新を遅らせる
+	void DelayUpdate(int frame);
+	//ヒットストップ
+	void HitStop(ShakePower sp,int frame);
 private:
 	//追加予定のアクターを実装
 	void CheckNextAddActors();
@@ -114,8 +124,12 @@ private:
 	std::vector<AttackData> m_attackDatas;
 	//UIの参照
 	std::weak_ptr<UIManager> m_uiManager;
-private:
+	//カメラの参照
+	std::weak_ptr<Camera> m_camera;
 	//ハンドル
 	std::map<std::string, int> m_handles;
+	//更新
+	bool m_isUpdate;
+	int m_delayFrame;
 };
 

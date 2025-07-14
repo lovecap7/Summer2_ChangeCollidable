@@ -11,6 +11,7 @@
 #include "PlayerStateWin.h"
 #include "Player.h"
 #include "UltGage.h"
+#include "../Enemy/EnemyBase.h"
 #include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Collision/ColliderBase.h"
@@ -57,14 +58,22 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//勝利したとき
+	//ボスが完全に消滅したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
+	//ボスの体力がなくなった場合または入力がないなら待機
+	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+		!input.GetStickInfo().IsLeftStickInput())
+	{
+		//待機
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
+		return;
+	}
 	//死亡したかつボスが倒せてない場合
-	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;
@@ -115,13 +124,7 @@ void PlayerStateRun::Update(const std::weak_ptr<Camera> camera, const std::weak_
 		ChangeState(std::make_shared<PlayerStateCharge>(m_owner, actorManager));
 		return;
 	}
-	//入力がないなら待機
-	if (!input.GetStickInfo().IsLeftStickInput())
-	{
-		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
-		return;
-	}
+	
 	auto rb = coll->GetRb();
 	//移動
 	rb->SetMoveVec(GetForwardVec(camera) * kMoveSpeed);

@@ -7,16 +7,20 @@
 #include "../../../General/AttackPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Rigidbody.h"
+#include "../ActorManager.h"
 
-AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner):
+AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner) :
 	Actor(shape),
 	m_owner(owner),
 	m_damage(0.0f),
 	m_keepFrame(0.0f),
 	m_knockBackPower(0.0f),
 	m_attackWeight(Battle::AttackWeight::Light),
+	m_hitStopFrame(0),
+	m_shakePower(ShakePower::None),
 	m_ownerTag(owner.lock()->GetGameTag()),
-	m_isHit(false)
+	m_isHit(false),
+	m_isSuccessAttack(false)
 {
 }
 
@@ -30,8 +34,15 @@ void AttackBase::Init()
 	Collidable::Init();
 }
 
-void AttackBase::Update()
+void AttackBase::Update(const std::weak_ptr<ActorManager> actorManager)
 {
+	//攻撃が当たったなら
+	if (m_isHit)
+	{
+		//ヒットストップ
+		actorManager.lock()->HitStop(m_shakePower, m_hitStopFrame);
+	}
+	//持ち主の参照が切れたら
 	if (m_owner.expired())
 	{
 		m_isDelete = true; //所有者のステートが無くなったら削除フラグを立てる
@@ -46,12 +57,14 @@ void AttackBase::Update()
 		m_isThrough = true;	//当たり判定をしない
 		return; //何もしない
 	}
+	//初期化
+	m_isHit = false;
 }
 
 void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	if (m_owner.expired())return;
-	m_isHit = false;
+	m_isSuccessAttack = false;
 	auto ownerColl = m_owner.lock();
 	auto otherColl = other;
 
@@ -96,7 +109,9 @@ void AttackBase::OnCollide(const std::shared_ptr<Collidable> other)
 		}
 		//攻撃を受けたときの処理
 		std::dynamic_pointer_cast<CharacterBase>(otherColl)->OnHitFromAttack(shared_from_this());
-		//攻撃が当たったので
+		//攻撃に成功したので
+		m_isSuccessAttack = true;
+		//攻撃を当てたので
 		m_isHit = true;
 	}
 }
@@ -115,12 +130,14 @@ Vector3 AttackBase::GetKnockBackVec(Position3 other)
 	return knockBackVec;
 }
 
-void AttackBase::AttackSetting(int damage, int keepFrame, int knockBackPower, Battle::AttackWeight aw)
+void AttackBase::AttackSetting(int damage, int keepFrame, int knockBackPower, Battle::AttackWeight aw, int hitStopFrame, ShakePower sp)
 {
 	m_damage = damage;
 	m_keepFrame = keepFrame;
 	m_knockBackPower = knockBackPower;
 	m_attackWeight = aw;
+	m_hitStopFrame = hitStopFrame;
+	m_shakePower = sp;
 }
 
 int AttackBase::GetDamage()

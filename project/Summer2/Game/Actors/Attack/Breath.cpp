@@ -6,6 +6,7 @@
 #include "../../Camera/Camera.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Player/UltGage.h"
+#include "../../../General/Effect/EffekseerManager.h"
 
 Breath::Breath(std::weak_ptr<Actor> owner) :
 	SphereAttackBase(owner)
@@ -14,16 +15,23 @@ Breath::Breath(std::weak_ptr<Actor> owner) :
 
 void Breath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//持ち主が不在なら
-	if (m_owner.expired())
-	{
-		m_isDelete = true;
-		return;
-	}
+	//共通の処理をする
+	AttackBase::Update(actorManager);
 	//移動
 	m_rb->m_pos = m_rb->GetNextPos();
-	//共通の処理をする
-	AttackBase::Update();
+}
+
+
+void Breath::OnCollide(const std::shared_ptr<Collidable> other)
+{
+	AttackBase::OnCollide(other);
+	//攻撃が成功したなら
+	if (m_isSuccessAttack)
+	{
+		//ヒットエフェクト
+		auto HitPos = m_rb->m_pos;
+		EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", HitPos);
+	}
 }
 
 

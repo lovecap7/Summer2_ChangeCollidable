@@ -3,6 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
+#include "../ActorManager.h"
 #include "../../Camera/Camera.h"
 
 Slash::Slash(std::weak_ptr<Actor> owner):
@@ -16,7 +17,7 @@ Slash::~Slash()
 
 void Slash::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	AttackBase::Update();
+	AttackBase::Update(actorManager);
 }
 
 void Slash::Draw() const
@@ -31,7 +32,8 @@ void Slash::Draw() const
 void Slash::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	AttackBase::OnCollide(other);
-	if (m_isHit)
+	//攻撃が成功したなら
+	if (m_isSuccessAttack)
 	{
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);

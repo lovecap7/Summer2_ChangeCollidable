@@ -111,15 +111,18 @@ void BossDragonStateBreathAttack::SetupBreath(std::weak_ptr<Breath> bullet, floa
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//弾の設定
 	auto attack = bullet.lock();
-	attack->SetRadius(m_attackData.radius);
-	attack->AttackSetting(m_attackData.damege, m_attackData.keepFrame, 
-		m_attackData.knockBackPower, m_attackData.attackWeight);
+	auto data = m_attackData;
+	//大きさ
+	attack->SetRadius(data.radius);
+	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
+	attack->AttackSetting(data.damege, data.keepFrame,
+		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
 	//生成位置
 	Vector3 bulletPos = coll->GetPos();
 	bulletPos.y += kBulletCreatePosY;
 	attack->SetPos(bulletPos);
 	//弾の進行方向とスピード
-	auto vec = coll->GetModel()->GetDir() * m_attackData.moveSpeed;
+	auto vec = coll->GetModel()->GetDir() * data.moveSpeed;
 	vec = Quaternion::AngleAxis(angle, Vector3::Up()) * vec;
 	attack->SetVec(vec);
 }

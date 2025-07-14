@@ -93,10 +93,18 @@ std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV(const char* fileName)
 		attackData.moveSpeed = std::stof(values[11]);
 		//攻撃の重さ
 		auto aw = values[12];
-		if (aw == "Light")		attackData.attackWeight	= Battle::AttackWeight::Light;
-		if (aw == "Middle")		attackData.attackWeight	= Battle::AttackWeight::Middle;
-		if (aw == "Heavy")		attackData.attackWeight	= Battle::AttackWeight::Heavy;
-		if (aw == "Heaviest")	attackData.attackWeight = Battle::AttackWeight::Heaviest;
+		if		(aw == "Light")		attackData.attackWeight	= Battle::AttackWeight::Light;
+		else if (aw == "Middle")	attackData.attackWeight	= Battle::AttackWeight::Middle;
+		else if (aw == "Heavy")		attackData.attackWeight	= Battle::AttackWeight::Heavy;
+		else if (aw == "Heaviest")	attackData.attackWeight = Battle::AttackWeight::Heaviest;
+		//ヒットストップの長さ
+		attackData.hitStopFrame = std::stoi(values[13]);
+		//カメラの揺れ
+		auto sp = values[14];
+		if		(sp == "None")		attackData.shakePower = ShakePower::None;
+		else if (sp == "Low")		attackData.shakePower = ShakePower::Low;
+		else if (sp == "Middle")	attackData.shakePower = ShakePower::Middle;
+		else if (sp == "High")		attackData.shakePower = ShakePower::High;
 		//配列に追加
 		attackDatas.emplace_back(attackData);
 	}

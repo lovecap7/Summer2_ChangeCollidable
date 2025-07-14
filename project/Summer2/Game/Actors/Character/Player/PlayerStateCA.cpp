@@ -5,6 +5,7 @@
 #include "PlayerStateUltimate.h"
 #include "PlayerStateWin.h"
 #include "Player.h"
+#include "../Enemy/EnemyBase.h"
 #include "../../ActorManager.h"
 #include "UltGage.h"
 #include "../../../../General/game.h"
@@ -78,14 +79,23 @@ void PlayerStateCA::Init()
 void PlayerStateCA::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//勝利したとき
+	auto model = coll->GetModel();
+	//ボスが完全に消滅したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
+	//ボスの体力がなくなった場合またはアニメーションが終了したら
+	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+		model->IsFinishFixedLoop())
+	{
+		//待機
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
+		return;
+	}
 	//死亡したかつボスが倒せてない場合
-	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;
@@ -102,14 +112,6 @@ void PlayerStateCA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 		//攻撃発生
 		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame,
 			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
-	}
-	auto model = coll->GetModel();
-	//アニメーションが終了したら
-	if (model->IsFinishFixedLoop())
-	{
-		//待機
-		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
-		return;
 	}
 	//アニメーションが一周するたびに攻撃判定のリセット
 	if (model->IsFinishAnim())
@@ -141,8 +143,12 @@ void PlayerStateCA::CreateAttack(float radius, int damage, int keepFrame, float 
 	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
-	attack->SetRadius(radius);
-	attack->AttackSetting(damage, keepFrame, knockBackPower, aw);
+	auto data = m_attackData;
+	//大きさ
+	attack->SetRadius(data.radius);
+	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
+	attack->AttackSetting(data.damege, data.keepFrame,
+		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
 }
 
 void PlayerStateCA::UpdateAttackPos()

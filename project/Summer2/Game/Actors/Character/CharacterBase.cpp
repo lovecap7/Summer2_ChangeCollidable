@@ -40,8 +40,8 @@ void CharacterBase::TargetSearch(float searchDistance, float searchAngle, Vector
 	if (dir.Magnitude() <= searchDistance)
 	{
 		//Ž‹–ìŠp“à‚Éƒ^[ƒQƒbƒg‚ª‚¢‚é‚©
-		auto angle = abs(Vector2::GetRad(m_model->GetDir().XZ(), dir)) * MyMath::RAD_2_DEG;
-		if (angle <= searchAngle)
+		auto angle = abs(Vector2::GetRad(m_model->GetDir().XZ(), dir));
+		if (angle <= (searchAngle / 2.0f))
 		{
 			m_targetData.isHitTarget = true;
 			m_targetData.targetPos = targetPos;

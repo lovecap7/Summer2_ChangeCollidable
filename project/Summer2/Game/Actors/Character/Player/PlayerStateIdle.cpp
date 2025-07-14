@@ -12,6 +12,7 @@
 #include "PlayerStateWin.h"
 #include "Player.h"
 #include "UltGage.h"
+#include "../Enemy/EnemyBase.h"
 #include "../../ActorManager.h"
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/game.h"
@@ -54,14 +55,22 @@ void PlayerStateIdle::Update(const std::weak_ptr<Camera> camera, const std::weak
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	Vector3 vec = coll->GetRb()->GetVec();
-	//勝利したとき
+	
+	//ボスが完全に消滅したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
-	//死亡したかつボスが倒せてない場合
-	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
+	//ボスの体力がなくなった場合待機しておく
+	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead())
+	{
+		//だんだん減速
+		coll->GetRb()->SpeedDown(kMoveDeceRate);
+		return;
+	}
+	//死亡した場合
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;

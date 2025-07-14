@@ -4,6 +4,7 @@
 #include "PlayerStateDeath.h"
 #include "PlayerStateWin.h"
 #include "Player.h"
+#include "../Enemy/EnemyBase.h"
 #include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Collision/ColliderBase.h"
@@ -57,14 +58,14 @@ void PlayerStateJump::Update(const std::weak_ptr<Camera> camera, const std::weak
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto rb = coll->GetRb();
-	//勝利したとき
+	//ボスが完全に消滅したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
 	//死亡したかつボスが倒せてない場合
-	if (coll->GetHitPoints().lock()->IsDead() && !actorManager.lock()->GetBoss().expired())
+	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
 		return;

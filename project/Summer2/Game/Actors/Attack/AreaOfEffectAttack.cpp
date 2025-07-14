@@ -17,7 +17,7 @@ AreaOfEffectAttack::~AreaOfEffectAttack()
 
 void AreaOfEffectAttack::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	AttackBase::Update();
+	AttackBase::Update(actorManager);
 }
 
 void AreaOfEffectAttack::Draw() const
@@ -31,7 +31,7 @@ void AreaOfEffectAttack::Draw() const
 void AreaOfEffectAttack::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	AttackBase::OnCollide(other);
-	if (m_isHit)
+	if (m_isSuccessAttack)
 	{
 		auto otherPos = std::dynamic_pointer_cast<CharacterBase>(other)->GetPos();
 		auto centerPos = (otherPos + m_rb->m_pos) / 2.0f;

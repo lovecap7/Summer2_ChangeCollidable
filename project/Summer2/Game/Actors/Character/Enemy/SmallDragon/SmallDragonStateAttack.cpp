@@ -93,15 +93,18 @@ void SmallDragonStateAttack::CreateAttack(const std::weak_ptr<ActorManager> acto
 	m_attack = std::dynamic_pointer_cast<Bullet>(actorManager.lock()->CreateAttack(AttackType::Bullet, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
-	attack->SetRadius(m_attackData.radius);
-	attack->AttackSetting(m_attackData.damege, m_attackData.keepFrame, 
-		m_attackData.knockBackPower, m_attackData.attackWeight);
+	auto data = m_attackData;
+	//大きさ
+	attack->SetRadius(data.radius);
+	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
+	attack->AttackSetting(data.damege, data.keepFrame,
+		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
 	//生成位置
 	Vector3 bulletPos = coll->GetPos();
 	bulletPos.y += kBulletCreatePosY;
 	attack->SetPos(bulletPos);
 	//弾の進行方向とスピード
-	attack->SetVec(coll->GetModel()->GetDir() * m_attackData.moveSpeed);
+	attack->SetVec(coll->GetModel()->GetDir() * data.moveSpeed);
 	//エフェクト
 	EffekseerManager::GetInstance().CreateTrackActorEffect("BulletEff", std::dynamic_pointer_cast<Actor>(attack));
 }

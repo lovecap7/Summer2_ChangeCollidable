@@ -2,6 +2,7 @@
 #include "BossDragon.h"
 #include "../EnemyBase.h"
 #include "../../../Actor.h"
+#include "../../../ActorManager.h"
 #include "../../../../../General/Rigidbody.h"
 #include "../../../../../General/Collision/Collidable.h"
 #include "../../../../../General/Input.h"
@@ -16,6 +17,8 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
 	const char* kAnim = "CharacterArmature|Death";
+	//アニメーション速度
+	constexpr float kAnimSpeed = 0.2f;
 }
 
 BossDragonStateDeath::BossDragonStateDeath(std::weak_ptr<Actor> owner) :
@@ -25,7 +28,7 @@ BossDragonStateDeath::BossDragonStateDeath(std::weak_ptr<Actor> owner) :
 	//死亡状態にする
 	coll->SetCollState(CollisionState::Dead);
 	//死亡
-	coll->GetModel()->SetAnim(kAnim, false);
+	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 }

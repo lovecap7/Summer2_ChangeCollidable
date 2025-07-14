@@ -33,7 +33,7 @@ GameManager::GameManager(Stage::StageIndex index):
 	//カメラの初期化
 	m_camera = std::make_shared<Camera>();
 	//アクターマネージャー
-	m_actorManager = std::make_shared<ActorManager>(index, m_uiManager);
+	m_actorManager = std::make_shared<ActorManager>(index, m_uiManager, m_camera);
 	//スコア
 	m_score = std::make_shared<Score>();
 	m_uiManager->CreateScoreUI(m_score);
@@ -67,7 +67,7 @@ void GameManager::Update()
 #endif
 	{
 		//アクターの更新
-		m_actorManager->Update(m_camera,m_score);
+		m_actorManager->Update(m_score);
 		//タイマー
 		m_timer->Update();
 		//UIの更新

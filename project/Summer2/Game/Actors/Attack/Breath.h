@@ -12,6 +12,8 @@ public:
 	virtual ~Breath() {};
 	//XVˆ—
 	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+	//Õ“Ëˆ—
+	void OnCollide(const std::shared_ptr<Collidable> other)override;
 	//•`‰æ
 	void Draw() const override;
 	//ˆÚ“®—Ê

@@ -45,6 +45,8 @@ public:
 	void StopUpdate() { m_isUpdate = false; }
 	//更新を始める
 	void StartUpdate() { m_isUpdate = true; }
+	//更新を遅らせる
+	void DelayUpdate(int frame);
 	//指定された範囲内のCollidableを返す(X座標を見て)
 	std::list<std::weak_ptr<Collidable>> GetAreaXCollidable(float startX,float endX);
 private:
@@ -69,5 +71,7 @@ private:
 
 	//更新をするか
 	bool m_isUpdate;
+	//遅延
+	int m_delayFrame;
 };
 

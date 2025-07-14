@@ -2,6 +2,7 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateWin.h"
 #include "Player.h"
+#include "../Enemy/EnemyBase.h"
 #include "../../../../General/game.h"
 #include "../../ActorManager.h"
 #include "../../../../General/Collision/ColliderBase.h"
@@ -51,14 +52,15 @@ void PlayerStateRolling::Init()
 void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//勝利したとき
+	//ボスが完全に消滅したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
-	//モデルのアニメーションが終わったら
-	if (coll->GetModel()->IsFinishAnim())
+	//ボスの体力がなくなった場合またはモデルのアニメーションが終わったら
+	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+		coll->GetModel()->IsFinishAnim())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
