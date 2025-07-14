@@ -40,8 +40,8 @@ CameraStateBossDeath::CameraStateBossDeath(std::weak_ptr<Camera> camera, const s
 	DxLib::SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), boss->GetPos().ToDxLibVector());
 	//撃破ストップ
 	actorManager.lock()->DelayUpdate(60);
-	owner->SetCameraShake(ShakePower::Middle, 30);
-	Physics::GetInstance();
+	owner->SetCameraShake(ShakePower::Highest, 30);
+	Physics::GetInstance().DelayUpdate(60);
 }
 
 void CameraStateBossDeath::Init()

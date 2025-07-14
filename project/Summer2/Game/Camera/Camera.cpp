@@ -95,12 +95,6 @@ void Camera::UpdateCameraShake()
 		}
 		pos.x += shakePower;
 		viewPos.x += shakePower;
-		//U“®‹­‚ß‚Ì‚Ì‚İc—h‚ê‚à“ü‚ê‚é
-		if (m_shakePower == ShakePower::High)
-		{
-			pos.y += shakePower;
-			viewPos.y += shakePower;
-		}
 		//ˆÊ’uXV
 		SetCameraPositionAndTarget_UpVecY(pos.ToDxLibVector(), viewPos.ToDxLibVector());
 	}

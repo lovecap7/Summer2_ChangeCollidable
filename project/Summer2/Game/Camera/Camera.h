@@ -8,6 +8,7 @@ enum class ShakePower : int
 	Low = 5,
 	Middle = 10,
 	High = 20,
+	Highest = 40,
 };
 
 class ActorManager;
