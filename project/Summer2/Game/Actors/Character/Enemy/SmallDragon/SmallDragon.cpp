@@ -16,6 +16,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 
 namespace
@@ -154,6 +155,8 @@ void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std
 	{
 		actorM->CreateItem(ItemType::AttackUp, m_rb->GetPos());
 	}
+	//死亡エフェクト
+	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
 }
 
 void SmallDragon::End()

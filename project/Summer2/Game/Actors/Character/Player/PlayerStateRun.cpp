@@ -28,7 +28,7 @@ namespace
 	//移動速度
 	constexpr float kMoveSpeed = 15.0f;//地上の移動速度
 	//アニメーション
-	const char* kAnim = "Player|Dash";
+	const char* kAnim = "Player|Run";
 }
 
 

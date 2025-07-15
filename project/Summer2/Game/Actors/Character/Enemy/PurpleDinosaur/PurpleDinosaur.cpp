@@ -14,6 +14,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 
 namespace
@@ -151,6 +152,8 @@ void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager, const 
 	{
 		actorM->CreateItem(ItemType::Heart, m_rb->GetPos());
 	}
+	//死亡エフェクト
+	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
 }
 
 void PurpleDinosaur::End()

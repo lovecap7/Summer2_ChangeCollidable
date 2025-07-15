@@ -15,6 +15,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 #include "../../../Character/CharacterStateBase.h"
 
@@ -153,6 +154,8 @@ void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std:
 	if (!m_hitPoints->IsDead())return;//体力がなくなっていない場合は無視
 	//スコア加算
 	score.lock()->AddKillOrItemScore(ScoreDataName::kBossDragon);
+	//死亡エフェクト
+	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
 }
 
 void BossDragon::End()

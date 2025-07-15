@@ -191,6 +191,8 @@ void Player::Complete()
 
 void Player::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
+	//死亡エフェクト
+	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
 }
 
 void Player::End()

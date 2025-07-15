@@ -15,6 +15,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 
 namespace
@@ -150,12 +151,16 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 	auto actorM = actorManager.lock();
 	if (GetRand(1))
 	{
+		//必殺ゲージアップ
 		actorM->CreateItem(ItemType::UltGageUp, m_rb->GetPos());
 	}
 	else
 	{
+		//防御バフ
 		actorM->CreateItem(ItemType::DefenseUp, m_rb->GetPos());
 	}
+	//死亡エフェクト
+	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
 }
 
 void Bomber::End()
