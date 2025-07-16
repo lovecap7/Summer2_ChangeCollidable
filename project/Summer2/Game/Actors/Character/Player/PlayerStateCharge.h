@@ -1,6 +1,5 @@
 #pragma once
 #include "PlayerStateBase.h"
-#include "../../../../General/CSVDataLoader.h"
 class Actor;
 class Camera;
 class MyEffect;
@@ -17,12 +16,11 @@ private:
     //タメ時間
     int m_chargeFrame;
     //エフェクト
+    std::weak_ptr<MyEffect> m_legEff;
     std::weak_ptr<TrackActorEffect> m_levelEff;
     //チャージレベル毎のフレーム
     float m_chargeLevel2Frame;
     float m_chargeLevel3Frame;
-    //攻撃データ
-    AttackData m_attackData;
 };
 
 

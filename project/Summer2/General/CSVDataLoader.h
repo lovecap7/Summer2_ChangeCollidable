@@ -28,7 +28,6 @@ struct AttackData {
     Battle::AttackWeight        attackWeight;  //攻撃の重さ(これを基準に怯むかどうかを計算)
     int                         hitStopFrame;  //ヒットストップの長さ
     ShakePower                  shakePower;    //カメラの揺れ
-    int                         attackNum;     //攻撃回数
 };
 //スコアの情報を格納する構造体
 struct ScoreData {

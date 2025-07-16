@@ -106,8 +106,6 @@ std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV(const char* fileName)
 		else if (sp == "Middle")	attackData.shakePower = ShakePower::Middle;
 		else if (sp == "High")		attackData.shakePower = ShakePower::High;
 		else if (sp == "Highest")	attackData.shakePower = ShakePower::Highest;
-		//UŒ‚‰ñ”
-		attackData.attackNum = std::stoi(values[15]);
 		//”z—ñ‚É’Ç‰Á
 		attackDatas.emplace_back(attackData);
 	}

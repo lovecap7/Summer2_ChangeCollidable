@@ -37,7 +37,7 @@ namespace
 	//Œ¸‘¬—¦
 	constexpr float kMoveDeceRate = 0.8f;
 	//˜A‘±UŒ‚‚ÌÅ‘å”
-	constexpr int kMaxComboNum = 4;
+	constexpr int kMaxComboNum = 3;
 }
 
 PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager) :

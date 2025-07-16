@@ -20,34 +20,46 @@
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../../../Game/Camera/Camera.h"
-#include "../../Attack/Slash.h"
+#include "../../Attack/Strike.h"
 
 namespace
 {
-	//武器の座標と当たり判定の情報
-	//右手の薬指のインデックス
-	constexpr int kRightRingFingerIndex = 55;
-	constexpr int kRightIndexFingerIndex = 43;
-	//武器の長さ
-	constexpr float kSwordHeight = 150.0f;
+	//左足の根本と足先のインデックス
+	constexpr int kRootIndex = 60;
+	constexpr int kToeIndex = 64;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//エフェクトの削除を遅らせる
 	constexpr int kDeleteEffectDelayFrame = 20;
 }
 
-PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager, AttackData data)	:
+PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager, int chargeFrame)	:
 	PlayerStateBase(player),
-	m_attackCountFrame(0),
-	m_attackData(data)
+	m_attackCountFrame(0)
 {
+	//チャージフレームが持続フレームより大きいかを比較
+	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA1Name);
+	if (chargeFrame > m_attackData.keepFrame)
+	{
+		//2段階目
+		m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA2Name);
+		if (chargeFrame > m_attackData.keepFrame)
+		{
+			//3段階目
+			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA3Name);
+		}
+	}
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->SetCollState(CollisionState::Normal);
 	//チャージ攻撃
 	auto model = coll->GetModel();
-	model->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
+	model->SetAnim(m_attackData.anim.c_str(), true, m_attackData.animSpeed);
+	model->SetFixedLoopFrame(m_attackData.keepFrame);//指定ループ
 	//加算ゲージの予約
 	coll->GetUltGage().lock()->SetPendingUltGage(m_attackData.addUltGage);
+
+	//キックエフェクト
+	m_eff = EffekseerManager::GetInstance().CreateTrackActorEffect("CATornade", m_owner.lock());
 }
 
 PlayerStateCA::~PlayerStateCA()
@@ -55,6 +67,8 @@ PlayerStateCA::~PlayerStateCA()
 	//攻撃判定の削除
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
+	//エフェクトを数フレーム後削除
+	if (!m_eff.expired())m_eff.lock()->SpecificFrame(kDeleteEffectDelayFrame);
 }
 void PlayerStateCA::Init()
 {
@@ -74,7 +88,7 @@ void PlayerStateCA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 	}
 	//ボスの体力がなくなった場合またはアニメーションが終了したら
 	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
-		model->IsFinishAnim())
+		model->IsFinishFixedLoop())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
@@ -93,30 +107,28 @@ void PlayerStateCA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 		return;
 	}
 	++m_attackCountFrame;
-	//発生フレーム
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		//攻撃発生
 		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame,
 			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
 	}
-	//持続を攻撃回数で割った値に達したとき
-	if (m_attackCountFrame % (m_attackData.keepFrame / m_attackData.attackNum) == 0)
+	//アニメーションが一周するたびに攻撃判定のリセット
+	if (model->IsFinishAnim())
 	{
-		m_attack.lock()->ResetHitId();
+		if (!m_attack.expired())m_attack.lock()->ResetHitId();
 	}
 	//攻撃の位置更新
 	if (!m_attack.expired())
 	{
 		UpdateAttackPos();
 	}
-	//入力があるとき
 	auto& input = Input::GetInstance();
-	if (input.GetStickInfo().IsLeftStickInput() &&
-		m_attackCountFrame <= m_attackData.moveFrame)
+	//入力があるなら
+	if (input.GetStickInfo().IsLeftStickInput())
 	{
-		//移動フレーム中は前に進む
-		AttackMove(m_attackData.moveSpeed);
+		//移動
+		coll->GetRb()->SetMoveVec(GetForwardVec(camera) * m_attackData.moveSpeed);
 	}
 	else
 	{
@@ -127,9 +139,8 @@ void PlayerStateCA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 
 void PlayerStateCA::CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto owner = m_owner.lock();
 	//作成と参照
-	m_attack = std::dynamic_pointer_cast<Slash>(actorManager.lock()->CreateAttack(AttackType::Slash, m_owner).lock());
+	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
 	auto data = m_attackData;
@@ -142,37 +153,13 @@ void PlayerStateCA::CreateAttack(float radius, int damage, int keepFrame, float 
 
 void PlayerStateCA::UpdateAttackPos()
 {
+	//左足の状態を更新したら攻撃も更新される
 	auto model = m_owner.lock()->GetModel();
-	//武器
-	//右手の薬指と人差し指の座標から武器の座標を出す
-	VECTOR ringFinger = MV1GetFramePosition(model->GetModelHandle(), kRightRingFingerIndex);//薬指
-	VECTOR indexFinger = MV1GetFramePosition(model->GetModelHandle(), kRightIndexFingerIndex);//人差し指
-	//武器の矛先
-	VECTOR swordDir = VNorm(VSub(indexFinger, ringFinger));
-	swordDir = VScale(swordDir, kSwordHeight);//武器の長さ
-	swordDir = VAdd(ringFinger, swordDir);//持ち手の座標に加算して剣先の座標を出す
-	if (!m_attack.expired())
-	{
-		//座標をセット
-		m_attack.lock()->SetStartPos(ringFinger);
-		m_attack.lock()->SetEndPos(swordDir);
-	}
-}
-
-void PlayerStateCA::AttackMove(float speed)
-{
-	//ターゲットを索敵してるなら(ターゲットのほうを向く)
-	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	auto targetData = coll->GetTargetData();
-	//向き
-	Vector3 dir = coll->GetStickVec().XZ();
-	//ターゲットが発見できた時
-	if (targetData.isHitTarget)
-	{
-		dir = targetData.targetDirXZ;
-	}
-	//向きの更新
-	coll->GetModel()->SetDir(dir.XZ());
-	//向いてる方向に移動
-	coll->GetRb()->SetMoveVec(coll->GetModel()->GetDir() * speed);
+	//左足
+	//付け根と足先
+	VECTOR root = MV1GetFramePosition(model->GetModelHandle(), kRootIndex);//付け根
+	VECTOR toe = MV1GetFramePosition(model->GetModelHandle(), kToeIndex);//足先
+	//座標をセット
+	m_attack.lock()->SetStartPos(root);
+	m_attack.lock()->SetEndPos(toe);
 }
