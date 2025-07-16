@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerStateBase.h"
+#include "../../../../General/CSVDataLoader.h"
 class Actor;
 class Camera;
 class MyEffect;
@@ -21,6 +22,8 @@ private:
     //チャージレベル毎のフレーム
     float m_chargeLevel2Frame;
     float m_chargeLevel3Frame;
+    //攻撃データ
+    AttackData m_attackData;
 };
 
 

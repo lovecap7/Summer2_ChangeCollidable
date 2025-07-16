@@ -40,6 +40,8 @@ namespace
 	constexpr float kSearchAngle = 60.0f * MyMath::DEG_2_RAD;
 	//ダッシュ持続状態解除
 	constexpr int kCancelRunFrame = 5;
+	//モデルの旋回速度
+	constexpr int kRotaSpeed = 5;
 }
 
 Player::Player(int modelHandle, Position3 firstPos) :
@@ -59,6 +61,7 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	cap->SetRadius(kCapsuleRadius);
 	//モデル
 	m_model = std::make_shared<Model>(modelHandle, firstPos.ToDxLibVector());
+	m_model->SetRotSpeed(kRotaSpeed);
 	//必殺技ゲージ
 	m_ultGage = std::make_shared<UltGage>(kMaxUltGage);
 	//体力ステータス

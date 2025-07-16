@@ -16,6 +16,8 @@ public:
 	void SetPos(Vector3 pos);		//座標
 	void SetRot(Vector3 rot);		//回転
 	void SetScale(Vector3 scale);	//拡大
+	void LookAt(Vector3 dir);		//向きたい方向
+
 	//指定フレーム再生
 	void SpecificFrame(int frame);
 protected:
@@ -34,5 +36,7 @@ protected:
 	//指定フレーム後に削除
 	int m_specificFrame;
 	bool m_isSpecificFrame;
+	//エフェクトの向き(Z方向)
+	Vector3 m_dir;
 };
 

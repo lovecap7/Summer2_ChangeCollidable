@@ -13,7 +13,8 @@ MyEffect::MyEffect(int playHandle, Vector3 pos):
 	m_playSpeed(1.0f),
 	m_isDelete(false),
 	m_specificFrame(0),
-	m_isSpecificFrame(false)
+	m_isSpecificFrame(false),
+	m_dir{0.0f,0.0f,-1.0f}
 {
 	SetPos(m_pos);
 	SetRot(m_rot);
@@ -84,6 +85,7 @@ void MyEffect::SetPos(Vector3 pos)
 void MyEffect::SetRot(Vector3 rot)
 {
 	m_rot = rot;
+	//‚¨‚»‚ç‚­‘Š‘Î‚Å‚Í‚È‚­â‘Î
 	SetRotationPlayingEffekseer3DEffect(m_playHandle,
 		m_rot.x, m_rot.y, m_rot.z);
 }
@@ -93,6 +95,27 @@ void MyEffect::SetScale(Vector3 scale)
 	m_scale = scale;
 	SetScalePlayingEffekseer3DEffect(m_playHandle,
 		m_scale.x, m_scale.y, m_scale.z);
+}
+
+void MyEffect::LookAt(Vector3 dir)
+{
+	auto nextDir = dir;
+	//³‹K‰»
+	if (nextDir.SqMagnitude() > 0.0f)
+	{
+		nextDir = nextDir.Normalize();
+	}
+	//YŠp“x
+	float yRad = Vector2::GetRad(m_dir.XZ(), nextDir.XZ());
+	//ŠOÏ‚©‚ç‰ñ“]•ûŒü‚ðŒvŽZ
+	float cross = m_dir.XZ().Cross(nextDir.XZ());
+	if (cross > 0)
+	{
+		yRad *= -1;
+	}
+	//Šp“x‚ðƒZƒbƒg
+	Vector3 rot = { 0.0f,yRad,0.0f};
+	SetRot(rot);
 }
 
 void MyEffect::SpecificFrame(int frame)

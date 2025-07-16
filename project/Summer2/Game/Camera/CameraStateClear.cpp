@@ -25,14 +25,14 @@ namespace
 	constexpr float kOffsetClearStartCameraPosY = 50.0f;
 	constexpr float kOffsetClearStartCameraPosZ = -500.0f;
 	//回転終了後のアップ
-	constexpr float kOffsetClearEndCameraPosY = 30.0f;
-	constexpr float kOffsetClearEndCameraPosZ = -90.0f;
+	constexpr float kOffsetClearEndCameraPosY = 150.0f;
+	constexpr float kOffsetClearEndCameraPosZ = -200.0f;
 	//クリア時のターゲットへの注視点オフセット
 	constexpr float kOffsetClearStartViewPosY = 100.0f;
-	constexpr float kOffsetClearEndViewPosY = 50.0f;
+	constexpr float kOffsetClearEndViewPosY = 100.0f;
 
 	//クリア時に回転するフレーム
-	constexpr int kClearRotaFrame = 300;
+	constexpr int kClearRotaFrame = 400;
 }
 CameraStateClear::CameraStateClear(std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager):
 	CameraStateBase(camera),

@@ -62,6 +62,18 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Vector2 XZ();
+
+	/// <summary>
+	/// ZY‚Ì¬•ª‚ðŽ‚Â‚×‚­‚Q‚ð•Ô‚·
+	/// </summary>
+	/// <returns></returns>
+	Vector2 ZY();
+
+	/// <summary>
+	/// XY‚Ì¬•ª‚ðŽ‚Â‚×‚­‚Q‚ð•Ô‚·
+	/// </summary>
+	/// <returns></returns>
+	Vector2 XY();
 	
 	/// <summary>
 	/// Slerp(‹…–ÊüŒ`•âŠÔ)‚ðs‚¢‚Ü‚·B

@@ -58,6 +58,8 @@ PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player, const std::wea
 	m_chargeLevel3Frame = level3.keepFrame;
 	//アーマーを一つ上げる
 	std::dynamic_pointer_cast<Player>(m_owner.lock())->GetHitPoints().lock()->AddArmor(1);
+	//1段階目
+	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA1Name);
 }
 
 PlayerStateCharge::~PlayerStateCharge()
@@ -126,12 +128,14 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 		//2段階目
 		if (m_chargeFrame == m_chargeLevel2Frame)
 		{
+			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA2Name);
 			m_levelEff.lock()->Delete();
 			m_levelEff = EffekseerManager::GetInstance().CreateTrackActorEffect(std::string("ChargeLevel2Eff"), m_owner);
 		}
 		//3段階目
 		else if(m_chargeFrame == m_chargeLevel3Frame)
 		{
+			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA3Name);
 			m_levelEff.lock()->Delete();
 			m_levelEff = EffekseerManager::GetInstance().CreateTrackActorEffect(std::string("ChargeLevel3Eff"), m_owner);
 		}
@@ -139,7 +143,7 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 	//ボタンを離す
 	else
 	{
-		ChangeState(std::make_shared<PlayerStateCA>(m_owner, actorManager, m_chargeFrame));
+		ChangeState(std::make_shared<PlayerStateCA>(m_owner, actorManager, m_attackData));
 		return;
 	}
 }

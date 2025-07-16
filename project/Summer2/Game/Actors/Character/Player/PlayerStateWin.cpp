@@ -12,7 +12,7 @@
 namespace
 {
 	//アニメーション
-	const char* kAnim = "Player|Win";
+	const char* kAnim = "Player|Dance";
 	//減速率
 	constexpr float kMoveDeceRate = 0.95f;
 }

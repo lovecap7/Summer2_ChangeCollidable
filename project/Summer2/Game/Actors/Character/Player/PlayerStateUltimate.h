@@ -3,10 +3,10 @@
 #include "../../../../General/Battle.h"
 #include "../../../../General/CSVDataLoader.h"
 class Actor;
-class AreaOfEffectAttack;
+class Slash;
 class Camera;
 class ActorManager;
-class TrackActorEffect;
+class MyEffect;
 class PlayerStateUltimate :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateUltimate>
 {
@@ -21,11 +21,9 @@ private:
     //アニメーションの速度
     float m_animSpeed;
     //攻撃の参照
-    std::weak_ptr<AreaOfEffectAttack> m_attack;
+    std::weak_ptr<Slash> m_attack;
     //攻撃の作成
-    void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
-    //剣による攻撃の位置を更新する
-    void UpdateAttackPos();
+    void CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager);
     //攻撃データ
     AttackData m_attackData;
 };

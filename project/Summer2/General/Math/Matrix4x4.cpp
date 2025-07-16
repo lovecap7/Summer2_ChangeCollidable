@@ -221,4 +221,3 @@ Matrix4x4 Matrix4x4::LookAt(const Vector3& targetDir, const Vector3 up)
     //s—ñ‚ğ•Ô‚·
     return rM;
 }
-

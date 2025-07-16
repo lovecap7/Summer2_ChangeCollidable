@@ -33,11 +33,11 @@ namespace
 	//武器の長さ
 	constexpr float kSwordHeight = 150.0f;
 	//キャンセル
-	constexpr int kAttackCancelFrame = 20;
+	constexpr int kAttackCancelFrame = 15;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//連続攻撃の最大数
-	constexpr int kMaxComboNum = 3;
+	constexpr int kMaxComboNum = 4;
 }
 
 PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager) :
@@ -167,17 +167,17 @@ void PlayerStateNA::UpdateAttackPos()
 	VECTOR indexFinger = MV1GetFramePosition(model->GetModelHandle(), kRightIndexFingerIndex);//人差し指
 	//武器の矛先
 	VECTOR swordDir = VNorm(VSub(indexFinger, ringFinger));
-	swordDir = VScale(swordDir, kSwordHeight);//武器の長さ
-	swordDir = VAdd(ringFinger, swordDir);//持ち手の座標に加算して剣先の座標を出す
+	VECTOR swordTip = VAdd(ringFinger, VScale(swordDir, kSwordHeight));//持ち手の座標に加算して剣先の座標を出す
 	if (!m_attack.expired())
 	{
 		//座標をセット
 		m_attack.lock()->SetStartPos(ringFinger);
-		m_attack.lock()->SetEndPos(swordDir);
+		m_attack.lock()->SetEndPos(swordTip);
 		if (!m_eff.expired())
 		{
+			auto eff = m_eff.lock();
 			//エフェクトの位置更新
-			m_eff.lock()->SetPos(((Vector3(ringFinger) + swordDir) / 2.0f));
+			eff->SetPos(((Vector3(ringFinger) + swordTip) / 2.0f));
 		}
 	}
 }
@@ -202,6 +202,7 @@ void PlayerStateNA::AttackMove(float speed)
 void PlayerStateNA::InitAttackData(const std::weak_ptr<ActorManager> actorManager)
 {
 	std::string attackName;
+	//攻撃の段階に合わせて攻撃の初期化
 	switch (m_comboNum)
 	{
 	case 1:
@@ -210,17 +211,20 @@ void PlayerStateNA::InitAttackData(const std::weak_ptr<ActorManager> actorManage
 	case 2:
 		attackName = kNA2Name;
 		break;
-	case kMaxComboNum:
+	case 3:
 		attackName = kNA3Name;
+		break;
+	case kMaxComboNum:
+		attackName = kNA4Name;
 		break;
 	default:
 		break;
 	}
 	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, attackName);
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//通常攻撃1
+	//通常攻撃
 	coll->SetCollState(CollisionState::Move);
-	//攻撃1
+	//攻撃
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//加算ゲージの予約
 	coll->GetUltGage().lock()->SetPendingUltGage(m_attackData.addUltGage);

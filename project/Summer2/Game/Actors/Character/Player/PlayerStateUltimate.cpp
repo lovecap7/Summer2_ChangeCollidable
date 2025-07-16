@@ -15,12 +15,18 @@
 #include "../../../../General/Animator.h"
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Effect/EffekseerManager.h"
-#include "../../../../General/Effect/TrackActorEffect.h"
-#include "../../Attack/AreaOfEffectAttack.h"
+#include "../../../../General/Effect/MyEffect.h"
+#include "../../Attack/Slash.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
 {
+	//武器の座標と当たり判定の情報
+	//右手の薬指のインデックス
+	constexpr int kRightRingFingerIndex = 55;
+	constexpr int kRightIndexFingerIndex = 43;
+	//武器の長さ
+	constexpr float kSwordHeight = 1000.0f;
 	//攻撃判定をリセットする頻度
 	constexpr int kUltResetFrame = 10;
 	//アニメーションの速度の変化量
@@ -42,8 +48,7 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	coll->SetCollState(CollisionState::Normal);
 	auto model = coll->GetModel();
 	m_animSpeed = m_attackData.animSpeed;
-	model->SetAnim(m_attackData.anim.c_str(), true, m_animSpeed);
-	model->SetFixedLoopFrame(m_attackData.keepFrame);//指定ループ
+	model->SetAnim(m_attackData.anim.c_str(), false, m_animSpeed);
 	//向きの更新
 	Vector2 dir = coll->GetStickVec();
 	model->SetDir(dir);
@@ -52,8 +57,6 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	coll->GetUltGage().lock()->SetPendingUltGage(0);
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
-	//攻撃発生
-	CreateAttack(actorManager);
 }
 
 
@@ -70,8 +73,6 @@ void PlayerStateUltimate::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
-	//必殺エフェクト
-	EffekseerManager::GetInstance().CreateTrackActorEffect("UltEff", m_owner);
 }
 
 void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
@@ -79,8 +80,6 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::
 	++m_animCountFrame;
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
-	//回転
-	model->SetRot(VGet(0.0f, m_animCountFrame, 0.0f));
 	//ボスが完全に消滅したとき
 	if (actorManager.lock()->GetBoss().expired())
 	{
@@ -89,59 +88,51 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::
 	}
 	//ボスの体力がなくなった場合またはアニメーションが終了したら
 	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
-		model->IsFinishFixedLoop())
+		model->IsFinishAnim())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
+	}
+	//攻撃発生フレーム
+	if (m_animCountFrame == m_attackData.startFrame)
+	{
+		//攻撃作成
+		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame,
+			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
 	}
 	//攻撃判定をリセット
 	if (m_animCountFrame % kUltResetFrame == 0)
 	{
 		if (!m_attack.expired())m_attack.lock()->ResetHitId();
 	}
-	//アニメーションが一周するたびに再生速度を上げる
-	if (model->IsFinishAnim())
-	{
-		//アニメーションの速度を速くしていく
-		if (m_animSpeed < kMaxAnimSpeed)
-		{
-			m_animSpeed += kAddAnimSpeed;
-			model->SetAnimSpeed(m_animSpeed);
-		}
-	}
-	//攻撃の位置更新
-	if (!m_attack.expired())UpdateAttackPos();
-	auto& input = Input::GetInstance();
-	//入力があるなら
-	if (input.GetStickInfo().IsLeftStickInput())
-	{
-		//移動
-		coll->GetRb()->SetMoveVec(GetForwardVec(camera) * m_attackData.moveSpeed);
-	}
-	else
-	{
-		//少しずつ減速する
-		coll->GetRb()->SpeedDown(kMoveDeceRate);
-	}
+	//少しずつ減速する
+	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
 
-void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateUltimate::CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager)
 {
+	auto owner = m_owner.lock();
 	//作成と参照
-	m_attack = std::dynamic_pointer_cast<AreaOfEffectAttack>(actorManager.lock()->CreateAttack(AttackType::AreaOfEffect, m_owner).lock());
+	auto attack = std::dynamic_pointer_cast<Slash>(actorManager.lock()->CreateAttack(AttackType::Slash, m_owner).lock());
 	//攻撃を作成
-	auto attack = m_attack.lock();
 	auto data = m_attackData;
 	//大きさ
 	attack->SetRadius(data.radius);
 	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
 	attack->AttackSetting(data.damege, data.keepFrame,
 		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
+
+	//攻撃の位置
+	Vector3 startPos = owner->GetPos();
+	Vector3 endPos = owner->GetPos() + (owner->GetModel()->GetDir() * kSwordHeight);
+	//座標をセット
+	m_attack.lock()->SetStartPos(startPos);
+	m_attack.lock()->SetEndPos(endPos);
+	//エフェクトの位置
+	//必殺エフェクト
+	auto eff = EffekseerManager::GetInstance().CreateEffect("UltLaserEff", m_owner.lock()->GetPos());
+	eff.lock()->SetPos(startPos);
+	eff.lock()->LookAt(owner->GetModel()->GetDir());
 }
 
-void PlayerStateUltimate::UpdateAttackPos()
-{
-	auto coll = m_owner.lock();
-	m_attack.lock()->SetPos(coll->GetPos());
-}

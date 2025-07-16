@@ -95,6 +95,22 @@ Vector2 Vector3::XZ()
     return rV;
 }
 
+Vector2 Vector3::ZY()
+{
+    Vector2 rV;
+    rV.x = this->z;
+    rV.y = this->y;
+    return rV;
+}
+
+Vector2 Vector3::XY()
+{
+    Vector2 rV;
+    rV.x = this->x;
+    rV.y = this->y;
+    return rV;
+}
+
 Vector3 Vector3::operator+(const Vector3& right) const
 {
     Vector3 ans;

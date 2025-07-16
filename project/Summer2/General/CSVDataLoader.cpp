@@ -7,7 +7,7 @@ namespace
 	//名前、座標XYZ、回転XYZ、大きさXYZ　で合計10
 	constexpr int kTransformElementNum = 10;
 	//攻撃のデータ数
-	constexpr int kAttackDataElementNum = 13;
+	constexpr int kAttackDataElementNum = 16;
 	//スコアデータの数
 	constexpr int kScoreDataElementNum = 2;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
@@ -106,6 +106,8 @@ std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV(const char* fileName)
 		else if (sp == "Middle")	attackData.shakePower = ShakePower::Middle;
 		else if (sp == "High")		attackData.shakePower = ShakePower::High;
 		else if (sp == "Highest")	attackData.shakePower = ShakePower::Highest;
+		//攻撃回数
+		attackData.attackNum = std::stoi(values[15]);
 		//配列に追加
 		attackDatas.emplace_back(attackData);
 	}
