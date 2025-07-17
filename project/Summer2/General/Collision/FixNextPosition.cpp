@@ -141,7 +141,7 @@ void FixNextPosition::FixNextPosSP(const std::shared_ptr<Collidable> collA, cons
 	auto rbB = collB->m_rb;
 	
 	//当たったポリゴンの情報
-	auto hitDim = collDataB->GetHitDim();
+	auto& hitDim = collDataB->GetHitDim();
 
 	//お互い動かないオブジェクトなら衝突しない(ポリゴンはスタティックなので片方がスタティックなら)
 	if (collA->m_priority == Priority::Static)
@@ -286,7 +286,7 @@ void FixNextPosition::FixNextPosCP(const std::shared_ptr<Collidable> collA, cons
 	auto rbB = collB->m_rb;
 
 	//当たったポリゴンの情報
-	auto hitDim = collDataB->GetHitDim();
+	auto& hitDim = collDataB->GetHitDim();
 	//お互い動かないオブジェクトなら衝突しない(ポリゴンはスタティックなので片方がスタティックなら)
 	if (collA->m_priority == Priority::Static)
 	{

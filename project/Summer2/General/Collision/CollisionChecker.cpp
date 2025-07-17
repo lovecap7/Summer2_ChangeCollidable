@@ -309,7 +309,7 @@ bool CollisionChecker::CheckCollSP(const std::shared_ptr<Collidable> collA, cons
 		rbA->GetNextPos().ToDxLibVector(),
 		collDataA->m_radius);
 	//一つも当たっていないならfalse
-	if (hitDim.HitNum <= 0)
+	if (hitDim.HitNum <= 0 || collA->m_isTrigger)
 	{
 		// 検出したプレイヤーの周囲のポリゴン情報を開放する
 		MV1CollResultPolyDimTerminate(hitDim);
@@ -340,13 +340,12 @@ bool CollisionChecker::CheckCollCP(const std::shared_ptr<Collidable> collA, cons
 		-1);
 
 	//当たっていないならfalse
-	if (hitDim.HitNum <= 0)
+	if (hitDim.HitNum <= 0 || collA->m_isTrigger)
 	{
 		// 検出したプレイヤーの周囲のポリゴン情報を開放する
 		MV1CollResultPolyDimTerminate(hitDim);
 		return false;
 	}
-
 	//当たり判定に使うので保存
 	collDataB->SetHitDim(hitDim);
 

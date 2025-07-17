@@ -23,6 +23,7 @@ MyEffect::MyEffect(int playHandle, Vector3 pos):
 
 MyEffect::~MyEffect()
 {
+	StopEffekseer3DEffect(m_playHandle);
 }
 
 void MyEffect::Update()

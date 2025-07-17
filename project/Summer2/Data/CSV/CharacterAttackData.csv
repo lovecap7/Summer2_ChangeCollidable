@@ -6,7 +6,7 @@ Player,NA4,190,13,20,15,Player|NA4,1.5,20,2,10,15,Middle,5,Middle,1
 Player,CA1,50,40,5,2,Player|CA,1,20,1,0,3,Middle,2,Low,4
 Player,CA2,60,80,5,2,Player|CA,1,25,1,0,5,Middle,2,Middle,10
 Player,CA3,60,100,5,2,Player|CA,1,25,1,0,8,Middle,2,Middle,20
-Player,ULT,100,150,110,15,Player|Ult,0.5,70,0,0,8,Heaviest,3,Middle,1
+Player,ULT,105,110,110,15,Player|Ult,0.5,100,0,0,8,Heaviest,5,Middle,1
 PurpleDinosaur,Punch,130,3,34,3,CharacterArmature|Weapon,0.3,20,0,5,10,Middle,5,Low,1
 SmallDragon,Shot,150,180,20,4,CharacterArmature|Headbutt,0.3,20,0,0,5,Middle,5,Low,1
 Bomber,Throw,0,0,40,0,CharacterArmature|Weapon,0.3,0,0,0,0,Middle,0,None,1

@@ -86,6 +86,10 @@ void Application::Run()
 		sceneController->Draw();
 		effect.Draw();
 
+#if _DEBUG
+		DrawFormatString(0, 500, 0xff0000, "FPS : %.2f", GetFPS());
+#endif
+
 		//‰æ–Ê‚ÌØ‚è‘Ö‚í‚è‚ğ‘Ò‚Â•K—v‚ª‚ ‚é
 		ScreenFlip();//1/60•bŒo‰ß‚·‚é‚Ü‚Å‘Ò‚Â
 

@@ -26,6 +26,8 @@ private:
     void CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager);
     //攻撃データ
     AttackData m_attackData;
+    //剣のエフェクト参照
+    std::weak_ptr<MyEffect> m_swordEff;
 };
 
 

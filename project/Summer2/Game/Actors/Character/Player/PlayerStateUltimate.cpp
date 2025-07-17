@@ -21,12 +21,10 @@
 
 namespace
 {
-	//武器の座標と当たり判定の情報
-	//右手の薬指のインデックス
-	constexpr int kRightRingFingerIndex = 55;
-	constexpr int kRightIndexFingerIndex = 43;
+	//武器の座標
+	constexpr int kRightHandIndex = 43;
 	//武器の長さ
-	constexpr float kSwordHeight = 1000.0f;
+	constexpr float kSwordHeight = 3000.0f;
 	//攻撃判定をリセットする頻度
 	constexpr int kUltResetFrame = 10;
 	//アニメーションの速度の変化量
@@ -57,6 +55,8 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	coll->GetUltGage().lock()->SetPendingUltGage(0);
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//剣のエフェクト
+	m_swordEff = EffekseerManager::GetInstance().CreateEffect("UltChargeSwordEff", m_owner.lock()->GetPos());
 }
 
 
@@ -94,6 +94,13 @@ void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
+	//剣のエフェクトの位置更新
+	if (!m_swordEff.expired())
+	{
+		VECTOR rightHand = MV1GetFramePosition(model->GetModelHandle(), kRightHandIndex);
+		m_swordEff.lock()->SetPos(rightHand);
+	}
+
 	//攻撃発生フレーム
 	if (m_animCountFrame == m_attackData.startFrame)
 	{

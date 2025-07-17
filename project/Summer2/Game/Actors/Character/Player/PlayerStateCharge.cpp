@@ -43,12 +43,8 @@ PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player, const std::wea
 	coll->SetCollState(CollisionState::Normal);
 	//チャージ
 	coll->GetModel()->SetAnim(kAnim, true);
-	//左足の状態を更新したら攻撃も更新される
-	auto model = m_owner.lock()->GetModel();
-	//左足
-	VECTOR leg = MV1GetFramePosition(model->GetModelHandle(), kLeftLegIndex);//付け根
 	//チャージエフェクト
-	m_legEff = EffekseerManager::GetInstance().CreateEffect(std::string("ChargeEff"), leg);
+	m_chargeEff = EffekseerManager::GetInstance().CreateEffect(std::string("ChargeEff"), coll->GetPos());
 	m_levelEff = EffekseerManager::GetInstance().CreateTrackActorEffect(std::string("ChargeLevel1Eff"), m_owner);
 	//どのレベルまで溜めているかをみてエフェクトを変える準備
 	//一つ下のレベルの持続フレームを超えたらレベルが上がる
@@ -56,17 +52,13 @@ PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player, const std::wea
 	auto level3 = actorManager.lock()->GetAttackData(kPlayerName, kCA2Name);
 	m_chargeLevel2Frame = level2.keepFrame;
 	m_chargeLevel3Frame = level3.keepFrame;
-	//アーマーを一つ上げる
-	std::dynamic_pointer_cast<Player>(m_owner.lock())->GetHitPoints().lock()->AddArmor(1);
 	//1段階目
 	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA1Name);
 }
 
 PlayerStateCharge::~PlayerStateCharge()
 {
-	//アーマーを一つ下げる
-	std::dynamic_pointer_cast<Player>(m_owner.lock())->GetHitPoints().lock()->AddArmor(-1);
-	m_legEff.lock()->Delete();
+	m_chargeEff.lock()->Delete();
 	//エフェクトを数フレーム後削除
 	m_levelEff.lock()->Delete();
 }
@@ -122,13 +114,13 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 	{
 		//タメ攻撃チャージ
 		++m_chargeFrame;
-		//左足エフェクト
-		VECTOR leg = MV1GetFramePosition(coll->GetModel()->GetModelHandle(), kLeftLegIndex);//付け根
-		m_legEff.lock()->SetPos(leg);
+		//チャージエフェクト
+		m_chargeEff.lock()->SetPos(coll->GetPos());
 		//2段階目
 		if (m_chargeFrame == m_chargeLevel2Frame)
 		{
 			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA2Name);
+			//段階ごとにエフェクトを変更
 			m_levelEff.lock()->Delete();
 			m_levelEff = EffekseerManager::GetInstance().CreateTrackActorEffect(std::string("ChargeLevel2Eff"), m_owner);
 		}
@@ -136,6 +128,7 @@ void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::we
 		else if(m_chargeFrame == m_chargeLevel3Frame)
 		{
 			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA3Name);
+			//段階ごとにエフェクトを変更
 			m_levelEff.lock()->Delete();
 			m_levelEff = EffekseerManager::GetInstance().CreateTrackActorEffect(std::string("ChargeLevel3Eff"), m_owner);
 		}

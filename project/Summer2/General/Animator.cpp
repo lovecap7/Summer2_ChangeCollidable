@@ -83,8 +83,10 @@ void Animator::SetAnim(const int& modelHandle, const int& anim, const bool& isLo
 
 void Animator::Replay()
 {
-	//¡‚Ìƒ‚[ƒVƒ‡ƒ“‚ğÅ‰‚©‚çÄ¶
-	m_animNow.m_animTimer = 0.0f;
+	//Å‰‚©‚çÄ¶
+	m_animNext.m_animTimer = 0.0f;
+	m_blendRate = 1.0f;
+	m_animNext.m_isFinishAnim = false;
 }
 
 void Animator::RemoveAnim(const int& modelHandle, Anim& anim)

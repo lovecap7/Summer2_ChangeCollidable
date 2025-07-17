@@ -116,7 +116,11 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["UltLaserEff"]), pos);
 	}
-
+	//必殺チャージエフェクト
+	else if (name == "UltChargeSwordEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["UltChargeSwordEff"]), pos);
+	}
 	Entry(effect);
 	return effect;
 }
@@ -174,11 +178,6 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["ChargeLevel3Eff"]), actor);
 	}
-	//必殺エフェクト
-	else if (name == "UltEff")
-	{
-		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["UltEff"]), actor);
-	}
 	//必殺ゲージMAXエフェクト
 	else if (name == "UltGageMaxEff")
 	{
@@ -215,7 +214,7 @@ void EffekseerManager::LoadHandle()
 	m_handles["SlashHitEff"] = { LoadEffekseerEffect("Data/Effects/SlashHitEffect.efkefc") };
 	m_handles["ImpactHitEff"] = { LoadEffekseerEffect("Data/Effects/ImpactHitEff.efkefc") };
 	m_handles["ExplosionEff"] = { LoadEffekseerEffect("Data/Effects/ExplosionEff.efkefc") };
-	m_handles["UltEff"] = { LoadEffekseerEffect("Data/Effects/UltEff.efkefc") };
+	m_handles["UltChargeSwordEff"] = { LoadEffekseerEffect("Data/Effects/UltChargeSwordEff.efkefc") };
 	m_handles["UltLaserEff"] = { LoadEffekseerEffect("Data/Effects/UltLaserEff.efkefc") };
 	m_handles["UltGageMaxEff"] = { LoadEffekseerEffect("Data/Effects/UltGageMaxEff.efkefc") };
 	m_handles["BulletEff"] = { LoadEffekseerEffect("Data/Effects/BulletEff.efkefc") };

@@ -17,7 +17,7 @@ private:
     //タメ時間
     int m_chargeFrame;
     //エフェクト
-    std::weak_ptr<MyEffect> m_legEff;
+    std::weak_ptr<MyEffect> m_chargeEff;
     std::weak_ptr<TrackActorEffect> m_levelEff;
     //チャージレベル毎のフレーム
     float m_chargeLevel2Frame;
