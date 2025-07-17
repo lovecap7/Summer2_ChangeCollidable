@@ -127,8 +127,9 @@ void PlayerStateUltimate::CreateAttack(float radius, int damage, int keepFrame, 
 	Vector3 startPos = owner->GetPos();
 	Vector3 endPos = owner->GetPos() + (owner->GetModel()->GetDir() * kSwordHeight);
 	//座標をセット
-	m_attack.lock()->SetStartPos(startPos);
-	m_attack.lock()->SetEndPos(endPos);
+	attack->SetStartPos(startPos);
+	attack->SetEndPos(endPos);
+	m_attack = attack;
 	//エフェクトの位置
 	//必殺エフェクト
 	auto eff = EffekseerManager::GetInstance().CreateEffect("UltLaserEff", m_owner.lock()->GetPos());

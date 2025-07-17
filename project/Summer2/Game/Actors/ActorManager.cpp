@@ -86,7 +86,7 @@ void ActorManager::Exit(std::shared_ptr<Actor> actor)
 	auto it = std::find(m_actors.begin(), m_actors.end(), actor);
 	if (it == m_actors.end())return;
 	actor->End();
-	m_actors.remove(actor);
+	m_actors.erase(it);
 }
 
 

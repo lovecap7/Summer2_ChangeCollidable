@@ -21,27 +21,19 @@ void Physics::Init()
 
 void Physics::Entry(std::shared_ptr<Collidable> collidable)
 {
-	// “o˜^
-	bool found = (std::find(m_collidables.begin(), m_collidables.end(), collidable) != m_collidables.end());
-	if (!found)
-	{
-		m_collidables.emplace_back(collidable);
-	}
-	// Šù‚É“o˜^‚³‚ê‚Ä‚½‚çƒGƒ‰[
-	else
-	{
-		assert(0 && "w’è‚Ìcollidable‚Í“o˜^Ï‚Å‚·B");
-	}
+	//‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é‚È‚ç‚µ‚È‚¢
+	auto it = std::find(m_collidables.begin(), m_collidables.end(), collidable);
+	if (it != m_collidables.end())return;
+	//ƒRƒ‰ƒCƒ_[‚Ì’Ç‰Á
+	m_collidables.emplace_back(collidable);
 }
 
 void Physics::Exit(std::shared_ptr<Collidable> collidable)
 {
-	// “o˜^‰ğœ
-	bool found = (std::find(m_collidables.begin(), m_collidables.end(), collidable) != m_collidables.end());
-	if (found)
-	{
-		m_collidables.remove(collidable);
-	}
+	//“o˜^‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç‚µ‚È‚¢
+	auto it = std::find(m_collidables.begin(), m_collidables.end(), collidable);
+	if (it == m_collidables.end())return;
+	m_collidables.erase(it);
 }
 
 void Physics::Update()
