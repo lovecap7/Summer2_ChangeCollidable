@@ -28,5 +28,9 @@ public:
 	/// 終了処理
 	/// </summary>
 	virtual void End() abstract;
+	/// <summary>
+	/// 再スタート処理
+	/// </summary>
+	virtual void Restart() abstract;
 };
 

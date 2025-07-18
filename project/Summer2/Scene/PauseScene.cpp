@@ -45,6 +45,10 @@ void PauseScene::End()
 	Physics::GetInstance().StartUpdate();
 }
 
+void PauseScene::Restart()
+{
+}
+
 void PauseScene::AppearUpdate()
 {
 	++m_countFrame;

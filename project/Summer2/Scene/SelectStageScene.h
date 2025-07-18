@@ -18,6 +18,7 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void End() override;
+    virtual void Restart() override;
 private:
 };
 

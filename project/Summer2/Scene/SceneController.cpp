@@ -1,7 +1,6 @@
 #include "SceneController.h"
 #include <memory>
 #include<cassert>
-//継承元の関数も認識してくれる
 #include "TitleScene.h"
 #if _DEBUG
 #include "DebugScene.h"
@@ -77,4 +76,16 @@ void SceneController::PopScene()
 	if (m_scenes.size() == 1)return;
 	m_scenes.back()->End();	//終了処理
 	m_scenes.pop_back();	//末尾を取り除く
+}
+
+void SceneController::RestartBaseScene()
+{
+	//再スタート
+	m_scenes.front()->Restart();
+}
+
+void SceneController::UpdateBaseScene()
+{
+	//更新処理
+	m_scenes.front()->Update();
 }

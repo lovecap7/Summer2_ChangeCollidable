@@ -9,6 +9,8 @@ class Score
 public:
 	Score();
 	~Score();
+	//‰Šú‰»
+	void Init();
 	//ƒXƒRƒA
 	int GetScore();
 	int GetTimeScore()	{ return m_timeScore; };

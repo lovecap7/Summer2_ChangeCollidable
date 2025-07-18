@@ -28,7 +28,7 @@ namespace
 	//プレイヤーを発見する距離
 	constexpr float kSearchDistance = 900.0f;
 	//プレイヤーを発見する視野角
-	constexpr float kSearchAngle = 180.0f * MyMath::DEG_2_RAD;
+	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
 	//体力バー表示位置
 	constexpr float kHPBarY = 30.0f;
 	//モデルの旋回速度

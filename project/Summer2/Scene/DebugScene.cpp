@@ -2,8 +2,6 @@
 #include "TitleScene.h"
 #include "SelectStageScene.h"
 #include "StageScene.h"
-#include "ResultScene.h"
-#include "TestCollScene.h"
 #include <DxLib.h>
 #include  "../General/Input.h"
 #include "SceneController.h"
@@ -73,16 +71,6 @@ void DebugScene::Update()
 			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
 			return;
 			break;
-		case 5:
-			//次のシーンへ
-			m_controller.ChangeScene(std::make_shared<ResultScene>(m_controller));
-			return;
-			break;
-		case 6:
-			//次のシーンへ
-			m_controller.ChangeScene(std::make_shared<TestCollScene>(m_controller));
-			return;
-			break;
 		default:
 			break;
 		}
@@ -99,8 +87,6 @@ void DebugScene::Draw()
 	DrawString(100, 90, "Stage1 Scene", 0xffffff);
 	DrawString(100, 110, "Staeg2 Scene", 0xffffff);
 	DrawString(100, 130, "Stage3 Scene", 0xffffff);
-	DrawString(100, 150, "Result Scene", 0xffffff);
-	DrawString(100, 180, "TestCollt Scene", 0xffffff);
 	switch (m_selectSceneIndex)
 	{
 	case 0:
@@ -118,17 +104,15 @@ void DebugScene::Draw()
 	case 4:
 		DrawString(100, 130, "Stage3 Scene", 0xff0000);
 		break;
-	case 5:
-		DrawString(100, 150, "Result Scene", 0xff0000);
-		break;
-	case 6:
-		DrawString(100, 180, "TestCollt Scene", 0xff0000);
-		break;
 	default:
 		break;
 	}
 }
 
 void DebugScene::End()
+{
+}
+
+void DebugScene::Restart()
 {
 }

@@ -43,7 +43,19 @@ public:
 	/// </summary>
 	/// <param name=""></param>
 	void PopScene();
-
+	/// <summary>
+	/// 最初に入れたシーンをもう一度初期の状態に戻す
+	/// </summary>
+	void RestartBaseScene();
+	/// <summary>
+	/// 最初に入れたシーンの更新
+	/// </summary>
+	void UpdateBaseScene();
+	/// <summary>
+	/// ロードシーンの準備
+	/// </summary>
+	/// <param name="scene"></param>
+	void LoadAndChangeScene(std::shared_ptr<SceneBase> scene);
 private:
 	using SceneStack_t = std::list<std::shared_ptr<SceneBase>>;//シーンをスタック構造にするための型
 	SceneStack_t m_scenes;//現在実行中のシーン(中が何かは知らない)

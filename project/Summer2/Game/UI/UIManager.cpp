@@ -52,6 +52,11 @@ void UIManager::End()
 	m_uis.clear();
 }
 
+void UIManager::Restart()
+{
+	End();
+}
+
 void UIManager::AddUI(std::shared_ptr<UIBase> ui)
 {
 	//‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é‚È‚ç‚µ‚È‚¢

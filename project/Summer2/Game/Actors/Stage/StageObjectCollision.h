@@ -23,6 +23,8 @@ public:
     void Complete() override;
     void Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score) override {};
     void End()override;
+    //‚·‚è”²‚¯‚é‚©
+    void SetIsThrough(bool isThrough);
 private:
     int m_collisionHandle;
 };

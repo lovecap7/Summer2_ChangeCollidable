@@ -46,6 +46,10 @@ void GameClearScene::End()
 	Physics::GetInstance().StartUpdate();
 }
 
+void GameClearScene::Restart()
+{
+}
+
 void GameClearScene::AppearUpdate()
 {
 	++m_countFrame;

@@ -16,6 +16,8 @@ public:
 	void Update(const std::weak_ptr<ActorManager> actorManager);
 	void Draw()const;
 	void End();
+	//再スタート
+	void Restart();
 	//プレイヤー関連のUI作成
 	void CreatePlayerUI(const std::weak_ptr<Player> player);
 	//ボスUI

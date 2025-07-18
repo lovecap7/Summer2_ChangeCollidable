@@ -14,6 +14,7 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void End() override;
+    virtual void Restart() override;
 private:
     //ó‘Ô‘JˆÚ
     using UpdateFunc_t = void(GameClearScene::*)();

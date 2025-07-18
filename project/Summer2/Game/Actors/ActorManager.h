@@ -49,20 +49,22 @@ class CharacterBase;
 class ActorManager : public std::enable_shared_from_this<ActorManager>
 {
 public:
-	ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera);
+	ActorManager(std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera);
 	~ActorManager();
 	//登録
 	void Entry(std::shared_ptr<Actor> actor);
 	//解除
 	void Exit(std::shared_ptr<Actor> actor);
 	//初期化
-	void Init();
+	void Init(Stage::StageIndex index);
 	//更新
 	void Update(const std::weak_ptr<Score> score);
 	//描画
 	void Draw() const;
 	//終了処理
 	void End();
+	//リスタート
+	void Restart(Stage::StageIndex index);
 
 	//追加予定のアクターを追加
 	void AddNextActor(std::shared_ptr<Actor> actor);
@@ -105,6 +107,10 @@ private:
 	void LoadHandle();
 	//ステージの準備
 	void LoadStage(Stage::StageIndex index);
+	//アクターをすべて削除
+	void AllDeleteActors();
+	//すべてハンドルを削除
+	void AllDeleteHandles();
 private:
 	//アクター
 	std::list<std::shared_ptr<Actor>> m_actors;

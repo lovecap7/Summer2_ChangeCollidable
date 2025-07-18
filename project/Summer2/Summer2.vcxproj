@@ -142,12 +142,10 @@
     <ClCompile Include="Scene\GameClearScene.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
     <ClCompile Include="Scene\PauseScene.cpp" />
-    <ClCompile Include="Scene\ResultScene.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneController.cpp" />
     <ClCompile Include="Scene\SelectStageScene.cpp" />
     <ClCompile Include="Scene\StageScene.cpp" />
-    <ClCompile Include="Scene\TestCollScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -276,12 +274,10 @@
     <ClInclude Include="Scene\GameClearScene.h" />
     <ClInclude Include="Scene\GameoverScene.h" />
     <ClInclude Include="Scene\PauseScene.h" />
-    <ClInclude Include="Scene\ResultScene.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneController.h" />
     <ClInclude Include="Scene\SelectStageScene.h" />
     <ClInclude Include="Scene\StageScene.h" />
-    <ClInclude Include="Scene\TestCollScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>

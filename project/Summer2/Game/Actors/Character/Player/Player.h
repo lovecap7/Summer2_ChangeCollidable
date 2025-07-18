@@ -46,6 +46,8 @@ public:
 	void SetIsRunKeep(bool isRunKeep) { m_isRunKeep = isRunKeep; };
 	//ゲームクリアアニメーション終了
 	bool IsFinishClearAnim();
+	//ターゲットの索敵
+	virtual void TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos) override;
 private:
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;

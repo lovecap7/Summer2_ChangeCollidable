@@ -8,7 +8,6 @@
 
 namespace {
 	constexpr int kAppearInterval = 20;
-	constexpr int kFrameMargin = 10;//ゲーム画面からポーズ画面までの幅
 }
 
 GameoverScene::GameoverScene(SceneController& controller):
@@ -44,6 +43,10 @@ void GameoverScene::End()
 	Physics::GetInstance().StartUpdate();
 }
 
+void GameoverScene::Restart()
+{
+}
+
 void GameoverScene::AppearUpdate()
 {
 	++m_countFrame;
@@ -73,8 +76,8 @@ void GameoverScene::DisappearUpdate()
 	if (m_countFrame < 0)
 	{
 		m_countFrame = 0;
-		//自分の下になってるシーンを切り替える
-		m_controller.ChangeBaseScene(std::make_shared<StageScene>(m_controller));
+		//自分の下になってるシーンを初期化
+		m_controller.RestartBaseScene();
 		m_controller.PopScene();//自分は消える
 		return;
 	}

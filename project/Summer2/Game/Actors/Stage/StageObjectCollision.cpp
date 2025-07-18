@@ -80,3 +80,8 @@ void StageObjectCollision::End()
 	Collidable::End();
 	m_model->End();
 }
+
+void StageObjectCollision::SetIsThrough(bool isThrough)
+{
+	m_isThrough = isThrough;
+}

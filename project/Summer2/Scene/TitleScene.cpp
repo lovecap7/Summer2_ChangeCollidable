@@ -59,3 +59,7 @@ void TitleScene::Draw()
 void TitleScene::End()
 {
 }
+
+void TitleScene::Restart()
+{
+}

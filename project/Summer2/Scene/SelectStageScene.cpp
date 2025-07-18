@@ -42,18 +42,6 @@ void SelectStageScene::Update()
 		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
 		return;
 	}
-	if (input.IsTrigger("B"))
-	{
-		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
-		return;
-	}
-	if (input.IsTrigger("X"))
-	{
-		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
-		return;
-	}
 }
 
 void SelectStageScene::Draw()
@@ -68,5 +56,9 @@ void SelectStageScene::Draw()
 }
 
 void SelectStageScene::End()
+{
+}
+
+void SelectStageScene::Restart()
 {
 }

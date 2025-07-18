@@ -37,7 +37,7 @@ namespace
 	//索敵距離
 	constexpr float kSearchDistance = 200.0f;
 	//視野角
-	constexpr float kSearchAngle = 60.0f * MyMath::DEG_2_RAD;
+	constexpr float kSearchAngle = 120.0f * MyMath::DEG_2_RAD;
 	//ダッシュ持続状態解除
 	constexpr int kCancelRunFrame = 5;
 	//モデルの旋回速度
@@ -213,6 +213,34 @@ bool Player::IsFinishClearAnim()
 	}
 	//勝利状態の時にアニメーションが終了したらtrue
 	return m_model->IsFinishAnim();
+}
+
+void Player::TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos)
+{
+	//リセット
+	m_targetData.isHitTarget = false;
+	//距離を確認
+	auto toTarget = targetPos.XZ() - m_rb->GetPos().XZ();
+	//向き
+	auto dir = toTarget;
+	//入力があるなら
+	if (m_stickVec.Magnitude())
+	{
+		//入力との間のベクトルから索敵
+		dir = Vector2::Lerp(toTarget, m_stickVec, 0.1f);
+	}
+	if (dir.Magnitude() <= searchDistance)
+	{
+		//視野角内にターゲットがいるか
+		auto angle = abs(Vector2::GetRad(m_model->GetDir().XZ(), dir));
+		if (angle <= (searchAngle / 2.0f))
+		{
+			m_targetData.isHitTarget = true;
+			m_targetData.targetPos = targetPos;
+			m_targetData.targetDirXZ = dir.XZ().Normalize();
+			m_targetData.targetDis = dir.Magnitude();
+		}
+	}
 }
 
 void Player::CheckRunKeep()

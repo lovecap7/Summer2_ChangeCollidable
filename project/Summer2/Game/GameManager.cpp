@@ -24,7 +24,7 @@ namespace
 	constexpr float kShadowMapVerticalMax = 1000.0f;
 }
 
-GameManager::GameManager(Stage::StageIndex index):
+GameManager::GameManager():
 	m_isGameover(false),
 	m_isGameClear(false)
 {
@@ -33,13 +33,11 @@ GameManager::GameManager(Stage::StageIndex index):
 	//カメラの初期化
 	m_camera = std::make_shared<Camera>();
 	//アクターマネージャー
-	m_actorManager = std::make_shared<ActorManager>(index, m_uiManager, m_camera);
+	m_actorManager = std::make_shared<ActorManager>(m_uiManager, m_camera);
 	//スコア
 	m_score = std::make_shared<Score>();
-	m_uiManager->CreateScoreUI(m_score);
 	//タイマー
 	m_timer = std::make_shared<Timer>();
-	m_uiManager->CreateTimerUI(m_timer);
 	//シャドウマップの準備
 	InitShadow();
 }
@@ -48,12 +46,19 @@ GameManager::~GameManager()
 {
 }
 
-void GameManager::Init()
+void GameManager::Init(Stage::StageIndex index)
 {
+	//スコアの初期化
+	m_score->Init();
+	//タイマーの初期化
+	m_timer->Init();
+	//タイマーとスコアの準備
+	m_uiManager->CreateScoreUI(m_score);
+	m_uiManager->CreateTimerUI(m_timer);
 	//UIの初期化
 	m_uiManager->Init();
 	//アクターマネージャーの初期化
-	m_actorManager->Init();
+	m_actorManager->Init(index);
 	//カメラの初期化
 	m_camera->Init();
 }
@@ -145,6 +150,26 @@ void GameManager::End()
 	m_uiManager->End();
 	//シャドウマップの削除
 	DeleteShadowMap(m_shadowMapHandle);
+}
+
+void GameManager::Restart(Stage::StageIndex index)
+{
+	//スコアの初期化
+	m_score->Init();
+	//タイマーの初期化
+	m_timer->Init();
+	//UIマネージャーの再スタート
+	m_uiManager->Restart();
+	//タイマーとスコアの準備
+	m_uiManager->CreateScoreUI(m_score);
+	m_uiManager->CreateTimerUI(m_timer);
+	//アクターマネージャーの再スタート
+	m_actorManager->Restart(index);
+	//カメラの初期化
+	m_camera->Init();
+	//フラグリセット
+	m_isGameover = false;
+	m_isGameClear = false;
 }
 
 void GameManager::InitShadow()

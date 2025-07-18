@@ -31,6 +31,7 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void End() override;
+    virtual void Restart() override;
 private:
     //ゲームマネージャー
     std::unique_ptr<GameManager> m_gameManager;

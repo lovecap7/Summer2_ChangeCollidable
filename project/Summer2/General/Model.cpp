@@ -146,8 +146,9 @@ void Model::SetDir(Vector2 vec)
 	//Œü‚«‚ðŒvŽZ
 	Vector2 dir = vec;
 	dir = dir.Normalize();
-	//if (m_nextForward.XZ() == dir)return;//Œü‚«‚ª•Ï‚í‚ç‚È‚¢‚È‚ç
+	//Šp“x
 	float angle = Vector2::GetRad(m_forward.XZ(), dir);
+	//‰ñ“]Ž²
 	Vector3 axis = m_forward.Cross(dir.XZ());
 	if (axis.SqMagnitude() == 0.0f)
 	{

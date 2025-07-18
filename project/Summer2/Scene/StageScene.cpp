@@ -1,6 +1,5 @@
 #include "StageScene.h"
 #include "../Game/GameManager.h"
-#include "ResultScene.h"
 #include "DebugScene.h"
 #include "PauseScene.h"
 #include "GameoverScene.h"
@@ -24,7 +23,7 @@ StageScene::~StageScene()
 
 void StageScene::Init()
 {
-	m_gameManager->Init();
+	m_gameManager->Init(m_stageIndex);
 }
 
 void StageScene::Update()
@@ -69,4 +68,9 @@ void StageScene::Draw()
 void StageScene::End()
 {
 	m_gameManager->End();
+}
+
+void StageScene::Restart()
+{
+	m_gameManager->Restart(m_stageIndex);
 }

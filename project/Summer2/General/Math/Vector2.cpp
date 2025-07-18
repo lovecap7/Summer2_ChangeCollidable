@@ -148,3 +148,13 @@ Vector3 Vector2::XZ()
     rV.z = this->y;
     return rV;
 }
+
+Vector2 Vector2::Lerp(Vector2 v1, Vector2 v2, float t)
+{
+    //ê¸å`ï‚ä‘
+    if (t < 0.0f)t = 0.0f;
+    if (t > 1.0f)t = 1.0f;
+    Vector2 rV;
+    rV = v1 * (1.0f - t) + v2 * t;
+    return rV;
+}

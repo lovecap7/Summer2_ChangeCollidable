@@ -1,4 +1,5 @@
 #include "BossArea.h"
+#include "StageObjectCollision.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Enemy/EnemyBase.h"
@@ -35,6 +36,9 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::w
 	//範囲内なら
 	if (playerPos.x > startPos.x && playerPos.x < endPos.x)
 	{
+		//壁は閉ざす
+		std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(false);
+		std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(false);
 		//イベント開始情報をカメラに設定
 		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventArea>(shared_from_this()));
 		//イベントフラグ
@@ -46,6 +50,9 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::w
 		m_update = &BossArea::EventUpdate;
 		return;
 	}
+	//壁はすり抜ける
+	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(true);
+	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(true);
 }
 
 void BossArea::EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)

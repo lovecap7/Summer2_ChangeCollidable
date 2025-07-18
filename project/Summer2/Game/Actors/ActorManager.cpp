@@ -5,6 +5,7 @@
 #include "../UI/UIManager.h"
 #include "../GameRule/Score.h"
 #include "../../General/Collision/Physics.h"
+#include "../../General/HitPoints.h"
 #include <DxLib.h>
 #include <cassert>
 //配置データ
@@ -45,7 +46,7 @@ namespace
 	constexpr int kAreaPartsNum = 2;
 }
 
-ActorManager::ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera):
+ActorManager::ActorManager(std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera):
 	m_actorId(0),
 	m_uiManager(uiManager),
 	m_camera(camera),
@@ -55,8 +56,6 @@ ActorManager::ActorManager(Stage::StageIndex index,std::weak_ptr<UIManager> uiMa
 	m_csvLoader = std::unique_ptr<CSVDataLoader>();
 	//ハンドルロード
 	LoadHandle();
-	//ステージ情報をロード
-	LoadStage(index);
 	//攻撃の情報を作成
 	CreateAttackData();
 }
@@ -90,8 +89,10 @@ void ActorManager::Exit(std::shared_ptr<Actor> actor)
 }
 
 
-void ActorManager::Init()
+void ActorManager::Init(Stage::StageIndex index)
 {
+	//ステージ情報をロード
+	LoadStage(index);
 	//アクターを実装
 	CheckNextAddActors();
 }
@@ -138,30 +139,19 @@ void ActorManager::Draw() const
 void ActorManager::End()
 {
 	//メモリを解放
-	//アクターの終了処理
-	std::list<std::shared_ptr<Actor>> deleteActer;
-	for (auto& actor : m_actors)
-	{
-		deleteActer.emplace_back(actor);
-	}
-	for (auto& actor : deleteActer)
-	{
-		Exit(actor);
-	}
-	deleteActer.clear();
-	m_nextAddActors.clear();
-	m_player.reset();
-	m_boss.reset();
+	AllDeleteActors();
 	//ハンドルをすべて削除
-	for (auto& [key, value] : m_handles) {
-		if (value >= 0)
-		{
-			auto result = MV1DeleteModel(value);
-			assert(result == 0);
-		}
-	}
-	m_handles.clear();
+	AllDeleteHandles();
 }
+
+void ActorManager::Restart(Stage::StageIndex index)
+{
+	//メモリを解放
+	AllDeleteActors();
+	//再配置
+	Init(index);
+}
+
 
 //新規アクターの追加予定を受け取る(public)
 void ActorManager::AddNextActor(std::shared_ptr<Actor> actor)
@@ -299,6 +289,8 @@ std::weak_ptr<Actor> ActorManager::GetNearestEnemy() const
 	{
 		if (actor->GetGameTag() == GameTag::Enemy)
 		{
+			//死んでるならターゲット無視
+			if (std::dynamic_pointer_cast<EnemyBase>(actor)->GetHitPoints().lock()->IsDead())continue;
 			//プレイヤーに近い敵を探す
 			float dis = (m_player.lock()->GetPos() - actor->GetPos()).Magnitude();
 			if (dis < minDis)
@@ -405,6 +397,7 @@ void ActorManager::LoadHandle()
 	m_handles["UltGageUp"]		= { MV1LoadModel("Data/Model/Item/UltGageUp.mv1") };
 	m_handles["AttackUp"]		= { MV1LoadModel("Data/Model/Item/AttackUp.mv1") };
 	m_handles["DefenseUp"]		= { MV1LoadModel("Data/Model/Item/DefenseUp.mv1") };
+
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_handles) {
 		assert(value >= 0);
@@ -540,4 +533,34 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			bossAreaParts.clear();
 		}
 	}
+}
+
+void ActorManager::AllDeleteActors()
+{
+	//アクターの終了処理
+	std::list<std::shared_ptr<Actor>> deleteActer;
+	for (auto& actor : m_actors)
+	{
+		deleteActer.emplace_back(actor);
+	}
+	for (auto& actor : deleteActer)
+	{
+		Exit(actor);
+	}
+	deleteActer.clear();
+	m_nextAddActors.clear();
+	m_player.reset();
+	m_boss.reset();
+}
+
+void ActorManager::AllDeleteHandles()
+{
+	for (auto& [key, value] : m_handles) {
+		if (value >= 0)
+		{
+			auto result = MV1DeleteModel(value);
+			assert(result == 0);
+		}
+	}
+	m_handles.clear();
 }

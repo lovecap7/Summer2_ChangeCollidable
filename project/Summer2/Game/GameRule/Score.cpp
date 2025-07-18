@@ -2,18 +2,27 @@
 #include "../../General/Math/MathSub.h"
 #include "../../General/HitPoints.h"
 
-Score::Score():
-	m_nowScore(0),
-	m_timeScore(0),
-	m_killScore(0),
-	m_itemScore(0),
-	m_hpScore(0),
-	m_hpScoreData(0),
-	m_timeScoreData(0),
-	m_decTimeScoreData(0)
+Score::Score()
 {
+	//スコアデータ
 	m_csvLoader = std::make_unique<CSVDataLoader>();
 	m_scoreData = m_csvLoader->LoadScoreDataCSV("Data/CSV/ScoreData.csv");
+}
+
+Score::~Score()
+{
+}
+
+void Score::Init()
+{
+	m_nowScore = 0;
+	m_timeScore = 0;
+	m_killScore = 0;
+	m_itemScore = 0;
+	m_hpScore = 0;
+	m_hpScoreData = 0;
+	m_timeScoreData = 0;
+	m_decTimeScoreData = 0;
 	//データに一致するものを探す
 	for (auto data : m_scoreData)
 	{
@@ -30,10 +39,6 @@ Score::Score():
 			m_decTimeScoreData = data.score;
 		}
 	}
-}
-
-Score::~Score()
-{
 }
 
 int Score::GetScore()

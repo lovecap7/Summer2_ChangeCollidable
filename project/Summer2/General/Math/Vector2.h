@@ -55,6 +55,9 @@ public:
 	static float GetRad(Vector2 vec1, Vector2 vec2);
 
 	Vector3 XZ();
+
+	//線形補間
+	static Vector2 Lerp(Vector2 v1, Vector2 v2, float t);
 };
 
 //座標で表すときに使う

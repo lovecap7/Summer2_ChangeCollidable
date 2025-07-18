@@ -11,12 +11,14 @@ class Timer;
 class GameManager
 {
 public:
-    GameManager(Stage::StageIndex index = Stage::StageIndex::Stage1);
+    GameManager();
     ~GameManager();
-    void Init();
+    void Init(Stage::StageIndex index = Stage::StageIndex::Stage1);
     void Update();
     void Draw()const;
     void End();
+    //リスタート
+    void Restart(Stage::StageIndex index = Stage::StageIndex::Stage1);
     //ゲームオーバー
     bool IsGameover() { return m_isGameover; };
     //ゲームクリア

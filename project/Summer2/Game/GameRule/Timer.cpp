@@ -8,17 +8,21 @@ namespace
 	constexpr int kMinutes = 60;
 }
 
-Timer::Timer():
-	m_time(0),
-	m_millisecond(0),
-	m_seconds(0),
-	m_minutes(0),
-	m_isUpdate(true)
+Timer::Timer()
 {
 }
 
 Timer::~Timer()
 {
+}
+
+void Timer::Init()
+{
+	m_time = 0;
+	m_millisecond = 0;
+	m_seconds = 0;
+	m_minutes = 0;
+	m_isUpdate = true;
 }
 
 void Timer::Update()

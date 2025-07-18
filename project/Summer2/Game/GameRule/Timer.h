@@ -4,6 +4,7 @@ class Timer
 public:
 	Timer();
 	~Timer();
+	void Init();
 	void Update();
 	int GetTime() { return m_time; };
 	int GetMillisecond() { return m_millisecond; };

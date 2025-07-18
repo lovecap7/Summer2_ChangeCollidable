@@ -159,9 +159,6 @@
     <ClCompile Include="Main\main.cpp">
       <Filter>ソース ファイル\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\ResultScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\SceneBase.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -218,9 +215,6 @@
     </ClCompile>
     <ClCompile Include="General\Collision\FixNextPosition.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\TestCollScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="General\Model.cpp">
       <Filter>ソース ファイル\General</Filter>
@@ -554,9 +548,6 @@
     <ClInclude Include="General\Input.h">
       <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\ResultScene.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\SceneBase.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -616,9 +607,6 @@
     </ClInclude>
     <ClInclude Include="General\Collision\FixNextPosition.h">
       <Filter>ヘッダー ファイル\General\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\TestCollScene.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="General\Model.h">
       <Filter>ヘッダー ファイル\General</Filter>
