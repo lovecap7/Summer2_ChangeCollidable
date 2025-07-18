@@ -74,5 +74,4 @@ void EnemyHPUI::Draw() const
 
 void EnemyHPUI::End()
 {
-	DeleteGraph(m_handle);
 }

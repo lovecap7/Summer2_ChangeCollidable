@@ -70,6 +70,5 @@ void PlayerHPUI::Draw() const
 
 void PlayerHPUI::End()
 {
-	DeleteGraph(m_handle);
 }
 

@@ -79,5 +79,4 @@ void BossHPUI::Draw() const
 
 void BossHPUI::End()
 {
-	DeleteGraph(m_handle);
 }

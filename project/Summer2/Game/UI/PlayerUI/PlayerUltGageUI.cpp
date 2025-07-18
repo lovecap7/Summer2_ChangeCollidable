@@ -67,5 +67,4 @@ void PlayerUltGageUI::Draw() const
 
 void PlayerUltGageUI::End()
 {
-	DeleteGraph(m_handle);
 }

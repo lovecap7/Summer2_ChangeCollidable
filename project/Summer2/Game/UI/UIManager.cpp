@@ -94,12 +94,13 @@ void UIManager::CreateScoreUI(const std::weak_ptr<Score> score)
 
 void UIManager::CreateTimerUI(const std::weak_ptr<Timer> timer)
 {
-	AddUI(std::make_shared<TimerUI>(-1, timer));
+	AddUI(std::make_shared<TimerUI>(m_handles["Timer"], timer));
 }
 
 void UIManager::LoadHandle()
 {
 	m_handles["Score"] = { LoadGraph("Data/UI/Number.png") };
+	m_handles["Timer"] = { LoadGraph("Data/UI/Number_Stone.png") };
 	
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_handles) {
