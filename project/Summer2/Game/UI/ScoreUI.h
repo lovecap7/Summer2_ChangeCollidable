@@ -8,7 +8,7 @@ class ScoreUI :
     public UIBase
 {
 public:
-    ScoreUI(const std::weak_ptr<Score> score);
+    ScoreUI(int handle, const std::weak_ptr<Score> score);
     ~ScoreUI();
     void Init()override;
     void Update(const std::weak_ptr<ActorManager> actorManager)override;

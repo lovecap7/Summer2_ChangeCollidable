@@ -1,6 +1,7 @@
 #include "UIManager.h"
 #include "UIBase.h"
 #include "../Actors/ActorManager.h"
+#include <cassert>
 //プレイヤー
 #include "PlayerUI/PlayerHPUI.h"
 #include "PlayerUI/PlayerUltGageUI.h"
@@ -14,6 +15,8 @@
 #include "TimerUI.h"
 UIManager::UIManager()
 {
+	//ハンドルロード
+	LoadHandle();
 }
 
 UIManager::~UIManager()
@@ -45,16 +48,16 @@ void UIManager::Draw() const
 
 void UIManager::End()
 {
-	for (auto& ui : m_uis)
-	{
-		ui->End();
-	}
-	m_uis.clear();
+	//すべて削除
+	AllDeleteUIs();
+	//ハンドル削除
+	AllDeleteHandle();
 }
 
 void UIManager::Restart()
 {
-	End();
+	//UIのみすべて削除
+	AllDeleteUIs();
 }
 
 void UIManager::AddUI(std::shared_ptr<UIBase> ui)
@@ -70,28 +73,59 @@ void UIManager::AddUI(std::shared_ptr<UIBase> ui)
 
 void UIManager::CreatePlayerUI(const std::weak_ptr<Player> player)
 {
-	AddUI(std::make_shared<PlayerHPUI>(player));
-	AddUI(std::make_shared<PlayerUltGageUI>(player));
+	AddUI(std::make_shared<PlayerHPUI>(-1,player));
+	AddUI(std::make_shared<PlayerUltGageUI>(-1, player));
 }
 
 void UIManager::CreateBossUI(const std::weak_ptr<EnemyBase> boss)
 {
-	AddUI(std::make_shared<BossHPUI>(boss));
+	AddUI(std::make_shared<BossHPUI>(-1, boss));
 }
 
 void UIManager::CreateEnemyUI(const std::weak_ptr<EnemyBase> enemy)
 {
-	AddUI(std::make_shared<EnemyHPUI>(enemy));
+	AddUI(std::make_shared<EnemyHPUI>(-1, enemy));
 }
 
 void UIManager::CreateScoreUI(const std::weak_ptr<Score> score)
 {
-	AddUI(std::make_shared<ScoreUI>(score));
+	AddUI(std::make_shared<ScoreUI>(m_handles["Score"], score));
 }
 
 void UIManager::CreateTimerUI(const std::weak_ptr<Timer> timer)
 {
-	AddUI(std::make_shared<TimerUI>(timer));
+	AddUI(std::make_shared<TimerUI>(-1, timer));
+}
+
+void UIManager::LoadHandle()
+{
+	m_handles["Score"] = { LoadGraph("Data/UI/Number.png") };
+	
+	//ロードに成功したかチェック
+	for (auto& [key, value] : m_handles) {
+		assert(value >= 0);
+	}
+}
+
+void UIManager::AllDeleteUIs()
+{
+	for (auto& ui : m_uis)
+	{
+		ui->End();
+	}
+	m_uis.clear();
+}
+
+void UIManager::AllDeleteHandle()
+{
+	for (auto& [key, value] : m_handles) {
+		if (value >= 0)
+		{
+			auto result = DeleteGraph(value);
+			assert(result == 0);
+		}
+	}
+	m_handles.clear();
 }
 
 void UIManager::CheckDelete()

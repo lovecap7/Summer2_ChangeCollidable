@@ -7,7 +7,7 @@ class BossHPUI :
     public EnemyUIBase
 {
 public:
-    BossHPUI(std::weak_ptr<EnemyBase> enemy);
+    BossHPUI(int handle, std::weak_ptr<EnemyBase> enemy);
     ~BossHPUI();
     void Init()override;
     void Update(const std::weak_ptr<ActorManager> actorManager)override;

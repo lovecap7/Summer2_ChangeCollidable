@@ -8,7 +8,7 @@ class TimerUI :
     public UIBase
 {
 public:
-    TimerUI(const std::weak_ptr<Timer> timer);
+    TimerUI(int handle,const std::weak_ptr<Timer> timer);
     ~TimerUI();
     void Init()override;
     void Update(const std::weak_ptr<ActorManager> actorManager)override;

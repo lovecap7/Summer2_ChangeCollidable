@@ -1,6 +1,7 @@
 #include "EnemyUIBase.h"
 
-EnemyUIBase::EnemyUIBase(std::weak_ptr<EnemyBase> enemy):
+EnemyUIBase::EnemyUIBase(UIData uiData, int handle, std::weak_ptr<EnemyBase> enemy):
+	UIBase(uiData,handle),
 	m_enemy(enemy)
 {
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <list>
+#include <map>
+#include <string>
 class UIBase;
 class ActorManager;
 class Player;
@@ -28,12 +30,20 @@ public:
 	void CreateScoreUI(const std::weak_ptr<Score> score);
 	//タイマー
 	void CreateTimerUI(const std::weak_ptr<Timer> timer);
+	//ハンドルロード
+	void LoadHandle();
+	//UIのハンドル削除
+	void AllDeleteHandle();
 private:
 	//UI
 	std::list<std::shared_ptr<UIBase>> m_uis;
 	//UI追加
 	void AddUI(std::shared_ptr<UIBase> ui);
+	//UIの削除
+	void AllDeleteUIs();
 	//削除予定のUIを削除
 	void CheckDelete();
+	//ハンドル
+	std::map<std::string, int> m_handles;
 };
 

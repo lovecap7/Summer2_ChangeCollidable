@@ -5,7 +5,8 @@
 #include <DxLib.h>
 
 
-TimerUI::TimerUI(const std::weak_ptr<Timer> timer):
+TimerUI::TimerUI(int handle,const std::weak_ptr<Timer> timer):
+	UIBase(UIData::Timer,handle),
 	m_timer(timer)
 {
 }
@@ -40,4 +41,5 @@ void TimerUI::Draw() const
 
 void TimerUI::End()
 {
+	DeleteGraph(m_handle);
 }

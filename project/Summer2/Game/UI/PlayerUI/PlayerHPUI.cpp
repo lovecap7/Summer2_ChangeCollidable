@@ -13,8 +13,8 @@ namespace
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
 }
 
-PlayerHPUI::PlayerHPUI(std::weak_ptr<Player> player) :
-	PlayerUIBase(player),
+PlayerHPUI::PlayerHPUI(int handle, std::weak_ptr<Player> player) :
+	PlayerUIBase(UIData::PlayerHp, handle, player),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f)
 {
@@ -70,5 +70,6 @@ void PlayerHPUI::Draw() const
 
 void PlayerHPUI::End()
 {
+	DeleteGraph(m_handle);
 }
 

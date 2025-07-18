@@ -11,8 +11,8 @@ namespace
 }
 
 
-EnemyHPUI::EnemyHPUI(std::weak_ptr<EnemyBase> enemy):
-	EnemyUIBase(enemy),
+EnemyHPUI::EnemyHPUI(int handle, std::weak_ptr<EnemyBase> enemy) :
+	EnemyUIBase(UIData::EnemyHp, handle, enemy),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f),
 	m_pos{}
@@ -74,4 +74,5 @@ void EnemyHPUI::Draw() const
 
 void EnemyHPUI::End()
 {
+	DeleteGraph(m_handle);
 }

@@ -12,8 +12,8 @@ namespace
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
 }
 
-PlayerUltGageUI::PlayerUltGageUI(std::weak_ptr<Player> player):
-	PlayerUIBase(player),
+PlayerUltGageUI::PlayerUltGageUI(int handle ,std::weak_ptr<Player> player):
+	PlayerUIBase(UIData::PlayerUlt,handle, player),
 	m_viewUltGageValue(0.0f),
 	m_viewMaxUltGageValue(0.0f)
 {
@@ -67,4 +67,5 @@ void PlayerUltGageUI::Draw() const
 
 void PlayerUltGageUI::End()
 {
+	DeleteGraph(m_handle);
 }

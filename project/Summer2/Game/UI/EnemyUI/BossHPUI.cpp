@@ -15,8 +15,8 @@ namespace
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
 }
 
-BossHPUI::BossHPUI(std::weak_ptr<EnemyBase> enemy) :
-	EnemyUIBase(enemy),
+BossHPUI::BossHPUI(int handle, std::weak_ptr<EnemyBase> enemy) :
+	EnemyUIBase(UIData::BossHp, handle, enemy),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f)
 {
@@ -79,4 +79,5 @@ void BossHPUI::Draw() const
 
 void BossHPUI::End()
 {
+	DeleteGraph(m_handle);
 }

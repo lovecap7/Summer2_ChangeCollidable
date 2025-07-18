@@ -6,7 +6,7 @@ class PlayerUltGageUI :
 	public PlayerUIBase
 {
 public:
-	PlayerUltGageUI(std::weak_ptr<Player> player);
+	PlayerUltGageUI(int handle,std::weak_ptr<Player> player);
 	~PlayerUltGageUI();
 	void Init() override;
 	void Update(const std::weak_ptr<ActorManager> actorManager)override;

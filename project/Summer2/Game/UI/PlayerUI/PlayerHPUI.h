@@ -6,7 +6,7 @@ class PlayerHPUI :
     public PlayerUIBase
 {
 public:
-    PlayerHPUI(std::weak_ptr<Player> player);
+    PlayerHPUI(int handle, std::weak_ptr<Player> player);
     ~PlayerHPUI();
     void Init()override;
     void Update(const std::weak_ptr<ActorManager> actorManager)override;
