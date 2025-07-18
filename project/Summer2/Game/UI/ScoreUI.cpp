@@ -7,6 +7,10 @@
 
 namespace
 {
+	//スコアの桁数
+	constexpr int kDigitNum = 6;
+	//
+
 	constexpr int kImageWidth = 256;
 	constexpr int kImageHeight = 256;
 }
@@ -50,36 +54,31 @@ void ScoreUI::Update(const std::weak_ptr<ActorManager> actorManager)
 
 void ScoreUI::Draw() const
 {
-	DrawFormatString((Game::kScreenWidth / 2.0f) - 100.0f, 50.0f, 0xffffff, "SCORE : %6d", m_viewScore);
 	//取り出す桁の位
-	std::list<int> m_digits;
+	int m_digits[kDigitNum];
 	//取り出す値
 	int score = m_viewScore;
-	while (score > 0)
+	for (int i = 0;i < kDigitNum;++i)
 	{
 		//取り出して保存
-		m_digits.emplace_back(score % 10);
+		m_digits[i] = score % 10;
 		//桁を下げる
 		score = score / 10;
 	}
-	//for(auto m_digits)
-	//{
-	//	//余りから数字を確認する
-	//	auto num = m_viewScore % 10 * digit;
-	//	//切り取るを計算する
-	//	int sizeX, sizeY;
-	//	GetGraphSize(m_handle, &sizeX, &sizeY);//画像サイズ
-	//	int cutX = num % (sizeX / kImageWidth);//横
-	//	int cutY = num / (sizeX / kImageWidth);//縦
-	//	//描画
-	//	DrawRectRotaGraphFast((Game::kScreenWidth / 2.0f) - i * 30, 50.0f,
-	//		kImageWidth * cutX,
-	//		kImageHeight * cutY,
-	//		kImageWidth, kImageHeight,
-	//		0.1f, 0.0f, m_handle, true, false);
-	//	//桁をあげる
-	//	digit *= 10;
-	//}
+	for (int i = 0;i < kDigitNum;++i)
+	{
+		//切り取りを計算する
+		int sizeX, sizeY;
+		GetGraphSize(m_handle, &sizeX, &sizeY);//画像サイズ
+		int cutX = m_digits[i] % (sizeX / kImageWidth);//横
+		int cutY = m_digits[i] / (sizeX / kImageWidth);//縦
+		//描画
+		DrawRectRotaGraphFast((Game::kScreenWidth - 100) - i * 50, 50.0f,
+			kImageWidth * cutX,
+			kImageHeight * cutY,
+			kImageWidth, kImageHeight,
+			0.3f, 0.0f, m_handle, true, false);
+	}
 }
 
 void ScoreUI::End()
