@@ -51,6 +51,7 @@ void PlayerStateRolling::Init()
 	ChangeState(shared_from_this());
 	//エフェクト
 	EffekseerManager::GetInstance().CreateTrackActorEffect("RollingEff", m_owner);
+	EffekseerManager::GetInstance().CreateEffect("LowShockWaveEff", m_owner.lock()->GetPos());
 }
 
 void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)

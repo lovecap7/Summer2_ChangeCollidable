@@ -38,6 +38,8 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//連続攻撃の最大数
 	constexpr int kMaxComboNum = 4;
+	//攻撃が強くなる段階数
+	constexpr int kHighAttackComboNum = 3;
 }
 
 PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager) :
@@ -47,6 +49,8 @@ PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 {
 	//攻撃データの初期化
 	InitAttackData(actorManager);
+	//衝撃エフェクト
+	EffekseerManager::GetInstance().CreateEffect("LowShockWaveEff", m_owner.lock()->GetPos());
 }
 
 PlayerStateNA::~PlayerStateNA()
@@ -100,8 +104,22 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 		//攻撃作成
 		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame, 
 			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
-		//斬撃エフェクト
-		m_eff = EffekseerManager::GetInstance().CreateEffect("SlashtTrajectEff", m_owner.lock()->GetPos());
+		if (!m_eff.expired())
+		{
+			//エフェクト削除
+			m_eff.lock()->Delete();
+		}
+		//斬撃エフェクトを段階に応じて作成
+		if (m_comboNum >= kHighAttackComboNum)
+		{
+			//斬撃2エフェクト
+			m_eff = EffekseerManager::GetInstance().CreateEffect("SlashtTraject2Eff", m_owner.lock()->GetPos());
+		}
+		else
+		{
+			//斬撃1エフェクト
+			m_eff = EffekseerManager::GetInstance().CreateEffect("SlashtTraject1Eff", m_owner.lock()->GetPos());
+		}
 	}
 	//アニメーションのラスト数フレーム以内で入力があるなら2段回目の攻撃
 	if (model->GetTotalAnimFrame() - kAttackCancelFrame <= model->GetNowAnimFrame())
@@ -120,6 +138,8 @@ void PlayerStateNA::Update(const std::weak_ptr<Camera> camera, const std::weak_p
 			++m_comboNum;
 			//初期化
 			InitAttackData(actorManager);
+			//衝撃エフェクト
+			EffekseerManager::GetInstance().CreateEffect("LowShockWaveEff", m_owner.lock()->GetPos());
 			m_attackCountFrame = 0;
 			return;
 		}

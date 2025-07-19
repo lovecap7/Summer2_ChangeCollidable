@@ -106,6 +106,7 @@ void Application::Run()
 			break;
 		}
 	}
+	
 	delete sceneController;
 	sceneController = nullptr;
 }

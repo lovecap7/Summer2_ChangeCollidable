@@ -5,6 +5,7 @@
 class Actor;
 class Slash;
 class TrackActorEffect;
+class MyEffect;
 class PlayerStateCA :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateCA>
 {
@@ -24,8 +25,9 @@ protected:
     void UpdateAttackPos();
     //攻撃データ
     AttackData m_attackData;
-    //斬撃の参照
-    std::weak_ptr<TrackActorEffect> m_eff;
+    //エフェクトの参照
+    std::weak_ptr<TrackActorEffect> m_tornadeEff;
+    std::weak_ptr<MyEffect> m_slashEff;
     //回転量
     float m_attackRotaAngle;
     //1回転にかかるフレーム

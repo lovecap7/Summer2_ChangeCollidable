@@ -137,6 +137,7 @@
     <ClCompile Include="General\Model.cpp" />
     <ClCompile Include="General\Rigidbody.cpp" />
     <ClCompile Include="General\CSVDataLoader.cpp" />
+    <ClCompile Include="General\TextManager.cpp" />
     <ClCompile Include="Main\Application.cpp" />
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Scene\DebugScene.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="General\Model.h" />
     <ClInclude Include="General\Rigidbody.h" />
     <ClInclude Include="General\CSVDataLoader.h" />
+    <ClInclude Include="General\TextManager.h" />
     <ClInclude Include="Main\Application.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\DebugScene.h" />

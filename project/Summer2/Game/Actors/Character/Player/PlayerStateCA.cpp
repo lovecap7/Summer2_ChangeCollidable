@@ -19,6 +19,7 @@
 #include "../../../../General/Animator.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
+#include "../../../../General/Effect/MyEffect.h"
 #include "../../../../Game/Camera/Camera.h"
 #include "../../Attack/Slash.h"
 
@@ -29,7 +30,7 @@ namespace
 	constexpr int kRightRingFingerIndex = 55;
 	constexpr int kRightIndexFingerIndex = 43;
 	//武器の長さ
-	constexpr float kSwordHeight = 150.0f;
+	constexpr float kSwordHeight = 130.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//エフェクトの削除を遅らせる
@@ -51,11 +52,22 @@ PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 	//加算ゲージの予約
 	coll->GetUltGage().lock()->SetPendingUltGage(m_attackData.addUltGage);
 	//風エフェクト
-	m_eff = EffekseerManager::GetInstance().CreateTrackActorEffect("CATornade", m_owner.lock());
+	m_tornadeEff = EffekseerManager::GetInstance().CreateTrackActorEffect("CATornade", m_owner.lock());
 	//1回転にかかるフレーム(持続 / 攻撃回数)
 	m_oneRotaFrame = m_attackData.keepFrame / m_attackData.attackNum;
 	//回転量(1回転 / 1回転にかかるフレーム)
 	m_attackRotaAngle = -360.0f / static_cast<float>(m_oneRotaFrame);
+	//斬撃エフェクトを段階に応じて作成
+	if (data.attackName == kCA3Name)
+	{
+		//斬撃2エフェクト
+		m_slashEff = EffekseerManager::GetInstance().CreateEffect("SlashtTraject2Eff", m_owner.lock()->GetPos());
+	}
+	else
+	{
+		//斬撃1エフェクト
+		m_slashEff = EffekseerManager::GetInstance().CreateEffect("SlashtTraject1Eff", m_owner.lock()->GetPos());
+	}
 }
 
 PlayerStateCA::~PlayerStateCA()
@@ -63,8 +75,9 @@ PlayerStateCA::~PlayerStateCA()
 	//攻撃判定の削除
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
+	if (!m_slashEff.expired())m_slashEff.lock()->Delete();
 	//エフェクトを数フレーム後削除
-	if (!m_eff.expired())m_eff.lock()->SpecificFrame(kDeleteEffectDelayFrame);
+	if (!m_tornadeEff.expired())m_tornadeEff.lock()->SpecificFrame(kDeleteEffectDelayFrame);
 }
 void PlayerStateCA::Init()
 {
@@ -168,5 +181,9 @@ void PlayerStateCA::UpdateAttackPos()
 		//座標をセット
 		m_attack.lock()->SetStartPos(ringFinger);
 		m_attack.lock()->SetEndPos(swordTip);
+	}
+	if (!m_slashEff.expired())
+	{
+		m_slashEff.lock()->SetPos(swordTip);
 	}
 }

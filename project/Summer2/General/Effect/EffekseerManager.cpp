@@ -81,10 +81,15 @@ void EffekseerManager::AllDeleteEffect()
 std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3 pos)
 {
 	std::shared_ptr<MyEffect> effect;
-	//斬撃
-	if (name == "SlashtTrajectEff")
+	//斬撃1
+	if (name == "SlashtTraject1Eff")
 	{
-		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["SlashtTrajectEff"]), pos);
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["SlashtTraject1Eff"]), pos);
+	}
+	//斬撃2
+	if (name == "SlashtTraject2Eff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["SlashtTraject2Eff"]), pos);
 	}
 	//通常ヒットエフェクト
 	else if (name == "ImpactHitEff")
@@ -120,6 +125,11 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	else if (name == "UltChargeSwordEff")
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["UltChargeSwordEff"]), pos);
+	}
+	//足元の衝撃エフェクト
+	else if (name == "LowShockWaveEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["LowShockWaveEff"]), pos);
 	}
 	Entry(effect);
 	return effect;
@@ -210,7 +220,8 @@ void EffekseerManager::LoadHandle()
 	m_handles["GetDefenseUpEff"] = { LoadEffekseerEffect("Data/Effects/GetDefenseUpEff.efkefc") };
 	m_handles["DefenseUpEff"] = { LoadEffekseerEffect("Data/Effects/DefenseUpEff.efkefc") };
 	m_handles["GetUltGageUpEff"] = { LoadEffekseerEffect("Data/Effects/GetUltGageUpEff.efkefc") };
-	m_handles["SlashtTrajectEff"] = { LoadEffekseerEffect("Data/Effects/SlashtTrajectEff.efkefc") };
+	m_handles["SlashtTraject1Eff"] = { LoadEffekseerEffect("Data/Effects/SlashtTraject1Eff.efkefc") };
+	m_handles["SlashtTraject2Eff"] = { LoadEffekseerEffect("Data/Effects/SlashtTraject2Eff.efkefc") };
 	m_handles["CATornade"] = { LoadEffekseerEffect("Data/Effects/CATornade.efkefc") };
 	m_handles["ChargeEff"] = { LoadEffekseerEffect("Data/Effects/ChargeEff.efkefc") };
 	m_handles["ChargeLevel1Eff"] = { LoadEffekseerEffect("Data/Effects/ChargeLevel1Eff.efkefc") };
@@ -226,6 +237,7 @@ void EffekseerManager::LoadHandle()
 	m_handles["BreathEff"] = { LoadEffekseerEffect("Data/Effects/BreathEff.efkefc") };
 	m_handles["DeathEff"] = { LoadEffekseerEffect("Data/Effects/DeathEff.efkefc") };
 	m_handles["RollingEff"] = { LoadEffekseerEffect("Data/Effects/RollingEff.efkefc") };
+	m_handles["LowShockWaveEff"] = { LoadEffekseerEffect("Data/Effects/LowShockWaveEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);
