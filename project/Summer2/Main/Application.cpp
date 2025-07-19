@@ -5,6 +5,7 @@
 #include  "../General/Input.h"
 #include  "../General/Collision/Physics.h"
 #include  "../General/Effect/EffekseerManager.h"
+#include  "../General/TextManager.h"
 
 Application& Application::GetInstance()
 {
@@ -64,7 +65,9 @@ void Application::Run()
 	auto& physics = Physics::GetInstance();
 	//エフェクト
 	auto& effect = EffekseerManager::GetInstance();
-
+	//テキストマネージャー
+	auto& text = TextManager::GetInstance();
+	text.Init();
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -82,9 +85,11 @@ void Application::Run()
 		sceneController->Update();
 		physics.Update();
 		effect.Update();
+		text.Update();
 		//描画
 		sceneController->Draw();
 		effect.Draw();
+		text.Draw();
 
 #if _DEBUG
 		DrawFormatString(0, 500, 0xff0000, "FPS : %.2f", GetFPS());
@@ -106,7 +111,6 @@ void Application::Run()
 			break;
 		}
 	}
-	
 	delete sceneController;
 	sceneController = nullptr;
 }
@@ -115,6 +119,7 @@ void Application::Terminate()
 {
 	Physics::GetInstance().Reset();
 	EffekseerManager::GetInstance().End();
+	TextManager::GetInstance().End();
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 }
 

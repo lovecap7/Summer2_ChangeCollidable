@@ -33,6 +33,6 @@ public:
 	void End();
 private:
 	//ƒnƒ“ƒhƒ‹
-	std::map<std::string, int> m_handles;
+	std::map<std::string,int> m_handles;
 };
 
