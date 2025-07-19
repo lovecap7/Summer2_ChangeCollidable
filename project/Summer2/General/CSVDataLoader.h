@@ -4,6 +4,7 @@
 #include <vector>
 #include "Battle.h"
 #include "../Game/Camera/Camera.h"
+
 //オブジェクトの情報を格納する構造体
 struct ObjectData {
     std::string name;      //オブジェクト名
@@ -56,15 +57,21 @@ public:
     /// <param name="fileName"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    std::vector<AttackData> LoadAttackDataCSV(const char* fileName);
+    std::vector<AttackData> LoadAttackDataCSV();
 
     /// <summary>
-    /// スコアデータの読み取り
+    /// アクター毎のスコアデータの読み取り
     /// </summary>
     /// <param name="fileName"></param>
     /// <returns></returns>
-    std::vector<ScoreData> LoadScoreDataCSV(const char* fileName);
+    std::vector<ScoreData> LoadActorScoreDataCSV();
 
+    /// <summary>
+    /// ハイスコアデータの読み取り
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    std::vector<int> LoadHighScoreDataCSV();
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
 };

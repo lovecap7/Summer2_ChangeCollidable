@@ -122,6 +122,7 @@
     <ClCompile Include="General\Collision\Physics.cpp" />
     <ClCompile Include="General\Collision\PolygonCollider.cpp" />
     <ClCompile Include="General\Collision\SphereCollider.cpp" />
+    <ClCompile Include="General\CSVDataSaver.cpp" />
     <ClCompile Include="General\Effect\EffekseerManager.cpp" />
     <ClCompile Include="General\Effect\MyEffect.cpp" />
     <ClCompile Include="General\Effect\TrackActorEffect.cpp" />
@@ -252,6 +253,8 @@
     <ClInclude Include="General\Collision\Physics.h" />
     <ClInclude Include="General\Collision\PolygonCollider.h" />
     <ClInclude Include="General\Collision\SphereCollider.h" />
+    <ClInclude Include="General\CSVDataSaver.h" />
+    <ClInclude Include="General\CSVPath.h" />
     <ClInclude Include="General\Effect\EffekseerManager.h" />
     <ClInclude Include="General\Effect\MyEffect.h" />
     <ClInclude Include="General\Effect\TrackActorEffect.h" />

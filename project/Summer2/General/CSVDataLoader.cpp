@@ -1,7 +1,7 @@
-#include "CSVDataLoader.h"
 #include <fstream>   // ファイル読み込み用
 #include <sstream>   // 文字列分解用（stringstream）stringをファイルのように扱える
-
+#include "CSVDataLoader.h"
+#include "CSVPath.h"
 namespace
 {
 	//名前、座標XYZ、回転XYZ、大きさXYZ　で合計10
@@ -57,12 +57,12 @@ std::vector<ObjectData> CSVDataLoader::LoadTransformDataCSV(const char* fileName
 	return objects;
 }
 
-std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV(const char* fileName)
+std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV()
 {
 	//データを格納する配列
 	std::vector<AttackData> attackDatas;
 	//データをすべて読み込む
-	auto valuesDatas = GetStringList(fileName, kAttackDataElementNum);
+	auto valuesDatas = GetStringList(kCharacterAttackDataPath.c_str(), kAttackDataElementNum);
 	for (auto values : valuesDatas)
 	{
 		//構造体にデータを入れていく
@@ -114,12 +114,12 @@ std::vector<AttackData> CSVDataLoader::LoadAttackDataCSV(const char* fileName)
 	return attackDatas;
 }
 
-std::vector<ScoreData> CSVDataLoader::LoadScoreDataCSV(const char* fileName)
+std::vector<ScoreData> CSVDataLoader::LoadActorScoreDataCSV()
 {
 	//データを格納する配列
 	std::vector<ScoreData> scoreDatas;
 	//データをすべて読み込む
-	auto valuesDatas = GetStringList(fileName, kScoreDataElementNum);
+	auto valuesDatas = GetStringList(kActorScoreDataPath.c_str(), kScoreDataElementNum);
 	for (auto values : valuesDatas)
 	{
 		//構造体にデータを入れていく
@@ -132,6 +132,22 @@ std::vector<ScoreData> CSVDataLoader::LoadScoreDataCSV(const char* fileName)
 		scoreDatas.emplace_back(scoreData);
 	}
 	return scoreDatas;
+}
+
+std::vector<int> CSVDataLoader::LoadHighScoreDataCSV()
+{
+	//データを格納する配列
+	std::vector<int> highScoreDatas;
+	//データをすべて読み込む
+	auto valuesDatas = GetStringList(kHighScoreDataPath.c_str(), 1);
+	for (auto values : valuesDatas)
+	{
+		//ハイスコア
+		int highScore = std::stoi(values[0]);
+		//配列に追加
+		highScoreDatas.emplace_back(highScore);
+	}
+	return highScoreDatas;
 }
 
 //データをすべて読み込む

@@ -375,7 +375,7 @@ void ActorManager::CheckNextAddActors()
 //UŒ‚ƒf[ƒ^‚ÌŽæ“¾
 void ActorManager::CreateAttackData()
 {
-	m_attackDatas = m_csvLoader->LoadAttackDataCSV("Data/CSV/CharacterAttackData.csv");
+	m_attackDatas = m_csvLoader->LoadAttackDataCSV();
 }
 
 void ActorManager::LoadHandle()

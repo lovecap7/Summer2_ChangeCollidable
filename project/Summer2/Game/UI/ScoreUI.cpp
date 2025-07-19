@@ -6,6 +6,12 @@
 
 namespace
 {
+	//加算の基本値
+	constexpr int kAddBaseSpeed = 128;
+	//減速割合
+	constexpr int kAddLowSpeedRate = 6;
+	//減速する差
+	constexpr int kChangeLowSpeed = 300;
 	//大きさ
 	constexpr float kScale = 0.3f;
 	//幅
@@ -18,7 +24,7 @@ namespace
 	//スコアの1桁の幅
 	constexpr int kDigitMargin = 50;
 	//重力
-	constexpr float kGravity = 0.98f;
+	constexpr float kGravity = 1.0f;
 	//ジャンプ力
 	constexpr float kJumpPower = 2.0f;
 }
@@ -28,7 +34,8 @@ ScoreUI::ScoreUI(int handle, const std::weak_ptr<Score> score) :
 	m_viewScore(0),
 	m_viewMaxScore(0),
 	m_score(score),
-	m_digits{}
+	m_digits{},
+	m_viewVecs{}
 {
 	for (auto& pos : m_viewPoses)
 	{
@@ -54,16 +61,31 @@ void ScoreUI::Update(const std::weak_ptr<ActorManager> actorManager)
 	}
 	//スコア更新
 	m_viewMaxScore = m_score.lock()->GetScore();
-	//現在のスコアがまだ最大まで達していないなら
-	if (m_viewScore != m_viewMaxScore)
+	//現在のスコアと目標スコアの差
+	int diff = m_viewMaxScore - m_viewScore;
+	//差があるなら
+	if (diff != 0)
 	{
-		auto score = MathSub::Lerp(static_cast<float>(m_viewScore), static_cast<float>(m_viewMaxScore), 0.5f);
-		if (score + 1.0f >= static_cast<float>(m_viewMaxScore))
-		{
-			score = m_viewMaxScore;
+		int absDiff = abs(diff);
+		//加算するスコアの基本値
+		int speed = kAddBaseSpeed;
+		//目標に近いなら少し減速
+		if (absDiff < kChangeLowSpeed) 
+		{ 
+			//誤差埋めの+1
+			speed = absDiff / kAddLowSpeedRate + 1;
 		}
-		m_viewScore = score;
+		if (absDiff <= speed) {
+			//ほぼ差がないので一気に目標値へ
+			m_viewScore = m_viewMaxScore;
+		}
+		else 
+		{
+			// スコアをstep分だけ増減
+			m_viewScore += speed;
+		}
 	}
+
 	//取り出す値
 	int score = m_viewScore;
 	for (int i = 0;i < kDigitNum;++i)
@@ -78,10 +100,10 @@ void ScoreUI::Update(const std::weak_ptr<ActorManager> actorManager)
 		if (digit != m_digits[i])
 		{
 			//少しはねる
-			m_viewPoses[i].y -= kJumpPower;
+			m_viewVecs[i].y -= kJumpPower;
 		}
 		//これ以上Y座標が下がらないように補正
-		m_viewPoses[i].y += kGravity;
+		m_viewVecs[i].y += kGravity;
 		if (m_viewPoses[i].y > kPosY)
 		{
 			m_viewPoses[i].y = kPosY;

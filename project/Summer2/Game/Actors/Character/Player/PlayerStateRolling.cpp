@@ -12,6 +12,8 @@
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
 #include "../../../../General/HitPoints.h"
+#include "../../../../General/Effect/TrackActorEffect.h"
+#include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../Game/Camera/Camera.h"
 
 namespace
@@ -21,7 +23,7 @@ namespace
 	//アニメーション
 	const char* kAnim = "Player|Rolling";
 	//回避モーションの速度
-	constexpr float kAnimSpeed = 1.2f;
+	constexpr float kAnimSpeed = 0.8f;
 }
 
 PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
@@ -47,6 +49,8 @@ void PlayerStateRolling::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
+	//エフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("RollingEff", m_owner);
 }
 
 void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)

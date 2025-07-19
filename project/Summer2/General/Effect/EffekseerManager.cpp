@@ -193,6 +193,11 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BreathEff"]), actor);
 	}
+	//ローリングエフェクト
+	else if (name == "RollingEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["RollingEff"]), actor);
+	}
 	Entry(effect);
 	return effect;
 }
@@ -220,6 +225,7 @@ void EffekseerManager::LoadHandle()
 	m_handles["BulletEff"] = { LoadEffekseerEffect("Data/Effects/BulletEff.efkefc") };
 	m_handles["BreathEff"] = { LoadEffekseerEffect("Data/Effects/BreathEff.efkefc") };
 	m_handles["DeathEff"] = { LoadEffekseerEffect("Data/Effects/DeathEff.efkefc") };
+	m_handles["RollingEff"] = { LoadEffekseerEffect("Data/Effects/RollingEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

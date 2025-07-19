@@ -27,6 +27,7 @@ private:
     std::weak_ptr<Score> m_score;
     //スコアが変動するたびにはねる
     Vector2 m_viewPoses[kDigitNum];
+    Vector2 m_viewVecs[kDigitNum];
     //各位の値
     int m_digits[kDigitNum];
 };

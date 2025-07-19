@@ -4,7 +4,8 @@
 #include "../../General/CSVDataLoader.h"
 class HitPoints;
 class CSVDataLoader;
-class Score
+class Score :
+	public std::enable_shared_from_this<Score>
 {
 public:
 	Score();
@@ -17,10 +18,15 @@ public:
 	int GetKillScore()	{ return m_killScore; };
 	int GetItemScore()	{ return m_itemScore; };
 	int GetHPScore()	{ return m_hpScore; };
+	int GetHighScore();
+	//ハイスコアを更新したか
+	bool IsUpdateHighScore()	{ return m_isUpdateHighScore; };
 	//スコア加算
 	void AddTimeScore(int time);
 	void AddKillOrItemScore(std::string dataName);
 	void AddHPScore(std::weak_ptr<HitPoints> hp);
+	//スコアを保存
+	void SaveHighScore();
 private:
 	//現在のスコア
 	int m_nowScore;	
@@ -32,8 +38,12 @@ private:
 	int m_itemScore;
 	//体力スコア
 	int m_hpScore;
+	//ハイスコア
+	std::vector<int> m_highScore;
+	//ハイスコアを更新したなら
+	bool m_isUpdateHighScore;
 	//スコアデータ
-	std::vector<ScoreData> m_scoreData;
+	std::vector<ScoreData> m_acotrScoreData;
 	//体力スコアデータ
 	int m_hpScoreData;
 	//タイマースコアデータ

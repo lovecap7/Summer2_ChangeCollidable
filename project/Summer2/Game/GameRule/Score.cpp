@@ -1,12 +1,16 @@
 #include "Score.h"
 #include "../../General/Math/MathSub.h"
 #include "../../General/HitPoints.h"
+#include "../../General/CSVDataSaver.h"
 
 Score::Score()
 {
 	//スコアデータ
 	m_csvLoader = std::make_unique<CSVDataLoader>();
-	m_scoreData = m_csvLoader->LoadScoreDataCSV("Data/CSV/ScoreData.csv");
+	m_acotrScoreData = m_csvLoader->LoadActorScoreDataCSV();
+	//ハイスコア
+	m_highScore = m_csvLoader->LoadHighScoreDataCSV();
+
 }
 
 Score::~Score()
@@ -23,8 +27,9 @@ void Score::Init()
 	m_hpScoreData = 0;
 	m_timeScoreData = 0;
 	m_decTimeScoreData = 0;
+	m_isUpdateHighScore = false;
 	//データに一致するものを探す
-	for (auto data : m_scoreData)
+	for (auto data : m_acotrScoreData)
 	{
 		if (data.dataName == ScoreDataName::kHPScore)
 		{
@@ -47,6 +52,18 @@ int Score::GetScore()
 	return m_nowScore;
 }
 
+int Score::GetHighScore()
+{
+	//ハイスコアを更新したなら
+	if (m_nowScore > m_highScore[0])
+	{
+		m_highScore[0] = m_nowScore;
+		//更新したので
+		m_isUpdateHighScore = true;
+	}
+	return  m_highScore[0];
+}
+
 void Score::AddTimeScore(int time)
 {
 	m_timeScore = m_timeScoreData - (m_decTimeScoreData * time);
@@ -56,7 +73,7 @@ void Score::AddTimeScore(int time)
 void Score::AddKillOrItemScore(std::string dataName)
 {
 		//データに一致するものを探す
-		for (auto data : m_scoreData)
+		for (auto data : m_acotrScoreData)
 		{
 			//見つかった時
 			if (dataName == data.dataName)
@@ -89,4 +106,15 @@ void Score::AddHPScore(std::weak_ptr<HitPoints> hp)
 	float nowHP = static_cast<float>(hitPoint->GetHp());
 	float maxHP = static_cast<float>(hitPoint->GetMaxHp());
 	m_hpScore = m_hpScoreData * (nowHP / maxHP);
+}
+
+void Score::SaveHighScore()
+{
+	//ハイスコアを更新したなら
+	if (m_isUpdateHighScore)
+	{
+		//保存する
+		auto saver = std::make_shared<CSVDataSaver>();
+		saver->SaveDataToCSV(shared_from_this());
+	}
 }

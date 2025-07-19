@@ -537,6 +537,9 @@
     <ClCompile Include="Game\Camera\CameraStateBossDeath.cpp">
       <Filter>ソース ファイル\Game\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="General\CSVDataSaver.cpp">
+      <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -928,6 +931,12 @@
     </ClInclude>
     <ClInclude Include="Game\Camera\CameraStateBossDeath.h">
       <Filter>ヘッダー ファイル\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="General\CSVDataSaver.h">
+      <Filter>ヘッダー ファイル\General</Filter>
+    </ClInclude>
+    <ClInclude Include="General\CSVPath.h">
+      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
