@@ -20,6 +20,19 @@ private:
     int m_chatCount;
     //テキスト
     std::wstring m_text;
+    //X座標
+    int m_posX;
+
+private:
+    //状態遷移
+    using UpdateFunc_t = void(TutorialUI::*)();
+    UpdateFunc_t m_update;
+    //出現中状態
+    void AppearUpdate();
+    //通常状態
+    void NormalUpdate();
+    //消滅中状態
+    void DisappearUpdate();
 };
 
 

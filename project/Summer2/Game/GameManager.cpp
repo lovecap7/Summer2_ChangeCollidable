@@ -12,6 +12,7 @@
 #include "../Game/UI/ScoreUI.h"
 #include "../Game/UI/TimerUI.h"
 #include "../Game/UI/TutorialUI.h"
+#include "TutorialDirecter.h"
 #include <cassert>
 
 namespace
@@ -58,8 +59,11 @@ void GameManager::Init(Stage::StageIndex index)
 	//カメラの初期化
 	m_camera->Init();
 
-	auto tu = std::make_shared<TutorialUI>();
-	tu->Init();
+	//ステージ1ならチュートリアル
+	if (index == Stage::StageIndex::Stage1)
+	{
+		m_tutorialDirecter = std::make_shared<TutorialDirecter>();
+	}
 }
 
 void GameManager::Update()
@@ -76,6 +80,11 @@ void GameManager::Update()
 		m_timer->Update();
 		//カメラの更新
 		m_camera->Update(m_actorManager);
+		//チュートリアル
+		if (m_tutorialDirecter != nullptr)
+		{
+			m_tutorialDirecter->Update(m_actorManager);
+		}
 		//ボスを倒したとき
 		if (m_actorManager->GetBoss().expired() && !m_isGameClear)
 		{
@@ -145,6 +154,11 @@ void GameManager::End()
 	UIManager::GetInstance().Reset();
 	//シャドウマップの削除
 	DeleteShadowMap(m_shadowMapHandle);
+	//チュートリアル終了処理
+	if (m_tutorialDirecter != nullptr)
+	{
+		m_tutorialDirecter->End();
+	}
 }
 
 void GameManager::Restart(Stage::StageIndex index)

@@ -8,6 +8,7 @@ class ActorManager;
 class UIManager;
 class Score;
 class Timer;
+class TutorialDirecter;
 class GameManager
 {
 public:
@@ -34,6 +35,8 @@ private:
     std::shared_ptr<Score> m_score;
     //タイマー
     std::shared_ptr<Timer> m_timer;
+    //チュートリアル
+    std::shared_ptr<TutorialDirecter> m_tutorialDirecter;
 private:
     //ゲームオーバーフラグ
     bool m_isGameover;
