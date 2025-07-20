@@ -9,7 +9,7 @@ class TutorialUI :
     public UIBase
 {
 public:
-    TutorialUI();
+    TutorialUI(const std::wstring& text);
     ~TutorialUI();
     void Update()override;
     void Draw() const override;
@@ -19,7 +19,7 @@ private:
     //表示している文字数
     int m_chatCount;
     //テキスト
-    std::wstring text;
+    std::wstring m_text;
 };
 
 

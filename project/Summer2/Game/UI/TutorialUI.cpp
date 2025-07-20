@@ -25,13 +25,13 @@ namespace
 	constexpr int kTextViewSpeed = 2;
 }
 
-TutorialUI::TutorialUI():
+TutorialUI::TutorialUI(const std::wstring& text):
 	UIBase(UIManager::GetInstance().GetTextHandle("メイリオ")),
 	m_countFrame(0),
 	m_chatCount(0),
-	text{ L"チュートリアルのテキストを表示します。" }
+	m_text{ text }
 {
-	text = InsertNewLines(text, kOneLineMaxNum);
+	m_text = InsertNewLines(m_text, kOneLineMaxNum);
 }
 
 TutorialUI::~TutorialUI()
@@ -41,7 +41,7 @@ TutorialUI::~TutorialUI()
 void TutorialUI::Update()
 {
 	++m_countFrame;
-	if (m_countFrame % kTextViewSpeed == 0 && m_chatCount < static_cast<int>(text.size()))
+	if (m_countFrame % kTextViewSpeed == 0 && m_chatCount < static_cast<int>(m_text.size()))
 	{
 		++m_chatCount;
 	}
@@ -52,11 +52,11 @@ void TutorialUI::Draw() const
 	//チュートリアルのスペース
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 	//改行の数
-	auto lineNum = WStringLineNum(text);
+	auto lineNum = WStringLineNum(m_text);
 	DrawBox(kSpaceLeftPos, kSpaceUpPos, kSpaceRightPos, kSpaceDownPos + kSpaceDownSize * lineNum, 0x444444,true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	//テキスト
 	DrawStringToHandle(kTutorialPosX, kTutorialPosY, L"<チュートリアル>", 0xffffff, m_handle);
-	DrawStringToHandle(kTextPosX, kTextPosY, text.substr(0, m_chatCount).c_str(), 0xffffff, m_handle);
-	DrawFormatString(0, 10, 0xffff00, L"SIZE : %d", (int)text.size());
+	DrawStringToHandle(kTextPosX, kTextPosY, m_text.substr(0, m_chatCount).c_str(), 0xffffff, m_handle);
+	DrawFormatString(0, 10, 0xffff00, L"SIZE : %d", (int)m_text.size());
 }
