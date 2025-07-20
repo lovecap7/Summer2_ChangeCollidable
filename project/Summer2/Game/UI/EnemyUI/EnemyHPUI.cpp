@@ -11,19 +11,11 @@ namespace
 }
 
 
-EnemyHPUI::EnemyHPUI(int handle, std::weak_ptr<EnemyBase> enemy) :
-	EnemyUIBase(UIData::EnemyHp, handle, enemy),
+EnemyHPUI::EnemyHPUI(std::weak_ptr<EnemyBase> enemy) :
+	EnemyUIBase(-1, enemy),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f),
 	m_pos{}
-{
-}
-
-EnemyHPUI::~EnemyHPUI()
-{
-}
-
-void EnemyHPUI::Init()
 {
 	//ìGÇ™è¡Ç¶ÇΩèÍçáÇ±ÇÃUIÇ‡çÌèú
 	if (m_enemy.expired())
@@ -37,7 +29,11 @@ void EnemyHPUI::Init()
 	m_viewMaxHp = hp->GetMaxHp();
 }
 
-void EnemyHPUI::Update(const std::weak_ptr<ActorManager> actorManager)
+EnemyHPUI::~EnemyHPUI()
+{
+}
+
+void EnemyHPUI::Update()
 {
 	//ìGÇ™è¡Ç¶ÇΩèÍçáÇ±ÇÃUIÇ‡çÌèú
 	if (m_enemy.expired())
@@ -70,8 +66,4 @@ void EnemyHPUI::Draw() const
 	pos.x -= kShiftLeftPosX;
 	DrawBoxAA(pos.x, pos.y, pos.x + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, pos.y - kBarHeight, 0x555555, true);
 	DrawBoxAA(pos.x, pos.y, pos.x + (m_viewHp / m_viewMaxHp) * kBarWidth, pos.y - kBarHeight, 0xff5555, true);
-}
-
-void EnemyHPUI::End()
-{
 }

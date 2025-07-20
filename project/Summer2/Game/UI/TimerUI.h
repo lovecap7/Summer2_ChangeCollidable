@@ -8,12 +8,10 @@ class TimerUI :
     public UIBase
 {
 public:
-    TimerUI(int handle,const std::weak_ptr<Timer> timer);
+    TimerUI(const std::weak_ptr<Timer> timer);
     ~TimerUI();
-    void Init()override;
-    void Update(const std::weak_ptr<ActorManager> actorManager)override;
+    void Update()override;
     void Draw() const override;
-    void End()override;
 private:
     std::weak_ptr<Timer> m_timer;
 };

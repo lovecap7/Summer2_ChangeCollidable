@@ -49,7 +49,7 @@ class CharacterBase;
 class ActorManager : public std::enable_shared_from_this<ActorManager>
 {
 public:
-	ActorManager(std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera);
+	ActorManager(std::weak_ptr<Camera> camera);
 	~ActorManager();
 	//登録
 	void Entry(std::shared_ptr<Actor> actor);
@@ -128,8 +128,6 @@ private:
 	int m_actorId;//割り振る番号
 	//攻撃データ
 	std::vector<AttackData> m_attackDatas;
-	//UIの参照
-	std::weak_ptr<UIManager> m_uiManager;
 	//カメラの参照
 	std::weak_ptr<Camera> m_camera;
 	//ハンドル

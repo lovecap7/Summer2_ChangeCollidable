@@ -2,6 +2,7 @@
 #include "../../General/Math/MathSub.h"
 #include "../../General/HitPoints.h"
 #include "../../General/CSVDataSaver.h"
+#include "../UI/UIManager.h"
 
 Score::Score()
 {
@@ -44,6 +45,9 @@ void Score::Init()
 			m_decTimeScoreData = data.score;
 		}
 	}
+
+	//UIçÏê¨
+	UIManager::GetInstance().CreateScoreUI(shared_from_this());
 }
 
 int Score::GetScore()

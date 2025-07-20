@@ -28,8 +28,6 @@ public:
 private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;
-    //UIマネージャー
-	std::shared_ptr<UIManager> m_uiManager;
     //カメラ
     std::shared_ptr<Camera> m_camera;
     //スコア

@@ -1,33 +1,23 @@
 #pragma once
 #include <memory>
 
-enum class UIData
-{
-	PlayerHp,
-	PlayerUlt,
-	EnemyHp,
-	BossHp,
-	Timer,
-	Score
-};
-
-class ActorManager;
-class UIBase abstract
+class UIBase abstract :
+	public std::enable_shared_from_this<UIBase>
 {
 public:
-	UIBase(UIData uiData, int handle);
+	UIBase(int handle);
 	virtual~UIBase();
-	virtual void Init() abstract;
-	virtual void Update(const std::weak_ptr<ActorManager> actorManager)abstract;
+	virtual void Init() ;
+	virtual void Update()abstract;
 	virtual void Draw()const abstract;
-	virtual void End()abstract;
+	virtual void End();
 	bool IsDelete() { return m_isDelete; };
-	UIData GetUIData() { return m_uiData; };
+	//•`‰æ‚·‚é‚©
+	void SetIsDraw(bool isDraw) { m_isDraw = isDraw; };
+	bool IsDraw()const { return m_isDraw; };
 protected:
 	bool m_isDelete;	//íœ
 	bool m_isDraw;		//•`‰æ‚·‚é‚©
-	//UI‚Ì¯•Ê—p•Ï”
-	UIData m_uiData;
 	//ƒnƒ“ƒhƒ‹
 	int m_handle;
 };

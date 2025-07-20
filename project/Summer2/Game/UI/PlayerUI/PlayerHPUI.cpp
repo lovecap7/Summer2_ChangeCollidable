@@ -13,19 +13,10 @@ namespace
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
 }
 
-PlayerHPUI::PlayerHPUI(int handle, std::weak_ptr<Player> player) :
-	PlayerUIBase(UIData::PlayerHp, handle, player),
+PlayerHPUI::PlayerHPUI(std::weak_ptr<Player> player) :
+	PlayerUIBase(-1, player),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f)
-{
-}
-
-PlayerHPUI::~PlayerHPUI()
-{
-}
-
-
-void PlayerHPUI::Init()
 {
 	//プレイヤーが消えた場合このUIも削除
 	if (m_player.expired())
@@ -39,10 +30,14 @@ void PlayerHPUI::Init()
 	m_viewMaxHp = hp->GetMaxHp();
 }
 
-void PlayerHPUI::Update(const std::weak_ptr<ActorManager> actorManager)
+PlayerHPUI::~PlayerHPUI()
 {
-	//プレイヤーまたはボスが消えた場合はこのUIも削除
-	if (m_player.expired() || actorManager.lock()->GetBoss().expired())
+}
+
+void PlayerHPUI::Update()
+{
+	//プレイヤーが消えた場合はこのUIも削除
+	if (m_player.expired())
 	{
 		m_isDelete = true;
 		return;
@@ -67,8 +62,3 @@ void PlayerHPUI::Draw() const
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x555555, true);
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x55ff55, true);
 }
-
-void PlayerHPUI::End()
-{
-}
-

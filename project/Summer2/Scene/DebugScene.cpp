@@ -81,28 +81,28 @@ void DebugScene::Update()
 
 void DebugScene::Draw()
 {
-	DrawString(0, 0, "Debug Scene", 0xff0000);
-	DrawString(100, 50, "Title Scene", 0xffffff);
-	DrawString(100, 70, "SelectStage Scene", 0xffffff);
-	DrawString(100, 90, "Stage1 Scene", 0xffffff);
-	DrawString(100, 110, "Staeg2 Scene", 0xffffff);
-	DrawString(100, 130, "Stage3 Scene", 0xffffff);
+	DrawString(0, 0, L"Debug Scene", 0xff0000);
+	DrawString(100, 50, L"Title Scene", 0xffffff);
+	DrawString(100, 70, L"SelectStage Scene", 0xffffff);
+	DrawString(100, 90, L"Stage1 Scene", 0xffffff);
+	DrawString(100, 110, L"Staeg2 Scene", 0xffffff);
+	DrawString(100, 130, L"Stage3 Scene", 0xffffff);
 	switch (m_selectSceneIndex)
 	{
 	case 0:
-		DrawString(100, 50, "Title Scene", 0xff0000);
+		DrawString(100, 50, L"Title Scene", 0xff0000);
 		break;
 	case 1:
-		DrawString(100, 70, "SelectStage Scene", 0xff0000);
+		DrawString(100, 70, L"SelectStage Scene", 0xff0000);
 		break;
 	case 2:
-		DrawString(100, 90, "Stage1 Scene", 0xff0000);
+		DrawString(100, 90, L"Stage1 Scene", 0xff0000);
 		break;
 	case 3:
-		DrawString(100, 110, "Staeg2 Scene", 0xff0000);
+		DrawString(100, 110, L"Staeg2 Scene", 0xff0000);
 		break;
 	case 4:
-		DrawString(100, 130, "Stage3 Scene", 0xff0000);
+		DrawString(100, 130, L"Stage3 Scene", 0xff0000);
 		break;
 	default:
 		break;

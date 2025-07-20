@@ -18,6 +18,8 @@
 #include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 #include "../../../Character/CharacterStateBase.h"
+#include "../../../../UI/UIManager.h"
+#include "../../../../UI/EnemyUI/BossHPUI.h"
 
 namespace
 {
@@ -64,12 +66,15 @@ void BossDragon::Init()
 	AllSetting(CollisionState::Normal, Priority::High, GameTag::Enemy, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
-
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<BossDragon>(shared_from_this());
 	m_state = std::make_shared<BossDragonStateIdle>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
+
+	//敵関連のUIの準備
+	m_hpUI = UIManager::GetInstance().CreateBossUI(thisPointer);
+	m_hpUI.lock()->SetIsDraw(false);
 }
 
 void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
@@ -84,6 +89,16 @@ void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<
 
 	//ボス部屋に入った時行動開始
 	if (!actorManager.lock()->GetBossArea().lock()->IsEntryBossArea())return;
+	//体力の表示をする
+	if (!m_hpUI.expired())
+	{
+		auto hpUI = m_hpUI.lock();
+		if (!hpUI->IsDraw())
+		{
+			hpUI->SetIsDraw(true);
+		}
+	}
+
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
 	//ターゲットを発見できたかをチェック

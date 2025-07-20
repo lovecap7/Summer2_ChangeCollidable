@@ -1,8 +1,10 @@
 #include "Model.h"
 #include "Math/MyMath.h"
 #include "Animator.h"
+#include "StringUtil.h"
 #include <array>
 #include <cassert>
+#include <string>
 
 namespace
 {
@@ -196,43 +198,19 @@ void Model::ModelHit()
 	m_beforeScaleDif = (m_scale - m_beforeScale);	//差を計算
 
 }
-//
-//void Model::DrawBoundingBox()const
-//{
-//	//バウンディングボックス
-//	std::array<VECTOR, 8>bbVertices;
-//	auto vmax = MV1GetFrameMaxVertexLocalPosition(m_modelHandle,0);
-//	auto vmin = MV1GetFrameMinVertexLocalPosition(m_modelHandle, 0);
-//
-//	//大きさ調整
-//	/*VECTOR scale = MV1GetScale(m_modelHandle);
-//	vmax = VScale(vmax, VSize(scale));
-//	vmin = VScale(vmin, VSize(scale));*/
-//
-//	bbVertices[0] = vmin;
-//	bbVertices[1] = { vmax.x,vmin.y,vmin.z };
-//	bbVertices[2] = { vmin.x,vmax.y,vmin.z };
-//	bbVertices[3] = { vmax.x,vmax.y,vmin.z };
-//	bbVertices[4] = { vmin.x,vmin.y,vmax.z };
-//	bbVertices[5] = { vmax.x,vmin.y,vmax.z };
-//	bbVertices[6] = { vmin.x,vmax.y,vmax.z };
-//	bbVertices[7] = { vmax.x,vmax.y,vmax.z };
-//	for (auto& v : bbVertices)
-//	{
-//		DrawSphere3D(v, 2.0f, 16, 0xffffff, 0, false);
-//	}
-//}
 
 void Model::SetAnim(const char* animName, bool isLoop)
 {
+	auto animNameT = ToTCHAR(animName);
 	//アニメーションを変更
-	m_animator->SetAnim(m_modelHandle, MV1GetAnimIndex(m_modelHandle, animName), isLoop);
+	m_animator->SetAnim(m_modelHandle, MV1GetAnimIndex(m_modelHandle, animNameT), isLoop);
 }
 
 void Model::SetAnim(const char* animName, bool isLoop, const float& animSpeed)
 {
+	auto animNameT = ToTCHAR(animName);
 	//アニメーションを変更
-	m_animator->SetAnim(m_modelHandle, MV1GetAnimIndex(m_modelHandle, animName), isLoop, animSpeed);
+	m_animator->SetAnim(m_modelHandle, MV1GetAnimIndex(m_modelHandle, animNameT), isLoop, animSpeed);
 }
 
 void Model::SetAnimSpeed(const float& animSpeed)

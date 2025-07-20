@@ -22,6 +22,7 @@
 #include "../../ActorManager.h"
 #include "../../../../Game/Camera/Camera.h"
 #include "UltGage.h"
+#include "../../../UI/UIManager.h"
 #include <DxLib.h>
 #include <cmath>
 
@@ -93,6 +94,9 @@ void Player::Init()
 	m_state->ChangeState(m_state);
 	//初期化座標
 	m_initPos = m_rb->m_pos;
+
+	//プレイヤー関連のUIの準備
+	UIManager::GetInstance().CreatePlayerUI(thisPointer);
 }
 
 void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)

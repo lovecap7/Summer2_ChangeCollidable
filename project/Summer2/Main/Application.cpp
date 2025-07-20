@@ -5,7 +5,7 @@
 #include  "../General/Input.h"
 #include  "../General/Collision/Physics.h"
 #include  "../General/Effect/EffekseerManager.h"
-#include  "../General/TextManager.h"
+#include  "../Game/UI/UIManager.h"
 
 Application& Application::GetInstance()
 {
@@ -17,7 +17,7 @@ Application& Application::GetInstance()
 bool Application::Init()
 {
 	//ゲームタイトル
-	SetWindowText("Spinning Knight");
+	SetWindowText(L"Spinning Knight");
 	//ゲームアイコン
 	//SetWindowIconID(IDI_ICON1);
 
@@ -60,14 +60,15 @@ void Application::Run()
 	//アプリケーション以外はここで宣言と初期化
 	SceneController* sceneController = new SceneController();
 	//コントローラー
-	Input::GetInstance().Init();
+	auto& input = Input::GetInstance();
+	input.Init();
 	//Physics(衝突処理)
 	auto& physics = Physics::GetInstance();
 	//エフェクト
 	auto& effect = EffekseerManager::GetInstance();
-	//テキストマネージャー
-	auto& text = TextManager::GetInstance();
-	text.Init();
+	//UIマネージャー
+	auto& uiManager = UIManager::GetInstance();
+	uiManager.Init();
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -81,18 +82,18 @@ void Application::Run()
 		//ここにゲームの処理を書く
 		
 		//更新
-		Input::GetInstance().Update();
+		input.Update();
 		sceneController->Update();
 		physics.Update();
 		effect.Update();
-		text.Update();
+		uiManager.Update();
 		//描画
 		sceneController->Draw();
 		effect.Draw();
-		text.Draw();
+		uiManager.Draw();
 
 #if _DEBUG
-		DrawFormatString(0, 500, 0xff0000, "FPS : %.2f", GetFPS());
+		DrawFormatString(0, 500, 0xff0000, L"FPS : %.2f", GetFPS());
 #endif
 
 		//画面の切り替わりを待つ必要がある
@@ -119,7 +120,7 @@ void Application::Terminate()
 {
 	Physics::GetInstance().Reset();
 	EffekseerManager::GetInstance().End();
-	TextManager::GetInstance().End();
+	UIManager::GetInstance().End();
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 }
 

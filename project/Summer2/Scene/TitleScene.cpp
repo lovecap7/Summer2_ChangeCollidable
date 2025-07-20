@@ -51,8 +51,8 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 #if _DEBUG
-	DrawString(0, 0, "Title Scene", 0xffffff);
-	DrawString(0, 16, "[D]キーで Debug Scene", 0xffffff);
+	DrawString(0, 0, L"Title Scene", 0xffffff);
+	DrawString(0, 16, L"[D]キーで Debug Scene", 0xffffff);
 #endif
 }
 

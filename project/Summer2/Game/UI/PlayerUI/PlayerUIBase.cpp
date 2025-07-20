@@ -1,7 +1,7 @@
 #include "PlayerUIBase.h"
 
-PlayerUIBase::PlayerUIBase(UIData uiData, int handle, std::weak_ptr<Player> player):
-	UIBase(uiData,handle),
+PlayerUIBase::PlayerUIBase(int handle, std::weak_ptr<Player> player):
+	UIBase(handle),
 	m_player(player)
 {
 }

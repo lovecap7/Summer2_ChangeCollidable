@@ -47,11 +47,11 @@ void SelectStageScene::Update()
 void SelectStageScene::Draw()
 {
 #if _DEBUG
-	DrawString(0, 0, "SelectStage Scene", 0xffffff);
-	DrawString(0, 16, "[D]キーで Debug Scene", 0xffffff);
-	DrawString(0, 32, "A Bottun : Stage 1", 0xffff00);
-	DrawString(0, 48, "B Bottun : Stage 2", 0xffff00);
-	DrawString(0, 64, "X Bottun : Stage 3", 0xffff00);
+	DrawString(0, 0, L"SelectStage Scene", 0xffffff);
+	DrawString(0, 16, L"[D]キーで Debug Scene", 0xffffff);
+	DrawString(0, 32, L"A Bottun : Stage 1", 0xffff00);
+	DrawString(0, 48, L"B Bottun : Stage 2", 0xffff00);
+	DrawString(0, 64, L"X Bottun : Stage 3", 0xffff00);
 #endif
 }
 

@@ -46,9 +46,8 @@ namespace
 	constexpr int kAreaPartsNum = 2;
 }
 
-ActorManager::ActorManager(std::weak_ptr<UIManager> uiManager, std::weak_ptr<Camera> camera):
+ActorManager::ActorManager(std::weak_ptr<Camera> camera):
 	m_actorId(0),
-	m_uiManager(uiManager),
 	m_camera(camera),
 	m_isUpdate(true),
 	m_delayFrame(0)
@@ -164,35 +163,23 @@ std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(CharacterType ch, Vec
 {
 	//キャラクターを作成
 	std::shared_ptr<CharacterBase> chara;
-	//必要なUIを作成するために
-	auto uiManager = m_uiManager.lock();
 	switch (ch)
 	{
 	case CharacterType::Player:
 		//プレイヤー作成
 		chara = std::make_shared<Player>(MV1DuplicateModel(m_handles["Player"]), pos);
-		//プレイヤーに必要なUI作成
-		uiManager->CreatePlayerUI(std::dynamic_pointer_cast<Player>(chara));
 		break;
 	case CharacterType::PurpleDinosaur:
 		chara = std::make_shared<PurpleDinosaur>(MV1DuplicateModel(m_handles["PurpleDinosaur"]), pos);
-		//敵に必要なUI作成
-		uiManager->CreateEnemyUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
 	case CharacterType::SmallDragon:
 		chara = std::make_shared<SmallDragon>(MV1DuplicateModel(m_handles["SmallDragon"]), pos);
-		//敵に必要なUI作成
-		uiManager->CreateEnemyUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
 	case CharacterType::Bomber:
 		chara = std::make_shared<Bomber>(MV1DuplicateModel(m_handles["Bomber"]), pos);
-		//敵に必要なUI作成
-		uiManager->CreateEnemyUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
 	case CharacterType::BossDragon:
 		chara = std::make_shared<BossDragon>(MV1DuplicateModel(m_handles["BossDragon"]), pos);
-		//ボスに必要なUI作成
-		uiManager->CreateBossUI(std::dynamic_pointer_cast<EnemyBase>(chara));
 		break;
 	default:
 		break;
@@ -380,23 +367,23 @@ void ActorManager::CreateAttackData()
 
 void ActorManager::LoadHandle()
 {
-	m_handles["Player"]			= { MV1LoadModel("Data/Model/Player/Player.mv1") };
-	m_handles["InvisibleWall"]	= { MV1LoadModel("Data/Model/Stage/InvisibleWall.mv1") };
-	m_handles["PurpleDinosaur"] = { MV1LoadModel("Data/Model/Enemy/PurpleDinosaur.mv1") };
-	m_handles["SmallDragon"]	= { MV1LoadModel("Data/Model/Enemy/SmallDragon.mv1") };
-	m_handles["Bomber"]			= { MV1LoadModel("Data/Model/Enemy/Bomber.mv1") };
-	m_handles["BossDragon"]		= { MV1LoadModel("Data/Model/Enemy/BossDragon.mv1") };
-	m_handles["Path"]			= { MV1LoadModel("Data/Model/Stage/1/Path.mv1") };
-	m_handles["Block_Grass"]	= { MV1LoadModel("Data/Model/Stage/1/Block_Grass.mv1") };
-	m_handles["Cube"]			= { MV1LoadModel("Data/Model/Collision/Cube.mv1")};
-	m_handles["Cylinder"]		= { MV1LoadModel("Data/Model/Collision/Cylinder.mv1") };
-	m_handles["Plane"]			= { MV1LoadModel("Data/Model/Collision/Plane.mv1") };
-	m_handles["Sky"]			= { MV1LoadModel("Data/Model/Stage/Sky/Sky_Daylight02.pmx") };
-	m_handles["Heart"]			= { MV1LoadModel("Data/Model/Item/Heart.mv1") };
-	m_handles["Bomb"]			= { MV1LoadModel("Data/Model/Item/Bomb.mv1") };
-	m_handles["UltGageUp"]		= { MV1LoadModel("Data/Model/Item/UltGageUp.mv1") };
-	m_handles["AttackUp"]		= { MV1LoadModel("Data/Model/Item/AttackUp.mv1") };
-	m_handles["DefenseUp"]		= { MV1LoadModel("Data/Model/Item/DefenseUp.mv1") };
+	m_handles["Player"]			= { MV1LoadModel(L"Data/Model/Player/Player.mv1") };
+	m_handles["InvisibleWall"]	= { MV1LoadModel(L"Data/Model/Stage/InvisibleWall.mv1") };
+	m_handles["PurpleDinosaur"] = { MV1LoadModel(L"Data/Model/Enemy/PurpleDinosaur.mv1") };
+	m_handles["SmallDragon"]	= { MV1LoadModel(L"Data/Model/Enemy/SmallDragon.mv1") };
+	m_handles["Bomber"]			= { MV1LoadModel(L"Data/Model/Enemy/Bomber.mv1") };
+	m_handles["BossDragon"]		= { MV1LoadModel(L"Data/Model/Enemy/BossDragon.mv1") };
+	m_handles["Path"]			= { MV1LoadModel(L"Data/Model/Stage/1/Path.mv1") };
+	m_handles["Block_Grass"]	= { MV1LoadModel(L"Data/Model/Stage/1/Block_Grass.mv1") };
+	m_handles["Cube"]			= { MV1LoadModel(L"Data/Model/Collision/Cube.mv1")};
+	m_handles["Cylinder"]		= { MV1LoadModel(L"Data/Model/Collision/Cylinder.mv1") };
+	m_handles["Plane"]			= { MV1LoadModel(L"Data/Model/Collision/Plane.mv1") };
+	m_handles["Sky"]			= { MV1LoadModel(L"Data/Model/Stage/Sky/Sky_Daylight02.pmx") };
+	m_handles["Heart"]			= { MV1LoadModel(L"Data/Model/Item/Heart.mv1") };
+	m_handles["Bomb"]			= { MV1LoadModel(L"Data/Model/Item/Bomb.mv1") };
+	m_handles["UltGageUp"]		= { MV1LoadModel(L"Data/Model/Item/UltGageUp.mv1") };
+	m_handles["AttackUp"]		= { MV1LoadModel(L"Data/Model/Item/AttackUp.mv1") };
+	m_handles["DefenseUp"]		= { MV1LoadModel(L"Data/Model/Item/DefenseUp.mv1") };
 
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_handles) {

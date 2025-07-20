@@ -2,6 +2,7 @@
 #include "../../General/game.h"
 #include "../Actors/ActorManager.h"
 #include "../GameRule/Score.h"
+#include "../UI/UIManager.h"
 #include <DxLib.h>
 
 namespace
@@ -13,24 +14,24 @@ namespace
 	//減速する差
 	constexpr int kChangeLowSpeed = 300;
 	//大きさ
-	constexpr float kScale = 0.3f;
+	constexpr float kScale = 0.1f;
 	//幅
 	constexpr int kImageWidth = 256;
 	constexpr int kImageHeight = 256;
 	//スコアのX座標
-	constexpr int kPosX = (Game::kScreenWidth - 100);
+	constexpr int kPosX = (Game::kScreenWidth/2 - 200);
 	//スコアのY座標
-	constexpr int kPosY = 50;
+	constexpr int kPosY = 30;
 	//スコアの1桁の幅
-	constexpr int kDigitMargin = 50;
+	constexpr int kDigitMargin = 13;
 	//重力
 	constexpr float kGravity = 1.0f;
 	//ジャンプ力
 	constexpr float kJumpPower = 2.0f;
 }
 
-ScoreUI::ScoreUI(int handle, const std::weak_ptr<Score> score) :
-	UIBase(UIData::Score,handle),
+ScoreUI::ScoreUI(const std::weak_ptr<Score> score) :
+	UIBase(UIManager::GetInstance().GetImageHandle("Score")),
 	m_viewScore(0),
 	m_viewMaxScore(0),
 	m_score(score),
@@ -47,14 +48,10 @@ ScoreUI::~ScoreUI()
 {
 }
 
-void ScoreUI::Init()
+void ScoreUI::Update()
 {
-}
-
-void ScoreUI::Update(const std::weak_ptr<ActorManager> actorManager)
-{
-	//プレイヤーまたはボスが消えた場合はこのUIも削除
-	if (actorManager.lock()->GetPlayer().expired() || actorManager.lock()->GetBoss().expired())
+	//スコアが削除されたらこのUIも削除
+	if (m_score.expired())
 	{
 		m_isDelete = true;
 		return;
@@ -127,8 +124,4 @@ void ScoreUI::Draw() const
 			kImageWidth, kImageHeight,
 			kScale, 0.0f, m_handle, true, false);
 	}
-}
-
-void ScoreUI::End()
-{
 }

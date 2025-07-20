@@ -7,6 +7,7 @@ class EnemyManager;
 class AttackManager;
 class ActorManager;
 class CharacterStateBase;
+class BossHPUI;
 class BossDragon :
 	public EnemyBase
 {
@@ -36,6 +37,6 @@ public:
 	//ターゲットのデータ
 	TargetData GetTargetData() const { return m_targetData; };
 private:
-
+	std::weak_ptr<BossHPUI> m_hpUI;
 };
 

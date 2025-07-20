@@ -9,6 +9,9 @@
 #include "../Game/Camera/Camera.h"
 #include "../Game/GameRule/Score.h"
 #include "../Game/GameRule/Timer.h"
+#include "../Game/UI/ScoreUI.h"
+#include "../Game/UI/TimerUI.h"
+#include "../Game/UI/TutorialUI.h"
 #include <cassert>
 
 namespace
@@ -28,12 +31,10 @@ GameManager::GameManager():
 	m_isGameover(false),
 	m_isGameClear(false)
 {
-	//UIマネージャー
-	m_uiManager = std::make_shared<UIManager>();
 	//カメラの初期化
 	m_camera = std::make_shared<Camera>();
 	//アクターマネージャー
-	m_actorManager = std::make_shared<ActorManager>(m_uiManager, m_camera);
+	m_actorManager = std::make_shared<ActorManager>(m_camera);
 	//スコア
 	m_score = std::make_shared<Score>();
 	//タイマー
@@ -52,15 +53,13 @@ void GameManager::Init(Stage::StageIndex index)
 	m_score->Init();
 	//タイマーの初期化
 	m_timer->Init();
-	//タイマーとスコアの準備
-	m_uiManager->CreateScoreUI(m_score);
-	m_uiManager->CreateTimerUI(m_timer);
-	//UIの初期化
-	m_uiManager->Init();
 	//アクターマネージャーの初期化
 	m_actorManager->Init(index);
 	//カメラの初期化
 	m_camera->Init();
+
+	auto tu = std::make_shared<TutorialUI>();
+	tu->Init();
 }
 
 void GameManager::Update()
@@ -75,8 +74,6 @@ void GameManager::Update()
 		m_actorManager->Update(m_score);
 		//タイマー
 		m_timer->Update();
-		//UIの更新
-		m_uiManager->Update(m_actorManager);
 		//カメラの更新
 		m_camera->Update(m_actorManager);
 		//ボスを倒したとき
@@ -106,8 +103,8 @@ void GameManager::Update()
 void GameManager::Draw() const
 {
 #if _DEBUG
-	DrawString(0, 0, "Stage1 Scene", 0xffffff);
-	DrawString(0, 16, "[D]キーで Debug Scene", 0xffffff);
+	DrawString(0, 0, L"Stage1 Scene", 0xffffff);
+	DrawString(0, 16, L"[D]キーで Debug Scene", 0xffffff);
 
 	for (int z = -500; z <= 500; z += 100)
 	{
@@ -118,13 +115,13 @@ void GameManager::Draw() const
 		DrawLine3D(VGet(x, 0, -500), VGet(x, 0, 500), 0x0000ff);
 	}
 	VECTOR screenPos = ConvWorldPosToScreenPos(VGet(500, 0, 0));
-	DrawString(screenPos.x, screenPos.y, "X+", 0xffffff);
+	DrawString(screenPos.x, screenPos.y, L"X+", 0xffffff);
 	screenPos = ConvWorldPosToScreenPos(VGet(-500, 0, 0));
-	DrawString(screenPos.x, screenPos.y, "X-", 0xffffff);
+	DrawString(screenPos.x, screenPos.y, L"X-", 0xffffff);
 	screenPos = ConvWorldPosToScreenPos(VGet(0, 0, 500));
-	DrawString(screenPos.x, screenPos.y, "Z+", 0xffffff);
+	DrawString(screenPos.x, screenPos.y, L"Z+", 0xffffff);
 	screenPos = ConvWorldPosToScreenPos(VGet(0, 0, -500));
-	DrawString(screenPos.x, screenPos.y, "Z-", 0xffffff);
+	DrawString(screenPos.x, screenPos.y, L"Z-", 0xffffff);
 #endif
 	//シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(m_shadowMapHandle);
@@ -136,8 +133,6 @@ void GameManager::Draw() const
 	SetUseShadowMap(0, m_shadowMapHandle);
 	//アクターの描画
 	m_actorManager->Draw();
-	//UIの描画
-	m_uiManager->Draw();
 	//描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(0, -1);
 }
@@ -146,8 +141,8 @@ void GameManager::End()
 {
 	//アクターマネージャーの終了
 	m_actorManager->End();
-	//UIマネージャーの終了
-	m_uiManager->End();
+	//UIマネージャーのリセット
+	UIManager::GetInstance().Reset();
 	//シャドウマップの削除
 	DeleteShadowMap(m_shadowMapHandle);
 }
@@ -158,11 +153,8 @@ void GameManager::Restart(Stage::StageIndex index)
 	m_score->Init();
 	//タイマーの初期化
 	m_timer->Init();
-	//UIマネージャーの再スタート
-	m_uiManager->Restart();
-	//タイマーとスコアの準備
-	m_uiManager->CreateScoreUI(m_score);
-	m_uiManager->CreateTimerUI(m_timer);
+	//UIマネージャーのリセット
+	UIManager::GetInstance().Reset();
 	//アクターマネージャーの再スタート
 	m_actorManager->Restart(index);
 	//カメラの初期化

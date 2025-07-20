@@ -6,12 +6,10 @@ class PlayerUltGageUI :
 	public PlayerUIBase
 {
 public:
-	PlayerUltGageUI(int handle,std::weak_ptr<Player> player);
+	PlayerUltGageUI(std::weak_ptr<Player> player);
 	~PlayerUltGageUI();
-	void Init() override;
-	void Update(const std::weak_ptr<ActorManager> actorManager)override;
+	void Update()override;
 	void Draw()const override;
-	void End()override;
 private:
 	//ÉQÅ[ÉW
 	float m_viewUltGageValue;

@@ -7,12 +7,10 @@ class EnemyHPUI :
     public EnemyUIBase
 {
 public:
-    EnemyHPUI(int handle, std::weak_ptr<EnemyBase> enemy);
+    EnemyHPUI(std::weak_ptr<EnemyBase> enemy);
     ~EnemyHPUI();
-    void Init()override;
-    void Update(const std::weak_ptr<ActorManager> actorManager)override;
+    void Update()override;
     void Draw() const override;
-    void End()override;
 private:
     float m_viewHp;
     float m_viewMaxHp;

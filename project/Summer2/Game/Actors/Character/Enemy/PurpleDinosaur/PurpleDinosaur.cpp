@@ -16,6 +16,7 @@
 #include "../../../../../General/AttackPoints.h"
 #include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
+#include "../../../../UI/UIManager.h"
 
 namespace
 {
@@ -69,6 +70,9 @@ void PurpleDinosaur::Init()
 	m_state = std::make_shared<PurpleDinosaurStateIdle>(thisPointer);
 	//ó‘Ô‚ğ•Ï‰»‚·‚é
 	m_state->ChangeState(m_state);
+
+	//“GŠÖ˜A‚ÌUI‚Ì€”õ
+	UIManager::GetInstance().CreateEnemyUI(thisPointer);
 }
 
 void PurpleDinosaur::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)

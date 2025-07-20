@@ -12,18 +12,10 @@ namespace
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
 }
 
-PlayerUltGageUI::PlayerUltGageUI(int handle ,std::weak_ptr<Player> player):
-	PlayerUIBase(UIData::PlayerUlt,handle, player),
+PlayerUltGageUI::PlayerUltGageUI(std::weak_ptr<Player> player):
+	PlayerUIBase(-1, player),
 	m_viewUltGageValue(0.0f),
 	m_viewMaxUltGageValue(0.0f)
-{
-}
-
-PlayerUltGageUI::~PlayerUltGageUI()
-{
-}
-
-void PlayerUltGageUI::Init()
 {
 	//プレイヤーが消えた場合このUIも削除
 	if (m_player.expired())
@@ -36,10 +28,14 @@ void PlayerUltGageUI::Init()
 	m_viewMaxUltGageValue = ultGage->GetMaxUltGageValue();
 }
 
-void PlayerUltGageUI::Update(const std::weak_ptr<ActorManager> actorManager)
+PlayerUltGageUI::~PlayerUltGageUI()
 {
-	//プレイヤーまたはボスが消えた場合はこのUIも削除
-	if (actorManager.lock()->GetPlayer().expired() || actorManager.lock()->GetBoss().expired())
+}
+
+void PlayerUltGageUI::Update()
+{
+	//プレイヤーが消えた場合はこのUIも削除
+	if (m_player.expired())
 	{
 		m_isDelete = true;
 		return;
@@ -65,6 +61,3 @@ void PlayerUltGageUI::Draw() const
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewUltGageValue / m_viewMaxUltGageValue) * kBarWidth, kRightPosY, 0x5555ff, true);
 }
 
-void PlayerUltGageUI::End()
-{
-}

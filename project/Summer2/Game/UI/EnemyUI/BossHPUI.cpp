@@ -9,24 +9,16 @@
 namespace
 {
 	constexpr float kLeftPosX = 200.0f;
-	constexpr float kLeftPosY = Game::kScreenHeight - 200.0f;
+	constexpr float kLeftPosY = Game::kScreenHeight - 100.0f;
 	constexpr float kBarHeight = 50.0f;
 	constexpr float kBarWidth = Game::kScreenWidth - (kLeftPosX * 2.0f);
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
 }
 
-BossHPUI::BossHPUI(int handle, std::weak_ptr<EnemyBase> enemy) :
-	EnemyUIBase(UIData::BossHp, handle, enemy),
+BossHPUI::BossHPUI(std::weak_ptr<EnemyBase> enemy) :
+	EnemyUIBase(-1, enemy),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f)
-{
-}
-
-BossHPUI::~BossHPUI()
-{
-}
-
-void BossHPUI::Init()
 {
 	//“G‚ªÁ‚¦‚½ê‡‚±‚ÌUI‚àíœ
 	if (m_enemy.expired())
@@ -38,22 +30,19 @@ void BossHPUI::Init()
 	//‰Šú‰»
 	m_viewHp = hp->GetHp();
 	m_viewMaxHp = hp->GetMaxHp();
-	//•`‰æ‚µ‚È‚¢
-	m_isDraw = false;
 }
 
-void BossHPUI::Update(const std::weak_ptr<ActorManager> actorManager)
+BossHPUI::~BossHPUI()
+{
+}
+
+void BossHPUI::Update()
 {
 	//ƒ{ƒX‚ªÁ‚¦‚½ê‡‚±‚ÌUI‚àíœ
 	if (m_enemy.expired())
 	{
 		m_isDelete = true;
 		return;
-	}
-	//ƒ{ƒX•”‰®‚É“ü‚Á‚½Žž•`‰æ
-	if (actorManager.lock()->GetBossArea().lock()->IsEntryBossArea())
-	{
-		m_isDraw = true;
 	}
 	auto enemy = m_enemy.lock();
 	auto hp = enemy->GetHitPoints().lock();
@@ -75,8 +64,4 @@ void BossHPUI::Draw() const
 	if (!m_isDraw)return;
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x555555, true);
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0xff5555, true);
-}
-
-void BossHPUI::End()
-{
 }

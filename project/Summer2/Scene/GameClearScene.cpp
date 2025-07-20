@@ -98,20 +98,20 @@ void GameClearScene::NormalDraw()
 		true);//塗り潰す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	//スコア表示
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 100.0f, 0xff2222, "TotalScore : %5d", m_score->GetScore());
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 100.0f, 0x55555, L"TotalScore : %5d", m_score->GetScore());
 	//撃破スコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 150.0f, 0xff2222, "KillScore : %5d", m_score->GetKillScore());
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 150.0f, 0x55555, L"KillScore : %5d", m_score->GetKillScore());
 	//アイテムゲットスコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 200.0f, 0xff2222, "ItemScore : %5d", m_score->GetItemScore());
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 200.0f, 0x55555, L"ItemScore : %5d", m_score->GetItemScore());
 	//タイムスコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 250.0f, 0xff2222, "TimeScore : %5d", m_score->GetTimeScore());
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 250.0f, 0x55555, L"TimeScore : %5d", m_score->GetTimeScore());
 	//体力スコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 300.0f, 0xffffff, "HPScore : %5d", m_score->GetHPScore());
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 300.0f, 0x55555, L"HPScore : %5d", m_score->GetHPScore());
 	//ハイスコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 350.0f, 0xff2222, "HighScore : %5d", m_score->GetHighScore());
+	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 350.0f, 0x55555, L"HighScore : %5d", m_score->GetHighScore());
 	//ハイスコア更新
 	if (m_score->IsUpdateHighScore())
 	{
-		DrawString((Game::kScreenWidth / 2.0f) + 100.0f, 325.0f, "New Record!!!", 0xff2222);
+		DrawString((Game::kScreenWidth / 2.0f) + 100.0f, 325.0f, L"New Record!!!", 0xffffff);
 	}
 }

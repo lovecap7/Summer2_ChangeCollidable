@@ -2,6 +2,7 @@
 #include "../GameRule/Timer.h"
 #include "../../General/game.h"
 #include "../Actors/ActorManager.h"
+#include "../UI/UIManager.h"
 #include <DxLib.h>
 
 namespace
@@ -9,22 +10,22 @@ namespace
 	//スコアの桁数
 	constexpr int kDigitNum = 2;
 	//大きさ
-	constexpr float kScale = 0.2f;
+	constexpr float kScale = 0.1f;
 	//幅
 	constexpr int kImageWidth = 256;
 	constexpr int kImageHeight = 256;
 	//タイマーのX座標
 	constexpr int kMinSecPosX = (Game::kScreenWidth - 100);
-	constexpr int kSecPosX = (Game::kScreenWidth - 170);
-	constexpr int kMinPosX = (Game::kScreenWidth - 240);
+	constexpr int kSecPosX = (Game::kScreenWidth - 130);
+	constexpr int kMinPosX = (Game::kScreenWidth - 160);
 	//タイマーのY座標
-	constexpr int kPosY = 120;
+	constexpr int kPosY = 30;
 	//タイマーの1桁の幅
-	constexpr int kDigitMargin = 30;
+	constexpr int kDigitMargin = 13;
 }
 
-TimerUI::TimerUI(int handle,const std::weak_ptr<Timer> timer):
-	UIBase(UIData::Timer,handle),
+TimerUI::TimerUI(const std::weak_ptr<Timer> timer):
+	UIBase(UIManager::GetInstance().GetImageHandle("Timer")),
 	m_timer(timer)
 {
 }
@@ -33,13 +34,10 @@ TimerUI::~TimerUI()
 {
 }
 
-void TimerUI::Init()
-{
-}
 
-void TimerUI::Update(const std::weak_ptr<ActorManager> actorManager)
+void TimerUI::Update()
 {
-	if (m_timer.expired() || actorManager.lock()->GetBoss().expired())
+	if (m_timer.expired())
 	{
 		m_isDelete = true;
 		return;
@@ -109,8 +107,4 @@ void TimerUI::Draw() const
 			kImageWidth, kImageHeight,
 			kScale, 0.0f, m_handle, true, false);
 	}
-}
-
-void TimerUI::End()
-{
 }
