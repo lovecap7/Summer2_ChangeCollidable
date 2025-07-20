@@ -88,6 +88,8 @@ void GameManager::Update()
 		//ボスを倒したとき
 		if (m_actorManager->GetBoss().expired() && !m_isGameClear)
 		{
+			//タイマーを止める
+			m_timer->StopUpdate();
 			//プレイヤーの勝利アニメーションが終了したら
 			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim())
 			{
