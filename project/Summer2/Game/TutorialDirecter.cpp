@@ -59,7 +59,7 @@ void TutorialDirecter::Update(const std::weak_ptr<ActorManager> actorManager)
 		ActiveTutorial(TutorialItem::Rolling, L"[B]で[回避]ができる！\n敵の攻撃を避けて反撃だ！！！");
 	}
 	//必殺技チュートリアル表示
-	else if (player->GetPos().x > m_tutorialPosX[5] && !m_tutorialViewFlag[TutorialItem::Rolling])
+	else if (player->GetPos().x > m_tutorialPosX[5] && !m_tutorialViewFlag[TutorialItem::ULT])
 	{
 		ActiveTutorial(TutorialItem::Rolling, L"HPバーの下にある必殺ゲージが最大の時に[RB]で[必殺技]を打つことができる！\n強力な一撃を放て！！！");
 	}
