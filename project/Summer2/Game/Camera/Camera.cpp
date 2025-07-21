@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "CameraStateBase.h"
-#include "CameraStateNormal.h"
+#include "CameraStateStart.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/game.h"
@@ -39,7 +39,7 @@ void Camera::Init()
 	//奥行50～3000までをカメラの描画範囲とする
 	SetCameraNearFar(kNear, kFar);
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
-	m_state = std::make_shared<CameraStateNormal>(shared_from_this());
+	m_state = std::make_shared<CameraStateStart>(shared_from_this());
 	//状態を変化する
 	m_state->ChangeState(m_state);
 }

@@ -76,6 +76,21 @@ void GameManager::Update()
 	{
 		//アクターの更新
 		m_actorManager->Update(m_score);
+		if (!m_actorManager->GetPlayer().expired())
+		{
+			//プレイヤーがスタート状態の時
+			if (m_actorManager->GetPlayer().lock()->IsStartAnim())
+			{
+				//タイマーを止める
+				m_timer->StopUpdate();
+			}
+			//プレイヤーがスタート状態が終了したら
+			else
+			{
+				//タイマーを開始
+				m_timer->StartUpdate();
+			}
+		}
 		//タイマー
 		m_timer->Update();
 		//カメラの更新

@@ -44,6 +44,8 @@ public:
 	//ダッシュキープフラグ
 	bool IsRunKeep() { return m_isRunKeep; };
 	void SetIsRunKeep(bool isRunKeep) { m_isRunKeep = isRunKeep; };
+	//ゲーム開始アニメーションをしている
+	bool IsStartAnim();
 	//ゲームクリアアニメーション終了
 	bool IsFinishClearAnim();
 	//ターゲットの索敵

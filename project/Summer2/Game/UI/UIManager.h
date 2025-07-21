@@ -56,6 +56,14 @@ public:
 	void LoadHandle();
 	//UIのハンドル削除
 	void AllDeleteHandle();
+	//更新を止める
+	void StopUpdate() { m_isUpdate = false; };
+	//更新をする
+	void StartUpdate() { m_isUpdate = true; };
+	//描画を止める
+	void StopDraw() { m_isDraw = false; };
+	//描画をする
+	void StartDraw() { m_isDraw = true; };
 private:
 	//UI
 	std::list<std::shared_ptr<UIBase>> m_uis;
@@ -69,5 +77,9 @@ private:
 	std::map<std::string, int> m_imageHandles;
 	//テキストハンドル
 	std::map<std::string, int> m_textHandles;
+	//更新をする
+	bool m_isUpdate;
+	//描画する
+	bool m_isDraw;
 };
 

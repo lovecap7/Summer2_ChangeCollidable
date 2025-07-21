@@ -4,6 +4,8 @@
 #include "SceneController.h"
 #include "SelectStageScene.h"
 #include "../General/Collision/Physics.h"
+#include "../Game/UI/UIManager.h"
+
 #include <memory>
 #if _DEBUG
 //デバッグモード
@@ -17,6 +19,7 @@ namespace
 TitleScene::TitleScene(SceneController& controller):
 	SceneBase(controller)
 {
+
 }
 
 TitleScene::~TitleScene()

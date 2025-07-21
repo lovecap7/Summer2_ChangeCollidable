@@ -39,10 +39,15 @@ void UIManager::Init()
 {
 	//ハンドルロード
 	LoadHandle();
+	//更新と描画フラグ
+	m_isUpdate = true;
+	m_isDraw = true;
 }
 
 void UIManager::Update()
 {
+	//更新をするか
+	if (!m_isUpdate)return;
 	//削除予定のUI削除
 	CheckDelete();
 	//更新
@@ -54,6 +59,8 @@ void UIManager::Update()
 
 void UIManager::Draw() const
 {
+	//描画をするか
+	if (!m_isDraw)return;
 	for (auto& ui : m_uis)
 	{
 		ui->Draw();

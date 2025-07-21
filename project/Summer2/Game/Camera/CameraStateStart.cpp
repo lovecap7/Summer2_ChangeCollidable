@@ -1,9 +1,6 @@
+#include "CameraStateStart.h"
 #include "Camera.h"
 #include "CameraStateNormal.h"
-#include "CameraStateAreaLock.h"
-#include "CameraStateBossArea.h"
-#include "CameraStateBossDeath.h"
-#include "CameraStateClear.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/HitPoints.h"
@@ -23,69 +20,49 @@ namespace
 	//視野角
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
-	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
+	constexpr float kCameraAngleX = 0.0f * MyMath::DEG_2_RAD;
 	//lerpの割合
 	constexpr float kLerpRate = 0.07f;
 	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetCameraPosY = 800.0f;
-	constexpr float kCameraPosZ = -900.0f;
+	constexpr float kOffsetCameraPosY = 120.0f;
+	constexpr float kOffsetCameraPosX = 100.0f;
+	constexpr float kCameraPosZ = -100.0f;
+	//見てる位置
+	constexpr float kOffsetCameraViewPosY = 100.0f;
 }
 
-CameraStateNormal::CameraStateNormal(std::weak_ptr<Camera> camera):
+CameraStateStart::CameraStateStart(std::weak_ptr<Camera> camera) :
 	CameraStateBase(camera)
 {
 	auto owner = m_camera.lock();
 	//カメラの角度
 	owner->SetDir(Matrix4x4::RotateXMat4x4(kCameraAngleX) *
 		Vector3::Forward());
+	//見てる位置
+	owner->SetViewPos(owner->GetPos() + owner->GetDir());
 	//カメラの座標と注視点
 	SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//視野角
 	SetupCamera_Perspective(kPerspective);
 }
 
-void CameraStateNormal::Init()
+void CameraStateStart::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
 
-void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
+void CameraStateStart::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	auto boss = actorManager.lock()->GetBoss();
-	//通常は通らないがボスが消滅したらゲームクリアカメラに
-	if (boss.expired())
-	{
-		ChangeState(std::make_shared<CameraStateClear>(m_camera, actorManager));
-		return;
-	}
-	//ボスが死亡した場合
-	if (boss.lock()->GetHitPoints().lock()->IsDead())
-	{
-		ChangeState(std::make_shared<CameraStateBossDeath>(m_camera, actorManager));
-		return;
-	}
 	auto player = actorManager.lock()->GetPlayer();
 	auto camera = m_camera.lock();
 	//プレイヤーが消滅した場合更新終了
 	if (player.expired())return;
-	//ボスエリアにプレイヤーが入ったなら
-	if (!actorManager.lock()->GetBossArea().expired())
+	//プレイヤーのスタート状態が終わったらカメラを通常状態に
+	if (!player.lock()->IsStartAnim())
 	{
-		if (actorManager.lock()->GetBossArea().lock()->IsEvent())
-		{
-			ChangeState(std::make_shared<CameraStateBossArea>(m_camera));
-			return;
-		}
-	}
-	//イベントエリアにプレイヤーが入ったなら
-	if (!camera->GetEventArea().expired())
-	{
-		if (camera->GetEventArea().lock()->IsEvent())
-		{
-			ChangeState(std::make_shared<CameraStateAreaLock>(m_camera));
-			return;
-		}
+		ChangeState(std::make_shared<CameraStateNormal>(m_camera));
+		return;
 	}
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
 	auto playerPos = player.lock()->GetRb()->GetPos();
@@ -94,17 +71,13 @@ void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 	Vector3 nextPos = camera->GetPos();
 	nextPos.z = kCameraPosZ;
 	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
-	nextPos.x = playerPos.x;
-	//次の座標
-	nextPos = Vector3::Lerp(oldPos, nextPos, kLerpRate);
-	//見ている向き
-	Vector3 dir = camera->GetDir();
+	nextPos.x = playerPos.x + kOffsetCameraPosX;
 	//見てる位置
-	Vector3 viewPos = camera->GetViewPos();
-	viewPos = nextPos + dir;
+	Vector3 viewPos = playerPos;
+	viewPos.y += kOffsetCameraViewPosY;
 	//位置更新
 	SetCameraPositionAndTarget_UpVecY(nextPos.ToDxLibVector(), viewPos.ToDxLibVector());
 	camera->SetPos(nextPos);
-	camera->SetDir(dir);
 	camera->SetViewPos(viewPos);
 }
+
