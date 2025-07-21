@@ -1,18 +1,18 @@
-#include "Camera.h"
-#include "CameraStateNormal.h"
-#include "CameraStateAreaLock.h"
-#include "CameraStateBossArea.h"
-#include "CameraStateBossDeath.h"
-#include "CameraStateClear.h"
+#include "GameCamera.h"
+#include "GameCameraStateNormal.h"
+#include "GameCameraStateAreaLock.h"
+#include "GameCameraStateBossArea.h"
+#include "GameCameraStateBossDeath.h"
+#include "GameCameraStateClear.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/HitPoints.h"
 #include "../../General/game.h"
-#include "../Actors/Character/Player/Player.h"
-#include "../Actors/Character/Enemy/EnemyBase.h"
-#include "../Actors/Stage/BossArea.h"
-#include "../Actors/ActorManager.h"
-#include "../Actors/Stage/EventArea.h"
+#include "../../Actors/Character/Player/Player.h"
+#include "../../Actors/Character/Enemy/EnemyBase.h"
+#include "../../Actors/Stage/BossArea.h"
+#include "../../Actors/ActorManager.h"
+#include "../../Actors/Stage/EventArea.h"
 #include <DxLib.h>
 
 namespace
@@ -31,8 +31,8 @@ namespace
 	constexpr float kCameraPosZ = -900.0f;
 }
 
-CameraStateNormal::CameraStateNormal(std::weak_ptr<Camera> camera):
-	CameraStateBase(camera)
+GameCameraStateNormal::GameCameraStateNormal(std::weak_ptr<GameCamera> camera):
+	GameCameraStateBase(camera)
 {
 	auto owner = m_camera.lock();
 	//カメラの角度
@@ -44,25 +44,25 @@ CameraStateNormal::CameraStateNormal(std::weak_ptr<Camera> camera):
 	SetupCamera_Perspective(kPerspective);
 }
 
-void CameraStateNormal::Init()
+void GameCameraStateNormal::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
 
-void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
+void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	auto boss = actorManager.lock()->GetBoss();
 	//通常は通らないがボスが消滅したらゲームクリアカメラに
 	if (boss.expired())
 	{
-		ChangeState(std::make_shared<CameraStateClear>(m_camera, actorManager));
+		ChangeState(std::make_shared<GameCameraStateClear>(m_camera, actorManager));
 		return;
 	}
 	//ボスが死亡した場合
 	if (boss.lock()->GetHitPoints().lock()->IsDead())
 	{
-		ChangeState(std::make_shared<CameraStateBossDeath>(m_camera, actorManager));
+		ChangeState(std::make_shared<GameCameraStateBossDeath>(m_camera, actorManager));
 		return;
 	}
 	auto player = actorManager.lock()->GetPlayer();
@@ -74,7 +74,7 @@ void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 	{
 		if (actorManager.lock()->GetBossArea().lock()->IsEvent())
 		{
-			ChangeState(std::make_shared<CameraStateBossArea>(m_camera));
+			ChangeState(std::make_shared<GameCameraStateBossArea>(m_camera));
 			return;
 		}
 	}
@@ -83,7 +83,7 @@ void CameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 	{
 		if (camera->GetEventArea().lock()->IsEvent())
 		{
-			ChangeState(std::make_shared<CameraStateAreaLock>(m_camera));
+			ChangeState(std::make_shared<GameCameraStateAreaLock>(m_camera));
 			return;
 		}
 	}

@@ -2,7 +2,7 @@
 #include "PlayerStateBase.h"
 #include "../../../../General/CSVDataLoader.h"
 class Actor;
-class Camera;
+class GameCamera;
 class MyEffect;
 class TrackActorEffect;
 class PlayerStateCharge :
@@ -12,7 +12,7 @@ public:
     PlayerStateCharge(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager);
     ~PlayerStateCharge();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
     //É^ÉÅéûä‘
     int m_chargeFrame;

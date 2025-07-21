@@ -4,7 +4,7 @@
 #include "../../General/Collision/Collidable.h"
 
 class ActorManager;
-class Camera;
+class GameCamera;
 class Collidable;
 class Score;
 class Model;
@@ -35,7 +35,7 @@ public:
 	/// 位置などの更新を行う
 	/// </summary>
 	/// <param name="">入力オブジェクト</param>
-	virtual void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) abstract;
+	virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) abstract;
 	/// <summary>
 	/// 対象のアクターを表示
 	/// </summary>

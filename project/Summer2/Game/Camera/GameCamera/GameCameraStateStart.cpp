@@ -1,15 +1,15 @@
-#include "CameraStateStart.h"
-#include "Camera.h"
-#include "CameraStateNormal.h"
+#include "GameCameraStateStart.h"
+#include "GameCamera.h"
+#include "GameCameraStateNormal.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/HitPoints.h"
 #include "../../General/game.h"
-#include "../Actors/Character/Player/Player.h"
-#include "../Actors/Character/Enemy/EnemyBase.h"
-#include "../Actors/Stage/BossArea.h"
-#include "../Actors/ActorManager.h"
-#include "../Actors/Stage/EventArea.h"
+#include "../../Actors/Character/Player/Player.h"
+#include "../../Actors/Character/Enemy/EnemyBase.h"
+#include "../../Actors/Stage/BossArea.h"
+#include "../../Actors/ActorManager.h"
+#include "../../Actors/Stage/EventArea.h"
 #include <DxLib.h>
 
 namespace
@@ -31,8 +31,8 @@ namespace
 	constexpr float kOffsetCameraViewPosY = 100.0f;
 }
 
-CameraStateStart::CameraStateStart(std::weak_ptr<Camera> camera) :
-	CameraStateBase(camera)
+GameCameraStateStart::GameCameraStateStart(std::weak_ptr<GameCamera> camera) :
+	GameCameraStateBase(camera)
 {
 	auto owner = m_camera.lock();
 	//カメラの角度
@@ -41,18 +41,18 @@ CameraStateStart::CameraStateStart(std::weak_ptr<Camera> camera) :
 	//見てる位置
 	owner->SetViewPos(owner->GetPos() + owner->GetDir());
 	//カメラの座標と注視点
-	SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
+	DxLib::SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//視野角
 	SetupCamera_Perspective(kPerspective);
 }
 
-void CameraStateStart::Init()
+void GameCameraStateStart::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
 
-void CameraStateStart::Update(const std::weak_ptr<ActorManager> actorManager)
+void GameCameraStateStart::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	auto player = actorManager.lock()->GetPlayer();
 	auto camera = m_camera.lock();
@@ -61,7 +61,7 @@ void CameraStateStart::Update(const std::weak_ptr<ActorManager> actorManager)
 	//プレイヤーのスタート状態が終わったらカメラを通常状態に
 	if (!player.lock()->IsStartAnim())
 	{
-		ChangeState(std::make_shared<CameraStateNormal>(m_camera));
+		ChangeState(std::make_shared<GameCameraStateNormal>(m_camera));
 		return;
 	}
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動

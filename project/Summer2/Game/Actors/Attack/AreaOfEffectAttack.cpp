@@ -3,7 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 #include "../Character/CharacterBase.h"
 
 AreaOfEffectAttack::AreaOfEffectAttack(std::weak_ptr<Actor> owner):
@@ -15,7 +15,7 @@ AreaOfEffectAttack::~AreaOfEffectAttack()
 {
 }
 
-void AreaOfEffectAttack::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void AreaOfEffectAttack::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	AttackBase::Update(actorManager);
 }

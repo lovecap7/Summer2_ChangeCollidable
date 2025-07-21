@@ -40,7 +40,7 @@ void SmallDragonStateDeath::Init()
 	ChangeState(shared_from_this());
 }
 
-void SmallDragonStateDeath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void SmallDragonStateDeath::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<SmallDragon>(m_owner.lock());
 	//アニメーション終了後

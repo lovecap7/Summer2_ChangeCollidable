@@ -12,7 +12,7 @@
 #include "../../../../General/Input.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
-#include "../../../../Game/Camera/Camera.h"
+#include "../../../../Game/Camera/GameCamera/GameCamera.h"
 #include <DxLib.h>
 namespace
 {
@@ -46,7 +46,7 @@ void PlayerStateHit::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateHit::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//ƒ{ƒX‚ªŠ®‘S‚ÉÁ–Å‚µ‚½‚Æ‚«

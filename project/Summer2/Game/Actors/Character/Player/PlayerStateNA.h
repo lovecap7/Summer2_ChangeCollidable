@@ -13,7 +13,7 @@ public:
     PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager);
     virtual ~PlayerStateNA();
     void Init() override;
-    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 protected:
     //UŒ‚‚ÌƒtƒŒ[ƒ€‚ğ”‚¦‚é
     int m_attackCountFrame;

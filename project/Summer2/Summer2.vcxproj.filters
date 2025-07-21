@@ -151,6 +151,18 @@
     <Filter Include="ヘッダー ファイル\General\Effect">
       <UniqueIdentifier>{3b17f0c5-0f3f-460a-a674-e9e2fa6f8c41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Camera\GameCamera">
+      <UniqueIdentifier>{b792c759-4a75-48d6-a682-e32b27cb7109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Camera\GameCamera">
+      <UniqueIdentifier>{c5db5039-d989-471a-a20c-705f80ab1b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Camera\TitleCamera">
+      <UniqueIdentifier>{f691229d-05a4-4608-af35-d669b3f8c63d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Camera\TitleCamera">
+      <UniqueIdentifier>{8edaf1e7-e972-44ce-8e8c-532f6d76692a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -206,9 +218,6 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\Actor.cpp">
       <Filter>ソース ファイル\Game\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\Camera.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="General\Collision\CollisionChecker.cpp">
       <Filter>ソース ファイル\General\Collision</Filter>
@@ -510,29 +519,11 @@
     <ClCompile Include="General\Effect\TrackActorEffect.cpp">
       <Filter>ソース ファイル\General\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\CameraStateBase.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\CameraStateNormal.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\CameraStateAreaLock.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\CameraStateClear.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actors\Stage\EventArea.cpp">
       <Filter>ソース ファイル\Game\Actors\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actors\Stage\BossArea.cpp">
       <Filter>ソース ファイル\Game\Actors\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\CameraStateBossArea.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\CameraStateBossDeath.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="General\CSVDataSaver.cpp">
       <Filter>ソース ファイル\General</Filter>
@@ -552,8 +543,32 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateStart.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\CameraStateStart.cpp">
-      <Filter>ソース ファイル\Game\Camera</Filter>
+    <ClCompile Include="Game\Camera\GameCamera\GameCamera.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateAreaLock.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBase.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBossArea.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBossDeath.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateClear.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateNormal.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateStart.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\TitleCamera\TitleCamera.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -616,9 +631,6 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Actor.h">
       <Filter>ヘッダー ファイル\Game\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\Camera.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="General\Collision\CollisionChecker.h">
       <Filter>ヘッダー ファイル\General\Collision</Filter>
@@ -923,29 +935,11 @@
     <ClInclude Include="General\Effect\TrackActorEffect.h">
       <Filter>ヘッダー ファイル\General\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\CameraStateBase.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\CameraStateNormal.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\CameraStateAreaLock.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\CameraStateClear.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actors\Stage\EventArea.h">
       <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Stage\BossArea.h">
       <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\CameraStateBossArea.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\CameraStateBossDeath.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="General\CSVDataSaver.h">
       <Filter>ヘッダー ファイル\General</Filter>
@@ -965,8 +959,32 @@
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateStart.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\CameraStateStart.h">
-      <Filter>ヘッダー ファイル\Game\Camera</Filter>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateStart.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCamera.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateAreaLock.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBase.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBossArea.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBossDeath.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateClear.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateNormal.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\TitleCamera\TitleCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

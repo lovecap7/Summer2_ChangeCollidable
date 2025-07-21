@@ -7,7 +7,7 @@
 #include "../../Player/Player.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
-#include "../../../../../Game/Camera/Camera.h"
+#include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../../../General/Rigidbody.h"
 #include "../../../../../General/Collision/Collidable.h"
 #include "../../../../../General/Collision/CapsuleCollider.h"
@@ -76,7 +76,7 @@ void SmallDragon::Init()
 	UIManager::GetInstance().CreateEnemyUI(thisPointer);
 }
 
-void SmallDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void SmallDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();

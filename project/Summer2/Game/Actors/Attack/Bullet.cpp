@@ -4,7 +4,7 @@
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../Character/CharacterBase.h"
 #include "../../../General/HitPoints.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Player/UltGage.h"
 #include "../ActorManager.h"
@@ -14,7 +14,7 @@ Bullet::Bullet(std::weak_ptr<Actor> owner):
 {
 }
 
-void Bullet::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Bullet::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//UŒ‚‚ª“–‚½‚Á‚½‚È‚ç
 	if (m_isHit)

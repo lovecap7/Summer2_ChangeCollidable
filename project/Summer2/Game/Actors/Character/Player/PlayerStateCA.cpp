@@ -20,7 +20,7 @@
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../../../General/Effect/MyEffect.h"
-#include "../../../../Game/Camera/Camera.h"
+#include "../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../Attack/Slash.h"
 
 namespace
@@ -85,7 +85,7 @@ void PlayerStateCA::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateCA::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateCA::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();

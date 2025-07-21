@@ -2,7 +2,7 @@
 #include "../Actor.h"
 #include <list>
 //プレイヤーが範囲内に入ったかを検知しイベントが終了までチェックする
-class Camera;
+class GameCamera;
 class ActorManager;
 class EnemyBase;
 class EventArea:
@@ -12,7 +12,7 @@ public:
 	EventArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end);
     virtual ~EventArea();
     virtual void Init()override {};
-    virtual void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
     virtual void OnCollide(const std::shared_ptr<Collidable> other)override {};
     virtual void Draw()const override {};
     virtual void Complete() override {};
@@ -30,12 +30,12 @@ protected:
     bool m_isEvent;
 private:
     //状態遷移
-    using UpdateFunc_t = void(EventArea::*)(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager);
+    using UpdateFunc_t = void(EventArea::*)(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
     UpdateFunc_t m_update;
     //範囲チェック状態
-    void EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager);
+    void EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
     //イベント状態
-    void EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager);
+    void EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
     //範囲内の敵のリスト
     std::list<std::weak_ptr<EnemyBase>> m_areaEnemies;
 };

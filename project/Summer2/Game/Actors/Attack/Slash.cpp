@@ -4,7 +4,7 @@
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
 #include "../ActorManager.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 
 Slash::Slash(std::weak_ptr<Actor> owner):
 	CapsuleAttackBase(owner)
@@ -15,7 +15,7 @@ Slash::~Slash()
 {
 }
 
-void Slash::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Slash::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	AttackBase::Update(actorManager);
 }

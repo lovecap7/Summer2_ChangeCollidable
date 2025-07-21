@@ -3,7 +3,7 @@
 #include "../../../General/Collision/SphereCollider.h"
 #include "../Character/CharacterBase.h"
 #include "../../../General/HitPoints.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Player/UltGage.h"
 #include "../../../General/Effect/EffekseerManager.h"
@@ -13,7 +13,7 @@ Breath::Breath(std::weak_ptr<Actor> owner) :
 {
 }
 
-void Breath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Breath::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//‹¤’Ê‚Ìˆ—‚ğ‚·‚é
 	AttackBase::Update(actorManager);

@@ -14,7 +14,7 @@
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../../../General/Effect/EffekseerManager.h"
-#include "../../../../Game/Camera/Camera.h"
+#include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
 {
@@ -54,7 +54,7 @@ void PlayerStateRolling::Init()
 	EffekseerManager::GetInstance().CreateEffect("LowShockWaveEff", m_owner.lock()->GetPos());
 }
 
-void PlayerStateRolling::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateRolling::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//ƒ{ƒX‚ªŠ®‘S‚ÉÁ–Å‚µ‚½‚Æ‚«

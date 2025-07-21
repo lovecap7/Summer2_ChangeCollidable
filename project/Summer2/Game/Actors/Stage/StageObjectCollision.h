@@ -3,7 +3,7 @@
 #include "../../../General/Math/MyMath.h"
 #include <DxLib.h>
 class ActorManager;
-class Camera;
+class GameCamera;
 class Collidable;
 /// <summary>
 /// ステージのオブジェクトの当たり判定用のクラス
@@ -17,7 +17,7 @@ public:
     StageObjectCollision(VECTOR pos1, VECTOR pos2, float radius);//カプセルのコリジョン
     ~StageObjectCollision();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
     void OnCollide(const std::shared_ptr<Collidable> other)override;
     void Draw()const override;
     void Complete() override;

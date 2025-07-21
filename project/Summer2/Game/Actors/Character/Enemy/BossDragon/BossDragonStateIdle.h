@@ -1,7 +1,7 @@
 #pragma once
 #include "BossDragonStateBase.h"
 class Input;
-class Camera;
+class GameCamera;
 class ActorManager;
 class Actor;
 class BossDragonStateIdle :
@@ -11,7 +11,7 @@ public:
 	BossDragonStateIdle(std::weak_ptr<Actor> owner);
 	~BossDragonStateIdle();
 	void Init()override;
-	void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+	void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
 	//çUåÇÇëIÇ‘
 	void ThinkAttack(const std::weak_ptr<ActorManager> actorManager);

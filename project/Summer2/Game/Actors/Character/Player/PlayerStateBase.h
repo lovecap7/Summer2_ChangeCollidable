@@ -5,7 +5,7 @@
 #include <string>
 class Actor;
 class Slash;
-class Camera;
+class GameCamera;
 class ActorManager;
 class PlayerStateBase abstract:
 	public CharacterStateBase
@@ -15,7 +15,7 @@ public:
 	virtual ~PlayerStateBase();
 protected:
 	//進行方向を返す関数
-	virtual Vector3 GetForwardVec(const std::weak_ptr<Camera> camera);
+	virtual Vector3 GetForwardVec(const std::weak_ptr<GameCamera> camera);
 };
 
 //攻撃のデータを検索するときに使う

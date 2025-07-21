@@ -11,7 +11,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
-#include "../../../../../Game/Camera/Camera.h"
+#include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 namespace
 {
 	//Œ¸‘¬—¦
@@ -38,7 +38,7 @@ void BomberStateHit::Init()
 	ChangeState(shared_from_this());
 }
 
-void BomberStateHit::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BomberStateHit::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
 	//Ž€–S

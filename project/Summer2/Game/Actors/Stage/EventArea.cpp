@@ -4,7 +4,7 @@
 #include "../Character/Player/Player.h"
 #include "../Character/Enemy/EnemyBase.h"
 #include "../../../General/Collision/Physics.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 
 EventArea::EventArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
 	Actor(Shape::None),
@@ -19,7 +19,7 @@ EventArea::~EventArea()
 {
 }
 
-void EventArea::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void EventArea::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	(this->*m_update)(camera,actorManager);
 }
@@ -28,7 +28,7 @@ void EventArea::End()
 {
 }
 
-void EventArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void EventArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	if (actorManager.lock()->GetPlayer().expired())return;
 	auto player = actorManager.lock()->GetPlayer().lock();
@@ -67,7 +67,7 @@ void EventArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::
 	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(true);
 }
 
-void EventArea::EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void EventArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//範囲内の敵がすべて死亡した場合イベントを終了
 	for (auto coll : m_areaEnemies)

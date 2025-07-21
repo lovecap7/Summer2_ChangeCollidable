@@ -3,7 +3,7 @@
 #include <memory>
 #include "../Scene/StageScene.h"
 
-class Camera;
+class GameCamera;
 class ActorManager;
 class UIManager;
 class Score;
@@ -30,7 +30,7 @@ private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;
     //カメラ
-    std::shared_ptr<Camera> m_camera;
+    std::shared_ptr<GameCamera> m_camera;
     //スコア
     std::shared_ptr<Score> m_score;
     //タイマー

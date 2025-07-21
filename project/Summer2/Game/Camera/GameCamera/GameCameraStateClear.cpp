@@ -1,11 +1,11 @@
-#include "CameraStateClear.h"
-#include "Camera.h"
+#include "GameCameraStateClear.h"
+#include "GameCamera.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/game.h"
-#include "../Actors/Character/Player/Player.h"
-#include "../Actors/Character/Enemy/EnemyBase.h"
-#include "../Actors/ActorManager.h"
+#include "../../Actors/Character/Player/Player.h"
+#include "../../Actors/Character/Enemy/EnemyBase.h"
+#include "../../Actors/ActorManager.h"
 #include <DxLib.h>
 
 namespace
@@ -34,8 +34,8 @@ namespace
 	//クリア時に回転するフレーム
 	constexpr int kClearRotaFrame = 400;
 }
-CameraStateClear::CameraStateClear(std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager):
-	CameraStateBase(camera),
+GameCameraStateClear::GameCameraStateClear(std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager):
+	GameCameraStateBase(camera),
 	m_rotaFrame(kClearRotaFrame)
 {
 	auto owner = m_camera.lock();
@@ -52,13 +52,13 @@ CameraStateClear::CameraStateClear(std::weak_ptr<Camera> camera, const std::weak
 	owner->SetViewPos(viewPos);
 }
 
-void CameraStateClear::Init()
+void GameCameraStateClear::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
 
-void CameraStateClear::Update(const std::weak_ptr<ActorManager> actorManager)
+void GameCameraStateClear::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	auto player = actorManager.lock()->GetPlayer();
 	auto camera = m_camera.lock();

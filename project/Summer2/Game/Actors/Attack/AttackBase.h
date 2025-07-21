@@ -2,7 +2,7 @@
 #include <list>
 #include "../Actor.h"
 #include "../../../General/Battle.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 
 class CharacterStateBase;
 class Actor;

@@ -7,7 +7,7 @@
 #include "../../Player/Player.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
-#include "../../../../../Game/Camera/Camera.h"
+#include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../../../General/Rigidbody.h"
 #include "../../../../../General/Collision/Collidable.h"
 #include "../../../../../General/Collision/CapsuleCollider.h"
@@ -77,7 +77,7 @@ void BossDragon::Init()
 	m_hpUI.lock()->SetIsDraw(false);
 }
 
-void BossDragon::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 #if _DEBUG
 	//ƒ{ƒX‚ðŽ€–S‚³‚¹‚é

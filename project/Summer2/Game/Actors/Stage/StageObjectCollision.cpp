@@ -54,7 +54,7 @@ void StageObjectCollision::Init()
 	Collidable::Init();
 	MV1SetupCollInfo(m_collisionHandle, -1);
 }
-void StageObjectCollision::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void StageObjectCollision::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	MV1RefreshCollInfo(m_collisionHandle, -1);
 	m_model->Update();

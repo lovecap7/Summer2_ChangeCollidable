@@ -4,7 +4,7 @@
 #include "../Character/Player/Player.h"
 #include "../Character/Enemy/EnemyBase.h"
 #include "../../../General/Collision/Physics.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
 	EventArea(start,end),
 	m_isEntryBossArea(false),
@@ -16,7 +16,7 @@ BossArea::~BossArea()
 {
 }
 
-void BossArea::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossArea::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	(this->*m_update)(camera, actorManager);
 }
@@ -25,7 +25,7 @@ void BossArea::End()
 {
 }
 
-void BossArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	if (actorManager.lock()->GetPlayer().expired())return;
 	auto player = actorManager.lock()->GetPlayer().lock();
@@ -55,7 +55,7 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<Camera> camera, const std::w
 	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(true);
 }
 
-void BossArea::EventUpdate(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//ƒ{ƒX‚ª“|‚ê‚½‚ç
 	if (actorManager.lock()->GetBoss().expired())

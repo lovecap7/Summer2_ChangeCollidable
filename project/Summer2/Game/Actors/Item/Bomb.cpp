@@ -66,7 +66,7 @@ void Bomb::Init()
 	Collidable::Init();
 }
 
-void Bomb::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Bomb::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//è∞Ç…Ç¢ÇÈÇ∆Ç´
 	if (m_isFloor)

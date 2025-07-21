@@ -5,7 +5,7 @@
 #include <string>
 #include "../../../../../General/Math/Vector3.h"
 class Actor;
-class Camera;
+class GameCamera;
 class ActorManager;
 class SmallDragonStateBase abstract :
 	public CharacterStateBase

@@ -43,7 +43,7 @@ void PlayerStateStart::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateStart::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateStart::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//ボスの体力がなくなった場合またはモデルのアニメーションが終わったら

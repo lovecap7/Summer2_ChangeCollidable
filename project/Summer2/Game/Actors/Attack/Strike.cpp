@@ -3,7 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 
 Strike::Strike(std::weak_ptr<Actor> owner):
 	CapsuleAttackBase(owner)
@@ -14,7 +14,7 @@ Strike::~Strike()
 {
 }
 
-void Strike::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Strike::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	AttackBase::Update(actorManager);
 }

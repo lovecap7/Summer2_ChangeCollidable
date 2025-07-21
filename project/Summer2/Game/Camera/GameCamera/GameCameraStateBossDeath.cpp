@@ -1,14 +1,14 @@
-#include "CameraStateBossDeath.h"
-#include "CameraStateClear.h"
-#include "CameraStateNormal.h"
-#include "Camera.h"
+#include "GameCameraStateBossDeath.h"
+#include "GameCameraStateClear.h"
+#include "GameCameraStateNormal.h"
+#include "GameCamera.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Collision/Collidable.h"
 #include "../../General/HitPoints.h"
 #include "../../General/game.h"
-#include "../Actors/Character/Player/Player.h"
-#include "../Actors/Character/Enemy/EnemyBase.h"
-#include "../Actors/ActorManager.h"
+#include "../../Actors/Character/Player/Player.h"
+#include "../../Actors/Character/Enemy/EnemyBase.h"
+#include "../../Actors/ActorManager.h"
 #include "../../General/Collision/Physics.h"
 #include <DxLib.h>
 
@@ -31,8 +31,8 @@ namespace
 	//壁からの距離
 	constexpr float kDistanceFromWall = 300.0f;
 }
-CameraStateBossDeath::CameraStateBossDeath(std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) :
-	CameraStateBase(camera)
+GameCameraStateBossDeath::GameCameraStateBossDeath(std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) :
+	GameCameraStateBase(camera)
 {
 	auto owner = m_camera.lock();
 	auto boss = actorManager.lock()->GetBoss().lock();
@@ -44,18 +44,18 @@ CameraStateBossDeath::CameraStateBossDeath(std::weak_ptr<Camera> camera, const s
 	Physics::GetInstance().DelayUpdate(60);
 }
 
-void CameraStateBossDeath::Init()
+void GameCameraStateBossDeath::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
 
-void CameraStateBossDeath::Update(const std::weak_ptr<ActorManager> actorManager)
+void GameCameraStateBossDeath::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	//ボスが消滅したらゲームクリアカメラに
 	if (actorManager.lock()->GetBoss().expired())
 	{
-		ChangeState(std::make_shared<CameraStateClear>(m_camera, actorManager));
+		ChangeState(std::make_shared<GameCameraStateClear>(m_camera, actorManager));
 		return;
 	}
 	auto boss = actorManager.lock()->GetBoss().lock();

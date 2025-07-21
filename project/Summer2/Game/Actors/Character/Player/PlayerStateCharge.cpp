@@ -20,7 +20,7 @@
 #include "../../../../General/Animator.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
-#include "../../../../Game/Camera/Camera.h"
+#include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
 {
@@ -68,7 +68,7 @@ void PlayerStateCharge::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateCharge::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());

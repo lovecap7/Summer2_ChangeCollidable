@@ -54,7 +54,7 @@ void DefenseUp::Init()
 	Collidable::Init();
 }
 
-void DefenseUp::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void DefenseUp::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//ˆÚ“®—Ê‚ð‰Šú‰»
 	m_rb->SetMoveVec(Vector3::Zero());

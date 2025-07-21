@@ -6,7 +6,7 @@
 #include "Actors/Character/Player/Player.h"
 #include "UI/UIManager.h"
 #include "../General/Collision/Physics.h"
-#include "../Game/Camera/Camera.h"
+#include "../Game/Camera/GameCamera/GameCamera.h"
 #include "../Game/GameRule/Score.h"
 #include "../Game/GameRule/Timer.h"
 #include "../Game/UI/ScoreUI.h"
@@ -33,7 +33,7 @@ GameManager::GameManager():
 	m_isGameClear(false)
 {
 	//カメラの初期化
-	m_camera = std::make_shared<Camera>();
+	m_camera = std::make_shared<GameCamera>();
 	//アクターマネージャー
 	m_actorManager = std::make_shared<ActorManager>(m_camera);
 	//スコア

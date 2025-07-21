@@ -6,7 +6,7 @@
 #include "../../../General/HitPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../ActorManager.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 
 Blast::Blast(std::weak_ptr<Actor> owner) :
 	SphereAttackBase(owner)
@@ -24,7 +24,7 @@ void Blast::Init()
 	EffekseerManager::GetInstance().CreateEffect("ExplosionEff", m_rb->m_pos);
 }
 
-void Blast::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Blast::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//UŒ‚‚ª“–‚½‚Á‚½‚È‚ç
 	if (m_isHit)

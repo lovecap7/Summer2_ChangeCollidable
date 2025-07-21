@@ -39,7 +39,7 @@ void PurpleDinosaurStateDeath::Init()
 	ChangeState(shared_from_this());
 }
 
-void PurpleDinosaurStateDeath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void PurpleDinosaurStateDeath::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//アニメーション終了後

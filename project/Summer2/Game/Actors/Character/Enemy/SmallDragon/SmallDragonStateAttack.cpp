@@ -13,7 +13,7 @@
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/Effect/EffekseerManager.h"
-#include "../../../../../Game/Camera/Camera.h"
+#include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../Attack/Bullet.h"
 namespace
 {
@@ -52,7 +52,7 @@ void SmallDragonStateAttack::Init()
 	ChangeState(shared_from_this());
 }
 
-void SmallDragonStateAttack::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void SmallDragonStateAttack::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<SmallDragon>(m_owner.lock());
 	//Ž€–S

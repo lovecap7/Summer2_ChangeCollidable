@@ -51,7 +51,7 @@ void UltGageUp::Init()
 	Collidable::Init();
 }
 
-void UltGageUp::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void UltGageUp::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//ˆÚ“®—Ê‚ð‰Šú‰»
 	m_rb->SetMoveVec(Vector3::Zero());

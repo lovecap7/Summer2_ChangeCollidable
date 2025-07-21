@@ -9,7 +9,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
-#include "../../../../../Game/Camera/Camera.h"
+#include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
 {
@@ -43,7 +43,7 @@ void BossDragonStateDeath::Init()
 	ChangeState(shared_from_this());
 }
 
-void BossDragonStateDeath::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossDragonStateDeath::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//アニメーション終了後

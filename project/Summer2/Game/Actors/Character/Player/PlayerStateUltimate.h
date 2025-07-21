@@ -4,7 +4,7 @@
 #include "../../../../General/CSVDataLoader.h"
 class Actor;
 class Slash;
-class Camera;
+class GameCamera;
 class ActorManager;
 class MyEffect;
 class PlayerStateUltimate :
@@ -14,7 +14,7 @@ public:
     PlayerStateUltimate(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager);
     ~PlayerStateUltimate();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
     //アニメーションのフレーム
     int m_animCountFrame;

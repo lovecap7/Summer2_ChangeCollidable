@@ -14,13 +14,13 @@ enum class ShakePower : int
 class ActorManager;
 class Rigidbody;
 class EventArea;
-class CameraStateBase;
-class Camera:
-	public std::enable_shared_from_this<Camera>
+class GameCameraStateBase;
+class GameCamera:
+	public std::enable_shared_from_this<GameCamera>
 {
 public:
-	Camera();
-	~Camera();
+	GameCamera();
+	~GameCamera();
 	//‰Šú‰»ˆ—
 	void Init();
 	//XVˆ—
@@ -55,6 +55,6 @@ private:
 	int m_maxShakeFrame;
 
 	//ó‘Ô‘JˆÚ
-	std::shared_ptr<CameraStateBase> m_state;
+	std::shared_ptr<GameCameraStateBase> m_state;
 };
 

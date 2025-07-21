@@ -20,7 +20,7 @@
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../ActorManager.h"
-#include "../../../../Game/Camera/Camera.h"
+#include "../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "UltGage.h"
 #include "../../../UI/UIManager.h"
 #include <DxLib.h>
@@ -99,7 +99,7 @@ void Player::Init()
 	UIManager::GetInstance().CreatePlayerUI(thisPointer);
 }
 
-void Player::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//—Ž‰º‚µ‚½Û‚Ìˆ—
 	if (m_rb->m_pos.y < -500.0f)m_rb->m_pos = m_initPos;

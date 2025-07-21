@@ -13,7 +13,7 @@ PlayerStateBase::~PlayerStateBase()
 {
 }
 
-Vector3 PlayerStateBase::GetForwardVec(const std::weak_ptr<Camera> camera)
+Vector3 PlayerStateBase::GetForwardVec(const std::weak_ptr<GameCamera> camera)
 {
 	Vector3 rV = { 0.0f,0.0f,0.0f, };
 	//ƒvƒŒƒCƒ„[

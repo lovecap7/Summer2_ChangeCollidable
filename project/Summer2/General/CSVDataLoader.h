@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "Battle.h"
-#include "../Game/Camera/Camera.h"
+#include "../Game/Camera/GameCamera/GameCamera.h"
 
 //オブジェクトの情報を格納する構造体
 struct ObjectData {

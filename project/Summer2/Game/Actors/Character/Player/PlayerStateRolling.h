@@ -2,7 +2,7 @@
 #include "PlayerStateBase.h"
 class Actor;
 class Input;
-class Camera;
+class GameCamera;
 class ActorManager;
 class TrackActorEffect;
 class PlayerStateRolling :
@@ -12,7 +12,7 @@ public:
     PlayerStateRolling(std::weak_ptr<Actor> player);
     ~PlayerStateRolling();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
 
 };

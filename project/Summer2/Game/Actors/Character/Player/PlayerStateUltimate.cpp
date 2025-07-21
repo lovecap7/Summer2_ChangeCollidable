@@ -17,7 +17,7 @@
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/MyEffect.h"
 #include "../../Attack/Slash.h"
-#include "../../../../Game/Camera/Camera.h"
+#include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
 {
@@ -75,7 +75,7 @@ void PlayerStateUltimate::Init()
 	ChangeState(shared_from_this());
 }
 
-void PlayerStateUltimate::Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	++m_animCountFrame;
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());

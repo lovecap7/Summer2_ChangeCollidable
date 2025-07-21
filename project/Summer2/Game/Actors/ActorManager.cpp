@@ -46,7 +46,7 @@ namespace
 	constexpr int kAreaPartsNum = 2;
 }
 
-ActorManager::ActorManager(std::weak_ptr<Camera> camera):
+ActorManager::ActorManager(std::weak_ptr<GameCamera> camera):
 	m_actorId(0),
 	m_camera(camera),
 	m_isUpdate(true),

@@ -5,7 +5,7 @@
 #include "Item/ItemBase.h"
 #include "../../General/CSVDataLoader.h"
 #include "../../Scene/StageScene.h"
-#include "../Camera/Camera.h"
+#include "../Camera/GameCamera/GameCamera.h"
 #include <map>
 
 //キャラクターの種類
@@ -38,7 +38,7 @@ enum class AttackType : int
 };
 
 class Player;
-class Camera;
+class GameCamera;
 class Actor;
 class BossArea;
 class EnemyBase;
@@ -49,7 +49,7 @@ class CharacterBase;
 class ActorManager : public std::enable_shared_from_this<ActorManager>
 {
 public:
-	ActorManager(std::weak_ptr<Camera> camera);
+	ActorManager(std::weak_ptr<GameCamera> camera);
 	~ActorManager();
 	//登録
 	void Entry(std::shared_ptr<Actor> actor);
@@ -129,7 +129,7 @@ private:
 	//攻撃データ
 	std::vector<AttackData> m_attackDatas;
 	//カメラの参照
-	std::weak_ptr<Camera> m_camera;
+	std::weak_ptr<GameCamera> m_camera;
 	//ハンドル
 	std::map<std::string, int> m_handles;
 	//更新

@@ -2,7 +2,7 @@
 #include "BomberStateBase.h"
 #include "../../../../../General/Battle.h"
 #include "../../../../../General/CSVDataLoader.h"
-class Camera;
+class GameCamera;
 class Actor;
 class ActorManager;
 class BomberStateAttack :
@@ -12,7 +12,7 @@ public:
     BomberStateAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager);
     ~BomberStateAttack();
     void Init()override;
-    void Update(const std::weak_ptr<Camera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
     
 private:
     //UŒ‚‚ÌƒtƒŒ[ƒ€‚ğ”‚¦‚é
