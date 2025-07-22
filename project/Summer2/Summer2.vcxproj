@@ -132,6 +132,7 @@
     <ClCompile Include="General\Effect\EffekseerManager.cpp" />
     <ClCompile Include="General\Effect\MyEffect.cpp" />
     <ClCompile Include="General\Effect\TrackActorEffect.cpp" />
+    <ClCompile Include="General\Fader.cpp" />
     <ClCompile Include="General\HitPoints.cpp" />
     <ClCompile Include="General\Input.cpp" />
     <ClCompile Include="General\Math\MathSub.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="General\Effect\EffekseerManager.h" />
     <ClInclude Include="General\Effect\MyEffect.h" />
     <ClInclude Include="General\Effect\TrackActorEffect.h" />
+    <ClInclude Include="General\Fader.h" />
     <ClInclude Include="General\game.h" />
     <ClInclude Include="General\HitPoints.h" />
     <ClInclude Include="General\Input.h" />

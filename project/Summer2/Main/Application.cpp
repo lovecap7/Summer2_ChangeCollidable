@@ -6,6 +6,7 @@
 #include  "../General/Collision/Physics.h"
 #include  "../General/Effect/EffekseerManager.h"
 #include  "../Game/UI/UIManager.h"
+#include  "../General/Fader.h"
 
 Application& Application::GetInstance()
 {
@@ -69,6 +70,9 @@ void Application::Run()
 	//UIマネージャー
 	auto& uiManager = UIManager::GetInstance();
 	uiManager.Init();
+	//フェード
+	auto& fader = Fader::GetInstance();
+	fader.Init();
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -87,11 +91,12 @@ void Application::Run()
 		physics.Update();
 		effect.Update();
 		uiManager.Update();
+		fader.Update();
 		//描画
 		sceneController->Draw();
 		effect.Draw();
 		uiManager.Draw();
-
+		fader.Draw();
 #if _DEBUG
 		DrawFormatString(0, 500, 0xff0000, L"FPS : %.2f", GetFPS());
 #endif

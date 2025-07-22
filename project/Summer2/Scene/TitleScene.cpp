@@ -10,6 +10,7 @@
 #include "../Game/Actors/Stage/StageObjectDraw.h"
 #include "../Game/Actors/Stage/Sky.h"
 #include "../General/CSVDataLoader.h"
+#include "../General/Fader.h"
 #include <memory>
 #include <cassert>
 #if _DEBUG
@@ -23,11 +24,13 @@ namespace
 	constexpr int kShadowMapWidth = 1024 * 2;
 	constexpr int kShadowMapHeight = 1024 * 2;
 	//ライトの向き
-	const VECTOR kLightDir1 = { 0.5f, -1.0f, 0.8f };
+	const VECTOR kLightDir = { 0.5f, -0.5f, 0.8f };
 	//シャドウマップの範囲
 	constexpr float kShadowMapHorizon = 2000.0f;
 	constexpr float kShadowMapVerticalMin = -1.0f;
 	constexpr float kShadowMapVerticalMax = 1000.0f;
+	//フェードアウト
+	constexpr float kFadeOutSpeed = 2.0f;
 }
 
 
@@ -58,6 +61,9 @@ void TitleScene::Init()
 	InitLight();
 	//影の初期化
 	InitShadow();
+	auto& fader = Fader::GetInstance();
+	//だんだん明るく
+	fader.FadeIn();
 }
 
 void TitleScene::Update()
@@ -72,12 +78,21 @@ void TitleScene::Update()
 		return;
 	}
 #endif
-	if (input.IsTrigger("B"))
+	auto& fader = Fader::GetInstance();
+	//何かボタンをおしたら
+	if (input.IsTriggerAny())
+	{
+		//だんだん暗く
+		fader.FadeOut(kFadeOutSpeed);
+	}
+	//真っ暗になったら
+	if (fader.IsFinishFadeOut())
 	{
 		//次のシーンへ
 		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
 		return;
 	}
+
 	//カメラ更新
 	m_camera->Update();
 	//プレイヤー更新
@@ -214,6 +229,11 @@ void TitleScene::AllDeleteHandle()
 
 void TitleScene::AllDeleteStage()
 {
+	//ステージ描画
+	for (auto& obj : m_stageObjects)
+	{
+		obj->End();
+	}
 	m_stageObjects.clear();
 	m_player.reset();
 	m_camera.reset();
@@ -221,7 +241,7 @@ void TitleScene::AllDeleteStage()
 
 void TitleScene::InitLight()
 {
-	m_lightHandle = CreateDirLightHandle(kLightDir1);
+	m_lightHandle = CreateDirLightHandle(kLightDir);
 }
 
 void TitleScene::InitShadow()
@@ -229,7 +249,7 @@ void TitleScene::InitShadow()
 	//シャドウマップハンドルの作成
 	m_shadowMapHandle = MakeShadowMap(kShadowMapWidth, kShadowMapHeight);
 	//シャドウマップが想定するライトの方向もセット
-	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir1);
+	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
 }
 
 void TitleScene::UpdateShadow()

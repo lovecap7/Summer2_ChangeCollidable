@@ -5,6 +5,7 @@
 #include<DxLib.h>
 #include "../General/game.h"
 #include "../General/Collision/Physics.h"
+#include "../General/Fader.h"
 
 namespace {
 	constexpr int kAppearInterval = 20;
@@ -64,18 +65,20 @@ void GameoverScene::NormalUpdate()
 	//Aボタンで次へ
 	if (input.IsTrigger("A")) 
 	{
+		//だんだん暗く
+		auto& fader = Fader::GetInstance();
+		fader.FadeOut();
 		m_update = &GameoverScene::DisappearUpdate;
-		m_countFrame = kAppearInterval;
 		return;
 	}
 }
 
 void GameoverScene::DisappearUpdate()
 {
-	--m_countFrame;
-	if (m_countFrame < 0)
+	auto& fader = Fader::GetInstance();
+	//暗くなったら
+	if (fader.IsFinishFadeOut())
 	{
-		m_countFrame = 0;
 		//自分の下になってるシーンを初期化
 		m_controller.RestartBaseScene();
 		m_controller.PopScene();//自分は消える

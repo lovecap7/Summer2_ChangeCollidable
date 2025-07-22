@@ -21,7 +21,7 @@ namespace
 	constexpr int kShadowMapWidth = 1024 * 2;
 	constexpr int kShadowMapHeight = 1024 * 2;
 	//ライトの向き
-	const VECTOR kLightDir1 = { 0.1f, -1.0f, 0.5f };
+	const VECTOR kLightDir = { 0.1f, -1.0f, 0.5f };
 	const VECTOR kLightDir2 = { 0.5f, 1.0f, 0.0f };
 	//シャドウマップの範囲
 	constexpr float kShadowMapHorizon = 2000.0f;
@@ -105,12 +105,12 @@ void GameManager::Update()
 			m_tutorialDirecter->Update(m_actorManager);
 		}
 		//ボスを倒したとき
-		if (m_actorManager->GetBoss().expired() && !m_isGameClear)
+		if (m_actorManager->GetBoss().expired())
 		{
 			//タイマーを止める
 			m_timer->StopUpdate();
 			//プレイヤーの勝利アニメーションが終了したら
-			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim())
+			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim() && !m_isGameClear)
 			{
 				//タイマーをスコアに加算
 				m_score->AddTimeScore(m_timer->GetTime());
@@ -206,7 +206,7 @@ void GameManager::Restart(Stage::StageIndex index)
 
 void GameManager::InitLight()
 {
-	m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir1));
+	m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir));
 	m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir2));
 }
 
@@ -215,7 +215,7 @@ void GameManager::InitShadow()
 	//シャドウマップハンドルの作成
 	m_shadowMapHandle = MakeShadowMap(kShadowMapWidth, kShadowMapHeight);
 	//シャドウマップが想定するライトの方向もセット
-	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir1);
+	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
 }
 
 void GameManager::UpdateShadowDrawArea()

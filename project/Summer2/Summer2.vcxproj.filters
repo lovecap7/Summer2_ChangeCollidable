@@ -579,6 +579,9 @@
     <ClCompile Include="Game\Title\TitlePlayer.cpp">
       <Filter>ソース ファイル\Game\Title</Filter>
     </ClCompile>
+    <ClCompile Include="General\Fader.cpp">
+      <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -997,6 +1000,9 @@
     </ClInclude>
     <ClInclude Include="Game\Title\TitlePlayer.h">
       <Filter>ヘッダー ファイル\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="General\Fader.h">
+      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

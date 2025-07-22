@@ -9,6 +9,12 @@
 #include <DxLib.h>
 #include <vector>
 #include "../General/game.h"
+#include "../General/Fader.h"
+
+namespace
+{
+	constexpr float kFadeSpeed = 10.0f;
+}
 
 StageScene::StageScene(SceneController& controller, Stage::StageIndex index):
 	SceneBase(controller),
@@ -24,6 +30,9 @@ StageScene::~StageScene()
 void StageScene::Init()
 {
 	m_gameManager->Init(m_stageIndex);
+	auto& fader = Fader::GetInstance();
+	//‚¾‚ñ‚¾‚ñ–¾‚é‚­
+	fader.FadeIn(kFadeSpeed);
 }
 
 void StageScene::Update()
@@ -73,4 +82,7 @@ void StageScene::End()
 void StageScene::Restart()
 {
 	m_gameManager->Restart(m_stageIndex);
+	auto& fader = Fader::GetInstance();
+	//‚¾‚ñ‚¾‚ñ–¾‚é‚­
+	fader.FadeIn(kFadeSpeed);
 }

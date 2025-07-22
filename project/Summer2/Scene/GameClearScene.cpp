@@ -6,6 +6,7 @@
 #include "../General/game.h"
 #include "../General/Collision/Physics.h"
 #include "../Game/GameRule/Score.h"
+#include "../General/Fader.h"
 
 namespace {
 	constexpr int kAppearInterval = 20;
@@ -69,18 +70,21 @@ void GameClearScene::NormalUpdate()
 	//Aボタンで次へ
 	if (input.IsTrigger("A"))
 	{
+		auto& fader = Fader::GetInstance();
+		//だんだん暗く
+		fader.FadeOut();
+		//次の状態
 		m_update = &GameClearScene::DisappearUpdate;
-		m_countFrame = kAppearInterval;
 		return;
 	}
 }
 
 void GameClearScene::DisappearUpdate()
 {
-	--m_countFrame;
-	if (m_countFrame < 0)
+	auto& fader = Fader::GetInstance();
+	//暗くなったら
+	if (fader.IsFinishFadeOut())
 	{
-		m_countFrame = 0;
 		//自分の下になってるシーンを切り替える
 		m_controller.ChangeBaseScene(std::make_shared<TitleScene>(m_controller));
 		m_controller.PopScene();//自分は消える

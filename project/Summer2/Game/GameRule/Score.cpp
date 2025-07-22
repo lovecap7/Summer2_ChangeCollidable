@@ -11,7 +11,7 @@ Score::Score()
 	m_acotrScoreData = m_csvLoader->LoadActorScoreDataCSV();
 	//ハイスコア
 	m_highScore = m_csvLoader->LoadHighScoreDataCSV();
-
+	auto ss = m_highScore[0];
 }
 
 Score::~Score()
