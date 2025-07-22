@@ -179,9 +179,6 @@ void Animator::UpdateAnim(const int& modelHandle,Anim& anim)
 
 void Animator::UpdateBlend(const int& modelHandle)
 {
-	//アニメーションがないならブレンドしない
-	if (m_animNow.m_attachAnim == -1)return;
-	if (m_animNext.m_attachAnim == -1)return;
 	//ブレンド
 	MV1SetAttachAnimBlendRate(modelHandle, m_animNow.m_attachAnimIndex, kMaxBlend - m_blendRate);
 	MV1SetAttachAnimBlendRate(modelHandle, m_animNext.m_attachAnimIndex, m_blendRate);

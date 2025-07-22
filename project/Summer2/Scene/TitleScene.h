@@ -1,8 +1,11 @@
 #pragma once
 #include "SceneBase.h"
-
+#include <memory>
 class Input;
+class TitleCamera;
 class SceneController;
+class Model;
+class TitlePlayer;
 class TitleScene :
     public SceneBase
 {
@@ -18,7 +21,11 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void End() override;
-    virtual void Restart() override;
+    virtual void Restart() override {};
 private:
+    //ƒJƒƒ‰
+	std::unique_ptr<TitleCamera> m_camera;
+    //ƒ‚ƒfƒ‹
+	std::unique_ptr<TitlePlayer> m_player;
 };
 

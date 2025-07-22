@@ -2,14 +2,14 @@
 #include "GameCameraStateClear.h"
 #include "GameCameraStateNormal.h"
 #include "GameCamera.h"
-#include "../../General/Rigidbody.h"
-#include "../../General/Collision/Collidable.h"
-#include "../../General/HitPoints.h"
-#include "../../General/game.h"
+#include "../../../General/Rigidbody.h"
+#include "../../../General/Collision/Collidable.h"
+#include "../../../General/HitPoints.h"
+#include "../../../General/game.h"
 #include "../../Actors/Character/Player/Player.h"
 #include "../../Actors/Character/Enemy/EnemyBase.h"
 #include "../../Actors/ActorManager.h"
-#include "../../General/Collision/Physics.h"
+#include "../../../General/Collision/Physics.h"
 #include <DxLib.h>
 
 namespace

@@ -44,9 +44,13 @@ private:
     bool m_isGameClear;
     //影
     int m_shadowMapHandle;
+    //ライトハンドル
+	std::vector<int> m_lightHandles;
     //デバッグモード用
     bool m_isUpdateStop = false;
 private:
+    //ライトの初期化
+    void InitLight();
     //シャドウマップの初期化
     void InitShadow();
     //描画範囲更新

@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "../../General/Math/MyMath.h"
+#include "../../../General/Math/MyMath.h"
 class GameCamera;
 class ActorManager;
 class GameCameraStateBase abstract

@@ -15,8 +15,8 @@ private:
 		bool m_isFixedLoop = false;
 		float m_fixedLoopFrame = 0.0f;
 	};
-	Anim m_animNow;//今のアニメーション
-	Anim m_animNext;//次のアニメーション
+	Anim m_animNow;		//今のアニメーション
+	Anim m_animNext;	//次のアニメーション
 	//ブレンドに使う
 	float m_blendRate;
 	//アニメーションを進める

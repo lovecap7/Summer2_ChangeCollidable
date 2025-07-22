@@ -1,15 +1,15 @@
 #include "GameCamera.h"
 #include "GameCameraStateBase.h"
 #include "GameCameraStateStart.h"
-#include "../../General/Rigidbody.h"
-#include "../../General/Collision/Collidable.h"
-#include "../../General/game.h"
+#include "../../../General/Rigidbody.h"
+#include "../../../General/Collision/Collidable.h"
+#include "../../../General/game.h"
 #include "../../Actors/Character/Player/Player.h"
 #include "../../Actors/Character/Enemy/EnemyBase.h"
 #include "../../Actors/ActorManager.h"
 #include <DxLib.h>
 #if _DEBUG
-#include "../../General/Input.h"
+#include "../../../General/Input.h"
 #endif
 
 namespace

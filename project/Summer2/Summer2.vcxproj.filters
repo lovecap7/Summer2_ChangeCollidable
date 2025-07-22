@@ -163,6 +163,12 @@
     <Filter Include="ソース ファイル\Game\Camera\TitleCamera">
       <UniqueIdentifier>{8edaf1e7-e972-44ce-8e8c-532f6d76692a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Title">
+      <UniqueIdentifier>{1e59e424-2784-426f-8a99-fab080b960b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Title">
+      <UniqueIdentifier>{8ee4a252-f34d-45c2-957a-703285d13b31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -568,7 +574,10 @@
       <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\TitleCamera\TitleCamera.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Game\Camera\TitleCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Title\TitlePlayer.cpp">
+      <Filter>ソース ファイル\Game\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -984,7 +993,10 @@
       <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
     </ClInclude>
     <ClInclude Include="Game\Camera\TitleCamera\TitleCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Game\Camera\TitleCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Title\TitlePlayer.h">
+      <Filter>ヘッダー ファイル\Game\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,10 +18,11 @@
 namespace
 {
 	//シャドウマップの描画サイズ
-	constexpr int kShadowMapWidth = 1024;
-	constexpr int kShadowMapHeight = 1024;
+	constexpr int kShadowMapWidth = 1024 * 2;
+	constexpr int kShadowMapHeight = 1024 * 2;
 	//ライトの向き
-	const VECTOR kLightDir = { 0.0f, -1.0f, 0.5f };
+	const VECTOR kLightDir1 = { 0.1f, -1.0f, 1.0f };
+	const VECTOR kLightDir2 = { 0.5f, 1.0f, 0.0f };
 	//シャドウマップの範囲
 	constexpr float kShadowMapHorizon = 2000.0f;
 	constexpr float kShadowMapVerticalMin = -1.0f;
@@ -40,9 +41,12 @@ GameManager::GameManager():
 	m_score = std::make_shared<Score>();
 	//タイマー
 	m_timer = std::make_shared<Timer>();
+	//ライト
+	InitLight();
 	//シャドウマップの準備
 	InitShadow();
 }
+
 
 GameManager::~GameManager()
 {
@@ -169,6 +173,11 @@ void GameManager::End()
 	m_actorManager->End();
 	//UIマネージャーのリセット
 	UIManager::GetInstance().Reset();
+	//ライトの削除
+	for (auto& handle : m_lightHandles)
+	{
+		DeleteLightHandle(handle);
+	}
 	//シャドウマップの削除
 	DeleteShadowMap(m_shadowMapHandle);
 	//チュートリアル終了処理
@@ -195,14 +204,18 @@ void GameManager::Restart(Stage::StageIndex index)
 	m_isGameClear = false;
 }
 
+void GameManager::InitLight()
+{
+	m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir1));
+	m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir2));
+}
+
 void GameManager::InitShadow()
 {
-	//ディレクショナルライト
-	ChangeLightTypeDir(kLightDir);
 	//シャドウマップハンドルの作成
 	m_shadowMapHandle = MakeShadowMap(kShadowMapWidth, kShadowMapHeight);
 	//シャドウマップが想定するライトの方向もセット
-	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
+	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir1);
 }
 
 void GameManager::UpdateShadowDrawArea()

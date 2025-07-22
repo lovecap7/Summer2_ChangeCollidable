@@ -1,7 +1,7 @@
 #include "Sky.h"
 #include <DxLib.h>
 #include "../../../General/Model.h"
-#include "../../Camera/Camera.h"
+#include "../../Camera/GameCamera/GameCamera.h"
 
 namespace
 {

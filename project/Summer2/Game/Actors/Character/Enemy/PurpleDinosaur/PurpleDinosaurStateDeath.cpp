@@ -8,7 +8,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
-#include "../../../../../Game/Camera/Camera.h"
+#include "../../../../Camera/GameCamera/GameCamera.h"
 namespace
 {
 	//Œ¸‘¬—¦

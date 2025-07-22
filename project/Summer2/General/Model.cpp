@@ -33,7 +33,7 @@ Model::Model(int modelHandle, VECTOR pos) :
 	m_beforeScaleDif{}
 {
 	//座標
-	MV1SetPosition(m_modelHandle, pos);
+	DxLib::MV1SetPosition(m_modelHandle, pos);
 	//アニメーション
 	m_animator = std::make_unique<Animator>();
 }
@@ -54,7 +54,7 @@ Model::Model(int modelHandle, VECTOR pos, Vector3 forward) :
 {
 	//座標
 	m_pos = pos;
-	MV1SetPosition(m_modelHandle, m_pos.ToDxLibVector());
+	DxLib::MV1SetPosition(m_modelHandle, m_pos.ToDxLibVector());
 	//アニメーション
 	m_animator = std::make_unique<Animator>();
 }
@@ -78,7 +78,7 @@ void Model::Update()
 		if (m_rotation.Magnitude() > 0.0f && m_rotaQ.w < 1.0f)
 		{
 			m_rotation = m_rotation.NormQ();
-			MV1SetRotationMatrix(m_modelHandle, m_rotation.GetMatrix().ToDxLibMATRIX());
+			DxLib::MV1SetRotationMatrix(m_modelHandle, m_rotation.GetMatrix().ToDxLibMATRIX());
 		}
 		//前ベクトル
 		m_forward = m_rotaQ * m_forward;
@@ -103,13 +103,13 @@ void Model::Update()
 void Model::Draw() const
 {
 	//描画
-	auto err = MV1DrawModel(m_modelHandle);
+	auto err = DxLib::MV1DrawModel(m_modelHandle);
 	assert(err != -1 && L"モデルが描画できません");
 }
 
 void Model::End()
 {
-	assert(MV1DeleteModel(m_modelHandle) == 0);
+	assert(DxLib::MV1DeleteModel(m_modelHandle) == 0);
 }
 
 void Model::SetPos(VECTOR pos)
@@ -133,7 +133,7 @@ void Model::SetRot(VECTOR rot)
 	if (m_rotation.Magnitude() > 0.0f && m_rotaQ.w < 1.0f)
 	{
 		m_rotation = m_rotation.NormQ();
-		MV1SetRotationMatrix(m_modelHandle, m_rotation.GetMatrix().ToDxLibMATRIX());
+		DxLib::MV1SetRotationMatrix(m_modelHandle, m_rotation.GetMatrix().ToDxLibMATRIX());
 	}
 	//前ベクトル
 	m_forward = m_rotaQ * m_forward;
@@ -168,13 +168,13 @@ void Model::SetDiffuseColor(float r, float g, float b, float a)
 {
 	COLOR_F color = { r, g, b, a };
 	m_diffColor = color;
-	MV1SetDifColorScale(m_modelHandle, m_diffColor);
+	DxLib::MV1SetDifColorScale(m_modelHandle, m_diffColor);
 }
 
 void Model::SetDiffuseColor(COLOR_F color)
 {
 	m_diffColor = color;
-	MV1SetDifColorScale(m_modelHandle, m_diffColor);
+	DxLib::MV1SetDifColorScale(m_modelHandle, m_diffColor);
 }
 
 Vector3 Model::GetDir()
@@ -203,14 +203,14 @@ void Model::SetAnim(const char* animName, bool isLoop)
 {
 	auto animNameT = ToTCHAR(animName);
 	//アニメーションを変更
-	m_animator->SetAnim(m_modelHandle, MV1GetAnimIndex(m_modelHandle, animNameT), isLoop);
+	m_animator->SetAnim(m_modelHandle, DxLib::MV1GetAnimIndex(m_modelHandle, animNameT), isLoop);
 }
 
 void Model::SetAnim(const char* animName, bool isLoop, const float& animSpeed)
 {
 	auto animNameT = ToTCHAR(animName);
 	//アニメーションを変更
-	m_animator->SetAnim(m_modelHandle, MV1GetAnimIndex(m_modelHandle, animNameT), isLoop, animSpeed);
+	m_animator->SetAnim(m_modelHandle, DxLib::MV1GetAnimIndex(m_modelHandle, animNameT), isLoop, animSpeed);
 }
 
 void Model::SetAnimSpeed(const float& animSpeed)
@@ -273,5 +273,5 @@ void Model::ApplyMat()
 	auto rMat = m_rotation.GetMatrix();
 	auto sMat = Matrix4x4::ScaleMatrix4x4(m_scale);
 	mat = sMat * rMat * pMat;
-	MV1SetMatrix(m_modelHandle, mat.ToDxLibMATRIX());
+	DxLib::MV1SetMatrix(m_modelHandle, mat.ToDxLibMATRIX());
 }

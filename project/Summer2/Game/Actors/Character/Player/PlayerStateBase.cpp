@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "PlayerStateIdle.h"
 #include "../../../../General/Input.h"
-#include "../../../../Game/Camera/Camera.h"
+#include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 PlayerStateBase::PlayerStateBase(std::weak_ptr<Actor>  player):
 	CharacterStateBase(player)
