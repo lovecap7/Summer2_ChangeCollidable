@@ -4,11 +4,11 @@ namespace
 {
 	//nearとfar
 	constexpr float kNear = 50.0f;
-	constexpr float kFar = 1000.0f;
+	constexpr float kFar = 5000.0f;
 	//初期位置
-	const Vector3 kFirstPos = { 0,200,-500 };
+	const Vector3 kFirstPos = { -200,100,-700 };
 	//カメラの初期位置から見ている位置
-	const Vector3 kViewPos = { 0,100,0 };
+	const Vector3 kViewPos = { -200,100,0 };
 	//視野角
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;}
 

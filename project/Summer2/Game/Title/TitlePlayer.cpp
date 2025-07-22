@@ -9,6 +9,8 @@ namespace
 	const char* kIdleAnim = "Anim|Idle";
 	//歩く
 	const char* kWalkAnim = "Anim|Walk";
+	//アニメーション速度
+	constexpr float kWalkAnimSpeed = 0.5f;
 }
 
 TitlePlayer::TitlePlayer()
@@ -33,7 +35,7 @@ void TitlePlayer::Update()
 	if (Input.IsTriggerAny())
 	{
 		//アニメーションを歩くに変更
-		m_model->SetAnim(kWalkAnim, false);
+		m_model->SetAnim(kWalkAnim, false, kWalkAnimSpeed);
 	}
 	m_model->Update();
 }
