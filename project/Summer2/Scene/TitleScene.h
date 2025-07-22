@@ -1,11 +1,15 @@
 #pragma once
 #include "SceneBase.h"
 #include <memory>
+#include <vector>
+#include <map>
+#include <string>
 class Input;
 class TitleCamera;
 class SceneController;
 class Model;
 class TitlePlayer;
+class StageObjectDraw;
 class TitleScene :
     public SceneBase
 {
@@ -22,10 +26,22 @@ public:
     virtual void Draw() override;
     virtual void End() override;
     virtual void Restart() override {};
+    //ハンドルロード
+    void LoadHandle();
+    //配置
+    void LoadStage();
+    //ハンドル削除
+    void AllDeleteHandle();
+    //オブジェ削除
+    void AllDeleteStage();
 private:
     //カメラ
 	std::unique_ptr<TitleCamera> m_camera;
     //モデル
 	std::unique_ptr<TitlePlayer> m_player;
+    //描画用オブジェ
+    std::vector<std::shared_ptr<StageObjectDraw>> m_stageObjects;
+    //ハンドル
+    std::map<std::string, int> m_handles;
 };
 
