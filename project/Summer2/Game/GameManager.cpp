@@ -21,7 +21,7 @@ namespace
 	constexpr int kShadowMapWidth = 1024 * 2;
 	constexpr int kShadowMapHeight = 1024 * 2;
 	//ライトの向き
-	const VECTOR kLightDir1 = { 0.1f, -1.0f, 1.0f };
+	const VECTOR kLightDir1 = { 0.1f, -1.0f, 0.5f };
 	const VECTOR kLightDir2 = { 0.5f, 1.0f, 0.0f };
 	//シャドウマップの範囲
 	constexpr float kShadowMapHorizon = 2000.0f;
