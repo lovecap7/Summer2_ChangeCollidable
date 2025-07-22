@@ -32,9 +32,12 @@ public:
 	/// </summary>
 	virtual void Init()abstract;
 	/// <summary>
+	/// 位置などの更新を行う(引数なし)
+	/// </summary>
+	virtual void Update() {};
+	/// <summary>
 	/// 位置などの更新を行う
 	/// </summary>
-	/// <param name="">入力オブジェクト</param>
 	virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) abstract;
 	/// <summary>
 	/// 対象のアクターを表示

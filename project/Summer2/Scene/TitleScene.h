@@ -9,7 +9,7 @@ class TitleCamera;
 class SceneController;
 class Model;
 class TitlePlayer;
-class StageObjectDraw;
+class Actor;
 class TitleScene :
     public SceneBase
 {
@@ -40,8 +40,19 @@ private:
     //モデル
 	std::unique_ptr<TitlePlayer> m_player;
     //描画用オブジェ
-    std::vector<std::shared_ptr<StageObjectDraw>> m_stageObjects;
+    std::vector<std::shared_ptr<Actor>> m_stageObjects;
     //ハンドル
-    std::map<std::string, int> m_handles;
+    std::map<std::string, int> m_stageHandles;
+    //影
+    int m_shadowMapHandle;
+    //ライトハンドル
+    int m_lightHandle;
+private:
+    //ライトの初期化
+    void InitLight();
+    //シャドウマップの初期化
+    void InitShadow();
+    //シャドウの更新
+    void UpdateShadow();
 };
 

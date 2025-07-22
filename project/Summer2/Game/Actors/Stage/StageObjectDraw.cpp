@@ -22,6 +22,11 @@ void StageObjectDraw::Update(const std::weak_ptr<GameCamera> camera, const std::
 	m_model->Update();
 }
 
+void StageObjectDraw::Update()
+{
+	m_model->Update();
+}
+
 void StageObjectDraw::Draw() const
 {
 	m_model->Draw();
