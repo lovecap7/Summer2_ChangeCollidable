@@ -72,8 +72,8 @@ void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	//ボスを倒す
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
@@ -85,7 +85,7 @@ void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
-	//死亡したかつボスが倒せてない場合
+	//死亡した
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
@@ -107,7 +107,7 @@ void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 	//向きの更新
-	Vector2 dir = coll->GetStickVec();
+	Vector2 dir = coll->GetPlayerStickVec();
 	coll->GetModel()->SetDir(dir);
 	//溜めてる時
 	if (input.IsPress("Y") || m_chargeFrame < kStopFrame)

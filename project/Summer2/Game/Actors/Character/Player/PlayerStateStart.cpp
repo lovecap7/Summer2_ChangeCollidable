@@ -46,7 +46,7 @@ void PlayerStateStart::Init()
 void PlayerStateStart::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//ボスの体力がなくなった場合またはモデルのアニメーションが終わったら
+	//モデルのアニメーションが終わったら
 	if (coll->GetModel()->IsFinishAnim())
 	{
 		//待機

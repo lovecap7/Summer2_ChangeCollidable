@@ -4,6 +4,7 @@
 #include "../General/game.h"
 #include "Actors/ActorManager.h"
 #include "Actors/Character/Player/Player.h"
+#include "Actors/Character/Enemy/EnemyBase.h""
 #include "UI/UIManager.h"
 #include "../General/Collision/Physics.h"
 #include "../Game/Camera/GameCamera/GameCamera.h"
@@ -80,32 +81,15 @@ void GameManager::Update()
 	{
 		//アクターの更新
 		m_actorManager->Update(m_score);
-		if (!m_actorManager->GetPlayer().expired())
-		{
-			//プレイヤーがスタート状態の時
-			if (m_actorManager->GetPlayer().lock()->IsStartAnim())
-			{
-				//タイマーを止める
-				m_timer->StopUpdate();
-			}
-			//プレイヤーがスタート状態が終了したら
-			else
-			{
-				//タイマーを開始
-				m_timer->StartUpdate();
-			}
-		}
-		//タイマー
-		m_timer->Update();
-		//カメラの更新
-		m_camera->Update(m_actorManager);
+		//ゲーム開始時の処理
+		UpdateGameStart();
 		//チュートリアル
 		if (m_tutorialDirecter != nullptr)
 		{
 			m_tutorialDirecter->Update(m_actorManager);
 		}
 		//ボスを倒したとき
-		if (m_actorManager->GetBoss().expired())
+		if (m_actorManager->IsBossDead())
 		{
 			//タイマーを止める
 			m_timer->StopUpdate();
@@ -124,6 +108,10 @@ void GameManager::Update()
 			//ゲームオーバー
 			m_isGameover = true;
 		}
+		//タイマー
+		m_timer->Update();
+		//カメラの更新
+		m_camera->Update(m_actorManager);
 	}
 	//シャドウマップに描画する範囲を設定
 	//カメラの周囲のみ
@@ -136,22 +124,22 @@ void GameManager::Draw() const
 	DrawString(0, 0, L"Stage1 Scene", 0xffffff);
 	DrawString(0, 16, L"[D]キーで Debug Scene", 0xffffff);
 
-	for (int z = -500; z <= 500; z += 100)
-	{
-		DrawLine3D(VGet(-500, 0, z), VGet(500, 0, z), 0xff0000);
-	}
-	for (int x = -500; x <= 500; x += 100)
-	{
-		DrawLine3D(VGet(x, 0, -500), VGet(x, 0, 500), 0x0000ff);
-	}
-	VECTOR screenPos = ConvWorldPosToScreenPos(VGet(500, 0, 0));
-	DrawString(screenPos.x, screenPos.y, L"X+", 0xffffff);
-	screenPos = ConvWorldPosToScreenPos(VGet(-500, 0, 0));
-	DrawString(screenPos.x, screenPos.y, L"X-", 0xffffff);
-	screenPos = ConvWorldPosToScreenPos(VGet(0, 0, 500));
-	DrawString(screenPos.x, screenPos.y, L"Z+", 0xffffff);
-	screenPos = ConvWorldPosToScreenPos(VGet(0, 0, -500));
-	DrawString(screenPos.x, screenPos.y, L"Z-", 0xffffff);
+	//for (int z = -500; z <= 500; z += 100)
+	//{
+	//	DrawLine3D(VGet(-500, 0, z), VGet(500, 0, z), 0xff0000);
+	//}
+	//for (int x = -500; x <= 500; x += 100)
+	//{
+	//	DrawLine3D(VGet(x, 0, -500), VGet(x, 0, 500), 0x0000ff);
+	//}
+	//VECTOR screenPos = ConvWorldPosToScreenPos(VGet(500, 0, 0));
+	//DrawString(screenPos.x, screenPos.y, L"X+", 0xffffff);
+	//screenPos = ConvWorldPosToScreenPos(VGet(-500, 0, 0));
+	//DrawString(screenPos.x, screenPos.y, L"X-", 0xffffff);
+	//screenPos = ConvWorldPosToScreenPos(VGet(0, 0, 500));
+	//DrawString(screenPos.x, screenPos.y, L"Z+", 0xffffff);
+	//screenPos = ConvWorldPosToScreenPos(VGet(0, 0, -500));
+	//DrawString(screenPos.x, screenPos.y, L"Z-", 0xffffff);
 #endif
 	//シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(m_shadowMapHandle);
@@ -229,4 +217,23 @@ void GameManager::UpdateShadowDrawArea()
 	shadowMaxPos.y = kShadowMapVerticalMax;
 	shadowMaxPos.z += kShadowMapHorizon;
 	SetShadowMapDrawArea(m_shadowMapHandle, shadowMinPos.ToDxLibVector(), shadowMaxPos.ToDxLibVector());
+}
+
+void GameManager::UpdateGameStart()
+{
+	if (!m_actorManager->GetPlayer().expired())
+	{
+		//プレイヤーがスタート状態の時
+		if (m_actorManager->GetPlayer().lock()->IsStartAnim())
+		{
+			//タイマーを止める
+			m_timer->StopUpdate();
+		}
+		//プレイヤーがスタート状態が終了したら
+		else
+		{
+			//タイマーを開始
+			m_timer->StartUpdate();
+		}
+	}
 }

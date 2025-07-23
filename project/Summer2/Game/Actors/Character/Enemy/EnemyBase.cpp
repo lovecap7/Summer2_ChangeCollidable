@@ -7,7 +7,6 @@
 EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
 	CharacterBase(shape),
 	m_attackCoolTime(0),
-	m_hpUIPos{},
 	m_enemyGrade(grade)
 {
 }

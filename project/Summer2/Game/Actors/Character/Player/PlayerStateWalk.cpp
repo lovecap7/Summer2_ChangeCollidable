@@ -57,13 +57,13 @@ void PlayerStateWalk::Update(const std::weak_ptr<GameCamera> camera, const std::
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
 	//ボスの体力がなくなった場合または入力がないなら
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+	if (actorManager.lock()->IsBossDead() ||
 		!input.GetStickInfo().IsLeftStickInput())
 	{
 		//待機
@@ -133,7 +133,7 @@ void PlayerStateWalk::Update(const std::weak_ptr<GameCamera> camera, const std::
 	//移動
 	rb->SetMoveVec(GetForwardVec(camera) * InputValueSpeed(input));
 	//向きの更新
-	Vector2 dir = coll->GetStickVec();
+	Vector2 dir = coll->GetPlayerStickVec();
 	coll->GetModel()->SetDir(dir);
 }
 

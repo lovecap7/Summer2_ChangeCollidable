@@ -29,17 +29,15 @@ namespace
 	constexpr float kSearchDistance = 900.0f;
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
-	//体力バー表示位置
-	constexpr float kHPBarY = 30.0f;
 	//モデルの旋回速度
-	constexpr int kRotaSpeed = 30;
+	constexpr int kModelRotateSpeed = 30;
 }
 PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule, EnemyGrade::Normal)
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
-	m_model->SetRotSpeed(kRotaSpeed);
+	m_model->SetRotSpeed(kModelRotateSpeed);
 	//衝突判定
 	Vector3 endPos = pos;
 	endPos += kCapsuleHeight; //カプセルの上端
@@ -98,9 +96,6 @@ void PurpleDinosaur::Update(const std::weak_ptr<GameCamera> camera, const std::w
 	m_model->Update();	
 	//体力クラスのフラグリセット
 	m_hitPoints->ResetHitFlags();
-	//頭の位置
-	m_hpUIPos = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->m_endPos;
-	m_hpUIPos.y += kHPBarY;
 }
 
 void PurpleDinosaur::OnCollide(const std::shared_ptr<Collidable> other)

@@ -10,7 +10,7 @@ namespace
 {
 	constexpr float kAnimSpeed = 0.5f;//再生速度
 	//回転速度
-	constexpr int kRotaSpeed = 10;
+	constexpr int kModelRotateSpeed = 10;
 	//ヒット効果フレーム
 	constexpr int kHitFrame = 30.0f;
 	//ヒット効果でモデルが大きくなる倍率
@@ -24,7 +24,7 @@ Model::Model(int modelHandle, VECTOR pos) :
 	m_rotation(Quaternion::AngleAxis(180 * MyMath::DEG_2_RAD, Vector3::Up())),
 	m_rotaQ(Quaternion::IdentityQ()),
 	m_rotaFrame(0),
-	m_rotaSpeed(kRotaSpeed),
+	m_rotaSpeed(kModelRotateSpeed),
 	m_pos(pos),
 	m_scale{ 1.0f,1.0f,1.0f },
 	m_hitCountFrame(0),

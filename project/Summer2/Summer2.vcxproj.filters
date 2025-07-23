@@ -582,6 +582,9 @@
     <ClCompile Include="General\Fader.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\ULT.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1003,6 +1006,9 @@
     </ClInclude>
     <ClInclude Include="General\Fader.h">
       <Filter>ヘッダー ファイル\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\ULT.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

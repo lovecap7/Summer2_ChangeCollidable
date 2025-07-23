@@ -19,7 +19,7 @@ Vector3 PlayerStateBase::GetForwardVec(const std::weak_ptr<GameCamera> camera)
 	//ƒvƒŒƒCƒ„[
 	auto player = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//“ü—Í
-	Vector3 stickVec = player->GetStickVec().XZ();
+	Vector3 stickVec = player->GetPlayerStickVec().XZ();
 	if (stickVec.Magnitude() < 0.0f)
 	{
 		return rV;

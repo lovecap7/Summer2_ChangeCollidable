@@ -33,7 +33,7 @@ namespace
 	//体力
 	constexpr int kHp = 5000;
 	//モデルの旋回速度
-	constexpr int kRotaSpeed = 40;
+	constexpr int kModelRotateSpeed = 40;
 }
 
 BossDragon::BossDragon(int modelHandle, Vector3 pos):
@@ -41,7 +41,7 @@ BossDragon::BossDragon(int modelHandle, Vector3 pos):
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
-	m_model->SetRotSpeed(kRotaSpeed);
+	m_model->SetRotSpeed(kModelRotateSpeed);
 	//衝突判定
 	Vector3 endPos = pos;
 	endPos += kCapsuleHeight; //カプセルの上端
@@ -170,7 +170,7 @@ void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std:
 	//スコア加算
 	score.lock()->AddKillOrItemScore(ScoreDataName::kBossDragon);
 	//死亡エフェクト
-	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
+	EffekseerManager::GetInstance().CreateEffect("BossDeathEff", m_rb->m_pos);
 }
 
 void BossDragon::End()

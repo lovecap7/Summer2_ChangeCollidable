@@ -51,21 +51,20 @@ void PlayerStateFall::Update(const std::weak_ptr<GameCamera> camera, const std::
 {
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	//ボスを倒す
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
-	//ボスの体力がなくなった場合または地面に付いているなら
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
-		coll->IsFloor())
+	//地面に付いているなら
+	if (coll->IsFloor())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
-	//死亡したかつボスが倒せてない場合
+	//死亡した
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
@@ -98,7 +97,7 @@ void PlayerStateFall::Update(const std::weak_ptr<GameCamera> camera, const std::
 		}
 	}
 	//向きの更新
-	Vector2 dir = coll->GetStickVec();
+	Vector2 dir = coll->GetPlayerStickVec();
 	coll->GetModel()->SetDir(dir);
 }
 

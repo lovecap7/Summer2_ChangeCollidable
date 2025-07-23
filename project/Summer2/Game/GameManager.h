@@ -55,4 +55,6 @@ private:
     void InitShadow();
     //描画範囲更新
     void UpdateShadowDrawArea();
+    //ゲーム開始時の処理
+    void UpdateGameStart();
 };

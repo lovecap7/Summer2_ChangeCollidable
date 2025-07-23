@@ -90,20 +90,20 @@ void PlayerStateCA::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//ƒ{ƒX‚ªŠ®‘S‚ÉÁ–Å‚µ‚½‚Æ‚«
-	if (actorManager.lock()->GetBoss().expired())
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
-	//ƒ{ƒX‚Ì‘Ì—Í‚ª‚È‚­‚È‚Á‚½ê‡‚Ü‚½‚ÍUŒ‚‚ÌŽ‘±‚ªØ‚ê‚½‚ç
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+	//ƒ{ƒX‚Ì‘Ì—Í‚ª‚È‚­‚È‚é‚©UŒ‚‚ÌŽ‘±‚ªØ‚ê‚½‚ç
+	if (actorManager.lock()->IsBossDead() ||
 		m_attackCountFrame > m_attackData.keepFrame)
 	{
 		//‘Ò‹@
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
-	//Ž€–S‚µ‚½‚©‚Âƒ{ƒX‚ª“|‚¹‚Ä‚È‚¢ê‡
+	//Ž€–S‚µ‚½
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));

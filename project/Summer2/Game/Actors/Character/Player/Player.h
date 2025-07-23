@@ -9,6 +9,7 @@ class GameCamera;
 class CharacterStateBase;
 class HitPoints;
 class TrackActorEffect;
+class Input;
 class Player :
 	public CharacterBase
 {
@@ -29,27 +30,32 @@ public:
 	void Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score) override;
 	//終了処理
 	void End()override;
-	//入力中の方向キー
-	Vector2 GetStickVec() { return m_stickVec; };
-	//必殺技ゲージ
-	std::weak_ptr<UltGage> GetUltGage() const{ return m_ultGage; };
+
+	//ステートにアクセスさせる関数
 	//リジッドボディ
 	std::shared_ptr<Rigidbody> GetRb() const { return m_rb; }
 	//コリジョン
 	std::shared_ptr<ColliderBase> GetColl() const { return m_collisionData; }
 	//コリジョンの状態を設定
 	void SetCollState(CollisionState collState) { m_collState = collState; }
+
+	//入力中の方向キー(プレイヤーのモデルの向きに対応したベクトル)
+	Vector2 GetPlayerStickVec() { return m_stickVec; };
+	//必殺技ゲージ
+	std::weak_ptr<UltGage> GetUltGage() const{ return m_ultGage; };
 	//ターゲットのデータ
 	TargetData GetTargetData() const { return m_targetData; };
+	//ターゲットの索敵
+	virtual void TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos) override;
 	//ダッシュキープフラグ
 	bool IsRunKeep() { return m_isRunKeep; };
 	void SetIsRunKeep(bool isRunKeep) { m_isRunKeep = isRunKeep; };
+
+	//ゲームの進行に使う関数
 	//ゲーム開始アニメーションをしている
 	bool IsStartAnim();
 	//ゲームクリアアニメーション終了
 	bool IsFinishClearAnim();
-	//ターゲットの索敵
-	virtual void TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos) override;
 private:
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;
@@ -62,9 +68,11 @@ private:
 	//必殺ゲージMAXエフェクト
 	std::weak_ptr<TrackActorEffect> m_ultMaxEff;
 
-	//落下したときに戻す座標
+	//落下したときに戻す座標(チェックポイントを実装したら使う)
 	Vector3 m_initPos;
 private:
+	//プレイヤーの入力ベクトルを更新
+	void UpdatePlayerStickVec(Input& input);
 	//走りを継続するか
 	void CheckRunKeep();
 	//必殺ゲージが最大か確認

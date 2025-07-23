@@ -35,6 +35,7 @@ enum class AttackType : int
 	Bullet			= 3,
 	Blast			= 4,
 	Breath			= 5,
+	ULT				= 6,
 };
 
 class Player;
@@ -59,6 +60,7 @@ public:
 	void Init(Stage::StageIndex index);
 	//更新
 	void Update(const std::weak_ptr<Score> score);
+	void UpdateDelay();
 	//描画
 	void Draw() const;
 	//終了処理
@@ -87,6 +89,10 @@ public:
 	std::weak_ptr<Actor> GetNearestEnemy() const;
 	//攻撃データを返す
 	AttackData GetAttackData(std::string& ownerName, std::string& attackName);
+	//ボスが死亡したか
+	bool IsBossDead() const;
+	//ボスが消滅して数フレーム経過したか
+	bool IsBossDisappear() const;
 
 	//更新を止める
 	void StopUpdate() { m_isUpdate = false; };
@@ -132,6 +138,8 @@ private:
 	std::weak_ptr<GameCamera> m_camera;
 	//ハンドル
 	std::map<std::string, int> m_handles;
+	//ボスが消滅してからのフレーム数
+	int m_bossDisappearFrame;
 	//更新
 	bool m_isUpdate;
 	int m_delayFrame;

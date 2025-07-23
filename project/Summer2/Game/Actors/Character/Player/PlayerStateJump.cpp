@@ -58,13 +58,13 @@ void PlayerStateJump::Update(const std::weak_ptr<GameCamera> camera, const std::
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto rb = coll->GetRb();
-	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	//ボスを倒す
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
-	//死亡したかつボスが倒せてない場合
+	//死亡した
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));
@@ -103,7 +103,7 @@ void PlayerStateJump::Update(const std::weak_ptr<GameCamera> camera, const std::
 	}
 	
 	//向きの更新
-	coll->GetModel()->SetDir(coll->GetStickVec());
+	coll->GetModel()->SetDir(coll->GetPlayerStickVec());
 }
 
 float PlayerStateJump::InputValueSpeed(const Input& input)

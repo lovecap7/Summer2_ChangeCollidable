@@ -56,14 +56,14 @@ void PlayerStateIdle::Update(const std::weak_ptr<GameCamera> camera, const std::
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	Vector3 vec = coll->GetRb()->GetVec();
 	
-	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	//ボスを倒す
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
 	//ボスの体力がなくなった場合待機しておく
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead())
+	if (actorManager.lock()->IsBossDead())
 	{
 		//だんだん減速
 		coll->GetRb()->SpeedDown(kMoveDeceRate);

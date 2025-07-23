@@ -16,7 +16,7 @@
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/MyEffect.h"
-#include "../../Attack/Slash.h"
+#include "../../Attack/ULT.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
@@ -48,7 +48,7 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	m_animSpeed = m_attackData.animSpeed;
 	model->SetAnim(m_attackData.anim.c_str(), false, m_animSpeed);
 	//向きの更新
-	Vector2 dir = coll->GetStickVec();
+	Vector2 dir = coll->GetPlayerStickVec();
 	model->SetDir(dir);
 	//ゲージを0に
 	coll->GetUltGage().lock()->ResetUltGage();
@@ -80,14 +80,14 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 	++m_animCountFrame;
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
-	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	//ボスを倒す
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
 	//ボスの体力がなくなった場合またはアニメーションが終了したら
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+	if (actorManager.lock()->IsBossDead() ||
 		model->IsFinishAnim())
 	{
 		//待機
@@ -121,7 +121,7 @@ void PlayerStateUltimate::CreateAttack(float radius, int damage, int keepFrame, 
 {
 	auto owner = m_owner.lock();
 	//作成と参照
-	auto attack = std::dynamic_pointer_cast<Slash>(actorManager.lock()->CreateAttack(AttackType::Slash, m_owner).lock());
+	auto attack = std::dynamic_pointer_cast<ULT>(actorManager.lock()->CreateAttack(AttackType::ULT, m_owner).lock());
 	//攻撃を作成
 	auto data = m_attackData;
 	//大きさ

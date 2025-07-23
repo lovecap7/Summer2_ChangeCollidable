@@ -50,20 +50,20 @@ void PlayerStateHit::Update(const std::weak_ptr<GameCamera> camera, const std::w
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
 	//ボスの体力がなくなった場合またはモデルのアニメーションが終わったら
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+	if (actorManager.lock()->IsBossDead() ||
 		coll->GetModel()->IsFinishAnim())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
-	//死亡したかつボスが倒せてない場合
+	//死亡した
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
 		ChangeState(std::make_shared<PlayerStateDeath>(m_owner));

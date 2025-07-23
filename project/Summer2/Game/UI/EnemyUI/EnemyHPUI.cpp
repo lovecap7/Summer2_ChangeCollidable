@@ -5,9 +5,11 @@
 
 namespace
 {
+	//描画位置の調整
 	constexpr float kShiftLeftPosX = 70.0f;
 	constexpr float kBarHeight = 20.0f;
 	constexpr float kBarWidth = kShiftLeftPosX * 2.0f;
+	constexpr float kBarOffsetPosY = 150.0f; //敵の頭の上に来るように調整
 }
 
 
@@ -54,8 +56,10 @@ void EnemyHPUI::Update()
 		m_viewMaxHp = hp->GetMaxHp();
 	}
 
-	//敵の頭付近に出したい
-	m_pos = enemy->GetHPUIPos();
+	//描画座標を更新
+	m_pos = enemy->GetPos();
+	//頭の上に来るぐらいに調整
+	m_pos.y += kBarOffsetPosY;
 }
 
 void EnemyHPUI::Draw() const

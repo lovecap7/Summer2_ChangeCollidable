@@ -23,8 +23,6 @@ public:
 	int GetAttackCoolTime() const { return m_attackCoolTime; }
 	//攻撃のクールタイムをセット
 	void SetAttackCoolTime(int coolTime) { m_attackCoolTime = coolTime; }
-	//敵の体力表示の座標
-	Vector3 GetHPUIPos() { return m_hpUIPos; };
 	//敵の階級
 	EnemyGrade GetEnemyGrade()const { return m_enemyGrade; };
 	//プレイヤーを発見できたか
@@ -32,8 +30,6 @@ public:
 protected:
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;
-	//頭の座標
-	Vector3 m_hpUIPos;
 	//自分の階級
 	EnemyGrade m_enemyGrade;
 };

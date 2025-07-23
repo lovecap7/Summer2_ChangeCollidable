@@ -29,20 +29,25 @@
 namespace
 {
 	//当たり判定
-	const Vector3 kCapsuleHeight = { 0.0f,150.0f,0.0f };//カプセルの上端
-	constexpr float kCapsuleRadius = 20.0f; //カプセルの半径
+	const Vector3 kCapsuleHeight = { 0.0f,150.0f,0.0f };	//カプセルの上端
+	constexpr float kCapsuleRadius = 20.0f;					//カプセルの半径
 	//体力
 	constexpr int kHp = 1000; 
 	//必殺技ゲージの最大値
 	constexpr int kMaxUltGage = 100;
 	//索敵距離
 	constexpr float kSearchDistance = 200.0f;
+	//索敵の基準方向を決める際のモデルの向きと入力の向きの割合
+	constexpr float kTargetSearchDirRate = 0.1f;
 	//視野角
-	constexpr float kSearchAngle = 120.0f * MyMath::DEG_2_RAD;
+	constexpr float kSearchAngle = (120.0f * MyMath::DEG_2_RAD) / 2.0f;
 	//ダッシュ持続状態解除
 	constexpr int kCancelRunFrame = 5;
 	//モデルの旋回速度
-	constexpr int kRotaSpeed = 5;
+	constexpr int kModelRotateSpeed = 5;
+
+	//落下したと判定するY座標
+	constexpr float kStageFallY = -500.0f;
 }
 
 Player::Player(int modelHandle, Position3 firstPos) :
@@ -62,7 +67,7 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	cap->SetRadius(kCapsuleRadius);
 	//モデル
 	m_model = std::make_shared<Model>(modelHandle, firstPos.ToDxLibVector());
-	m_model->SetRotSpeed(kRotaSpeed);
+	m_model->SetRotSpeed(kModelRotateSpeed);
 	//必殺技ゲージ
 	m_ultGage = std::make_shared<UltGage>(kMaxUltGage);
 	//体力ステータス
@@ -101,14 +106,14 @@ void Player::Init()
 
 void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//今後はチェックポイントを実装してそこに復活するように
 	//落下した際の処理
-	if (m_rb->m_pos.y < -500.0f)m_rb->m_pos = m_initPos;
-
+	if (m_rb->m_pos.y < kStageFallY)m_rb->m_pos = m_initPos;
+	//入力の取得
 	auto& input = Input::GetInstance();
-	//スティックの向きを入れる
-	m_stickVec.x = static_cast<float>(input.GetStickInfo().leftStickX);
-	m_stickVec.y = -static_cast<float>(input.GetStickInfo().leftStickY);
-
+	//プレイヤーの移動やモデルの向きを更新するための
+	//入力ベクトルを更新
+	UpdatePlayerStickVec(input);
 	//ターゲットを発見できたかをチェック
 	auto target = actorManager.lock()->GetNearestEnemy();
 	if (!target.expired())
@@ -119,7 +124,6 @@ void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<
 	CheckRunKeep();
 	//必殺ゲージが最大の時エフェクトをつける
 	CheckUltMax();
-
 	//状態に合わせた更新
 	m_state->Update(camera,actorManager);
 	//状態が変わったかをチェック
@@ -241,13 +245,13 @@ void Player::TargetSearch(float searchDistance, float searchAngle, Vector3 targe
 	if (m_stickVec.Magnitude())
 	{
 		//入力との間のベクトルから索敵
-		dir = Vector2::Lerp(toTarget, m_stickVec, 0.1f);
+		dir = Vector2::Lerp(m_model->GetDir().XZ(), m_stickVec, kTargetSearchDirRate);
 	}
 	if (dir.Magnitude() <= searchDistance)
 	{
 		//視野角内にターゲットがいるか
 		auto angle = abs(Vector2::GetRad(m_model->GetDir().XZ(), dir));
-		if (angle <= (searchAngle / 2.0f))
+		if (angle <= (searchAngle))
 		{
 			m_targetData.isHitTarget = true;
 			m_targetData.targetPos = targetPos;
@@ -255,6 +259,13 @@ void Player::TargetSearch(float searchDistance, float searchAngle, Vector3 targe
 			m_targetData.targetDis = dir.Magnitude();
 		}
 	}
+}
+
+void Player::UpdatePlayerStickVec(Input& input)
+{
+	//スティックの向きを入れる(モデルのZ方向が反対なので)
+	m_stickVec.x = static_cast<float>(input.GetStickInfo().leftStickX);
+	m_stickVec.y = -static_cast<float>(input.GetStickInfo().leftStickY);
 }
 
 void Player::CheckRunKeep()

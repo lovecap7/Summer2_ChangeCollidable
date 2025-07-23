@@ -53,14 +53,8 @@ void GameCameraStateNormal::Init()
 void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	auto boss = actorManager.lock()->GetBoss();
-	//通常は通らないがボスが消滅したらゲームクリアカメラに
-	if (boss.expired())
-	{
-		ChangeState(std::make_shared<GameCameraStateClear>(m_camera, actorManager));
-		return;
-	}
 	//ボスが死亡した場合
-	if (boss.lock()->GetHitPoints().lock()->IsDead())
+	if (actorManager.lock()->IsBossDead())
 	{
 		ChangeState(std::make_shared<GameCameraStateBossDeath>(m_camera, actorManager));
 		return;

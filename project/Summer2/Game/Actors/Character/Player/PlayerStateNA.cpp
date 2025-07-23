@@ -68,14 +68,14 @@ void PlayerStateNA::Init()
 void PlayerStateNA::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	//ボスを倒す
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
 	//ボスの体力がなくなった場合またはモデルのアニメーションが終わったら
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+	if (actorManager.lock()->IsBossDead() ||
 		coll->GetModel()->IsFinishAnim())
 	{
 		//待機
@@ -207,7 +207,7 @@ void PlayerStateNA::AttackMove(float speed)
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto targetData = coll->GetTargetData();
 	//向き
-	Vector3 dir = coll->GetStickVec().XZ();
+	Vector3 dir = coll->GetPlayerStickVec().XZ();
 	//ターゲットが発見できた時
 	if (targetData.isHitTarget)
 	{

@@ -36,8 +36,8 @@ public:
 	void Update();
 	void Draw()const;
 	void End();
-	//再スタート
 	void Reset();
+
 	//プレイヤー関連のUI
 	void CreatePlayerUI(const std::weak_ptr<Player> player);
 	//ボスUI
@@ -67,8 +67,6 @@ public:
 private:
 	//UI
 	std::list<std::shared_ptr<UIBase>> m_uis;
-	//UI追加
-	void AddUI(std::shared_ptr<UIBase> ui);
 	//UIの削除
 	void AllDeleteUIs();
 	//削除予定のUIを削除

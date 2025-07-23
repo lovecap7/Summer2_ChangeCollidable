@@ -6,6 +6,7 @@
 #include "../GameRule/Score.h"
 #include "../../General/Collision/Physics.h"
 #include "../../General/HitPoints.h"
+#include "../../General/Effect/EffekseerManager.h"
 #include <DxLib.h>
 #include <cassert>
 //配置データ
@@ -26,7 +27,6 @@
 #include "Stage/StageObjectDraw.h"
 #include "Stage/Sky.h"
 #include "Stage/EventArea.h"
-#include "Stage/BossArea.h"
 //アイテム
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
@@ -40,9 +40,13 @@
 #include "Attack/Bullet.h"
 #include "Attack/Blast.h"
 #include "Attack/Breath.h"
+#include "Attack/ULT.h"
 
 namespace
 {
+	//ボスが完全に消えるまでのフレーム数
+	constexpr int kBossDisappearFrameMax = 60;
+	//エリアを構成するパーツの数
 	constexpr int kAreaPartsNum = 2;
 }
 
@@ -50,7 +54,8 @@ ActorManager::ActorManager(std::weak_ptr<GameCamera> camera):
 	m_actorId(0),
 	m_camera(camera),
 	m_isUpdate(true),
-	m_delayFrame(0)
+	m_delayFrame(0),
+	m_bossDisappearFrame(0)
 {
 	m_csvLoader = std::unique_ptr<CSVDataLoader>();
 	//ハンドルロード
@@ -99,14 +104,7 @@ void ActorManager::Init(Stage::StageIndex index)
 void ActorManager::Update(const std::weak_ptr<Score> score)
 {
 	//遅延処理
-	if (m_delayFrame > 0)
-	{
-		--m_delayFrame;
-		if (m_delayFrame <= 0)
-		{
-			m_isUpdate = true;
-		}
-	}
+	UpdateDelay();
 	//更新をしないなら
 	if (!m_isUpdate || m_delayFrame > 0)return;
 	//新規アクターの追加
@@ -119,11 +117,29 @@ void ActorManager::Update(const std::weak_ptr<Score> score)
 	//ボスが倒されたとき
 	if (m_boss.expired())
 	{
-		//プレイヤーの体力からスコアを加算
-		score.lock()->AddHPScore(m_player.lock()->GetHitPoints());
+		//経過フレームを増やす
+		m_bossDisappearFrame++;
+		//ボスが完全に消えるまでのフレーム数を超えたら
+		if (IsBossDisappear())
+		{
+			//プレイヤーの体力からスコアを加算
+			score.lock()->AddHPScore(m_player.lock()->GetHitPoints());
+		}
 	}
 	//消滅フラグチェック
 	CheckDeleteActors(score);
+}
+
+void ActorManager::UpdateDelay()
+{
+	if (m_delayFrame > 0)
+	{
+		--m_delayFrame;
+		if (m_delayFrame <= 0)
+		{
+			m_isUpdate = true;
+		}
+	}
 }
 
 void ActorManager::Draw() const
@@ -211,6 +227,9 @@ std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_pt
 		break;
 	case AttackType::Breath:
 		attack = std::make_shared<Breath>(owner);
+		break;
+	case AttackType::ULT:
+		attack = std::make_shared<ULT>(owner);
 		break;
 	default:
 		break;
@@ -303,6 +322,24 @@ AttackData ActorManager::GetAttackData(std::string& ownerName, std::string& atta
 		}
 	}
 	return attackData;
+}
+
+bool ActorManager::IsBossDead() const
+{
+	if (m_boss.expired())
+	{
+		return true; //ボスが死んでいる
+	}
+	return m_boss.lock()->GetHitPoints().lock()->IsDead();
+}
+
+bool ActorManager::IsBossDisappear() const
+{
+	if (m_bossDisappearFrame >= kBossDisappearFrameMax)
+	{
+		return true; //ボスが完全に消えた
+	}
+	return false; //ボスはまだ消えていない
 }
 
 //アクターの消滅フラグをチェックして削除
@@ -520,6 +557,8 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			bossAreaParts.clear();
 		}
 	}
+	//ステージのエフェクトを作成(プレイヤーに追従)
+	EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
 }
 
 void ActorManager::AllDeleteActors()

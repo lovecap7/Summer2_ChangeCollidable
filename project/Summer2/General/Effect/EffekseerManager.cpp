@@ -101,6 +101,11 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["SlashHitEff"]), pos);
 	}
+	//必殺ヒットエフェクト
+	else if (name == "UltHitEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["UltHitEff"]), pos);
+	}
 	//チャージ
 	else if (name == "ChargeEff")
 	{
@@ -115,6 +120,10 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	else if (name == "DeathEff")
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["DeathEff"]), pos);
+	}
+	else if (name == "BossDeathEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossDeathEff"]), pos);
 	}
 	//必殺レーザーエフェクト
 	else if (name == "UltLaserEff")
@@ -208,6 +217,11 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["RollingEff"]), actor);
 	}
+	//フィールドエフェクト
+	else if (name == "FieldEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["FieldEff"]), actor);
+	}
 	Entry(effect);
 	return effect;
 }
@@ -233,11 +247,14 @@ void EffekseerManager::LoadHandle()
 	m_handles["UltChargeSwordEff"] = { LoadEffekseerEffect("Data/Effects/UltChargeSwordEff.efkefc") };
 	m_handles["UltLaserEff"] = { LoadEffekseerEffect("Data/Effects/UltLaserEff.efkefc") };
 	m_handles["UltGageMaxEff"] = { LoadEffekseerEffect("Data/Effects/UltGageMaxEff.efkefc") };
+	m_handles["UltHitEff"] = { LoadEffekseerEffect("Data/Effects/UltHitEff.efkefc") };
 	m_handles["BulletEff"] = { LoadEffekseerEffect("Data/Effects/BulletEff.efkefc") };
 	m_handles["BreathEff"] = { LoadEffekseerEffect("Data/Effects/BreathEff.efkefc") };
 	m_handles["DeathEff"] = { LoadEffekseerEffect("Data/Effects/DeathEff.efkefc") };
+	m_handles["BossDeathEff"] = { LoadEffekseerEffect("Data/Effects/BossDeathEff.efkefc") };
 	m_handles["RollingEff"] = { LoadEffekseerEffect("Data/Effects/RollingEff.efkefc") };
 	m_handles["LowShockWaveEff"] = { LoadEffekseerEffect("Data/Effects/LowShockWaveEff.efkefc") };
+	m_handles["FieldEff"] = { LoadEffekseerEffect("Data/Effects/FieldEffect.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

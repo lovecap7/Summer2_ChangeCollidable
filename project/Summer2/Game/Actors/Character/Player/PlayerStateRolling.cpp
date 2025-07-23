@@ -34,7 +34,7 @@ PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
 	coll->SetCollState(CollisionState::Move);
 	//向きの更新
-	coll->GetModel()->SetDir(coll->GetStickVec());
+	coll->GetModel()->SetDir(coll->GetPlayerStickVec());
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 }
@@ -57,14 +57,14 @@ void PlayerStateRolling::Init()
 void PlayerStateRolling::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//ボスが完全に消滅したとき
-	if (actorManager.lock()->GetBoss().expired())
+	//ボスを倒す
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		ChangeState(std::make_shared<PlayerStateWin>(m_owner));
 		return;
 	}
 	//ボスの体力がなくなった場合またはモデルのアニメーションが終わったら
-	if (actorManager.lock()->GetBoss().lock()->GetHitPoints().lock()->IsDead() ||
+	if (actorManager.lock()->IsBossDead() ||
 		coll->GetModel()->IsFinishAnim())
 	{
 		//待機
