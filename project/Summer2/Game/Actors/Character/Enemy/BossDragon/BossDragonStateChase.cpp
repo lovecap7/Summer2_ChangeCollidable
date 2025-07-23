@@ -18,7 +18,7 @@
 namespace
 {
 	//プレイヤー戦闘状態になる距離
-	constexpr float kAttackDistance = 120.0f;
+	constexpr float kAttackDistance = 200.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション

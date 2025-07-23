@@ -40,7 +40,17 @@ void PlayerUltGageUI::Update()
 		m_isDelete = true;
 		return;
 	}
-	auto ultGage = m_player.lock()->GetUltGage().lock();
+	auto player = m_player.lock();
+	//プレイヤーがゲーム開始アニメーション中かクリアアニメーション中なら描画しない
+	if (player->IsStartAnim() || player->IsClearAnim())
+	{
+		m_isDraw = false;
+	}
+	else
+	{
+		m_isDraw = true;
+	}
+	auto ultGage = player->GetUltGage().lock();
 	//更新
 	//体力に変動があった時
 	if (m_viewUltGageValue != ultGage->GetUltGageValue())

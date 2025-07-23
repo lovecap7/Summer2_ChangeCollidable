@@ -11,6 +11,6 @@ PurpleDinosaur,Punch,130,3,34,3,CharacterArmature|Weapon,0.3,20,0,5,10,Middle,5,
 SmallDragon,Shot,150,180,20,4,CharacterArmature|Headbutt,0.3,20,0,0,5,Middle,5,Low,1
 Bomber,Throw,0,0,40,0,CharacterArmature|Weapon,0.3,0,0,0,0,Middle,0,None,1
 Bomb,Bomber,200,5,0,25,None,0,170,0,0,0,Heaviest,5,High,1
-BossDragon,Breath,80,180,40,12,CharacterArmature|Headbutt,0.2,40,0,0,7,Heavy,5,Low,1
-BossDragon,Punch,100,3,26,20,CharacterArmature|Punch,0.4,140,0,0,0,Heavy,5,Middle,1
+BossDragon,Breath,80,180,40,12,CharacterArmature|Headbutt,0.2,25,0,0,7,Heavy,5,Low,1
+BossDragon,Punch,100,3,26,20,CharacterArmature|Punch,0.4,100,0,0,0,Heavy,5,Middle,1
 BossDragon,Sweep,100,40,40,24,CharacterArmature|Punch,0.6,30,0,0,0,Heavy,5,Middle,1

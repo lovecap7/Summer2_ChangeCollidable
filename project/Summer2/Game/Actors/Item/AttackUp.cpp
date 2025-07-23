@@ -17,7 +17,7 @@ namespace
 	//ダメージ倍率
 	constexpr float kDamageRate = 1.5f;
 	//持続フレーム
-	constexpr int kAttackUpKeepFrame = 60 * 15;//15秒
+	constexpr int kAttackUpKeepFrame = 60 * 20;//20秒
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径

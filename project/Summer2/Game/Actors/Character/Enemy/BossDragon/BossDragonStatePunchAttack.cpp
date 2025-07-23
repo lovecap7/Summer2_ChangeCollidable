@@ -24,7 +24,7 @@ namespace
 	//右手のインデックス
 	constexpr int kRightHandIndex = 36;
 	//次の攻撃フレーム
-	constexpr int kAttackCoolTime = 40;
+	constexpr int kAttackCoolTime = 20;
 }
 
 

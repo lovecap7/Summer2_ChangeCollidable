@@ -93,6 +93,8 @@ void GameManager::Update()
 		{
 			//タイマーを止める
 			m_timer->StopUpdate();
+			//UIをすべてリセット
+			UIManager::GetInstance().Reset();
 			//プレイヤーの勝利アニメーションが終了したら
 			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim() && !m_isGameClear)
 			{

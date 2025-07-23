@@ -71,11 +71,9 @@ void Bullet::OnCollide(const std::shared_ptr<Collidable> other)
 
 void Bullet::Draw() const
 {
-#if _DEBUG
 	auto coll = std::dynamic_pointer_cast<SphereCollider>(m_collisionData);
 	DrawSphere3D(m_rb->m_pos.ToDxLibVector(),
-		coll->m_radius, 16, 0xff5555, 0xff5555, false);
-#endif
+		coll->m_radius, 16, 0xffffff, 0xffffff, true);
 }
 
 

@@ -37,11 +37,9 @@ void Breath::OnCollide(const std::shared_ptr<Collidable> other)
 
 void Breath::Draw() const
 {
-#if _DEBUG
 	auto coll = std::dynamic_pointer_cast<SphereCollider>(m_collisionData);
 	DrawSphere3D(m_rb->m_pos.ToDxLibVector(),
-		coll->m_radius, 16, 0xff0000, 0xff0000, false);
-#endif
+		coll->m_radius, 16, 0xffffff, 0xffffff, true);
 }
 
 

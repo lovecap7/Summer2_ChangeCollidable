@@ -54,6 +54,8 @@ public:
 	//ゲームの進行に使う関数
 	//ゲーム開始アニメーションをしている
 	bool IsStartAnim();
+	//ゲームクリアアニメーション
+	bool IsClearAnim();
 	//ゲームクリアアニメーション終了
 	bool IsFinishClearAnim();
 private:

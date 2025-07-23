@@ -214,8 +214,18 @@ void Player::End()
 
 bool Player::IsStartAnim()
 {
-	//勝利状態以外はfalse
+	//スタート状態以外はfalse
 	if (std::dynamic_pointer_cast<PlayerStateStart>(m_state) == nullptr)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool Player::IsClearAnim()
+{
+	//クリア状態以外はfalse
+	if (std::dynamic_pointer_cast<PlayerStateWin>(m_state) == nullptr)
 	{
 		return false;
 	}

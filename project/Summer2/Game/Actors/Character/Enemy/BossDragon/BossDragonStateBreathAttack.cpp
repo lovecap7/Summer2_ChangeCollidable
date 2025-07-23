@@ -25,7 +25,7 @@ namespace
 	//弾の生成位置のY座標
 	constexpr float kBulletCreatePosY = 150.0f;
 	//次の攻撃フレーム
-	constexpr int kAttackCoolTime = 100;
+	constexpr int kAttackCoolTime = 80;
 }
 
 

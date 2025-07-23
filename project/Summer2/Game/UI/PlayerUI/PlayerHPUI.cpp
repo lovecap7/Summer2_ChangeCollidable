@@ -42,7 +42,17 @@ void PlayerHPUI::Update()
 		m_isDelete = true;
 		return;
 	}
-	auto hp = m_player.lock()->GetHitPoints().lock();
+	auto player = m_player.lock();
+	//プレイヤーがゲーム開始アニメーション中かクリアアニメーション中なら描画しない
+	if (player->IsStartAnim() || player->IsClearAnim())
+	{
+		m_isDraw = false;
+	}
+	else
+	{
+		m_isDraw = true;
+	}
+	auto hp = player->GetHitPoints().lock();
 	//更新
 	//体力に変動があった時
 	if (m_viewHp != hp->GetHp())
