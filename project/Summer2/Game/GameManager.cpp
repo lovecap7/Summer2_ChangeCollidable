@@ -13,6 +13,7 @@
 #include "../Game/UI/ScoreUI.h"
 #include "../Game/UI/TimerUI.h"
 #include "../Game/UI/TutorialUI.h"
+#include "../General/Effect/EffekseerManager.h"
 #include "TutorialDirecter.h"
 #include <cassert>
 
@@ -163,6 +164,8 @@ void GameManager::End()
 	m_actorManager->End();
 	//UIマネージャーのリセット
 	UIManager::GetInstance().Reset();
+	//エフェクトをリセット
+	EffekseerManager::GetInstance().Reset();
 	//ライトの削除
 	for (auto& handle : m_lightHandles)
 	{
@@ -185,6 +188,8 @@ void GameManager::Restart(Stage::StageIndex index)
 	m_timer->Init();
 	//UIマネージャーのリセット
 	UIManager::GetInstance().Reset();
+	//エフェクトをリセット
+	EffekseerManager::GetInstance().Reset();
 	//アクターマネージャーの再スタート
 	m_actorManager->Restart(index);
 	//カメラの初期化

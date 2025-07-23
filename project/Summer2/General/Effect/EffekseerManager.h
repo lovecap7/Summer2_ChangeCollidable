@@ -43,7 +43,7 @@ public:
 	//終了処理
 	void End();
 	//すべてのエフェクトを削除
-	void AllDeleteEffect();
+	void Reset();
 	//エフェクトを作成
 	std::weak_ptr<MyEffect> CreateEffect(std::string name, Vector3 pos);
 	std::weak_ptr<TrackActorEffect> CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor);

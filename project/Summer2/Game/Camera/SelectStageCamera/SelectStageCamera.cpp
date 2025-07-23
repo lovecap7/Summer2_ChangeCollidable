@@ -1,4 +1,4 @@
-#include "TitleCamera.h"
+#include "SelectStageCamera.h"
 #include <DxLib.h>
 
 namespace
@@ -14,17 +14,15 @@ namespace
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 }
 
-TitleCamera::TitleCamera():
-	m_pos{},
-	m_viewPos{}
+SelectStageCamera::SelectStageCamera()
 {
 }
 
-TitleCamera::~TitleCamera()
+SelectStageCamera::~SelectStageCamera()
 {
 }
 
-void TitleCamera::Init()
+void SelectStageCamera::Init()
 {
 	//‰œs50`3000‚Ü‚Å‚ğƒJƒƒ‰‚Ì•`‰æ”ÍˆÍ‚Æ‚·‚é
 	SetCameraNearFar(kNear, kFar);
@@ -38,6 +36,8 @@ void TitleCamera::Init()
 	SetupCamera_Perspective(kPerspective);
 }
 
-void TitleCamera::Update()
+void SelectStageCamera::Update()
 {
+
 }
+

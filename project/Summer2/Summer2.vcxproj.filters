@@ -169,6 +169,12 @@
     <Filter Include="ヘッダー ファイル\Game\Title">
       <UniqueIdentifier>{8ee4a252-f34d-45c2-957a-703285d13b31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Camera\StageSelectCamera">
+      <UniqueIdentifier>{13e1d1a8-5ab6-4584-bac4-8a1a03c60740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Camera\SelectStageCamera">
+      <UniqueIdentifier>{b8ed4f52-8dd3-4dc1-bf6a-3e6706616c3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -584,6 +590,9 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\Attack\ULT.cpp">
       <Filter>ソース ファイル\Game\Actors\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\SelectStageCamera\SelectStageCamera.cpp">
+      <Filter>ソース ファイル\Game\Camera\SelectStageCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1009,6 +1018,9 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Attack\ULT.h">
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\SelectStageCamera\SelectStageCamera.h">
+      <Filter>ヘッダー ファイル\Game\Camera\StageSelectCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

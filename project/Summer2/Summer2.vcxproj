@@ -101,6 +101,7 @@
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateClear.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateNormal.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateStart.cpp" />
+    <ClCompile Include="Game\Camera\SelectStageCamera\SelectStageCamera.cpp" />
     <ClCompile Include="Game\Camera\TitleCamera\TitleCamera.cpp" />
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\GameRule\Score.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateClear.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateNormal.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateStart.h" />
+    <ClInclude Include="Game\Camera\SelectStageCamera\SelectStageCamera.h" />
     <ClInclude Include="Game\Camera\TitleCamera\TitleCamera.h" />
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\GameRule\Score.h" />

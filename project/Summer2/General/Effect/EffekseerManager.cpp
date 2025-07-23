@@ -63,12 +63,12 @@ void EffekseerManager::End()
 	//ハンドル削除
 	AllDeleteHandle();
 	//エフェクト削除
-	AllDeleteEffect();
+	Reset();
 	//終了
 	Effkseer_End();
 }
 
-void EffekseerManager::AllDeleteEffect()
+void EffekseerManager::Reset()
 {
 	//削除
 	for (auto& eff : m_effects)
