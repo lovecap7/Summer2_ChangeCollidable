@@ -1,10 +1,11 @@
 #include "SelectStageScene.h"
-#include "StageScene.h"
 #include "SceneController.h"
 #include "../General/Input.h"
 #include "../General/Fader.h"
+#include "../General/CSVDataLoader.h"
 #include "../Game/Actors/Character/Player/SelectStagePlayer.h"
 #include "../Game/Camera/SelectStageCamera/SelectStageCamera.h"
+#include "StageScene.h"
 #include <memory>
 #include <DxLib.h>
 #if _DEBUG
@@ -13,12 +14,33 @@
 #endif
 
 SelectStageScene::SelectStageScene(SceneController& controller):
-	SceneBase(controller)
+	SceneBase(controller),
+	m_stageIndex(static_cast<int>(Stage::StageIndex::Stage1))
 {
 	//カメラ
 	m_camera = std::make_unique<SelectStageCamera>();
 	//プレイヤー
 	m_player = std::make_unique<SelectStagePlayer>();
+	//CSVデータローダー
+	auto csvLodader = std::make_shared<CSVDataLoader>();
+	//CSVから座標データを読み込む
+	auto tData = csvLodader->LoadTransformDataCSV("Data/CSV/SelectStageTransformData.csv");
+	//ステージの位置
+	for (auto& data : tData)
+	{
+		if (data.name == "1")
+		{
+			m_stagePos[Stage::StageIndex::Stage1] = data.pos;
+		}
+		else if (data.name == "2")
+		{
+			m_stagePos[Stage::StageIndex::Stage2] = data.pos;
+		}
+		else if (data.name == "3")
+		{
+			m_stagePos[Stage::StageIndex::Stage3] = data.pos;
+		}
+	}
 }
 
 SelectStageScene::~SelectStageScene()
@@ -50,7 +72,7 @@ void SelectStageScene::Update()
 #endif
 	auto& fader = Fader::GetInstance();
 	//何かボタンをおしたら
-	if (input.IsTriggerAny())
+	if (input.IsTrigger("A"))
 	{
 		//だんだん暗く
 		fader.FadeOut();
@@ -62,8 +84,10 @@ void SelectStageScene::Update()
 		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
 		return;
 	}
+	//ステージを選ぶ
+	SelectStageIndex(input);
 	//カメラの更新
-	m_camera->Update();
+	m_camera->Update(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 	//プレイヤーの更新
 	m_player->Update();
 }
@@ -79,6 +103,8 @@ void SelectStageScene::Draw()
 	DrawString(0, 64, L"何かボタンを押して次のシーンに移動してください", 0xffff00);
 	//プレイヤーの描画
 	m_player->Draw();
+
+	DrawFormatString(0, 80, 0xffff00,L"StageIndex : %d",m_stageIndex);
 }
 
 void SelectStageScene::End()
@@ -89,4 +115,11 @@ void SelectStageScene::End()
 
 void SelectStageScene::Restart()
 {
+}
+
+void SelectStageScene::SelectStageIndex(Input& input)
+{
+	if (input.IsTrigger("Left"))--m_stageIndex;
+	if (input.IsTrigger("Right"))++m_stageIndex;
+	m_stageIndex = MathSub::ClampInt(m_stageIndex, static_cast<int>(Stage::StageIndex::Stage1), static_cast<int>(Stage::StageIndex::Stage3));
 }

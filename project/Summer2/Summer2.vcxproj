@@ -117,6 +117,7 @@
     <ClCompile Include="Game\UI\PlayerUI\PlayerUltGageUI.cpp" />
     <ClCompile Include="Game\UI\ScoreUI.cpp" />
     <ClCompile Include="Game\UI\TimerUI.cpp" />
+    <ClCompile Include="Game\UI\Title\TitleUI.cpp" />
     <ClCompile Include="Game\UI\TutorialUI.cpp" />
     <ClCompile Include="Game\UI\UIBase.cpp" />
     <ClCompile Include="Game\UI\UIManager.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Game\UI\PlayerUI\PlayerUltGageUI.h" />
     <ClInclude Include="Game\UI\ScoreUI.h" />
     <ClInclude Include="Game\UI\TimerUI.h" />
+    <ClInclude Include="Game\UI\Title\TitleUI.h" />
     <ClInclude Include="Game\UI\TutorialUI.h" />
     <ClInclude Include="Game\UI\UIBase.h" />
     <ClInclude Include="Game\UI\UIManager.h" />
@@ -292,6 +294,7 @@
     <ClInclude Include="General\Model.h" />
     <ClInclude Include="General\Rigidbody.h" />
     <ClInclude Include="General\CSVDataLoader.h" />
+    <ClInclude Include="General\StageIndex.h" />
     <ClInclude Include="General\StringUtil.h" />
     <ClInclude Include="Main\Application.h" />
     <ClInclude Include="resource.h" />

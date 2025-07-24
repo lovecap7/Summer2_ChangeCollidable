@@ -4,7 +4,7 @@
 #include "Attack/AttackBase.h"
 #include "Item/ItemBase.h"
 #include "../../General/CSVDataLoader.h"
-#include "../../Scene/StageScene.h"
+#include "../../General/StageIndex.h"
 #include "../Camera/GameCamera/GameCamera.h"
 #include <map>
 

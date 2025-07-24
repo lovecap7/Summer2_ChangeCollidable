@@ -8,7 +8,7 @@ public:
 	//‰Šú‰»
 	void Init();
 	//XV
-	void Update();
+	void Update(Vector3 targetPos);
 private:
 	//©•ª‚ÌÀ•W
 	Position3 m_pos;

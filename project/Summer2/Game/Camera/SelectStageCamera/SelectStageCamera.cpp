@@ -36,7 +36,7 @@ void SelectStageCamera::Init()
 	SetupCamera_Perspective(kPerspective);
 }
 
-void SelectStageCamera::Update()
+void SelectStageCamera::Update(Vector3 targetPos)
 {
 
 }

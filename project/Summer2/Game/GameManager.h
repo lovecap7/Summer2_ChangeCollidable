@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "../Scene/StageScene.h"
+#include "../General/StageIndex.h"
 
 class GameCamera;
 class ActorManager;

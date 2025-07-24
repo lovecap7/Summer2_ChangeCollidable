@@ -169,6 +169,12 @@
     <Filter Include="ソース ファイル\Game\Camera\SelectStageCamera">
       <UniqueIdentifier>{b8ed4f52-8dd3-4dc1-bf6a-3e6706616c3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\UI\Title">
+      <UniqueIdentifier>{dd712f63-b2aa-4227-a1ed-b49be09b8ba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Title">
+      <UniqueIdentifier>{80950ec5-38f8-4d64-a29e-ada2baf6a2ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -590,6 +596,9 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\Character\Player\SelectStagePlayer.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\Title\TitleUI.cpp">
+      <Filter>ソース ファイル\Game\UI\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1021,6 +1030,12 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Player\SelectStagePlayer.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="General\StageIndex.h">
+      <Filter>ヘッダー ファイル\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\Title\TitleUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

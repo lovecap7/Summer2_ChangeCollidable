@@ -11,6 +11,7 @@
 #include "../Game/Actors/Stage/Sky.h"
 #include "../General/CSVDataLoader.h"
 #include "../General/Fader.h"
+#include "../Game/UI/Title/TitleUI.h"
 #include <memory>
 #include <cassert>
 #if _DEBUG
@@ -45,6 +46,8 @@ TitleScene::TitleScene(SceneController& controller):
 	LoadHandle();
 	//配置データ
 	LoadStage();
+	//UI
+	UIManager::GetInstance().Entry(std::make_unique<TitleUI>());
 }
 
 TitleScene::~TitleScene()
@@ -148,6 +151,8 @@ void TitleScene::End()
 	DeleteLightHandle(m_lightHandle);
 	//シャドウマップの削除
 	DeleteShadowMap(m_shadowMapHandle);
+	//UI
+	UIManager::GetInstance().Reset();
 }
 
 void TitleScene::LoadHandle()
