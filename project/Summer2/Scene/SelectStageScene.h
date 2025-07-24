@@ -1,7 +1,9 @@
 #pragma once
 #include "SceneBase.h"
+#include <memory>
 
-class Input;
+class SelectStagePlayer;
+class SelectStageCamera;
 class SceneController;
 class SelectStageScene :
     public SceneBase
@@ -20,5 +22,9 @@ public:
     virtual void End() override;
     virtual void Restart() override;
 private:
+    //ƒJƒƒ‰
+    std::unique_ptr<SelectStageCamera> m_camera;
+    //ƒ‚ƒfƒ‹
+    std::unique_ptr<SelectStagePlayer> m_player;
 };
 

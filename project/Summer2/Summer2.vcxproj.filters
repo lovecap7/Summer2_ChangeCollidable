@@ -163,12 +163,6 @@
     <Filter Include="ソース ファイル\Game\Camera\TitleCamera">
       <UniqueIdentifier>{8edaf1e7-e972-44ce-8e8c-532f6d76692a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Title">
-      <UniqueIdentifier>{1e59e424-2784-426f-8a99-fab080b960b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Game\Title">
-      <UniqueIdentifier>{8ee4a252-f34d-45c2-957a-703285d13b31}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Game\Camera\StageSelectCamera">
       <UniqueIdentifier>{13e1d1a8-5ab6-4584-bac4-8a1a03c60740}</UniqueIdentifier>
     </Filter>
@@ -582,9 +576,6 @@
     <ClCompile Include="Game\Camera\TitleCamera\TitleCamera.cpp">
       <Filter>ソース ファイル\Game\Camera\TitleCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Title\TitlePlayer.cpp">
-      <Filter>ソース ファイル\Game\Title</Filter>
-    </ClCompile>
     <ClCompile Include="General\Fader.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
@@ -593,6 +584,12 @@
     </ClCompile>
     <ClCompile Include="Game\Camera\SelectStageCamera\SelectStageCamera.cpp">
       <Filter>ソース ファイル\Game\Camera\SelectStageCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Player\TitlePlayer.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Player\SelectStagePlayer.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1010,9 +1007,6 @@
     <ClInclude Include="Game\Camera\TitleCamera\TitleCamera.h">
       <Filter>ヘッダー ファイル\Game\Camera\TitleCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Title\TitlePlayer.h">
-      <Filter>ヘッダー ファイル\Game\Title</Filter>
-    </ClInclude>
     <ClInclude Include="General\Fader.h">
       <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
@@ -1021,6 +1015,12 @@
     </ClInclude>
     <ClInclude Include="Game\Camera\SelectStageCamera\SelectStageCamera.h">
       <Filter>ヘッダー ファイル\Game\Camera\StageSelectCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Player\TitlePlayer.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Player\SelectStagePlayer.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

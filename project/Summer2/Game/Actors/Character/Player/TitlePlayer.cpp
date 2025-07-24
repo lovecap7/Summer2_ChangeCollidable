@@ -1,7 +1,7 @@
 #include "TitlePlayer.h"
 #include <DxLib.h>
-#include "../../General/Model.h"
-#include "../../General/Input.h"
+#include "../../../../General/Model.h"
+#include "../../../../General/Input.h"
 
 namespace
 {
@@ -13,10 +13,11 @@ namespace
 	constexpr float kWalkAnimSpeed = 0.5f;
 }
 
-TitlePlayer::TitlePlayer()
+TitlePlayer::TitlePlayer():
+	CharacterBase(Shape::None)
 {
 	//ƒ‚ƒfƒ‹
-	m_model = std::make_unique<Model>(MV1LoadModel(L"Data/Model/Player/Title/TitlePlayer.mv1"), Vector3::Zero().ToDxLibVector());
+	m_model = std::make_shared<Model>(MV1LoadModel(L"Data/Model/Player/Title/TitlePlayer.mv1"), Vector3::Zero().ToDxLibVector());
 }
 
 TitlePlayer::~TitlePlayer()

@@ -80,6 +80,8 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateUltimate.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateWalk.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateWin.cpp" />
+    <ClCompile Include="Game\Actors\Character\Player\SelectStagePlayer.cpp" />
+    <ClCompile Include="Game\Actors\Character\Player\TitlePlayer.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\UltGage.cpp" />
     <ClCompile Include="Game\Actors\Item\AttackUp.cpp" />
     <ClCompile Include="Game\Actors\Item\Bomb.cpp" />
@@ -106,7 +108,6 @@
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\GameRule\Score.cpp" />
     <ClCompile Include="Game\GameRule\Timer.cpp" />
-    <ClCompile Include="Game\Title\TitlePlayer.cpp" />
     <ClCompile Include="Game\TutorialDirecter.cpp" />
     <ClCompile Include="Game\UI\EnemyUI\BossHPUI.cpp" />
     <ClCompile Include="Game\UI\EnemyUI\EnemyHPUI.cpp" />
@@ -221,6 +222,8 @@
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateUltimate.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateWalk.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateWin.h" />
+    <ClInclude Include="Game\Actors\Character\Player\SelectStagePlayer.h" />
+    <ClInclude Include="Game\Actors\Character\Player\TitlePlayer.h" />
     <ClInclude Include="Game\Actors\Character\Player\UltGage.h" />
     <ClInclude Include="Game\Actors\Item\AttackUp.h" />
     <ClInclude Include="Game\Actors\Item\Bomb.h" />
@@ -247,7 +250,6 @@
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\GameRule\Score.h" />
     <ClInclude Include="Game\GameRule\Timer.h" />
-    <ClInclude Include="Game\Title\TitlePlayer.h" />
     <ClInclude Include="Game\TutorialDirecter.h" />
     <ClInclude Include="Game\UI\EnemyUI\BossHPUI.h" />
     <ClInclude Include="Game\UI\EnemyUI\EnemyHPUI.h" />

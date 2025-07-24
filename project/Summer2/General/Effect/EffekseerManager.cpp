@@ -76,6 +76,7 @@ void EffekseerManager::Reset()
 		eff->End();
 	}
 	m_effects.clear();
+	
 }
 
 std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3 pos)

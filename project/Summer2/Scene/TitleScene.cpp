@@ -6,7 +6,7 @@
 #include "../General/Collision/Physics.h"
 #include "../Game/UI/UIManager.h"
 #include "../Game/Camera/TitleCamera/TitleCamera.h"
-#include "../Game/Title/TitlePlayer.h"
+#include "../Game/Actors/Character/Player/TitlePlayer.h"
 #include "../Game/Actors/Stage/StageObjectDraw.h"
 #include "../Game/Actors/Stage/Sky.h"
 #include "../General/CSVDataLoader.h"

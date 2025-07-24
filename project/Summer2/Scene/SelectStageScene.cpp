@@ -3,6 +3,8 @@
 #include "SceneController.h"
 #include "../General/Input.h"
 #include "../General/Fader.h"
+#include "../Game/Actors/Character/Player/SelectStagePlayer.h"
+#include "../Game/Camera/SelectStageCamera/SelectStageCamera.h"
 #include <memory>
 #include <DxLib.h>
 #if _DEBUG
@@ -13,7 +15,10 @@
 SelectStageScene::SelectStageScene(SceneController& controller):
 	SceneBase(controller)
 {
-	//なし
+	//カメラ
+	m_camera = std::make_unique<SelectStageCamera>();
+	//プレイヤー
+	m_player = std::make_unique<SelectStagePlayer>();
 }
 
 SelectStageScene::~SelectStageScene()
@@ -25,6 +30,10 @@ void SelectStageScene::Init()
 	auto& fader = Fader::GetInstance();
 	//だんだん明るく
 	fader.FadeIn();
+	//カメラの初期化
+	m_camera->Init();
+	//プレイヤーの初期化
+	m_player->Init();
 }
 
 void SelectStageScene::Update()
@@ -53,6 +62,10 @@ void SelectStageScene::Update()
 		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
 		return;
 	}
+	//カメラの更新
+	m_camera->Update();
+	//プレイヤーの更新
+	m_player->Update();
 }
 
 void SelectStageScene::Draw()
@@ -64,10 +77,14 @@ void SelectStageScene::Draw()
 #endif
 	DrawString(0, 48, L"このシーン(ステージセレクト)はまだ未実装です。", 0xffff00);
 	DrawString(0, 64, L"何かボタンを押して次のシーンに移動してください", 0xffff00);
+	//プレイヤーの描画
+	m_player->Draw();
 }
 
 void SelectStageScene::End()
 {
+	//プレイヤーの終了
+	m_player->End();
 }
 
 void SelectStageScene::Restart()
