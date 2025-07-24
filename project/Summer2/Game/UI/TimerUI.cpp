@@ -19,14 +19,15 @@ namespace
 	constexpr int kSecPosX = (Game::kScreenWidth - 130);
 	constexpr int kMinPosX = (Game::kScreenWidth - 160);
 	//É^ÉCÉ}Å[ÇÃYç¿ïW
-	constexpr int kPosY = 30;
+	constexpr int kTitlePosY = 30;
 	//É^ÉCÉ}Å[ÇÃ1åÖÇÃïù
 	constexpr int kDigitMargin = 13;
 }
 
 TimerUI::TimerUI(const std::weak_ptr<Timer> timer):
-	UIBase(UIManager::GetInstance().GetImageHandle("Timer")),
-	m_timer(timer)
+	UIBase(),
+	m_timer(timer),
+	m_handle(UIManager::GetInstance().GetImageHandle("Timer"))
 {
 }
 
@@ -65,7 +66,7 @@ void TimerUI::Draw() const
 		int cutX = digits[i] % (sizeX / kImageWidth);//â°
 		int cutY = digits[i] / (sizeX / kImageWidth);//èc
 		//ï`âÊ
-		DrawRectRotaGraphFast(kMinSecPosX - i * kDigitMargin, kPosY,
+		DrawRectRotaGraphFast(kMinSecPosX - i * kDigitMargin, kTitlePosY,
 			kImageWidth * cutX,
 			kImageHeight * cutY,
 			kImageWidth, kImageHeight,
@@ -83,7 +84,7 @@ void TimerUI::Draw() const
 		int cutX = digits[i] % (sizeX / kImageWidth);//â°
 		int cutY = digits[i] / (sizeX / kImageWidth);//èc
 		//ï`âÊ
-		DrawRectRotaGraphFast(kSecPosX - i * kDigitMargin, kPosY,
+		DrawRectRotaGraphFast(kSecPosX - i * kDigitMargin, kTitlePosY,
 			kImageWidth * cutX,
 			kImageHeight * cutY,
 			kImageWidth, kImageHeight,
@@ -101,7 +102,7 @@ void TimerUI::Draw() const
 		int cutX = digits[i] % (sizeX / kImageWidth);//â°
 		int cutY = digits[i] / (sizeX / kImageWidth);//èc
 		//ï`âÊ
-		DrawRectRotaGraphFast(kMinPosX - i * kDigitMargin, kPosY,
+		DrawRectRotaGraphFast(kMinPosX - i * kDigitMargin, kTitlePosY,
 			kImageWidth * cutX,
 			kImageHeight * cutY,
 			kImageWidth, kImageHeight,

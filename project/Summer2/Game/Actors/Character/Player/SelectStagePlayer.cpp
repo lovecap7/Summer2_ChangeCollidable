@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include "../../../../General/Model.h"
 #include "../../../../General/Input.h"
+#include "../../../../General/Rigidbody.h"
 
 namespace
 {
@@ -9,17 +10,27 @@ namespace
 	const char* kDance1Anim = "Select|Dance1";
 	const char* kDance2Anim = "Select|Dance2";
 	const char* kDance3Anim = "Select|Dance3";
+	//ダンスの数
+	constexpr int kDanceNum = 3;
 	//走る
 	const char* kRunAnim = "Select|Run";
 	//決定
 	const char* kDecideAnim = "Select|Decide";
+	//lerp率
+	constexpr float kLerpRate = 0.05f;
+	//目的地に到達したとみなす範囲
+	constexpr float kTargetReachRadius = 100.0f;
 }
 
-SelectStagePlayer::SelectStagePlayer():
-	CharacterBase(Shape::None)
+SelectStagePlayer::SelectStagePlayer(Vector3 pos):
+	CharacterBase(Shape::None),
+	m_isChangeDance(false)
 {
 	//モデル
 	m_model = std::make_shared<Model>(MV1LoadModel(L"Data/Model/Player/SelectStage/SelectStagePlayer.mv1"), Vector3::Zero().ToDxLibVector());
+	//初期位置
+	m_rb->m_pos = pos;
+	m_model->SetPos(pos.ToDxLibVector());
 }
 
 SelectStagePlayer::~SelectStagePlayer()
@@ -30,12 +41,39 @@ void SelectStagePlayer::Init()
 {
 	//アニメーション
 	m_model->SetAnim(kDance3Anim, true);
+	//フラグをtrueに
+	m_isChangeDance = true;
 }
 
-void SelectStagePlayer::Update()
+void SelectStagePlayer::Update(Vector3 targetPos)
 {
-	
+	//だんだん目的地に移動
 	m_model->Update();
+	m_rb->m_pos = Vector3::Lerp(m_rb->m_pos, targetPos, kLerpRate);
+	if ((m_rb->m_pos - targetPos).Magnitude() > kTargetReachRadius)
+	{
+		//アニメーション
+		m_model->SetAnim(kRunAnim, true);
+		m_isChangeDance = false;
+	}
+	else if(!m_isChangeDance)
+	{
+		//ランダムに踊りを決める
+		switch (GetRand(kDanceNum) % kDanceNum + 1)
+		{
+		case 1:
+			m_model->SetAnim(kDance1Anim, true);
+			break;
+		case 2:
+			m_model->SetAnim(kDance2Anim, true);
+			break;
+		case 3:
+			m_model->SetAnim(kDance3Anim, true);
+			break;
+		}
+		m_isChangeDance = true;
+	}
+	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
 }
 
 void SelectStagePlayer::Draw() const

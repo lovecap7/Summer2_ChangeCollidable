@@ -7,15 +7,21 @@ namespace
 	constexpr float kNear = 50.0f;
 	constexpr float kFar = 7000.0f;
 	//初期位置
-	const Vector3 kFirstPos = { 0,150,1000 };
+	const Vector3 kCameraOffsetPos = { 0,150,1000 };
 	//カメラの初期位置から見ている位置
 	const Vector3 kViewPos = { 0,150,0 };
 	//視野角
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
+	//lerp率
+	constexpr float kLerpRate = 0.1f;
 }
 
-SelectStageCamera::SelectStageCamera()
+SelectStageCamera::SelectStageCamera(Vector3 targetPos)
 {
+	//初期位置
+	m_pos = targetPos;
+	//カメラが見てる位置
+	m_viewPos = targetPos;
 }
 
 SelectStageCamera::~SelectStageCamera()
@@ -26,10 +32,8 @@ void SelectStageCamera::Init()
 {
 	//奥行50～3000までをカメラの描画範囲とする
 	SetCameraNearFar(kNear, kFar);
-	//カメラの初期位置
-	m_pos = kFirstPos;
-	//カメラが見てる位置
-	m_viewPos = kViewPos;
+	//カメラの初期位置調整
+	m_pos += kCameraOffsetPos;
 	//カメラの座標と注視点
 	DxLib::SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
 	//視野角
@@ -38,6 +42,10 @@ void SelectStageCamera::Init()
 
 void SelectStageCamera::Update(Vector3 targetPos)
 {
-
+	//だんだん目的地に移動
+	m_pos = Vector3::Lerp(m_pos, targetPos + kCameraOffsetPos, kLerpRate);
+	m_viewPos = Vector3::Lerp(m_viewPos, targetPos, kLerpRate);
+	//カメラの座標と注視点
+	DxLib::SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
 }
 

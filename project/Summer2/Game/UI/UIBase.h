@@ -5,7 +5,7 @@ class UIBase abstract :
 	public std::enable_shared_from_this<UIBase>
 {
 public:
-	UIBase(int handle);
+	UIBase();
 	virtual~UIBase();
 	virtual void Init() ;
 	virtual void Update()abstract;
@@ -18,7 +18,5 @@ public:
 protected:
 	bool m_isDelete;	//íœ
 	bool m_isDraw;		//•`‰æ‚·‚é‚©
-	//ƒnƒ“ƒhƒ‹
-	int m_handle;
 };
 

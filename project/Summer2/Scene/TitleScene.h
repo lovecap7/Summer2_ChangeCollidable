@@ -37,8 +37,8 @@ public:
 private:
     //カメラ
 	std::unique_ptr<TitleCamera> m_camera;
-    //モデル
-	std::unique_ptr<TitlePlayer> m_player;
+    //プレイヤー
+	std::shared_ptr<TitlePlayer> m_player;
     //描画用オブジェ
     std::vector<std::shared_ptr<Actor>> m_stageObjects;
     //ハンドル

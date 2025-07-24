@@ -17,10 +17,6 @@ SelectStageScene::SelectStageScene(SceneController& controller):
 	SceneBase(controller),
 	m_stageIndex(static_cast<int>(Stage::StageIndex::Stage1))
 {
-	//カメラ
-	m_camera = std::make_unique<SelectStageCamera>();
-	//プレイヤー
-	m_player = std::make_unique<SelectStagePlayer>();
 	//CSVデータローダー
 	auto csvLodader = std::make_shared<CSVDataLoader>();
 	//CSVから座標データを読み込む
@@ -41,6 +37,10 @@ SelectStageScene::SelectStageScene(SceneController& controller):
 			m_stagePos[Stage::StageIndex::Stage3] = data.pos;
 		}
 	}
+	//カメラ
+	m_camera = std::make_unique<SelectStageCamera>(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
+	//プレイヤー
+	m_player = std::make_unique<SelectStagePlayer>(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 }
 
 SelectStageScene::~SelectStageScene()
@@ -89,7 +89,7 @@ void SelectStageScene::Update()
 	//カメラの更新
 	m_camera->Update(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 	//プレイヤーの更新
-	m_player->Update();
+	m_player->Update(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 }
 
 void SelectStageScene::Draw()

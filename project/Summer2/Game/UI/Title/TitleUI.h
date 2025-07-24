@@ -11,6 +11,13 @@ public:
     void Update()override;
     void Draw() const override;
 private:
-
+    int m_countFrame;
+    //ƒnƒ“ƒhƒ‹
+    int m_titleHandle;
+    int m_titleBackHandle;
+    int m_pressAnyBottunHandle;
+    int m_pressAnyBottunBackHandle;
+    //Œˆ’è
+    bool m_isDecide;
 };
 

@@ -14,7 +14,7 @@ namespace
 }
 
 PlayerHPUI::PlayerHPUI(std::weak_ptr<Player> player) :
-	PlayerUIBase(-1, player),
+	PlayerUIBase(player),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f)
 {

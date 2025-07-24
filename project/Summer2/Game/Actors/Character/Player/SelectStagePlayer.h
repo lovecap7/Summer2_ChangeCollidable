@@ -10,12 +10,12 @@ class SelectStagePlayer :
 	public CharacterBase
 {
 public:
-	SelectStagePlayer();
+	SelectStagePlayer(Vector3 pos);
 	~SelectStagePlayer();
 	//初期化処理
 	void Init() override;
 	//更新処理
-	void Update()override;
+	void Update(Vector3 targetPos);
 	void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override {};
 	//衝突イベント関数
 	void OnCollide(const std::shared_ptr<Collidable> other)override {};
@@ -28,4 +28,6 @@ public:
 	//終了処理
 	void End()override;
 private:
+	//ダンスチェンジ
+	bool m_isChangeDance;
 };

@@ -122,6 +122,7 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["DeathEff"]), pos);
 	}
+	//ボス死亡エフェクト
 	else if (name == "BossDeathEff")
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossDeathEff"]), pos);

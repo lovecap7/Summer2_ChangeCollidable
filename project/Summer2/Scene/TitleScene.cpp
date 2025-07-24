@@ -11,6 +11,7 @@
 #include "../Game/Actors/Stage/Sky.h"
 #include "../General/CSVDataLoader.h"
 #include "../General/Fader.h"
+#include "../General/Effect/EffekseerManager.h"
 #include "../Game/UI/Title/TitleUI.h"
 #include <memory>
 #include <cassert>
@@ -38,16 +39,6 @@ namespace
 TitleScene::TitleScene(SceneController& controller):
 	SceneBase(controller)
 {
-	//カメラ
-	m_camera = std::make_unique<TitleCamera>();
-	//プレイヤー
-	m_player = std::make_unique<TitlePlayer>();
-	//ハンドルロード
-	LoadHandle();
-	//配置データ
-	LoadStage();
-	//UI
-	UIManager::GetInstance().Entry(std::make_unique<TitleUI>());
 }
 
 TitleScene::~TitleScene()
@@ -56,6 +47,18 @@ TitleScene::~TitleScene()
 
 void TitleScene::Init()
 {
+	//カメラ
+	m_camera = std::make_unique<TitleCamera>();
+	//プレイヤー
+	m_player = std::make_shared<TitlePlayer>();
+	//ハンドルロード
+	LoadHandle();
+	//配置データ
+	LoadStage();
+	//UI
+	UIManager::GetInstance().Entry(std::make_unique<TitleUI>());
+	//エフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
 	//カメラの初期化
 	m_camera->Init();
 	//プレイヤー
@@ -153,6 +156,8 @@ void TitleScene::End()
 	DeleteShadowMap(m_shadowMapHandle);
 	//UI
 	UIManager::GetInstance().Reset();
+	//エフェクト
+	EffekseerManager::GetInstance().Reset();
 }
 
 void TitleScene::LoadHandle()

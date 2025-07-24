@@ -14,5 +14,7 @@ public:
     void Draw() const override;
 private:
     std::weak_ptr<Timer> m_timer;
+    //ƒnƒ“ƒhƒ‹
+    int m_handle;
 };
 

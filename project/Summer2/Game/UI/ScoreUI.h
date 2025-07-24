@@ -28,5 +28,7 @@ private:
     Vector2 m_viewVecs[kDigitNum];
     //各位の値
     int m_digits[kDigitNum];
+    //ハンドル
+    int m_handle;
 };
 

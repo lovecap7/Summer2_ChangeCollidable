@@ -1,10 +1,9 @@
 #include "UIBase.h"
 #include "UIManager.h"
 
-UIBase::UIBase(int handle):
+UIBase::UIBase():
 	m_isDelete(false),
-	m_isDraw(true),
-	m_handle(handle)
+	m_isDraw(true)
 {
 }
 

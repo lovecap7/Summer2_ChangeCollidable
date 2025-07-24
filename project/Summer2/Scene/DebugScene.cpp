@@ -4,6 +4,7 @@
 #include "StageScene.h"
 #include <DxLib.h>
 #include  "../General/Input.h"
+#include  "../General/Fader.h"
 #include "SceneController.h"
 #include <memory>
 
@@ -24,7 +25,9 @@ DebugScene::~DebugScene()
 
 void DebugScene::Init()
 {
-	//‚È‚µ
+	auto& fader = Fader::GetInstance();
+	//‚¾‚ñ‚¾‚ñ–¾‚é‚­
+	fader.FadeIn();
 }
 
 void DebugScene::Update()
@@ -42,7 +45,13 @@ void DebugScene::Update()
 	{
 		m_selectSceneIndex = 0;
 	}
+	auto& fader = Fader::GetInstance();
 	if (input.IsTrigger("Ok"))
+	{
+		//‚¾‚ñ‚¾‚ñˆÃ‚­
+		fader.FadeOut();
+	}
+	if (fader.IsFinishFadeOut())
 	{
 		switch (m_selectSceneIndex)
 		{

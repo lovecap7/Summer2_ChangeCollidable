@@ -1,5 +1,6 @@
 #include "Fader.h"
 #include "game.h"
+#include "Input.h"
 #include <DxLib.h>
 //初期化
 void Fader::Init()
@@ -13,22 +14,31 @@ void Fader::Init()
 //更新
 void Fader::Update()
 {
+	auto& input = Input::GetInstance();
 	if (m_isFadeIn)
 	{
+		//入力を止める
+		input.StopUpdate();
 		//だんだん明るくなる
 		m_countFrame -= m_fadeSpeed;
 		if (m_countFrame <= 0.0f)
 		{
+			//入力を開始
+			input.StartUpdate();
 			m_countFrame = 0.0f;
 			m_isFadeIn = false;
 		}
 	}
 	if (m_isFadeOut)
 	{
+		//入力を止める
+		input.StopUpdate();
 		//だんだん暗くなる
 		m_countFrame += m_fadeSpeed;
 		if (m_countFrame >= 255.0f)
 		{
+			//入力を開始
+			input.StartUpdate();
 			m_countFrame = 255.0f;
 			m_isFadeOut = false;
 		}

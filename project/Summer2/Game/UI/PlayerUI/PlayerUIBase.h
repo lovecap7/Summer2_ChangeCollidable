@@ -6,7 +6,7 @@ class PlayerUIBase :
     public UIBase
 {
 public:
-    PlayerUIBase(int handle, std::weak_ptr<Player> player);
+    PlayerUIBase(std::weak_ptr<Player> player);
     ~PlayerUIBase();
 protected:
     std::weak_ptr<Player> m_player;

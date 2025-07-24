@@ -19,9 +19,9 @@ namespace
 	constexpr int kImageWidth = 256;
 	constexpr int kImageHeight = 256;
 	//スコアのX座標
-	constexpr int kPosX = (Game::kScreenWidth/2 - 200);
+	constexpr int kTitlePosX = (Game::kScreenWidth/2 - 200);
 	//スコアのY座標
-	constexpr int kPosY = 30;
+	constexpr int kTitlePosY = 30;
 	//スコアの1桁の幅
 	constexpr int kDigitMargin = 13;
 	//重力
@@ -31,16 +31,17 @@ namespace
 }
 
 ScoreUI::ScoreUI(const std::weak_ptr<Score> score) :
-	UIBase(UIManager::GetInstance().GetImageHandle("Score")),
+	UIBase(),
 	m_viewScore(0),
 	m_viewMaxScore(0),
 	m_score(score),
 	m_digits{},
-	m_viewVecs{}
+	m_viewVecs{},
+	m_handle(UIManager::GetInstance().GetImageHandle("Score"))
 {
 	for (auto& pos : m_viewPoses)
 	{
-		pos = { kPosX ,kPosY };
+		pos = { kTitlePosX ,kTitlePosY };
 	}
 }
 
@@ -101,9 +102,9 @@ void ScoreUI::Update()
 		}
 		//これ以上Y座標が下がらないように補正
 		m_viewVecs[i].y += kGravity;
-		if (m_viewPoses[i].y > kPosY)
+		if (m_viewPoses[i].y > kTitlePosY)
 		{
-			m_viewPoses[i].y = kPosY;
+			m_viewPoses[i].y = kTitlePosY;
 		}
 	}
 }

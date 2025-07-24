@@ -14,7 +14,7 @@ namespace
 
 
 EnemyHPUI::EnemyHPUI(std::weak_ptr<EnemyBase> enemy) :
-	EnemyUIBase(-1, enemy),
+	EnemyUIBase(enemy),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f),
 	m_pos{}

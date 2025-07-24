@@ -3,7 +3,7 @@
 class SelectStageCamera
 {
 public:
-	SelectStageCamera();
+	SelectStageCamera(Vector3 targetPos);
 	~SelectStageCamera();
 	//‰Šú‰»
 	void Init();

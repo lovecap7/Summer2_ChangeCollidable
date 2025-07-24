@@ -47,12 +47,17 @@ void Input::Init()
 	m_inputActionMap["Max"] = { {InputType::kKeyboard,KEY_INPUT_M} ,{InputType::kPad,PAD_INPUT_5} };
 	m_inputActionMap["BossArea"] = { {InputType::kKeyboard,KEY_INPUT_B}};
 	m_inputActionMap["BossDead"] = { {InputType::kKeyboard,KEY_INPUT_N}};
+
+	//更新をする
+	m_isUpdate = true;
 }
 
 void Input::Update()
 {
 	//前のフレームの入力情報を保存する
 	m_lastInput = m_currentInput;
+
+	if (!m_isUpdate)return;
 
 	//すべての入力を取得する
 	char keyState[256] = {};
@@ -129,6 +134,9 @@ void Input::StopUpdate()
 
 	m_triggerInfo.left = 0;
 	m_triggerInfo.right = 0;
+
+	//更新をとめる
+	m_isUpdate = false;
 }
 
 bool Input::IsPress(const std::string& action)const

@@ -6,7 +6,7 @@ class EnemyUIBase:
 	public UIBase
 {
 public:
-    EnemyUIBase(int handle, std::weak_ptr<EnemyBase> enemy);
+    EnemyUIBase(std::weak_ptr<EnemyBase> enemy);
     ~EnemyUIBase();
 protected:
     std::weak_ptr<EnemyBase> m_enemy;

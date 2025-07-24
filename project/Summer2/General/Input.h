@@ -91,6 +91,11 @@ public:
 	void StopUpdate();
 
 	/// <summary>
+	/// 入力情報を受け付けないようにする
+	/// </summary>
+	void StartUpdate() { m_isUpdate = true; };
+
+	/// <summary>
 	/// キー押したかどうか
 	/// </summary>
 	/// <param name="keyName">判定したいキー</param>
@@ -194,6 +199,9 @@ private:
 	//何か押したらtrue
 	bool m_isPressAny = false;
 	bool m_isBeforePressAny = false;
+
+	//更新するか
+	bool m_isUpdate;
 };
 
 

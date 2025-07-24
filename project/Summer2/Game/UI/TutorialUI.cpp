@@ -32,12 +32,13 @@ namespace
 }
 
 TutorialUI::TutorialUI(const std::wstring& text):
-	UIBase(UIManager::GetInstance().GetTextHandle("メイリオ")),
+	UIBase(),
 	m_countFrame(0),
 	m_chatCount(0),
 	m_text{ text },
 	m_update(&TutorialUI::AppearUpdate),
-	m_posX(Game::kScreenWidth)
+	m_posX(Game::kScreenWidth),
+	m_handle(UIManager::GetInstance().GetTextHandle("メイリオ"))
 {
 	m_text = InsertNewLines(m_text, kOneLineMaxNum);
 }

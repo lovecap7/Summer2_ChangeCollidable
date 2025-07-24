@@ -33,6 +33,8 @@ private:
     void NormalUpdate();
     //Á–Å’†ó‘Ô
     void DisappearUpdate();
+    //ƒnƒ“ƒhƒ‹
+    int m_handle;
 };
 
 

@@ -13,7 +13,7 @@ namespace
 }
 
 PlayerUltGageUI::PlayerUltGageUI(std::weak_ptr<Player> player):
-	PlayerUIBase(-1, player),
+	PlayerUIBase(player),
 	m_viewUltGageValue(0.0f),
 	m_viewMaxUltGageValue(0.0f)
 {
