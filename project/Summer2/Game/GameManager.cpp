@@ -24,7 +24,7 @@ namespace
 	constexpr int kShadowMapHeight = 1024 * 2;
 	//ライトの向き
 	const VECTOR kLightDir = { 0.1f, -1.0f, 0.5f };
-	const VECTOR kLightDir2 = { 0.5f, 1.0f, 0.0f };
+	//const VECTOR kLightDir2 = { 0.5f, 1.0f, 0.0f };
 	//シャドウマップの範囲
 	constexpr float kShadowMapHorizon = 2000.0f;
 	constexpr float kShadowMapVerticalMin = -1.0f;
@@ -202,7 +202,7 @@ void GameManager::Restart(Stage::StageIndex index)
 void GameManager::InitLight()
 {
 	m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir));
-	m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir2));
+	//m_lightHandles.emplace_back(CreateDirLightHandle(kLightDir2));
 }
 
 void GameManager::InitShadow()

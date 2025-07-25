@@ -2,7 +2,7 @@
 #include<DxLib.h>
 #include<array>
 
-void MyDraw::DrawRotaGraph(Vector2 pos, float scale, float angle, int handle, int psH, std::list<int> texH, int alpha, int vsH)
+void MyDrawUtils::DrawRotaGraph(Vector2 pos, float scale, float angle, int handle, int psH, std::list<int> texH, int alpha, int vsH)
 {
 	MV1SetUseOrigShader(true);//シェーダを使うためにtrueにする
 	//4頂点に必要な情報を代入していく
@@ -62,6 +62,12 @@ void MyDraw::DrawRotaGraph(Vector2 pos, float scale, float angle, int handle, in
 	DxLib::SetUsePixelShader(psH);
 	//頂点シェーダを指定
 	SetUseVertexShader(vsH);
+	//透過処理
+	int alphamode, alphaparam;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	GetDrawAlphaTest(&alphamode, &alphaparam);
+	SetDrawAlphaTest(DX_CMP_GREATER, 0);
+	SetUseAlphaTestFlag(true);
 	//シェーダを適用して描画
 	DxLib::DrawPrimitive2DToShader(vertices.data(), vertices.size(),
 		DX_PRIMTYPE_TRIANGLESTRIP);
@@ -80,4 +86,82 @@ void MyDraw::DrawRotaGraph(Vector2 pos, float scale, float angle, int handle, in
 	SetUsePixelShader(-1);
 	SetUseVertexShader(-1);
 	MV1SetUseOrigShader(false);
+}
+
+void MyDrawUtils::DrawGraph(Vector2 pos, int handle, int psH, std::list<int> texH)
+{
+	//シェーダを使うためにtrueにする
+	MV1SetUseOrigShader(true);
+	//画像の大きさ取得
+	int width, height;
+	GetGraphSize(handle, &width, &height);
+	//4頂点に必要な情報を代入していく
+	std::array<DxLib::VERTEX2DSHADER, 4> vertices = {};
+	for (auto& v : vertices) {
+		v.rhw = 1.0;
+		v.dif = DxLib::GetColorU8(255, 255, 255, 255);//ディフューズ
+		v.spc = DxLib::GetColorU8(255, 255, 255, 255);//スペキュラ
+		v.su = 0.0f;
+		v.sv = 0.0f;
+		v.pos.z = 0.0f;
+	}
+
+	//左上	
+	vertices[0].pos.x = pos.x;
+	vertices[0].pos.y = pos.y;
+	vertices[0].u = 0.0f;
+	vertices[0].v = 0.0f;
+	//右上
+	vertices[1].pos.x = pos.x + width;
+	vertices[1].pos.y = pos.y;
+	vertices[1].u = 1.0f;
+	vertices[1].v = 0.0f;
+	//左下
+	vertices[2].pos.x = pos.x;
+	vertices[2].pos.y = pos.y + height;
+	vertices[2].u = 0.0f;
+	vertices[2].v = 1.0f;
+	//右下
+	vertices[3].pos.x = pos.x + width;
+	vertices[3].pos.y = pos.y + height;
+	vertices[3].u = 1.0f;
+	vertices[3].v = 1.0f;
+	
+	//シェーダを使う
+	SetUsePixelShader(psH);
+	SetUseTextureToShader(0, handle);
+	//テクスチャが入っているならば
+	if (texH.size() > 0)
+	{
+		int slotIndex = 1;
+		for (auto& tex : texH) {
+			//スロットにテクスチャを指定
+			DxLib::SetUseTextureToShader(slotIndex, tex);
+			++slotIndex;
+		}
+	}
+
+	//透過処理
+	int alphamode, alphaparam;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	GetDrawAlphaTest(&alphamode, &alphaparam);
+	SetDrawAlphaTest(DX_CMP_GREATER, 0);
+	SetUseAlphaTestFlag(true);
+
+	//描画
+	DrawPrimitive2DToShader(vertices.data(), vertices.size(), DX_PRIMTYPE_TRIANGLESTRIP);
+	//描画後の処理
+	SetUsePixelShader(-1);
+	DxLib::SetUseTextureToShader(0, -1);
+	if (texH.size() > 0)
+	{
+		int slotIndex = 1;
+		for (auto& tex : texH) {
+			//リセット
+			SetUseTextureToShader(slotIndex, -1);
+			++slotIndex;
+		}
+	}
+	MV1SetUseOrigShader(false);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

@@ -3,12 +3,14 @@
 #include <memory>
 #include <map>
 #include <string>
+#include <array>
 #include "../General/Math/MyMath.h"
 #include "../General/StageIndex.h"
 class Input;
 class SelectStagePlayer;
 class SelectStageCamera;
 class SceneController;
+class StageFigure;
 class SelectStageScene :
     public SceneBase
 {
@@ -36,5 +38,7 @@ private:
     std::map<Stage::StageIndex,Vector3> m_stagePos;
     //ステージのインデックス
     int m_stageIndex;
+    //ステージのフィギュア
+	std::array<std::shared_ptr<StageFigure>,static_cast<int>(Stage::StageIndex::Stage3)> m_stageFigures;
 };
 

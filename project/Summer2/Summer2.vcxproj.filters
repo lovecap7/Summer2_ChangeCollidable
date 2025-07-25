@@ -175,6 +175,15 @@
     <Filter Include="ソース ファイル\Game\UI\Title">
       <UniqueIdentifier>{80950ec5-38f8-4d64-a29e-ada2baf6a2ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Shader">
+      <UniqueIdentifier>{b0184254-f6e9-4e0c-8d6e-7f2ccaafc8c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Shader">
+      <UniqueIdentifier>{3aad0e64-e262-48d2-9d1b-61fcf915c975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shander">
+      <UniqueIdentifier>{3432fba2-e5a5-4194-a2d3-a6c353abc9ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -601,7 +610,10 @@
       <Filter>ソース ファイル\Game\UI\Title</Filter>
     </ClCompile>
     <ClCompile Include="Shader\MyDraw.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="General\StageFigure.cpp">
+      <Filter>ソース ファイル\General</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1041,12 +1053,20 @@
       <Filter>ヘッダー ファイル\Game\UI\Title</Filter>
     </ClInclude>
     <ClInclude Include="Shader\MyDraw.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="General\StageFigure.h">
+      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Summer2.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\DissolvePS.hlsl">
+      <Filter>Shander</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

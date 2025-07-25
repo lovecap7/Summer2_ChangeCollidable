@@ -148,6 +148,7 @@
     <ClCompile Include="General\Model.cpp" />
     <ClCompile Include="General\Rigidbody.cpp" />
     <ClCompile Include="General\CSVDataLoader.cpp" />
+    <ClCompile Include="General\StageFigure.cpp" />
     <ClCompile Include="General\StringUtil.cpp" />
     <ClCompile Include="Main\Application.cpp" />
     <ClCompile Include="Main\main.cpp" />
@@ -295,6 +296,7 @@
     <ClInclude Include="General\Model.h" />
     <ClInclude Include="General\Rigidbody.h" />
     <ClInclude Include="General\CSVDataLoader.h" />
+    <ClInclude Include="General\StageFigure.h" />
     <ClInclude Include="General\StageIndex.h" />
     <ClInclude Include="General\StringUtil.h" />
     <ClInclude Include="Main\Application.h" />
@@ -312,6 +314,22 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Summer2.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\DissolvePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Shader/%(Filename).pso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Shader/%(Filename).pso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Shader/%(Filename).pso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Shader/%(Filename).pso</ObjectFileOutput>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

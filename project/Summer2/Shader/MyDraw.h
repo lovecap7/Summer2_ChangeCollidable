@@ -1,7 +1,7 @@
 #pragma once
 #include "../General/Math/MyMath.h"
 #include <list>
-namespace MyDraw
+namespace MyDrawUtils
 {
 	/// <summary>
 	/// 大きさと角度を変更できる描画関数
@@ -16,4 +16,13 @@ namespace MyDraw
 	/// <param name="vsH">頂点シェーダ</param>
 	void DrawRotaGraph(Vector2 pos, float scale, float angle, 
 		int handle, int psH, std::list<int> texH = {}, int alpha = 255, int vsH = -1);
+
+	/// <summary>
+	/// 描画(shader)
+	/// </summary>
+	/// <param name="pos">座標</param>
+	/// <param name="handle">画像</param>
+	/// <param name="texH">テクスチャ</param>
+	/// <param name="psH">ピクセルシェーダ</param>
+	void DrawGraph(Vector2 pos, int handle, int psH,std::list<int> texH = {});
 }
