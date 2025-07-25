@@ -30,8 +30,6 @@ void GameClearScene::Init()
 {
 	//Physicsを止める
 	Physics::GetInstance().StopUpdate();
-	//ハイスコアを保存
-	m_score->SaveHighScore();
 }
 
 void GameClearScene::Update()
@@ -47,6 +45,8 @@ void GameClearScene::End()
 {
 	//Physicsを開始
 	Physics::GetInstance().StartUpdate();
+	//ハイスコアを保存
+	m_score->SaveHighScore();
 }
 
 void GameClearScene::Restart()

@@ -134,18 +134,16 @@ std::vector<ScoreData> CSVDataLoader::LoadActorScoreDataCSV()
 	return scoreDatas;
 }
 
-std::vector<int> CSVDataLoader::LoadHighScoreDataCSV()
+std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> CSVDataLoader::LoadHighScoreDataCSV()
 {
 	//データを格納する配列
-	std::vector<int> highScoreDatas;
+	std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> highScoreDatas;
 	//データをすべて読み込む
 	auto valuesDatas = GetStringList(kHighScoreDataPath.c_str(), 1);
-	for (auto values : valuesDatas)
+	for (int i = 0;i < highScoreDatas.size(); ++i)
 	{
-		//ハイスコア
-		int highScore = std::stoi(values[0]);
 		//配列に追加
-		highScoreDatas.emplace_back(highScore);
+		highScoreDatas[i] = std::stoi(valuesDatas[i][0]);
 	}
 	return highScoreDatas;
 }

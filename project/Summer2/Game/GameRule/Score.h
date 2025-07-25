@@ -1,7 +1,9 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <array>
 #include "../../General/CSVDataLoader.h"
+#include "../../General/StageIndex.h"
 class HitPoints;
 class CSVDataLoader;
 class Score :
@@ -18,7 +20,7 @@ public:
 	int GetKillScore()	{ return m_killScore; };
 	int GetItemScore()	{ return m_itemScore; };
 	int GetHPScore()	{ return m_hpScore; };
-	int GetHighScore();
+	int GetHighScore(Stage::StageIndex index);
 	//ハイスコアを更新したか
 	bool IsUpdateHighScore()	{ return m_isUpdateHighScore; };
 	//スコア加算
@@ -39,7 +41,7 @@ private:
 	//体力スコア
 	int m_hpScore;
 	//ハイスコア
-	std::vector<int> m_highScore;
+	std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> m_highScore;
 	//ハイスコアを更新したなら
 	bool m_isUpdateHighScore;
 	//スコアデータ

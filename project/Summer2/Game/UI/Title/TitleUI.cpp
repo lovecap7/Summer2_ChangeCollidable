@@ -112,6 +112,8 @@ void TitleUI::Draw() const
 		m_pixelShaderHandle,
 		{ m_patternHandle }
 	);
+
+	if (m_isDecide)return;
 	//“_–Å
 	if (m_countFrame <= kShutFrame && m_isAppeared)
 	{

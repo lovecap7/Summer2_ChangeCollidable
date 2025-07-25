@@ -2,8 +2,10 @@
 #include <DxLib.h>
 #include <string>
 #include <vector>
+#include <array>
 #include "Battle.h"
 #include "../Game/Camera/GameCamera/GameCamera.h"
+#include "StageIndex.h"
 
 //オブジェクトの情報を格納する構造体
 struct ObjectData {
@@ -71,7 +73,7 @@ public:
     /// </summary>
     /// <param name="fileName"></param>
     /// <returns></returns>
-    std::vector<int> LoadHighScoreDataCSV();
+    std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> LoadHighScoreDataCSV();
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
 };

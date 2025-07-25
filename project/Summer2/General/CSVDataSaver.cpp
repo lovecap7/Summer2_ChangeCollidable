@@ -25,7 +25,7 @@ void CSVDataSaver::SaveDataToCSV(std::shared_ptr<Score> score)
     //ヘッダーを書き込む
     file << "HighScore\n";
     //データ書き込み
-    file << score->GetScore();
+    file << score->GetHighScore() << std::endl;
     //閉じる
     file.close();
 }

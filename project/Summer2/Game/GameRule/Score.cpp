@@ -56,16 +56,16 @@ int Score::GetScore()
 	return m_nowScore;
 }
 
-int Score::GetHighScore()
+int Score::GetHighScore(Stage::StageIndex index)
 {
 	//ハイスコアを更新したなら
-	if (m_nowScore > m_highScore[0])
+	if (m_nowScore > m_highScore[static_cast<int>(index)])
 	{
-		m_highScore[0] = m_nowScore;
+		m_highScore[static_cast<int>(index)] = m_nowScore;
 		//更新したので
 		m_isUpdateHighScore = true;
 	}
-	return  m_highScore[0];
+	return  m_highScore[static_cast<int>(index)];
 }
 
 void Score::AddTimeScore(int time)
