@@ -37,7 +37,8 @@ namespace
 }
 
 BossDragon::BossDragon(int modelHandle, Vector3 pos):
-	EnemyBase(Shape::Capsule, EnemyGrade::Boss)
+	EnemyBase(Shape::Capsule, EnemyGrade::Boss),
+	m_isActive(false)
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
@@ -88,7 +89,19 @@ void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_
 #endif
 
 	//ボス部屋に入った時行動開始
-	if (!actorManager.lock()->GetBossArea().lock()->IsEntryBossArea())return;
+	m_isActive = actorManager.lock()->GetBossArea().lock()->IsEntryBossArea();
+	//アクティブ状態じゃないなら
+	if (!m_isActive)
+	{
+		//無敵に
+		m_hitPoints->SetIsNoDamege(true);
+		return;
+	}
+	else
+	{
+		//行動開始
+		m_hitPoints->SetIsNoDamege(false);
+	}
 	//体力の表示をする
 	if (!m_hpUI.expired())
 	{

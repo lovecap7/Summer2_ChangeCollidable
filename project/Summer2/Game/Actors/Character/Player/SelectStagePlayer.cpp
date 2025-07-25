@@ -50,39 +50,50 @@ void SelectStagePlayer::Init()
 
 void SelectStagePlayer::Update(Vector3 cameraPos, Vector3 targetPos)
 {
-	//だんだん目的地に移動
+	auto& input = Input::GetInstance();
+	if (input.IsTrigger("A") && !m_isDecided)
+	{
+		//決定
+		m_model->SetAnim(kDecideAnim, false);
+		m_isDecided = true;
+	}
+	//アニメーションの更新
 	m_model->Update();
+	//だんだん目的地に移動
 	m_rb->m_pos = Vector3::Lerp(m_rb->m_pos, targetPos, kLerpRate);
-	if ((m_rb->m_pos - targetPos).Magnitude() > kTargetReachRadius)
-	{
-		//進行方向にモデルを向かせる
-		Vector3 dir = (targetPos - m_rb->m_pos);
-		m_model->SetDir(dir.XZ());
-		//アニメーション
-		m_model->SetAnim(kRunAnim, true);
-		m_isChangeDance = false;
-	}
-	else if(!m_isChangeDance)
-	{
-		//カメラ方向を向かせる
-		Vector3 dir = (cameraPos - m_rb->m_pos);
-		m_model->SetDir(dir.XZ());
-		//ランダムに踊りを決める
-		switch (GetRand(kDanceNum) % kDanceNum + 1)
-		{
-		case 1:
-			m_model->SetAnim(kDance1Anim, true);
-			break;
-		case 2:
-			m_model->SetAnim(kDance2Anim, true);
-			break;
-		case 3:
-			m_model->SetAnim(kDance3Anim, true);
-			break;
-		}
-		m_isChangeDance = true;
-	}
 	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
+	if (!m_isDecided)
+	{
+		if ((m_rb->m_pos - targetPos).Magnitude() > kTargetReachRadius)
+		{
+			//進行方向にモデルを向かせる
+			Vector3 dir = (targetPos - m_rb->m_pos);
+			m_model->SetDir(dir.XZ());
+			//アニメーション
+			m_model->SetAnim(kRunAnim, true);
+			m_isChangeDance = false;
+		}
+		else if (!m_isChangeDance)
+		{
+			//カメラ方向を向かせる
+			Vector3 dir = (cameraPos - m_rb->m_pos);
+			m_model->SetDir(dir.XZ());
+			//ランダムに踊りを決める
+			switch (GetRand(kDanceNum) % kDanceNum + 1)
+			{
+			case 1:
+				m_model->SetAnim(kDance1Anim, true);
+				break;
+			case 2:
+				m_model->SetAnim(kDance2Anim, true);
+				break;
+			case 3:
+				m_model->SetAnim(kDance3Anim, true);
+				break;
+			}
+			m_isChangeDance = true;
+		}
+	}
 }
 
 void SelectStagePlayer::Draw() const

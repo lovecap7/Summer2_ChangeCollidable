@@ -14,6 +14,11 @@
 #include "DebugScene.h"
 #endif
 
+namespace
+{
+	constexpr float kFadeSpeed = 2.0f; // フェード速度
+}
+
 SelectStageScene::SelectStageScene(SceneController& controller):
 	SceneBase(controller),
 	m_stageIndex(static_cast<int>(Stage::StageIndex::Stage1))
@@ -58,7 +63,7 @@ void SelectStageScene::Init()
 {
 	auto& fader = Fader::GetInstance();
 	//だんだん明るく
-	fader.FadeIn();
+	fader.FadeIn(kFadeSpeed);
 	//カメラの初期化
 	m_camera->Init();
 	//プレイヤーの初期化
@@ -86,7 +91,7 @@ void SelectStageScene::Update()
 	if (input.IsTrigger("A"))
 	{
 		//だんだん暗く
-		fader.FadeOut();
+		fader.FadeOut(kFadeSpeed);
 	}
 	//真っ暗になったら
 	if (fader.IsFinishFadeOut())

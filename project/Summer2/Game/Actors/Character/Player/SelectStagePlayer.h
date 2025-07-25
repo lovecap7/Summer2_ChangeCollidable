@@ -30,4 +30,6 @@ public:
 private:
 	//ダンスチェンジ
 	bool m_isChangeDance;
+	//決定
+	bool m_isDecided;
 };

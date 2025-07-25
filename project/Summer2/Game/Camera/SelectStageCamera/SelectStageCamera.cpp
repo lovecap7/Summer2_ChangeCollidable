@@ -7,9 +7,9 @@ namespace
 	constexpr float kNear = 50.0f;
 	constexpr float kFar = 7000.0f;
 	//初期位置
-	const Vector3 kCameraOffsetPos = { 0,150,-1000 };
+	const Vector3 kCameraOffsetPos = { 0,700,-1000 };
 	//カメラの初期位置から見ている位置
-	const Vector3 kViewPos = { 0,150,0 };
+	const Vector3 kViewOffsetPos = { 0,300,0 };
 	//視野角
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//lerp率
@@ -44,7 +44,7 @@ void SelectStageCamera::Update(Vector3 targetPos)
 {
 	//だんだん目的地に移動
 	m_pos = Vector3::Lerp(m_pos, targetPos + kCameraOffsetPos, kLerpRate);
-	m_viewPos = Vector3::Lerp(m_viewPos, targetPos, kLerpRate);
+	m_viewPos = Vector3::Lerp(m_viewPos, targetPos + kViewOffsetPos, kLerpRate);
 	//カメラの座標と注視点
 	DxLib::SetCameraPositionAndTarget_UpVecY(m_pos.ToDxLibVector(), m_viewPos.ToDxLibVector());
 }
