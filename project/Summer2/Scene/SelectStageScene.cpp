@@ -40,7 +40,7 @@ SelectStageScene::SelectStageScene(SceneController& controller):
 	//カメラ
 	m_camera = std::make_unique<SelectStageCamera>(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 	//プレイヤー
-	m_player = std::make_unique<SelectStagePlayer>(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
+	m_player = std::make_unique<SelectStagePlayer>(m_camera->GetPos(),m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 }
 
 SelectStageScene::~SelectStageScene()
@@ -89,7 +89,7 @@ void SelectStageScene::Update()
 	//カメラの更新
 	m_camera->Update(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 	//プレイヤーの更新
-	m_player->Update(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
+	m_player->Update(m_camera->GetPos(), m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 }
 
 void SelectStageScene::Draw()

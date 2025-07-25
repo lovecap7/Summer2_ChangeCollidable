@@ -22,7 +22,7 @@ namespace
 	constexpr float kTargetReachRadius = 100.0f;
 }
 
-SelectStagePlayer::SelectStagePlayer(Vector3 pos):
+SelectStagePlayer::SelectStagePlayer(Vector3 cameraPos, Vector3 pos):
 	CharacterBase(Shape::None),
 	m_isChangeDance(false)
 {
@@ -31,6 +31,9 @@ SelectStagePlayer::SelectStagePlayer(Vector3 pos):
 	//初期位置
 	m_rb->m_pos = pos;
 	m_model->SetPos(pos.ToDxLibVector());
+	//カメラ方向を向かせる
+	Vector3 dir = (cameraPos - m_rb->m_pos);
+	m_model->SetDir(dir.XZ());
 }
 
 SelectStagePlayer::~SelectStagePlayer()
@@ -45,19 +48,25 @@ void SelectStagePlayer::Init()
 	m_isChangeDance = true;
 }
 
-void SelectStagePlayer::Update(Vector3 targetPos)
+void SelectStagePlayer::Update(Vector3 cameraPos, Vector3 targetPos)
 {
 	//だんだん目的地に移動
 	m_model->Update();
 	m_rb->m_pos = Vector3::Lerp(m_rb->m_pos, targetPos, kLerpRate);
 	if ((m_rb->m_pos - targetPos).Magnitude() > kTargetReachRadius)
 	{
+		//進行方向にモデルを向かせる
+		Vector3 dir = (targetPos - m_rb->m_pos);
+		m_model->SetDir(dir.XZ());
 		//アニメーション
 		m_model->SetAnim(kRunAnim, true);
 		m_isChangeDance = false;
 	}
 	else if(!m_isChangeDance)
 	{
+		//カメラ方向を向かせる
+		Vector3 dir = (cameraPos - m_rb->m_pos);
+		m_model->SetDir(dir.XZ());
 		//ランダムに踊りを決める
 		switch (GetRand(kDanceNum) % kDanceNum + 1)
 		{

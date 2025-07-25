@@ -160,6 +160,7 @@
     <ClCompile Include="Scene\SelectStageScene.cpp" />
     <ClCompile Include="Scene\StageScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="Shader\MyDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Actors\Actor.h" />
@@ -307,6 +308,7 @@
     <ClInclude Include="Scene\SelectStageScene.h" />
     <ClInclude Include="Scene\StageScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="Shader\MyDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Summer2.rc" />
