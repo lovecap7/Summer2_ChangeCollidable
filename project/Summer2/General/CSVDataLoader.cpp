@@ -134,16 +134,18 @@ std::vector<ScoreData> CSVDataLoader::LoadActorScoreDataCSV()
 	return scoreDatas;
 }
 
-std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> CSVDataLoader::LoadHighScoreDataCSV()
+std::array<std::array<int, 3>, static_cast<int>(Stage::StageIndex::StageNum)> CSVDataLoader::LoadHighScoreDataCSV()
 {
 	//データを格納する配列
-	std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> highScoreDatas;
+	std::array<std::array<int, 3>, static_cast<int>(Stage::StageIndex::StageNum)> highScoreDatas;
 	//データをすべて読み込む
-	auto valuesDatas = GetStringList(kHighScoreDataPath.c_str(), 1);
+	auto valuesDatas = GetStringList(kHighScoreDataPath.c_str(), 3);
 	for (int i = 0;i < highScoreDatas.size(); ++i)
 	{
-		//配列に追加
-		highScoreDatas[i] = std::stoi(valuesDatas[i][0]);
+		//配列に追加(各ステージの1位から3位までのハイスコアを取得)
+		highScoreDatas[i][0] = std::stoi(valuesDatas[i][0]);
+		highScoreDatas[i][1] = std::stoi(valuesDatas[i][1]);
+		highScoreDatas[i][2] = std::stoi(valuesDatas[i][2]);
 	}
 	return highScoreDatas;
 }

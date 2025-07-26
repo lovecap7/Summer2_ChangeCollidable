@@ -1,5 +1,4 @@
 #include "Timer.h"
-#include "../UI/UIManager.h"
 
 namespace
 {
@@ -24,8 +23,6 @@ void Timer::Init()
 	m_seconds = 0;
 	m_minutes = 0;
 	m_isUpdate = true;
-	//UI
-	UIManager::GetInstance().CreateTimerUI(shared_from_this());
 }
 
 void Timer::Update()

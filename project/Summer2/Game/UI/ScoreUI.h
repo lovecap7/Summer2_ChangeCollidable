@@ -19,7 +19,7 @@ public:
     ~ScoreUI();
     void Update()override;
     void Draw() const override;
-private:
+protected:
     int m_viewScore;	//現在表示しているスコア
     int m_viewMaxScore;	//現在の最大スコア
     std::weak_ptr<Score> m_score;
@@ -30,5 +30,10 @@ private:
     int m_digits[kDigitNum];
     //ハンドル
     int m_handle;
+
+    //描画スコアの更新
+    void UpdateViewScore();
+    //スコアが更新されたら跳ねる
+    void BounceScore(int jumpPower,int groundY);
 };
 

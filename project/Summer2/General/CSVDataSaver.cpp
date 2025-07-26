@@ -22,10 +22,19 @@ void CSVDataSaver::SaveDataToCSV(std::shared_ptr<Score> score)
     {
         assert("ファイルの読み込みに失敗");
     }
+    
     //ヘッダーを書き込む
-    file << "HighScore\n";
-    //データ書き込み
-    file << score->GetHighScore() << std::endl;
+    file << "1位,2位,3位,Stage\n";
+    //各ステージのランキングを記録
+    for (int i = static_cast<int>(Stage::StageIndex::Stage1);i < static_cast<int>(Stage::StageIndex::StageNum);++i)
+    {
+        auto highScore = score->GetHighScore(static_cast<Stage::StageIndex>(i));
+        //データ書き込み
+        file << highScore[0] << ","
+             << highScore[1] << ","
+             << highScore[2] << ","
+             << "Stage" << i << std::endl;
+    }
     //閉じる
     file.close();
 }

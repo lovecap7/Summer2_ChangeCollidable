@@ -115,6 +115,7 @@
     <ClCompile Include="Game\UI\PlayerUI\PlayerHPUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUIBase.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUltGageUI.cpp" />
+    <ClCompile Include="Game\UI\ResultScoreUI.cpp" />
     <ClCompile Include="Game\UI\ScoreUI.cpp" />
     <ClCompile Include="Game\UI\TimerUI.cpp" />
     <ClCompile Include="Game\UI\Title\TitleUI.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="Game\UI\PlayerUI\PlayerHPUI.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUIBase.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUltGageUI.h" />
+    <ClInclude Include="Game\UI\ResultScoreUI.h" />
     <ClInclude Include="Game\UI\ScoreUI.h" />
     <ClInclude Include="Game\UI\TimerUI.h" />
     <ClInclude Include="Game\UI\Title\TitleUI.h" />

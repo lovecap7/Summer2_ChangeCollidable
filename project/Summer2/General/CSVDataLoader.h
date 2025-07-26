@@ -73,7 +73,7 @@ public:
     /// </summary>
     /// <param name="fileName"></param>
     /// <returns></returns>
-    std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> LoadHighScoreDataCSV();
+    std::array<std::array<int,3>, static_cast<int>(Stage::StageIndex::StageNum)> LoadHighScoreDataCSV();
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
 };

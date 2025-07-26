@@ -84,10 +84,10 @@ void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_
 	//ボスを死亡させる
 	if (Input::GetInstance().IsTrigger("BossDead"))
 	{
-		m_isDelete = true;
+		m_hitPoints->SetIsNoDamege(false);
+		m_hitPoints->Damage(999999);
 	}
 #endif
-
 	//ボス部屋に入った時行動開始
 	m_isActive = actorManager.lock()->GetBossArea().lock()->IsEntryBossArea();
 	//アクティブ状態じゃないなら

@@ -1,9 +1,6 @@
-#include "ScoreUI.h"
-#include "../../General/game.h"
-#include "../Actors/ActorManager.h"
+#include "ResultScoreUI.h"
 #include "../GameRule/Score.h"
-#include "../UI/UIManager.h"
-#include <DxLib.h>
+#include "../../General/game.h"
 
 namespace
 {
@@ -19,7 +16,7 @@ namespace
 	constexpr int kImageWidth = 256;
 	constexpr int kImageHeight = 256;
 	//スコアのX座標
-	constexpr int kTitlePosX = (Game::kScreenWidth/2 - 200);
+	constexpr int kTitlePosX = (Game::kScreenWidth / 2 - 200);
 	//スコアのY座標
 	constexpr int kTitlePosY = 30;
 	//スコアの1桁の幅
@@ -30,59 +27,23 @@ namespace
 	constexpr float kJumpPower = 2.0f;
 }
 
-ScoreUI::ScoreUI(const std::weak_ptr<Score> score) :
-	UIBase(),
-	m_viewScore(0),
-	m_viewMaxScore(0),
-	m_score(score),
-	m_digits{},
-	m_viewVecs{},
-	m_handle(UIManager::GetInstance().GetImageHandle("Score"))
-{
-	for (auto& pos : m_viewPoses)
-	{
-		pos = { kTitlePosX ,kTitlePosY };
-	}
-}
-
-ScoreUI::~ScoreUI()
+ResultScoreUI::ResultScoreUI(const std::weak_ptr<Score> score):
+	ScoreUI(score)
 {
 }
 
-void ScoreUI::Update()
+ResultScoreUI::~ResultScoreUI()
 {
-	//スコアが削除されたらこのUIも削除
+}
+
+void ResultScoreUI::Update()
+{//スコアが削除されたらこのUIも削除
 	if (m_score.expired())
 	{
 		m_isDelete = true;
 		return;
 	}
 	//スコア更新
-	UpdateViewScore();
-	//跳ねる
-	BounceScore(kJumpPower,kTitlePosY);
-}
-
-void ScoreUI::Draw() const
-{
-	for (int i = 0;i < kDigitNum;++i)
-	{
-		//切り取りを計算する
-		int sizeX, sizeY;
-		GetGraphSize(m_handle, &sizeX, &sizeY);//画像サイズ
-		int cutX = m_digits[i] % (sizeX / kImageWidth);//横
-		int cutY = m_digits[i] / (sizeX / kImageWidth);//縦
-		//描画
-		DrawRectRotaGraphFast(m_viewPoses[i].x - i * kDigitMargin, m_viewPoses[i].y,
-			kImageWidth * cutX,
-			kImageHeight * cutY,
-			kImageWidth, kImageHeight,
-			kScale, 0.0f, m_handle, true, false);
-	}
-}
-
-void ScoreUI::UpdateViewScore()
-{
 	auto score = m_score.lock();
 	m_viewMaxScore = score->GetItemScore() + score->GetKillScore();
 	//現在のスコアと目標スコアの差
@@ -109,10 +70,7 @@ void ScoreUI::UpdateViewScore()
 			m_viewScore += speed;
 		}
 	}
-}
 
-void ScoreUI::BounceScore(int jumpPower, int groundY)
-{
 	//取り出す値
 	int scoreValue = m_viewScore;
 	for (int i = 0;i < kDigitNum;++i)
@@ -127,13 +85,17 @@ void ScoreUI::BounceScore(int jumpPower, int groundY)
 		if (digit != m_digits[i])
 		{
 			//少しはねる
-			m_viewVecs[i].y -= jumpPower;
+			m_viewVecs[i].y -= kJumpPower;
 		}
 		//これ以上Y座標が下がらないように補正
 		m_viewVecs[i].y += kGravity;
-		if (m_viewPoses[i].y > groundY)
+		if (m_viewPoses[i].y > kTitlePosY)
 		{
-			m_viewPoses[i].y = groundY;
+			m_viewPoses[i].y = kTitlePosY;
 		}
 	}
+}
+
+void ResultScoreUI::Draw() const
+{
 }

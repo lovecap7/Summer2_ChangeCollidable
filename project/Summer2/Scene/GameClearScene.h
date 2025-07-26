@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneBase.h"
+#include "../General/StageIndex.h"
 #include <memory>
 class SceneController;
 class Score;
@@ -7,7 +8,7 @@ class GameClearScene :
     public SceneBase
 {
 public:
-    GameClearScene(SceneController& controller,std::shared_ptr<Score> score);
+    GameClearScene(SceneController& controller,std::shared_ptr<Score> score, Stage::StageIndex index);
     ~GameClearScene();
     //派生クラスで実装を実装
     virtual void Init()override;
@@ -32,5 +33,8 @@ private:
 private:
     int m_countFrame;
     std::shared_ptr<Score> m_score;
+    //ステージの番号
+    Stage::StageIndex m_stageIndex;
+  
 };
 

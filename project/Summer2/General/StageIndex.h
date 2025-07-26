@@ -3,8 +3,9 @@ namespace Stage
 {
     enum class StageIndex : int
     {
-        Stage1 = 1,
-        Stage2 = 2,
-        Stage3 = 3,
+        Stage1 = 0,
+        Stage2 = 1,
+        Stage3 = 2,
+        StageNum = 3
     };
 }

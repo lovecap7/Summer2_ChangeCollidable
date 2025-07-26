@@ -14,21 +14,26 @@ public:
 	~Score();
 	//初期化
 	void Init();
+	//更新
+	void UpdateScore(Stage::StageIndex index);
 	//スコア
-	int GetScore();
-	int GetTimeScore()	{ return m_timeScore; };
-	int GetKillScore()	{ return m_killScore; };
-	int GetItemScore()	{ return m_itemScore; };
-	int GetHPScore()	{ return m_hpScore; };
-	int GetHighScore(Stage::StageIndex index);
-	//ハイスコアを更新したか
-	bool IsUpdateHighScore()	{ return m_isUpdateHighScore; };
+	int GetScore()const;
+	int GetTimeScore()const	{ return m_timeScore; };
+	int GetKillScore()const	{ return m_killScore; };
+	int GetItemScore()const { return m_itemScore; };
+	int GetHPScore()const { return m_hpScore; };
+	std::array<int, 3> GetHighScore(Stage::StageIndex index)const;
 	//スコア加算
 	void AddTimeScore(int time);
 	void AddKillOrItemScore(std::string dataName);
 	void AddHPScore(std::weak_ptr<HitPoints> hp);
 	//スコアを保存
 	void SaveHighScore();
+private:
+	//ランキングの並びが正しいかチェック
+	void CheckRankingIntegrity();
+	//ランキングの更新
+	void UpdateRanking(Stage::StageIndex index, int newScore);
 private:
 	//現在のスコア
 	int m_nowScore;	
@@ -41,9 +46,7 @@ private:
 	//体力スコア
 	int m_hpScore;
 	//ハイスコア
-	std::array<int, static_cast<int>(Stage::StageIndex::Stage3)> m_highScore;
-	//ハイスコアを更新したなら
-	bool m_isUpdateHighScore;
+	std::array<std::array<int, 3>, static_cast<int>(Stage::StageIndex::StageNum)> m_highScore;
 	//スコアデータ
 	std::vector<ScoreData> m_acotrScoreData;
 	//体力スコアデータ

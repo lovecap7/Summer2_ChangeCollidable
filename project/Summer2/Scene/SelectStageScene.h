@@ -39,6 +39,6 @@ private:
     //ステージのインデックス
     int m_stageIndex;
     //ステージのフィギュア
-	std::array<std::shared_ptr<StageFigure>,static_cast<int>(Stage::StageIndex::Stage3)> m_stageFigures;
+	std::array<std::shared_ptr<StageFigure>,static_cast<int>(Stage::StageIndex::StageNum)> m_stageFigures;
 };
 

@@ -2,7 +2,6 @@
 #include "../../General/Math/MathSub.h"
 #include "../../General/HitPoints.h"
 #include "../../General/CSVDataSaver.h"
-#include "../UI/UIManager.h"
 
 Score::Score()
 {
@@ -11,7 +10,8 @@ Score::Score()
 	m_acotrScoreData = m_csvLoader->LoadActorScoreDataCSV();
 	//ハイスコア
 	m_highScore = m_csvLoader->LoadHighScoreDataCSV();
-	auto ss = m_highScore[0];
+	//ランキングの並びチェック
+	CheckRankingIntegrity();
 }
 
 Score::~Score()
@@ -28,7 +28,6 @@ void Score::Init()
 	m_hpScoreData = 0;
 	m_timeScoreData = 0;
 	m_decTimeScoreData = 0;
-	m_isUpdateHighScore = false;
 	//データに一致するものを探す
 	for (auto data : m_acotrScoreData)
 	{
@@ -45,27 +44,24 @@ void Score::Init()
 			m_decTimeScoreData = data.score;
 		}
 	}
-
-	//UI作成
-	UIManager::GetInstance().CreateScoreUI(shared_from_this());
 }
 
-int Score::GetScore()
+void Score::UpdateScore(Stage::StageIndex index)
 {
+	//スコア更新
 	m_nowScore = m_timeScore + m_killScore + m_itemScore + m_hpScore;
+	//ハイスコアを更新
+	UpdateRanking(index, GetScore());
+}
+
+int Score::GetScore()const
+{
 	return m_nowScore;
 }
 
-int Score::GetHighScore(Stage::StageIndex index)
+std::array<int, 3> Score::GetHighScore(Stage::StageIndex index)const
 {
-	//ハイスコアを更新したなら
-	if (m_nowScore > m_highScore[static_cast<int>(index)])
-	{
-		m_highScore[static_cast<int>(index)] = m_nowScore;
-		//更新したので
-		m_isUpdateHighScore = true;
-	}
-	return  m_highScore[static_cast<int>(index)];
+	return m_highScore[static_cast<int>(index)];
 }
 
 void Score::AddTimeScore(int time)
@@ -114,11 +110,74 @@ void Score::AddHPScore(std::weak_ptr<HitPoints> hp)
 
 void Score::SaveHighScore()
 {
-	//ハイスコアを更新したなら
-	if (m_isUpdateHighScore)
+	//保存する
+	auto saver = std::make_shared<CSVDataSaver>();
+	saver->SaveDataToCSV(shared_from_this());
+}
+
+void Score::CheckRankingIntegrity()
+{
+	for (int i = 0;i < m_highScore.size(); ++i)
 	{
-		//保存する
-		auto saver = std::make_shared<CSVDataSaver>();
-		saver->SaveDataToCSV(shared_from_this());
+		//ランキングの順位通りの並びかチェック
+		auto num1 = m_highScore[i][0];
+		auto num2 = m_highScore[i][1];
+		auto num3 = m_highScore[i][2];
+		//1位よりも2位のほうが大きいなら
+		if (num1 < num2)
+		{
+			auto temp = num1;
+			num1 = num2;
+			num2 = temp;
+		}
+		//1位よりも3位のほうが大きいなら
+		if (num1 < num3)
+		{
+			auto temp = num1;
+			num1 = num3;
+			num3 = temp;
+		}
+		//2位よりも3位のほうが大きいなら
+		if (num2 < num3)
+		{
+			auto temp = num2;
+			num2 = num3;
+			num3 = temp;
+		}
+		m_highScore[i][0] = num1;
+		m_highScore[i][1] = num2;
+		m_highScore[i][2] = num3;
 	}
+}
+
+void Score::UpdateRanking(Stage::StageIndex index, int newScore)
+{
+	//ステージ
+	auto stageIndex = static_cast<int>(index);
+	for (int i = 2;i >= 0;--i)
+	{
+		//3位との比較でランキングが更新されなかったら終了
+		if (i >= 2)
+		{
+			//3位との比較
+			if (newScore > m_highScore[stageIndex][i])
+			{
+				//3位を更新
+				m_highScore[stageIndex][i] = newScore;
+				continue;
+			}
+			break;
+		}
+		//i位との比較
+		if (newScore > m_highScore[stageIndex][i])
+		{
+			//i位を更新
+			auto temp = m_highScore[stageIndex][i];
+			m_highScore[stageIndex][i] = newScore;
+			//i + 1位の値がi位に
+			m_highScore[stageIndex][i + 1] = temp;
+		}
+	}
+	//ランキングが正常か
+	CheckRankingIntegrity();
 }

@@ -64,6 +64,9 @@ void GameManager::Init(Stage::StageIndex index)
 	m_actorManager->Init(index);
 	//カメラの初期化
 	m_camera->Init();
+	//UI作成
+	UIManager::GetInstance().CreateScoreUI(m_score);
+	UIManager::GetInstance().CreateTimerUI(m_timer);
 
 	//ステージ1ならチュートリアル
 	if (index == Stage::StageIndex::Stage1)
