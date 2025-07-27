@@ -19,47 +19,29 @@ namespace
 	constexpr int kShutFrame = kBlinkingFrame / 2;
 	//ディゾルブの速度
 	constexpr float kDissolveSpeed = 0.01f;
-	//ディゾルブの最大値
-	constexpr float kMaxDissolveRate = 1.5f;  //完全に消える状態
-	//ディゾルブの最小値
-	constexpr float kMinDissolveRate = 0.0f; //完全に出現する状態
 }
 
 TitleUI::TitleUI() :
-	UIBase(),
+	DissolveUIBase(LoadGraph(L"Data/UI/Title/Title.png"), LoadPixelShader(L"Shader/DissolvePS.pso"),LoadGraph(L"Data/ShaderSample/pattern6.png"),false),
 	m_countFrame(0),
-	m_titleHandle(LoadGraph(L"Data/UI/Title/Title.png")),
 	m_titleBackHandle(LoadGraph(L"Data/UI/Title/TitleBack.png")),
 	m_pressAnyBottunHandle(LoadGraph(L"Data/UI/Title/PressAnyBottun.png")),
 	m_pressAnyBottunBackHandle(LoadGraph(L"Data/UI/Title/PressAnyBottunBack.png")),
 	m_isDecide(false),
-	m_isAppeared(false),
-	m_dissolveRate(kMaxDissolveRate)
+	m_isAppeared(false)
 {
-	m_patternHandle = LoadGraph(L"Data/ShaderSample/pattern6.png");
-	m_pixelShaderHandle = LoadPixelShader(L"Shader/DissolvePS.pso");
-	assert(m_titleHandle != -1);
 	assert(m_titleBackHandle != -1);
 	assert(m_pressAnyBottunHandle != -1);
 	assert(m_pressAnyBottunBackHandle != -1);
 	assert(m_patternHandle != -1);
-	assert(m_pixelShaderHandle != -1);
-
-	//定数バッファの確保
-	m_constantBufferHandle = DxLib::CreateShaderConstantBuffer(sizeof(float) * 4);//16アライメント
-	//グラボのメモリは実は直接いじれない。
-	//RAM上のメモリでシミュレートしてる
-	m_threshold = static_cast<float*>(DxLib::GetBufferShaderConstantBuffer(m_constantBufferHandle));
 }
 
 TitleUI::~TitleUI()
 {
-	DeleteGraph(m_titleHandle);
 	DeleteGraph(m_titleBackHandle);
 	DeleteGraph(m_pressAnyBottunHandle);
 	DeleteGraph(m_pressAnyBottunBackHandle);
 	DeleteGraph(m_patternHandle);
-	DeleteShader(m_pixelShaderHandle);
 }
 
 void TitleUI::Update()
@@ -73,14 +55,15 @@ void TitleUI::Update()
 		}
 		else
 		{
-			m_dissolveRate = kMinDissolveRate; // すぐに表示されるようにする
+			//完全に出現させる
+			DissolveUIBase::DissolveRateMin();
 			m_isAppeared = true;
 		}
 	}
 	//だんだんタイトルが出現する
-	m_dissolveRate -= kDissolveSpeed;
-	m_dissolveRate = MathSub::ClampFloat(m_dissolveRate, kMinDissolveRate, kMaxDissolveRate);
-	if (m_dissolveRate <= kMinDissolveRate)
+	DissolveUIBase::Update(kDissolveSpeed, true);
+	//完全に出現したら
+	if (DissolveUIBase::IsAppered())
 	{
 		m_isAppeared = true;
 		++m_countFrame;
@@ -89,11 +72,6 @@ void TitleUI::Update()
 			m_countFrame = 0;
 		}
 	}
-	m_threshold[0] = m_dissolveRate;
-	UpdateShaderConstantBuffer(m_constantBufferHandle);
-	//最後の番号のレジスタに送られる
-	SetShaderConstantBuffer(m_constantBufferHandle, DX_SHADERTYPE_PIXEL, 4);
-
 }
 
 void TitleUI::Draw() const
@@ -104,14 +82,7 @@ void TitleUI::Draw() const
 		DrawRotaGraph(kTitlePosX, kTitlePosY, 1.0, 0.0, m_titleBackHandle, true);
 	}
 	//シェーダで描画
-	MyDrawUtils::DrawRotaGraph(
-		Vector2(kTitlePosX, kTitlePosY),
-		1.0f,
-		m_dissolveRate,
-		m_titleHandle,
-		m_pixelShaderHandle,
-		{ m_patternHandle }
-	);
+	DissolveUIBase::Draw(Vector2{ kTitlePosX ,kTitlePosY });
 
 	if (m_isDecide)return;
 	//点滅

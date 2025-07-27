@@ -2,6 +2,8 @@
 #include "SceneBase.h"
 #include "../General/StageIndex.h"
 #include <memory>
+#include <vector>
+#include "../General/CSVDataLoader.h"
 class SceneController;
 class Score;
 class GameClearScene :
@@ -24,19 +26,23 @@ private:
     DrawFunc_t m_draw;
     //出現中状態
     void AppearUpdate();
-    //ノーマル状態
-    void NormalUpdate();
+    //リザルト１状態
+    void Result1Update();
+    //リザルト2状態
+    void Result2Update();
     //消滅中状態
     void DisappearUpdate();
     //通常描画
     void NormalDraw();
     //UIの準備
-    void InitResultUI();
+    void InitResult1UI();
+    void InitResult2UI();
 private:
     int m_countFrame;
     std::shared_ptr<Score> m_score;
     //ステージの番号
     Stage::StageIndex m_stageIndex;
-    
+    //スコアUIのデータ
+    std::vector<ResultScoreUIData> m_scoreUiData;
 };
 

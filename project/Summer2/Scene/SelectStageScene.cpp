@@ -6,6 +6,7 @@
 #include "../General/StageFigure.h"
 #include "../Game/Actors/Character/Player/SelectStagePlayer.h"
 #include "../Game/Camera/SelectStageCamera/SelectStageCamera.h"
+#include "../Game/UI/Select/SelectStageBackUI.h"
 #include "StageScene.h"
 #include <memory>
 #include <DxLib.h>
@@ -72,6 +73,16 @@ void SelectStageScene::Init()
 	m_stageFigures[0]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage1Model.mv1"),m_stagePos[Stage::StageIndex::Stage1]);
 	m_stageFigures[1]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage1Model.mv1"),m_stagePos[Stage::StageIndex::Stage2]);
 	m_stageFigures[2]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage1Model.mv1"),m_stagePos[Stage::StageIndex::Stage3]);
+
+	//背景(生成する順番は描画下から)
+	auto back1 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/TestImage1.png"));
+	auto back2 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/TestImage2.png"));
+	auto back3 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/TestImage3.png"));
+	back3->Init();
+	back2->Init();
+	back1->Init();
+	m_stage1Back = back1;
+	m_stage2Back = back2;
 }
 
 void SelectStageScene::Update()
@@ -102,6 +113,8 @@ void SelectStageScene::Update()
 	}
 	//ステージを選ぶ
 	SelectStageIndex(input);
+	//ステージに合わせて背景を動かす
+	ChangeBack();
 	//カメラの更新
 	m_camera->Update(m_stagePos[static_cast<Stage::StageIndex>(m_stageIndex)]);
 	//プレイヤーの更新
@@ -153,4 +166,23 @@ void SelectStageScene::SelectStageIndex(Input& input)
 	if (input.IsTrigger("Left"))--m_stageIndex;
 	if (input.IsTrigger("Right"))++m_stageIndex;
 	m_stageIndex = MathSub::ClampInt(m_stageIndex, static_cast<int>(Stage::StageIndex::Stage1), static_cast<int>(Stage::StageIndex::Stage3));
+}
+
+void SelectStageScene::ChangeBack()
+{
+	if (m_stageIndex == static_cast<int>(Stage::StageIndex::Stage1))
+	{
+		m_stage1Back.lock()->SetAppear(true);
+		m_stage2Back.lock()->SetAppear(true);
+	}
+	else if (m_stageIndex == static_cast<int>(Stage::StageIndex::Stage2))
+	{
+		m_stage1Back.lock()->SetAppear(false);
+		m_stage2Back.lock()->SetAppear(true);
+	}
+	else
+	{
+		m_stage1Back.lock()->SetAppear(false);
+		m_stage2Back.lock()->SetAppear(false);
+	}
 }

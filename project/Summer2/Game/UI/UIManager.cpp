@@ -57,12 +57,26 @@ void UIManager::Update()
 	}
 }
 
-void UIManager::Draw() const
+void UIManager::BackDraw() const
 {
 	//•`‰æ‚ð‚·‚é‚©
 	if (!m_isDraw)return;
 	for (auto& ui : m_uis)
 	{
+		//Œã‚ë•`‰æ‚¶‚á‚È‚¢‚È‚ç
+		if (ui->IsFront())continue;
+		ui->Draw();
+	}
+}
+
+void UIManager::FrontDraw() const
+{
+	//•`‰æ‚ð‚·‚é‚©
+	if (!m_isDraw)return;
+	for (auto& ui : m_uis)
+	{
+		//‘O•`‰æ‚¶‚á‚È‚¢‚È‚ç
+		if (!ui->IsFront())continue;
 		ui->Draw();
 	}
 }

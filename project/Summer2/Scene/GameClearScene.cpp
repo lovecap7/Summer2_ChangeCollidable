@@ -8,7 +8,6 @@
 #include "../Game/GameRule/Score.h"
 #include "../General/Fader.h"
 #include "../Game/UI/UIManager.h"
-#include "../General/CSVDataLoader.h"
 #include "../Game/UI/Result/ResultScoreUI.h"
 
 namespace {
@@ -45,7 +44,7 @@ void GameClearScene::Init()
 	//ハイスコアを保存
 	m_score->SaveHighScore();
 	//リザルトUI
-	InitResultUI();
+	InitResult1UI();
 }
 
 void GameClearScene::Update()
@@ -61,8 +60,6 @@ void GameClearScene::End()
 {
 	//Physicsを開始
 	Physics::GetInstance().StartUpdate();
-	//UIをリセット
-	UIManager::GetInstance().Reset();
 }
 
 void GameClearScene::Restart()
@@ -75,12 +72,26 @@ void GameClearScene::AppearUpdate()
 	if (m_countFrame > kAppearInterval)
 	{
 		m_countFrame = kAppearInterval;
-		m_update = &GameClearScene::NormalUpdate;
+		m_update = &GameClearScene::Result1Update;
 		return;
 	}
 }
 
-void GameClearScene::NormalUpdate()
+void GameClearScene::Result1Update()
+{
+	auto& input = Input::GetInstance();
+	//Aボタンで次へ
+	if (input.IsTrigger("A"))
+	{
+		//ランキングUI
+		InitResult2UI();
+		//次の状態
+		m_update = &GameClearScene::Result2Update;
+		return;
+	}
+}
+
+void GameClearScene::Result2Update()
 {
 	auto& input = Input::GetInstance();
 	//Aボタンで次へ
@@ -143,13 +154,13 @@ void GameClearScene::NormalDraw()
 	
 }
 
-void GameClearScene::InitResultUI()
+void GameClearScene::InitResult1UI()
 {
 	//ローダー
 	auto loader = std::make_shared<CSVDataLoader>();
-	auto uiData = loader->LoadResultScoreUIDataCSV();
+	m_scoreUiData = loader->LoadResultScoreUIDataCSV();
 	//データの数だけUIを用意
-	for (auto& data : uiData)
+	for (auto& data : m_scoreUiData)
 	{
 		std::shared_ptr<ResultScoreUI> scoreUI;
 		float score = 0.0f;
@@ -173,7 +184,24 @@ void GameClearScene::InitResultUI()
 		{
 			score = m_score->GetHPScore();
 		}
-		else if (data.name == "HighScore1")
+		//データにないものは飛ばす
+		else
+		{
+			continue;
+		}
+		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.scale, data.margin);
+		scoreUI->Init();
+	}
+}
+
+void GameClearScene::InitResult2UI()
+{
+	//データの数だけUIを用意
+	for (auto& data : m_scoreUiData)
+	{
+		std::shared_ptr<ResultScoreUI> scoreUI;
+		float score = 0.0f;
+		if (data.name == "HighScore1")
 		{
 			score = m_score->GetHighScore(m_stageIndex)[0];
 		}
@@ -185,7 +213,11 @@ void GameClearScene::InitResultUI()
 		{
 			score = m_score->GetHighScore(m_stageIndex)[2];
 		}
-
+		//データにないものは飛ばす
+		else
+		{
+			continue;
+		}
 		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.scale, data.margin);
 		scoreUI->Init();
 	}

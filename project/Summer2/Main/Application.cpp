@@ -93,9 +93,10 @@ void Application::Run()
 		uiManager.Update();
 		fader.Update();
 		//•`‰æ
+		uiManager.BackDraw();
 		sceneController->Draw();
 		effect.Draw();
-		uiManager.Draw();
+		uiManager.FrontDraw();
 		fader.Draw();
 #if _DEBUG
 		DrawFormatString(0, 500, 0xff0000, L"FPS : %.2f", GetFPS());

@@ -1,9 +1,9 @@
 #pragma once
-#include "../UIBase.h"
+#include "../DissolveUIBase.h"
 #include <memory>
 
 class TitleUI :
-    public UIBase
+    public DissolveUIBase
 {
 public:
     TitleUI();
@@ -18,19 +18,8 @@ private:
 	//出現処理が終わったかどうか
     bool m_isAppeared;
     //ハンドル
-    int m_titleHandle;
     int m_titleBackHandle;
     int m_pressAnyBottunHandle;
     int m_pressAnyBottunBackHandle;
-    //ディゾルブに使う変数
-    //パターン
-	int m_patternHandle;
-    //シェーダ
-	int m_pixelShaderHandle;
-	//シェーダの定数バッファ
-	int m_constantBufferHandle = -1;
-	//シェーダのパラメータ
-	float* m_threshold; 
-    float m_dissolveRate;
 };
 

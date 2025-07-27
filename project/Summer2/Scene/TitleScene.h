@@ -8,6 +8,7 @@ class Input;
 class TitleCamera;
 class SceneController;
 class Model;
+class TitleUI;
 class TitlePlayer;
 class Actor;
 class TitleScene :
@@ -47,6 +48,8 @@ private:
     int m_shadowMapHandle;
     //ライトハンドル
     int m_lightHandle;
+    //タイトルUI
+    std::weak_ptr<TitleUI> m_titleUI;
 private:
     //ライトの初期化
     void InitLight();

@@ -30,10 +30,9 @@ void TitlePlayer::Init()
 	m_model->SetAnim(kIdleAnim, true);
 }
 
-void TitlePlayer::Update()
+void TitlePlayer::Update(bool isDecide)
 {
-	auto& Input = Input::GetInstance().GetInstance();
-	if (Input.IsTriggerAny())
+	if (isDecide)
 	{
 		//アニメーションを歩くに変更
 		m_model->SetAnim(kWalkAnim, false, kWalkAnimSpeed);

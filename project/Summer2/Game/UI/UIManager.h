@@ -34,7 +34,10 @@ public:
 	void Exit(std::shared_ptr<UIBase> ui);
 	void Init();
 	void Update();
-	void Draw()const;
+	//Œã‚ë•`‰æ
+	void BackDraw()const;
+	//‘O•`‰æ
+	void FrontDraw()const;
 	void End();
 	void Reset();
 

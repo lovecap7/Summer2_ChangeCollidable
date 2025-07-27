@@ -11,6 +11,7 @@ class SelectStagePlayer;
 class SelectStageCamera;
 class SceneController;
 class StageFigure;
+class SelectStageBackUI;
 class SelectStageScene :
     public SceneBase
 {
@@ -40,5 +41,11 @@ private:
     int m_stageIndex;
     //ƒXƒe[ƒW‚ÌƒtƒBƒMƒ…ƒA
 	std::array<std::shared_ptr<StageFigure>,static_cast<int>(Stage::StageIndex::StageNum)> m_stageFigures;
+
+    //”wŒiUI
+    std::weak_ptr<SelectStageBackUI> m_stage1Back;
+    std::weak_ptr<SelectStageBackUI> m_stage2Back;
+    //”wŒi‚ğ•Ï‚¦‚é
+    void ChangeBack();
 };
 

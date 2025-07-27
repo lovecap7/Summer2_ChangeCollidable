@@ -47,6 +47,8 @@ TitleScene::~TitleScene()
 
 void TitleScene::Init()
 {
+	//UIをリセット
+	UIManager::GetInstance().Reset();
 	//カメラ
 	m_camera = std::make_unique<TitleCamera>();
 	//プレイヤー
@@ -56,7 +58,9 @@ void TitleScene::Init()
 	//配置データ
 	LoadStage();
 	//UI
-	UIManager::GetInstance().Entry(std::make_unique<TitleUI>());
+	auto titleUI = std::make_shared<TitleUI>();
+	titleUI->Init();
+	m_titleUI = titleUI;
 	//エフェクト
 	EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
 	//カメラの初期化
@@ -86,7 +90,7 @@ void TitleScene::Update()
 #endif
 	auto& fader = Fader::GetInstance();
 	//何かボタンをおしたら
-	if (input.IsTriggerAny())
+	if (input.IsTriggerAny() && m_titleUI.lock()->IsAppered())
 	{
 		//だんだん暗く
 		fader.FadeOut(kFadeOutSpeed);
@@ -102,7 +106,7 @@ void TitleScene::Update()
 	//カメラ更新
 	m_camera->Update();
 	//プレイヤー更新
-	m_player->Update();
+	m_player->Update(input.IsTriggerAny() && m_titleUI.lock()->IsAppered());
 	//ステージ更新
 	for (auto& obj : m_stageObjects)
 	{
