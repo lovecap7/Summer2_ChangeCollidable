@@ -45,50 +45,7 @@ void GameClearScene::Init()
 	//ハイスコアを保存
 	m_score->SaveHighScore();
 	//リザルトUI
-	//ローダー
-	auto loader = std::make_shared<CSVDataLoader>();
-	auto uiData = loader->LoadResultScoreUIDataCSV();
-	//データの数だけUIを用意
-	for (auto& data : uiData)
-	{
-		std::shared_ptr<ResultScoreUI> scoreUI;
-		float score = 0.0f;
-		if (data.name == "TotalScore")
-		{
-			score = m_score->GetScore();
-		}
-		else if (data.name == "KillScore")
-		{
-			score = m_score->GetKillScore();
-		}
-		else if (data.name == "ItemScore")
-		{
-			score = m_score->GetItemScore();
-		}
-		else if (data.name == "TimeScore")
-		{
-			score = m_score->GetTimeScore();
-		}
-		else if (data.name == "HPScore")
-		{
-			score = m_score->GetHPScore();
-		}
-		else if (data.name == "HighScore1")
-		{
-			score = m_score->GetHighScore(m_stageIndex)[0];
-		}
-		else if (data.name == "HighScore2")
-		{
-			score = m_score->GetHighScore(m_stageIndex)[1];
-		}
-		else if (data.name == "HighScore3")
-		{
-			score = m_score->GetHighScore(m_stageIndex)[2];
-		}
-
-		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.scale, data.margin);
-		scoreUI->Init();
-	}
+	InitResultUI();
 }
 
 void GameClearScene::Update()
@@ -184,4 +141,52 @@ void GameClearScene::NormalDraw()
 		}
 	}
 	
+}
+
+void GameClearScene::InitResultUI()
+{
+	//ローダー
+	auto loader = std::make_shared<CSVDataLoader>();
+	auto uiData = loader->LoadResultScoreUIDataCSV();
+	//データの数だけUIを用意
+	for (auto& data : uiData)
+	{
+		std::shared_ptr<ResultScoreUI> scoreUI;
+		float score = 0.0f;
+		if (data.name == "TotalScore")
+		{
+			score = m_score->GetScore();
+		}
+		else if (data.name == "KillScore")
+		{
+			score = m_score->GetKillScore();
+		}
+		else if (data.name == "ItemScore")
+		{
+			score = m_score->GetItemScore();
+		}
+		else if (data.name == "TimeScore")
+		{
+			score = m_score->GetTimeScore();
+		}
+		else if (data.name == "HPScore")
+		{
+			score = m_score->GetHPScore();
+		}
+		else if (data.name == "HighScore1")
+		{
+			score = m_score->GetHighScore(m_stageIndex)[0];
+		}
+		else if (data.name == "HighScore2")
+		{
+			score = m_score->GetHighScore(m_stageIndex)[1];
+		}
+		else if (data.name == "HighScore3")
+		{
+			score = m_score->GetHighScore(m_stageIndex)[2];
+		}
+
+		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.scale, data.margin);
+		scoreUI->Init();
+	}
 }

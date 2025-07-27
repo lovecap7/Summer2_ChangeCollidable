@@ -30,11 +30,13 @@ private:
     void DisappearUpdate();
     //通常描画
     void NormalDraw();
+    //UIの準備
+    void InitResultUI();
 private:
     int m_countFrame;
     std::shared_ptr<Score> m_score;
     //ステージの番号
     Stage::StageIndex m_stageIndex;
-  
+    
 };
 
