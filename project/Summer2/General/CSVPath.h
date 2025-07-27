@@ -9,4 +9,6 @@ namespace
     const std::string kHighScoreDataPath = "Data/CSV/HighScoreData.csv";
     //攻撃データ
     const std::string kCharacterAttackDataPath = "Data/CSV/CharacterAttackData.csv";
+    //リザルトスコアUI
+    const std::string kResutlScoreDataPath = "Data/CSV/ResutlScoreData.csv";
 }

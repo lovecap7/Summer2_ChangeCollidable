@@ -47,6 +47,7 @@ void Input::Init()
 	m_inputActionMap["Max"] = { {InputType::kKeyboard,KEY_INPUT_M} ,{InputType::kPad,PAD_INPUT_5} };
 	m_inputActionMap["BossArea"] = { {InputType::kKeyboard,KEY_INPUT_B}};
 	m_inputActionMap["BossDead"] = { {InputType::kKeyboard,KEY_INPUT_N}};
+	m_inputActionMap["Clear"] = { {InputType::kKeyboard,KEY_INPUT_C}};
 
 	//çXêVÇÇ∑ÇÈ
 	m_isUpdate = true;

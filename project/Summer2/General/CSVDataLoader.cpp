@@ -10,6 +10,8 @@ namespace
 	constexpr int kAttackDataElementNum = 16;
 	//スコアデータの数
 	constexpr int kScoreDataElementNum = 2;
+	//スコアデータの数
+	constexpr int kResultScoreUIDataElementNum = 5;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
 	constexpr float kUnityToDXPosition = 100.0f;
 }
@@ -148,6 +150,31 @@ std::array<std::array<int, 3>, static_cast<int>(Stage::StageIndex::StageNum)> CS
 		highScoreDatas[i][2] = std::stoi(valuesDatas[i][2]);
 	}
 	return highScoreDatas;
+}
+
+std::vector<ResultScoreUIData> CSVDataLoader::LoadResultScoreUIDataCSV()
+{
+	//データを格納する配列
+	std::vector<ResultScoreUIData> resultScoreUIDatas;
+	//データをすべて読み込む
+	auto valuesDatas = GetStringList(kResutlScoreDataPath.c_str(), kResultScoreUIDataElementNum);
+	for (auto values : valuesDatas)
+	{
+		//構造体にデータを入れていく
+		ResultScoreUIData resultScoreUIData;
+		//名前
+		resultScoreUIData.name = values[0];
+		//座標
+		resultScoreUIData.pos.x = std::stof(values[1]);
+		resultScoreUIData.pos.y = std::stof(values[2]);
+		//大きさ
+		resultScoreUIData.scale = std::stof(values[3]);
+		//幅
+		resultScoreUIData.margin = std::stof(values[4]);
+		//配列に追加
+		resultScoreUIDatas.emplace_back(resultScoreUIData);
+	}
+	return resultScoreUIDatas;
 }
 
 //データをすべて読み込む

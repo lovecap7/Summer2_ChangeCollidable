@@ -10,7 +10,7 @@
 #include "../Game/Camera/GameCamera/GameCamera.h"
 #include "../Game/GameRule/Score.h"
 #include "../Game/GameRule/Timer.h"
-#include "../Game/UI/ScoreUI.h"
+#include "../Game/UI/GameScoreUI.h"
 #include "../Game/UI/TimerUI.h"
 #include "../Game/UI/TutorialUI.h"
 #include "../General/Effect/EffekseerManager.h"
@@ -65,7 +65,7 @@ void GameManager::Init(Stage::StageIndex index)
 	//カメラの初期化
 	m_camera->Init();
 	//UI作成
-	UIManager::GetInstance().CreateScoreUI(m_score);
+	UIManager::GetInstance().CreateGameScoreUI(m_score);
 	UIManager::GetInstance().CreateTimerUI(m_timer);
 
 	//ステージ1ならチュートリアル
@@ -97,8 +97,8 @@ void GameManager::Update()
 		{
 			//タイマーを止める
 			m_timer->StopUpdate();
-			//UIをすべてリセット
-			UIManager::GetInstance().Reset();
+			//UIの描画を止める
+			UIManager::GetInstance().StopDraw();
 			//プレイヤーの勝利アニメーションが終了したら
 			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim() && !m_isGameClear)
 			{

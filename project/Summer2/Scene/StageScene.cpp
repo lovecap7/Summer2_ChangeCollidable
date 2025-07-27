@@ -46,6 +46,12 @@ void StageScene::Update()
 		m_controller.ChangeScene(std::make_shared<DebugScene>(m_controller));
 		return;
 	}
+	//ƒQ[ƒ€ƒNƒŠƒA
+	if (input.IsTrigger("Clear"))
+	{
+		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_gameManager->GetScore(), m_stageIndex));
+		return;
+	}
 #endif
 	if (input.IsTrigger("Pause"))
 	{

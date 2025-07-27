@@ -184,6 +184,12 @@
     <Filter Include="Shander">
       <UniqueIdentifier>{3432fba2-e5a5-4194-a2d3-a6c353abc9ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\UI\ResultUI">
+      <UniqueIdentifier>{272722f3-709a-475b-8762-58d10413da0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Result">
+      <UniqueIdentifier>{e20c485b-8095-4c6a-8e2e-5b1087e577c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -522,9 +528,6 @@
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\ScoreUI.cpp">
-      <Filter>ソース ファイル\Game\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Game\GameRule\Timer.cpp">
       <Filter>ソース ファイル\Game\GameRule</Filter>
     </ClCompile>
@@ -615,8 +618,14 @@
     <ClCompile Include="General\StageFigure.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\ResultScoreUI.cpp">
+    <ClCompile Include="Game\UI\ScoreUIBase.cpp">
       <Filter>ソース ファイル\Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\GameScoreUI.cpp">
+      <Filter>ソース ファイル\Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\Result\ResultScoreUI.cpp">
+      <Filter>ソース ファイル\Game\UI\Result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -965,9 +974,6 @@
     <ClInclude Include="Scene\StageScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\ScoreUI.h">
-      <Filter>ヘッダー ファイル\Game\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Game\GameRule\Timer.h">
       <Filter>ヘッダー ファイル\Game\GameRule</Filter>
     </ClInclude>
@@ -1061,8 +1067,14 @@
     <ClInclude Include="General\StageFigure.h">
       <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\ResultScoreUI.h">
+    <ClInclude Include="Game\UI\ScoreUIBase.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\GameScoreUI.h">
+      <Filter>ヘッダー ファイル\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\Result\ResultScoreUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\ResultUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

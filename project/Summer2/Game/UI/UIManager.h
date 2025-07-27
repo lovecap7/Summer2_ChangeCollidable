@@ -45,7 +45,7 @@ public:
 	//敵UI
 	void CreateEnemyUI(const std::weak_ptr<EnemyBase> enemy);
 	//スコア
-	void CreateScoreUI(const std::weak_ptr<Score> score);
+	void CreateGameScoreUI(const std::weak_ptr<Score> score);
 	//タイマー
 	void CreateTimerUI(const std::weak_ptr<Timer> timer);
 	//画像ハンドル取得

@@ -38,7 +38,13 @@ struct ScoreData {
     std::string dataName;  //データ名
     int         score;     //スコア
 };
-
+//リザルトスコアUI情報を格納する構造体
+struct ResultScoreUIData {
+    std::string name;      //スコア名
+    Vector2      pos;      //位置
+    float        scale;    //大きさ
+    float        margin;   //幅
+};
 
 class CSVDataLoader
 {
@@ -74,6 +80,12 @@ public:
     /// <param name="fileName"></param>
     /// <returns></returns>
     std::array<std::array<int,3>, static_cast<int>(Stage::StageIndex::StageNum)> LoadHighScoreDataCSV();
+
+    /// <summary>
+    /// リザルトスコアUI情報の読み取り
+    /// </summary>
+    /// <returns></returns>
+    std::vector <ResultScoreUIData> LoadResultScoreUIDataCSV();
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
 };

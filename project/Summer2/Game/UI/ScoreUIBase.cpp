@@ -1,6 +1,8 @@
-#include "ResultScoreUI.h"
-#include "../GameRule/Score.h"
+#include "ScoreUIBase.h"
 #include "../../General/game.h"
+#include "../GameRule/Score.h"
+#include "../UI/UIManager.h"
+#include <DxLib.h>
 
 namespace
 {
@@ -10,42 +12,57 @@ namespace
 	constexpr int kAddLowSpeedRate = 6;
 	//減速する差
 	constexpr int kChangeLowSpeed = 300;
-	//大きさ
-	constexpr float kScale = 0.1f;
 	//幅
 	constexpr int kImageWidth = 256;
 	constexpr int kImageHeight = 256;
-	//スコアのX座標
-	constexpr int kTitlePosX = (Game::kScreenWidth / 2 - 200);
-	//スコアのY座標
-	constexpr int kTitlePosY = 30;
-	//スコアの1桁の幅
-	constexpr int kDigitMargin = 13;
 	//重力
 	constexpr float kGravity = 1.0f;
 	//ジャンプ力
 	constexpr float kJumpPower = 2.0f;
 }
 
-ResultScoreUI::ResultScoreUI(const std::weak_ptr<Score> score):
-	ScoreUI(score)
+ScoreUIBase::ScoreUIBase(Vector2 basePos, float scale, float digitMargin):
+	UIBase(),
+	m_basePos(basePos),
+	m_scale(scale),
+	m_digitMargin(digitMargin),
+	m_viewScore(0),
+	m_viewMaxScore(0),
+	m_digits{},
+	m_viewVecs{},
+	m_handle(UIManager::GetInstance().GetImageHandle("Score"))
 {
-}
-
-ResultScoreUI::~ResultScoreUI()
-{
-}
-
-void ResultScoreUI::Update()
-{//スコアが削除されたらこのUIも削除
-	if (m_score.expired())
+	for (auto& pos : m_viewPoses)
 	{
-		m_isDelete = true;
-		return;
+		pos = m_basePos;
 	}
-	//スコア更新
-	auto score = m_score.lock();
-	m_viewMaxScore = score->GetItemScore() + score->GetKillScore();
+}
+
+ScoreUIBase::~ScoreUIBase()
+{
+}
+
+void ScoreUIBase::Draw() const
+{
+	for (int i = 0;i < kDigitNum;++i)
+	{
+		//切り取りを計算する
+		int sizeX, sizeY;
+		GetGraphSize(m_handle, &sizeX, &sizeY);//画像サイズ
+		int cutX = m_digits[i] % (sizeX / kImageWidth);//横
+		int cutY = m_digits[i] / (sizeX / kImageWidth);//縦
+		//描画
+		DrawRectRotaGraphFast(m_viewPoses[i].x - i * m_digitMargin, m_viewPoses[i].y,
+			kImageWidth * cutX,
+			kImageHeight * cutY,
+			kImageWidth, kImageHeight,
+			m_scale, 0.0f, m_handle, true, false);
+	}
+}
+
+void ScoreUIBase::UpdateViewScore(int viewScore)
+{
+	m_viewMaxScore = viewScore;
 	//現在のスコアと目標スコアの差
 	int diff = m_viewMaxScore - m_viewScore;
 	//差があるなら
@@ -70,7 +87,12 @@ void ResultScoreUI::Update()
 			m_viewScore += speed;
 		}
 	}
+	//跳ねる
+	BounceScore(kJumpPower, m_basePos.y);
+}
 
+void ScoreUIBase::BounceScore(int jumpPower, int groundY)
+{
 	//取り出す値
 	int scoreValue = m_viewScore;
 	for (int i = 0;i < kDigitNum;++i)
@@ -85,17 +107,13 @@ void ResultScoreUI::Update()
 		if (digit != m_digits[i])
 		{
 			//少しはねる
-			m_viewVecs[i].y -= kJumpPower;
+			m_viewVecs[i].y -= jumpPower;
 		}
 		//これ以上Y座標が下がらないように補正
 		m_viewVecs[i].y += kGravity;
-		if (m_viewPoses[i].y > kTitlePosY)
+		if (m_viewPoses[i].y > groundY)
 		{
-			m_viewPoses[i].y = kTitlePosY;
+			m_viewPoses[i].y = groundY;
 		}
 	}
-}
-
-void ResultScoreUI::Draw() const
-{
 }
