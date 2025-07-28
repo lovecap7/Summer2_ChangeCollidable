@@ -224,6 +224,13 @@ const std::vector<std::vector<std::wstring>> CSVDataLoader::GetWStringList(const
 	std::vector<std::vector<std::wstring>> valuesDatas;
 	//ファイルを開く
 	std::wifstream file(fileName);
+
+	//ロケールを設定（環境依存、必要に応じてUTF-8などに変更）
+	//ロケールは文字解釈のルールのこと
+	//もしCSVファイルが UTF-8 で保存されている場合、
+	//Windowsの std::wifstream はデフォルトでUTF-8を正しく解釈できないので設定した
+	file.imbue(std::locale("")); 
+
 	//もしもファイルを開けなかったら
 	if (!file.is_open())return valuesDatas;//空のリストを返す
 	//1行ずつ読み取る用の変数

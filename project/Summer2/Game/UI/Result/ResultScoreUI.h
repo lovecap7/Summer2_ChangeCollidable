@@ -2,6 +2,7 @@
 #include "../UIBase.h"
 #include "../../../General/Math/MyMath.h"
 #include <string>
+
 class Score;
 class ResultScoreUI :
     public UIBase

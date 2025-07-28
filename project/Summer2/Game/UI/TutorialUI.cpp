@@ -38,7 +38,7 @@ TutorialUI::TutorialUI(const std::wstring& text):
 	m_text{ text },
 	m_update(&TutorialUI::AppearUpdate),
 	m_posX(Game::kScreenWidth),
-	m_handle(UIManager::GetInstance().GetTextHandle("メイリオ"))
+	m_handle(UIManager::GetInstance().GetTextHandle("メイリオ16"))
 {
 	m_text = StringUtil::InsertNewLines(m_text, kOneLineMaxNum);
 }

@@ -16,7 +16,12 @@
 
 namespace
 {
-	constexpr int kFontSize = 16;
+	constexpr int kFontSize16 = 16;
+	constexpr int kFontSize32 = 32;
+	constexpr int kFontSize48 = 48;
+	constexpr int kFontSize64 = 64;
+	constexpr int kFontSize80 = 80;
+	constexpr int kFontSize96 = 96;
 }
 
 void UIManager::Entry(std::shared_ptr<UIBase> ui)
@@ -143,7 +148,12 @@ void UIManager::LoadHandle()
 		assert(value >= 0);
 	}
 	//テキストハンドル
-	m_textHandles["メイリオ"] = { CreateFontToHandle(L"Meiryo", kFontSize, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["メイリオ16"] = { CreateFontToHandle(L"Meiryo", kFontSize16, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["メイリオ32"] = { CreateFontToHandle(L"Meiryo", kFontSize32, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["メイリオ48"] = { CreateFontToHandle(L"Meiryo", kFontSize48, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["メイリオ64"] = { CreateFontToHandle(L"Meiryo", kFontSize64, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["メイリオ80"] = { CreateFontToHandle(L"Meiryo", kFontSize80, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["メイリオ96"] = { CreateFontToHandle(L"Meiryo", kFontSize96, 5, DX_FONTTYPE_ANTIALIASING) };
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_textHandles) {
 		assert(value >= 0);
