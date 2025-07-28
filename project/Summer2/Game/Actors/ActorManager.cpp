@@ -421,6 +421,10 @@ void ActorManager::LoadHandle()
 	m_handles["UltGageUp"]		= { MV1LoadModel(L"Data/Model/Item/UltGageUp.mv1") };
 	m_handles["AttackUp"]		= { MV1LoadModel(L"Data/Model/Item/AttackUp.mv1") };
 	m_handles["DefenseUp"]		= { MV1LoadModel(L"Data/Model/Item/DefenseUp.mv1") };
+	m_handles["Tree"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Tree1.mv1") };
+	m_handles["Grass"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Grass1.mv1") };
+	m_handles["Flower"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Flower1.mv1") };
+	m_handles["Rock"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Rock1.mv1") };
 
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_handles) {
@@ -508,6 +512,30 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			std::shared_ptr<StageObjectDraw> blockGrass =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Block_Grass"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(blockGrass);
+		}
+		else if (stageData.name == "Tree")
+		{
+			std::shared_ptr<StageObjectDraw> path =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Tree"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(path);
+		}
+		else if (stageData.name == "Grass")
+		{
+			std::shared_ptr<StageObjectDraw> path =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Grass"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(path);
+		}
+		else if (stageData.name == "Flower")
+		{
+			std::shared_ptr<StageObjectDraw> path =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Flower"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(path);
+		}
+		else if (stageData.name == "Rock")
+		{
+			std::shared_ptr<StageObjectDraw> path =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Rock"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(path);
 		}
 	}
 	//当たり判定用
