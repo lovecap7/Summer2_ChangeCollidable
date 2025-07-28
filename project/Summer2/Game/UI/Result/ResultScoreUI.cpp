@@ -3,17 +3,20 @@
 #include "../../GameRule/Score.h"
 #include "../UIManager.h"
 #include "../../../General/Input.h"
-
+#include "../../../General/StringUtil.h"
 namespace
 {
 	//入力のインターバル
 	constexpr int kCanInputFrame = 20;
 }
 
-ResultScoreUI::ResultScoreUI(int scoreValue, Vector2 basePos, float scale, float digitMargin):
-	ScoreUIBase(basePos, scale, digitMargin),
+ResultScoreUI::ResultScoreUI(int scoreValue, Vector2 basePos, const std::wstring& text):
+	UIBase(),
 	m_scoreValue(scoreValue),
-	m_countFrame(0)
+	m_basePos(basePos),
+	m_countFrame(0),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ")),
+	m_text(text)
 {
 }
 
@@ -27,25 +30,17 @@ void ResultScoreUI::Update()
 	++m_countFrame;
 	if (input.IsTrigger("A") && m_countFrame >= kCanInputFrame)
 	{
-		//Aボタンでスコアの加算を終了
-		FinishScore();
+	
 		return;
 	}
 	//スコア更新
-	UpdateViewScore(m_scoreValue);
+	
 }
 
 void ResultScoreUI::Draw() const
 {
-	ScoreUIBase::Draw();
-}
 
-void ResultScoreUI::FinishScore()
-{
-	m_viewScore = m_scoreValue;
-}
-
-bool ResultScoreUI::IsFinishScore() const
-{
-	return m_viewScore >= m_scoreValue;
+	std::wstring text = m_text + std::to_wstring(m_scoreValue);
+	//テキスト
+	DrawStringToHandle(m_basePos.x, m_basePos.y, text.c_str(), 0x00ffff, m_textHandle);
 }

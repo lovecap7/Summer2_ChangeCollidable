@@ -1,21 +1,26 @@
 #pragma once
-#include "../ScoreUIBase.h"
+#include "../UIBase.h"
+#include "../../../General/Math/MyMath.h"
+#include <string>
 class Score;
 class ResultScoreUI :
-    public ScoreUIBase
+    public UIBase
 {
 public:
-    ResultScoreUI(int scoreValue, Vector2 basePos, float scale, float digitMargin);
+    ResultScoreUI(int scoreValue, Vector2 basePos, const std::wstring& text);
     virtual ~ResultScoreUI();
     void Update()override;
     void Draw()const override;
-    //スコアの加算を終了したか
-    bool IsFinishScore()const;
 private:
+    //スコアの値
     int m_scoreValue;
-	//スコアの加算を終了
-    void FinishScore();
+    //座標
+    Vector2 m_basePos;
+    //ハンドル
+    int m_textHandle;
     //フレームを数える
 	int m_countFrame;
+    //テキスト
+    const std::wstring m_text;
 };
 

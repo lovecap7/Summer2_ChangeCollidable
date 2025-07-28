@@ -40,10 +40,10 @@ struct ScoreData {
 };
 //リザルトスコアUI情報を格納する構造体
 struct ResultScoreUIData {
-    std::string name;      //スコア名
-    Vector2      pos;      //位置
-    float        scale;    //大きさ
-    float        margin;   //幅
+    std::string     name;   //スコア名
+    Vector2         pos;    //位置
+    float           scale;  //大きさ
+    std::wstring    text;   //幅
 };
 
 class CSVDataLoader
@@ -88,4 +88,5 @@ public:
     std::vector <ResultScoreUIData> LoadResultScoreUIDataCSV();
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
+    const std::vector<std::vector<std::wstring>> GetWStringList(const char* fileName,int elementNum);
 };

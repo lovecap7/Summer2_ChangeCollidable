@@ -1,6 +1,7 @@
 #include "StringUtil.h"
+#include <cassert>
 
-TCHAR* ToTCHAR(const char* c)
+TCHAR* StringUtil::ToTCHAR(const char* c)
 {
 	// char* → TCHAR* に変換
 	TCHAR cT[256];
@@ -8,7 +9,7 @@ TCHAR* ToTCHAR(const char* c)
 	return cT;
 }
 
-std::wstring InsertNewLines(const std::wstring& str, int maxLength)
+std::wstring StringUtil::InsertNewLines(const std::wstring& str, int maxLength)
 {
 	std::wstring newStr;
 	//あらかじめ必要なメモリを確保(メモリ最適化)
@@ -39,7 +40,7 @@ std::wstring InsertNewLines(const std::wstring& str, int maxLength)
 	return newStr;
 }
 
-int WStringLineNum(const std::wstring& str)
+int StringUtil::WStringLineNum(const std::wstring& str)
 {
 	size_t count = 0;
 	for (char c : str) {
@@ -48,4 +49,54 @@ int WStringLineNum(const std::wstring& str)
 		}
 	}
 	return static_cast<int>(count);
+}
+
+std::string StringUtil::WstringToString(const std::wstring& wstr)
+{
+	std::string ret;
+	//一度目の呼び出しは文字列数を知るため
+	auto result = WideCharToMultiByte(
+		CP_ACP,
+		0,
+		wstr.c_str(),//入力文字列
+		wstr.length(),
+		nullptr,
+		0,
+		nullptr,
+		nullptr);
+	assert(result >= 0);
+	ret.resize(result);//確保する
+	//二度目の呼び出しは変換
+	result = WideCharToMultiByte(
+		CP_ACP,
+		0,
+		wstr.c_str(),//入力文字列
+		wstr.length(),
+		ret.data(),
+		ret.size(),
+		nullptr,
+		nullptr);
+	return ret;
+}
+
+std::wstring StringUtil::StringToWstring(const std::string& str)
+{
+	std::wstring ret;
+	//一度目の呼び出しは文字列数を知るため
+	auto result = MultiByteToWideChar(CP_UTF8,
+		0,
+		str.c_str(),//入力文字列
+		str.length(),
+		nullptr,
+		0);
+	assert(result >= 0);
+	ret.resize(result);//確保する
+	//二度目の呼び出しは変換
+	result = MultiByteToWideChar(CP_UTF8,
+		0,
+		str.c_str(),//入力文字列
+		str.length(),
+		ret.data(),
+		ret.size());
+	return ret;
 }

@@ -9,7 +9,6 @@
 #include "../General/Fader.h"
 #include "../Game/UI/UIManager.h"
 #include "../Game/UI/Result/ResultScoreUI.h"
-#include "../Game/UI/Result/ResultScoreNameUI.h"
 
 namespace {
 	constexpr int kAppearInterval = 20;
@@ -84,20 +83,6 @@ void GameClearScene::Result1Update()
 	//Aボタンで次へ
 	if (input.IsTrigger("A"))
 	{
-		//スコアの加算が終わっていないなら
-		bool isFinish = true;
-		for (auto& scoreUI : m_scoreUIList)
-		{
-			if (auto ui = scoreUI.lock())
-			{
-				//終わってない
-				if (!ui->IsFinishScore())
-				{
-					isFinish = false;
-					return;
-				}
-			}
-		}
 		//ここまで来たら次の状態へ
 		//ランキングUI
 		InitResult2UI();
@@ -113,20 +98,6 @@ void GameClearScene::Result2Update()
 	//Aボタンで次へ
 	if (input.IsTrigger("A"))
 	{
-		//スコアの加算が終わっていないなら
-		bool isFinish = true;
-		for (auto& scoreUI : m_scoreUIList)
-		{
-			if (auto ui = scoreUI.lock())
-			{
-				//終わってない
-				if (!ui->IsFinishScore())
-				{
-					isFinish = false;
-					return;
-				}
-			}
-		}
 		auto& fader = Fader::GetInstance();
 		//だんだん暗く
 		fader.FadeOut();
@@ -219,12 +190,10 @@ void GameClearScene::InitResult1UI()
 		{
 			continue;
 		}
-		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.scale, data.margin);
+		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.text);
 		scoreUI->Init();
 		m_scoreUIList.emplace_back(scoreUI);
 	}
-	auto scoreNameUI = std::make_shared<ResultScoreNameUI>();
-	scoreNameUI->Init();
 }
 
 void GameClearScene::InitResult2UI()
@@ -262,7 +231,7 @@ void GameClearScene::InitResult2UI()
 		{
 			continue;
 		}
-		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.scale, data.margin);
+		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.text);
 		scoreUI->Init();
 		m_scoreUIList.emplace_back(scoreUI);
 	}

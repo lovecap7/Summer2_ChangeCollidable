@@ -201,14 +201,14 @@ void Model::ModelHit()
 
 void Model::SetAnim(const char* animName, bool isLoop)
 {
-	auto animNameT = ToTCHAR(animName);
+	auto animNameT = StringUtil::ToTCHAR(animName);
 	//アニメーションを変更
 	m_animator->SetAnim(m_modelHandle, DxLib::MV1GetAnimIndex(m_modelHandle, animNameT), isLoop);
 }
 
 void Model::SetAnim(const char* animName, bool isLoop, const float& animSpeed)
 {
-	auto animNameT = ToTCHAR(animName);
+	auto animNameT = StringUtil::ToTCHAR(animName);
 	//アニメーションを変更
 	m_animator->SetAnim(m_modelHandle, DxLib::MV1GetAnimIndex(m_modelHandle, animNameT), isLoop, animSpeed);
 }

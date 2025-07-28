@@ -40,7 +40,7 @@ TutorialUI::TutorialUI(const std::wstring& text):
 	m_posX(Game::kScreenWidth),
 	m_handle(UIManager::GetInstance().GetTextHandle("メイリオ"))
 {
-	m_text = InsertNewLines(m_text, kOneLineMaxNum);
+	m_text = StringUtil::InsertNewLines(m_text, kOneLineMaxNum);
 }
 
 TutorialUI::~TutorialUI()
@@ -57,7 +57,7 @@ void TutorialUI::Draw() const
 	//チュートリアルのスペース
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kAlphaRate);
 	//改行の数
-	auto lineNum = WStringLineNum(m_text);
+	auto lineNum = StringUtil::WStringLineNum(m_text);
 	DrawBox(m_posX, kSpaceUpPos, kSpaceRightPos, kSpaceDownPos + kSpaceDownSize * lineNum, 0x444444, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	//テキスト

@@ -2,6 +2,7 @@
 #include <sstream>   // 文字列分解用（stringstream）stringをファイルのように扱える
 #include "CSVDataLoader.h"
 #include "CSVPath.h"
+#include "StringUtil.h"
 namespace
 {
 	//名前、座標XYZ、回転XYZ、大きさXYZ　で合計10
@@ -11,7 +12,7 @@ namespace
 	//スコアデータの数
 	constexpr int kScoreDataElementNum = 2;
 	//スコアデータの数
-	constexpr int kResultScoreUIDataElementNum = 5;
+	constexpr int kResultScoreUIDataElementNum = 4;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
 	constexpr float kUnityToDXPosition = 100.0f;
 }
@@ -157,20 +158,18 @@ std::vector<ResultScoreUIData> CSVDataLoader::LoadResultScoreUIDataCSV()
 	//データを格納する配列
 	std::vector<ResultScoreUIData> resultScoreUIDatas;
 	//データをすべて読み込む
-	auto valuesDatas = GetStringList(kResutlScoreDataPath.c_str(), kResultScoreUIDataElementNum);
+	auto valuesDatas = GetWStringList(kResutlScoreDataPath.c_str(), kResultScoreUIDataElementNum);
 	for (auto values : valuesDatas)
 	{
 		//構造体にデータを入れていく
 		ResultScoreUIData resultScoreUIData;
 		//名前
-		resultScoreUIData.name = values[0];
+		resultScoreUIData.name = StringUtil::WstringToString(values[0]);
 		//座標
 		resultScoreUIData.pos.x = std::stof(values[1]);
 		resultScoreUIData.pos.y = std::stof(values[2]);
-		//大きさ
-		resultScoreUIData.scale = std::stof(values[3]);
-		//幅
-		resultScoreUIData.margin = std::stof(values[4]);
+		//テキスト
+		resultScoreUIData.text = values[3];
 		//配列に追加
 		resultScoreUIDatas.emplace_back(resultScoreUIData);
 	}
@@ -208,6 +207,47 @@ const std::vector<std::vector<std::string>> CSVDataLoader::GetStringList(const c
 		//カンマ区切りで取り出していく
 		//ssから,区切りで取り出していきpartに入れていく
 		while (std::getline(ss, part, ',')) {
+			values.emplace_back(part);           //分割された項目をリストに追加
+		}
+		//要素数チェック
+		if (values.size() < elementNum)continue;//ない場合は不正な行なので飛ばす
+		//データを配列に追加
+		valuesDatas.emplace_back(values);
+	}
+	//暗黙ムーブが走るのでおそらく大丈夫
+	return valuesDatas;
+}
+
+const std::vector<std::vector<std::wstring>> CSVDataLoader::GetWStringList(const char* fileName, int elementNum)
+{
+	//返す値
+	std::vector<std::vector<std::wstring>> valuesDatas;
+	//ファイルを開く
+	std::wifstream file(fileName);
+	//もしもファイルを開けなかったら
+	if (!file.is_open())return valuesDatas;//空のリストを返す
+	//1行ずつ読み取る用の変数
+	std::wstring line;
+	//最初のヘッダーはスキップしたい
+	bool isHeader = true;
+	//CSVの終わりまで読み取る
+	// getlineで読み取っていく(読み取り位置（内部の「ポインタ」）は、ループのたびに前に進みます)
+	//1行ずつ読み取っていき読み取る行がなくなったらfalseになる
+	while (std::getline(file, line))//1行ずつ読み取る
+	{
+		//最初の行はスキップする(ヘッダー)
+		if (isHeader)
+		{
+			isHeader = false;
+			continue;
+		}
+		//行をカンマ区切りで1つずつ読み込むための準備
+		std::wstringstream ss(line);			//文字列をストリーム(getlineで読み取るため)に変換
+		std::wstring part;					//分解して取り出した1要素
+		std::vector<std::wstring> values;	//要素をまとめた配列
+		//カンマ区切りで取り出していく
+		//ssから,区切りで取り出していきpartに入れていく
+		while (std::getline(ss, part, L',')) {
 			values.emplace_back(part);           //分割された項目をリストに追加
 		}
 		//要素数チェック

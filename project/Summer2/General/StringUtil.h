@@ -1,24 +1,39 @@
 #pragma once
 #include <DxLib.h>
 #include <string>
-/// <summary>
-/// char -> TCHA
-/// </summary>
-/// <param name="c"></param>
-/// <returns></returns>
-TCHAR* ToTCHAR(const char* c);
 
-/// <summary>
-/// 文字数がある数を超えるたびに改行をはさみ、その文字列を返す
-/// </summary>
-/// <param name="str"></param>
-/// <param name="maxLength"></param>
-/// <returns></returns>
-std::wstring InsertNewLines(const std::wstring& str, int maxLength);
+namespace StringUtil
+{
 
-/// <summary>
-/// 行の数
-/// </summary>
-/// <param name="str"></param>
-/// <returns></returns>
-int WStringLineNum(const std::wstring& str);
+	/// <summary>
+	/// char -> TCHA
+	/// </summary>
+	/// <param name="c"></param>
+	/// <returns></returns>
+	TCHAR* ToTCHAR(const char* c);
+
+	/// <summary>
+	/// 文字数がある数を超えるたびに改行をはさみ、その文字列を返す
+	/// </summary>
+	/// <param name="str"></param>
+	/// <param name="maxLength"></param>
+	/// <returns></returns>
+	std::wstring InsertNewLines(const std::wstring& str, int maxLength);
+
+	/// <summary>
+	/// 行の数
+	/// </summary>
+	/// <param name="str"></param>
+	/// <returns></returns>
+	int WStringLineNum(const std::wstring& str);
+
+	/// <summary>
+	/// wstringからstringへ
+	/// </summary>
+	std::string WstringToString(const std::wstring& wstr);
+
+	/// <summary>
+	/// stringからwstringへ
+	/// </summary>
+	std::wstring StringToWstring(const std::string& str);
+}
