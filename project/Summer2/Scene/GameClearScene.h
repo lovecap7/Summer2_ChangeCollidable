@@ -6,6 +6,7 @@
 #include "../General/CSVDataLoader.h"
 class SceneController;
 class Score;
+class ResultScoreUI;
 class GameClearScene :
     public SceneBase
 {
@@ -44,5 +45,7 @@ private:
     Stage::StageIndex m_stageIndex;
     //スコアUIのデータ
     std::vector<ResultScoreUIData> m_scoreUiData;
+    //スコアUI
+	std::vector<std::weak_ptr<ResultScoreUI>> m_scoreUIList;
 };
 

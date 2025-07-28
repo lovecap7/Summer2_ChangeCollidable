@@ -639,6 +639,9 @@
     <ClCompile Include="Game\UI\Select\SelectStageBackUI.cpp">
       <Filter>ソース ファイル\Game\UI\SelectStageUI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\Result\ResultScoreNameUI.cpp">
+      <Filter>ソース ファイル\Game\UI\ResultUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1093,6 +1096,9 @@
     </ClInclude>
     <ClInclude Include="Game\UI\Select\SelectStageBackUI.h">
       <Filter>ヘッダー ファイル\Game\UI\SelectStageUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\Result\ResultScoreNameUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\ResultUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

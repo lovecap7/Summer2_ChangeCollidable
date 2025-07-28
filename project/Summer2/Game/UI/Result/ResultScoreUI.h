@@ -9,7 +9,13 @@ public:
     virtual ~ResultScoreUI();
     void Update()override;
     void Draw()const override;
+    //スコアの加算を終了したか
+    bool IsFinishScore()const;
 private:
     int m_scoreValue;
+	//スコアの加算を終了
+    void FinishScore();
+    //フレームを数える
+	int m_countFrame;
 };
 

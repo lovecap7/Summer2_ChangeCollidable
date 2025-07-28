@@ -12,6 +12,7 @@ public:
 	virtual void Draw()const abstract;
 	virtual void End();
 	bool IsDelete() { return m_isDelete; };
+	void Delete() { m_isDelete = true; };
 	//•`‰æ‚·‚é‚©
 	void SetIsDraw(bool isDraw) { m_isDraw = isDraw; };
 	bool IsDraw()const { return m_isDraw; };
