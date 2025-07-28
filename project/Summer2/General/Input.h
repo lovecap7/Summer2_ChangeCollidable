@@ -196,9 +196,6 @@ private:
 	StickInfo m_stickInfo = StickInfo();
 	//トリガーの状態
 	TriggerInfo m_triggerInfo = TriggerInfo();
-	//何か押したらtrue
-	bool m_isPressAny = false;
-	bool m_isBeforePressAny = false;
 
 	//更新するか
 	bool m_isUpdate;

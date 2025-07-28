@@ -30,7 +30,7 @@ void SelectStageBackUI::Draw() const
 	if (IsAppered())
 	{
 		//シェーダー画像の下に描画したときに透明部分から見えるように
-		DrawRotaGraph(Game::kScreenWidth / 2, Game::kScreenHeight / 2, 1.0, 0.0, m_mainHandle, true);
+		DrawRotaGraph(Game::kScreenCenterX, Game::kScreenCenterY, 1.0, 0.0, m_mainHandle, true);
 	}
 	else
 	{
@@ -39,6 +39,6 @@ void SelectStageBackUI::Draw() const
 			return;
 		}
 		//シェーダー
-		DissolveUIBase::Draw(Vector2{ Game::kScreenWidth / 2,Game::kScreenHeight / 2 });
+		DissolveUIBase::Draw(Vector2{ Game::kScreenCenterX,Game::kScreenCenterY });
 	}
 }

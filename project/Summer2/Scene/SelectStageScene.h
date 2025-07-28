@@ -41,7 +41,6 @@ private:
     int m_stageIndex;
     //ステージのフィギュア
 	std::array<std::shared_ptr<StageFigure>,static_cast<int>(Stage::StageIndex::StageNum)> m_stageFigures;
-
     //背景UI
     std::weak_ptr<SelectStageBackUI> m_stage1Back;
     std::weak_ptr<SelectStageBackUI> m_stage2Back;

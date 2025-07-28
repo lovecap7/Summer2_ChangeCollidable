@@ -144,6 +144,7 @@ void SelectStageScene::Draw()
 	}	
 
 	DrawFormatString(0, 80, 0xffff00,L"StageIndex : %d",m_stageIndex);
+	
 }
 
 void SelectStageScene::End()

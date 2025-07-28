@@ -68,8 +68,6 @@ void Input::Update()
 	padState = GetJoypadInputState(DX_INPUT_PAD1);
 	mouseState = GetMouseInput();
 
-	m_isBeforePressAny = m_isPressAny;
-	m_isPressAny = false;
 	//アクション名に割り当てられているすべてのキーの入力をチェックする
 	for (const auto& keyInfo : m_inputActionMap)
 	{
@@ -94,7 +92,6 @@ void Input::Update()
 
 			if (isPress)
 			{
-				m_isPressAny = isPress;
 				break;
 			}
 		}
@@ -282,19 +279,35 @@ bool Input::IsPushTrigger(bool right)
 
 bool Input::IsPlessAny()
 {
-	return m_isPressAny;
+	return	IsPress("Ok")		||
+			IsPress("Pause")	||
+			IsPress("Start")	||
+			IsPress("Select")	||
+			IsPress("LS")		||
+			IsPress("RS")		||
+			IsPress("Cancel")	||
+			IsPress("LB")		||
+			IsPress("RB")		||
+			IsPress("A")		||
+			IsPress("B")		||
+			IsPress("X")		||
+			IsPress("Y");
 }
 
 bool Input::IsTriggerAny()
 {
-	if (m_isPressAny)
-	{
-		//前のフレーム押していなかったら
-		if (m_isBeforePressAny != m_isPressAny)
-		{
-			return true;
-		}
-	}
-	return false;
+	return	IsTrigger("Ok")		||
+			IsTrigger("Pause")	||
+			IsTrigger("Start")	||
+			IsTrigger("Select") ||
+			IsTrigger("LS")		||
+			IsTrigger("RS")		||
+			IsTrigger("Cancel") ||
+			IsTrigger("LB")		||
+			IsTrigger("RB")		||
+			IsTrigger("A")		||
+			IsTrigger("B")		||
+			IsTrigger("X")		||
+			IsTrigger("Y");
 }
 
