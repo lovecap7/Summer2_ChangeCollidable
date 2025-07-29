@@ -108,7 +108,7 @@ void SelectStageScene::Update()
 	if (fader.IsFinishFadeOut())
 	{
 		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
+		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller, static_cast<Stage::StageIndex>(m_stageIndex)));
 		return;
 	}
 	//ステージを選ぶ

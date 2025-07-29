@@ -412,6 +412,7 @@ void ActorManager::LoadHandle()
 	m_handles["BossDragon"]		= { MV1LoadModel(L"Data/Model/Enemy/BossDragon.mv1") };
 	m_handles["Path"]			= { MV1LoadModel(L"Data/Model/Stage/1/Path.mv1") };
 	m_handles["Block_Grass"]	= { MV1LoadModel(L"Data/Model/Stage/1/Block_Grass.mv1") };
+	m_handles["Block_Stone"]	= { MV1LoadModel(L"Data/Model/Stage/2/Block_Stone.mv1") };
 	m_handles["Cube"]			= { MV1LoadModel(L"Data/Model/Collision/Cube.mv1")};
 	m_handles["Cylinder"]		= { MV1LoadModel(L"Data/Model/Collision/Cylinder.mv1") };
 	m_handles["Plane"]			= { MV1LoadModel(L"Data/Model/Collision/Plane.mv1") };
@@ -424,7 +425,8 @@ void ActorManager::LoadHandle()
 	m_handles["Tree"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Tree1.mv1") };
 	m_handles["Grass"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Grass1.mv1") };
 	m_handles["Flower"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Flower1.mv1") };
-	m_handles["Rock"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Rock1.mv1") };
+	m_handles["Rock1"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Rock1.mv1") };
+	m_handles["Rock2"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Rock2.mv1") };
 
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_handles) {
@@ -447,6 +449,10 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		eventAreaPath = "Data/CSV/EventTransformData.csv";
 		break;
 	case Stage::StageIndex::Stage2:
+		charaPath = "Data/CSV/Stage2/Stage2CharacterTransformData.csv";
+		drawPath = "Data/CSV/Stage2/Stage2TransformData.csv";
+		collPath = "Data/CSV/Stage2/Stage2CollisionTransformData.csv";
+		eventAreaPath = "Data/CSV/Stage2/Stage2EventTransformData.csv";
 		break;
 	case Stage::StageIndex::Stage3:
 		break;
@@ -513,6 +519,14 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Block_Grass"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(blockGrass);
 		}
+		else if (stageData.name == "Block_Stone")
+		{
+			//大きさを1/100しないと大きすぎるので
+			stageData.scale = VScale(stageData.scale, 0.01f);
+			std::shared_ptr<StageObjectDraw> blockGrass =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Block_Stone"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(blockGrass);
+		}
 		else if (stageData.name == "Tree")
 		{
 			std::shared_ptr<StageObjectDraw> path =
@@ -531,10 +545,16 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Flower"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(path);
 		}
-		else if (stageData.name == "Rock")
+		else if (stageData.name == "Rock1")
 		{
 			std::shared_ptr<StageObjectDraw> path =
-				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Rock"]), stageData.pos, stageData.scale, stageData.rot);
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Rock1"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(path);
+		}
+		else if (stageData.name == "Rock2")
+		{
+			std::shared_ptr<StageObjectDraw> path =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Rock2"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(path);
 		}
 	}
@@ -549,6 +569,18 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			std::shared_ptr<StageObjectCollision> plane =
 				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(plane);
+		}
+		else if (stageData.name == "Cube")
+		{
+			std::shared_ptr<StageObjectCollision> cube =
+				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Cube"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(cube);
+		}
+		else if (stageData.name == "Rock1")
+		{
+			std::shared_ptr<StageObjectCollision> cube =
+				std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Rock1"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(cube);
 		}
 	}
 	//イベント部屋を作成

@@ -67,17 +67,17 @@ void DebugScene::Update()
 			break;
 		case 2:
 			//次のシーンへ
-			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
+			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller,Stage::StageIndex::Stage1));
 			return;
 			break;
 		case 3:
 			//次のシーンへ
-			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
+			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller, Stage::StageIndex::Stage2));
 			return;
 			break;
 		case 4:
 			//次のシーンへ
-			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller));
+			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller, Stage::StageIndex::Stage1));
 			return;
 			break;
 		default:
