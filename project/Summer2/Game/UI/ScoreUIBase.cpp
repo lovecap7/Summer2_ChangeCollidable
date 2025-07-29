@@ -8,6 +8,8 @@ namespace
 {
 	//加算の基本値
 	constexpr int kAddBaseSpeed = 128;
+	//差の割合
+	constexpr float kAddDiffRate = 0.1f;
 	//減速割合
 	constexpr int kAddLowSpeedRate = 6;
 	//減速する差
@@ -70,7 +72,7 @@ void ScoreUIBase::UpdateViewScore(int viewScore)
 	{
 		int absDiff = abs(diff);
 		//加算するスコアの基本値
-		int speed = kAddBaseSpeed;
+		int speed = kAddBaseSpeed + (absDiff * kAddDiffRate);
 		//目標に近いなら少し減速
 		if (absDiff < kChangeLowSpeed)
 		{

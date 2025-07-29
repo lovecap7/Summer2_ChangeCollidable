@@ -1,0 +1,40 @@
+#include "ResultRankingScore.h"
+#include <DxLib.h>
+#include <format>
+
+namespace
+{
+	//数字の座標オフセット
+	constexpr int kNumOffsetX = 100;
+}
+
+ResultRankingScore::ResultRankingScore(int scoreValue, Vector2 basePos, const std::wstring& text) :
+	ResultScoreUI(scoreValue, basePos, text),
+	m_rankingHandle(-1) // 初期化
+{
+	if(text == L"1st")
+	{
+		m_rankingHandle = LoadGraph(L"Data/UI/Result/1st.png");
+	}
+	else if (text == L"2nd")
+	{
+		m_rankingHandle = LoadGraph(L"Data/UI/Result/2nd.png");
+	}
+	else if (text == L"3rd")
+	{
+		m_rankingHandle = LoadGraph(L"Data/UI/Result/3rd.png");
+	}
+}
+
+ResultRankingScore::~ResultRankingScore()
+{
+	DeleteGraph(m_rankingHandle);
+}
+
+void ResultRankingScore::Draw() const
+{
+	std::wstring num = L": " + std::format(L"{:06}", m_viewScore);
+	//テキスト
+	DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y, num.c_str(), 0x000000, m_textHandle);
+	DrawRotaGraph(static_cast<int>(m_basePos.x), static_cast<int>(m_basePos.y),0.6,0.0, m_rankingHandle, true);
+}

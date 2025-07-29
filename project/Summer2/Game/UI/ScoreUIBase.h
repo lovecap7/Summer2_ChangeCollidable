@@ -16,14 +16,16 @@ class ScoreUIBase abstract:
 public:
     ScoreUIBase(Vector2 basePos,float scale,float digitMargin);
     virtual ~ScoreUIBase();
-    void Draw() const override;
+    virtual void Draw() const override;
+    bool IsViewScoreMax() const { return m_viewScore >= m_viewMaxScore; };
 protected:
     //描画スコアの更新
     void UpdateViewScore(int viewScore);
+    //スコアを直接変更する
+    void SetViewScore(int viewScore) { m_viewScore = viewScore; };
     //描画用スコア
     int m_viewScore;	//現在表示しているスコア
     int m_viewMaxScore;	//現在の最大スコア
-private:
     //基準座標
     Vector2 m_basePos;
     //大きさ

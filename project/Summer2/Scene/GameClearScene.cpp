@@ -8,10 +8,13 @@
 #include "../Game/GameRule/Score.h"
 #include "../General/Fader.h"
 #include "../Game/UI/UIManager.h"
+#include "../Game/UI/Result/ResultUI.h"
 #include "../Game/UI/Result/ResultScoreUI.h"
+#include "../Game/UI/Result/ResultRankingScore.h"
 
 namespace {
-	constexpr int kAppearInterval = 20;
+	constexpr int kAppearInterval = 60;
+	constexpr int kAlphaRate = 2;
 	constexpr int kFrameMargin = 10;//ゲーム画面からポーズ画面までの幅
 }
 
@@ -43,8 +46,8 @@ void GameClearScene::Init()
 	m_score->UpdateScore(m_stageIndex);
 	//ハイスコアを保存
 	m_score->SaveHighScore();
-	//リザルトUI
-	InitResult1UI();
+	//UI
+	std::make_shared<ResultUI>()->Init();
 }
 
 void GameClearScene::Update()
@@ -71,6 +74,8 @@ void GameClearScene::AppearUpdate()
 	++m_countFrame;
 	if (m_countFrame > kAppearInterval)
 	{
+		//リザルトUI
+		InitResult1UI();
 		m_countFrame = kAppearInterval;
 		m_update = &GameClearScene::Result1Update;
 		return;
@@ -83,12 +88,25 @@ void GameClearScene::Result1Update()
 	//Aボタンで次へ
 	if (input.IsTrigger("A"))
 	{
-		//ここまで来たら次の状態へ
-		//ランキングUI
-		InitResult2UI();
-		//次の状態
-		m_update = &GameClearScene::Result2Update;
-		return;
+		bool isAllMax = true;
+		for(auto & scoreUI : m_scoreUIList)
+		{
+			if(!scoreUI.lock()->IsViewScoreMax())
+			{
+				isAllMax = false;
+				break;
+			}
+		}
+		//全てのスコアUIが最大値になったら
+		if (isAllMax)
+		{
+			//ここまで来たら次の状態へ
+			//ランキングUI
+			InitResult2UI();
+			//次の状態
+			m_update = &GameClearScene::Result2Update;
+			return;
+		}
 	}
 }
 
@@ -98,12 +116,25 @@ void GameClearScene::Result2Update()
 	//Aボタンで次へ
 	if (input.IsTrigger("A"))
 	{
-		auto& fader = Fader::GetInstance();
-		//だんだん暗く
-		fader.FadeOut();
-		//次の状態
-		m_update = &GameClearScene::DisappearUpdate;
-		return;
+		bool isAllMax = true;
+		for (auto& scoreUI : m_scoreUIList)
+		{
+			if (!scoreUI.lock()->IsViewScoreMax())
+			{
+				isAllMax = false;
+				break;
+			}
+		}
+		//全てのスコアUIが最大値になったら
+		if (isAllMax)
+		{
+			auto& fader = Fader::GetInstance();
+			//だんだん暗く
+			fader.FadeOut();
+			//次の状態
+			m_update = &GameClearScene::DisappearUpdate;
+			return;
+		}
 	}
 }
 
@@ -123,36 +154,12 @@ void GameClearScene::DisappearUpdate()
 void GameClearScene::NormalDraw()
 {
 	//背景を白っぽくする
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 7 * m_countFrame);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kAlphaRate * m_countFrame);
 	DrawBox(0, 0,//左上
 		Game::kScreenWidth, Game::kScreenHeight,//右下
 		0xffffff,//カラー
 		true);//塗り潰す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	//スコア表示
-	auto totalScore = m_score->GetScore();
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 100.0f, 0x55555, L"TotalScore : %5d", totalScore);
-	//撃破スコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 150.0f, 0x55555, L"KillScore : %5d", m_score->GetKillScore());
-	//アイテムゲットスコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 200.0f, 0x55555, L"ItemScore : %5d", m_score->GetItemScore());
-	//タイムスコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 250.0f, 0x55555, L"TimeScore : %5d", m_score->GetTimeScore());
-	//体力スコア
-	DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 300.0f, 0x55555, L"HPScore : %5d", m_score->GetHPScore());
-	//ハイスコア
-	auto highScore = m_score->GetHighScore(m_stageIndex);
-	for (int i = 0;i < 3;++i)
-	{
-		DrawFormatString((Game::kScreenWidth / 2.0f) - 100.0f, 350.0f + 50 * i, 0x55555, L"Ranking : %d",i + 1 );
-		DrawFormatString((Game::kScreenWidth / 2.0f) + 100.0f, 350.0f + 50 * i, 0x55555, L"HighScore : %5d", highScore[i]);
-		//ハイスコア更新
-		if (totalScore == highScore[i])
-		{
-			DrawString((Game::kScreenWidth / 2.0f) + 100.0f, 325.0f + 50 * i, L"New Record!!!", 0xff0000);
-		}
-	}
-	
 }
 
 void GameClearScene::InitResult1UI()
@@ -231,7 +238,7 @@ void GameClearScene::InitResult2UI()
 		{
 			continue;
 		}
-		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.text);
+		scoreUI = std::make_shared<ResultRankingScore>(score, data.pos, data.text);
 		scoreUI->Init();
 		m_scoreUIList.emplace_back(scoreUI);
 	}
