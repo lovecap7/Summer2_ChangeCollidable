@@ -106,9 +106,6 @@ void Player::Init()
 
 void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//今後はチェックポイントを実装してそこに復活するように
-	//落下した際の処理
-	if (m_rb->m_pos.y < kStageFallY)m_rb->m_pos = m_initPos;
 	//入力の取得
 	auto& input = Input::GetInstance();
 	//プレイヤーの移動やモデルの向きを更新するための
@@ -192,6 +189,14 @@ void Player::Draw() const
 
 void Player::Complete()
 {
+	//今後はチェックポイントを実装してそこに復活するように
+	//落下した際の処理
+	if (m_rb->m_pos.y < kStageFallY)
+	{
+		m_rb->m_pos = m_initPos;
+		m_rb->m_vec = Vector3::Zero();
+	}
+
 	m_rb->m_pos += m_rb->m_vec;//次の座標へ
 	Vector3 endPos = m_rb->m_pos;
 	endPos += kCapsuleHeight;
