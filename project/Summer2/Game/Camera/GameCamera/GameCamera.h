@@ -13,7 +13,7 @@ enum class ShakePower : int
 
 class ActorManager;
 class Rigidbody;
-class EventArea;
+class EventAreaBase;
 class GameCameraStateBase;
 class GameCamera:
 	public std::enable_shared_from_this<GameCamera>
@@ -35,8 +35,8 @@ public:
 	Vector3 GetViewPos()const { return m_viewPos; };
 	void SetViewPos(Vector3 viewPos) { m_viewPos = viewPos; };
 	//イベントエリア
-	std::weak_ptr<EventArea> GetEventArea()const { return m_eventArea; };
-	void SetEventArea(std::weak_ptr<EventArea> event) { m_eventArea = event; };
+	std::weak_ptr<EventAreaBase> GetEventArea()const { return m_eventArea; };
+	void SetEventArea(std::weak_ptr<EventAreaBase> event) { m_eventArea = event; };
 	//カメラシェイク
 	void UpdateCameraShake();
 	void SetCameraShake(ShakePower power,int frame);
@@ -48,7 +48,7 @@ private:
 	//カメラが見てる位置
 	Vector3 m_viewPos;
 	//イベントエリア
-	std::weak_ptr<EventArea> m_eventArea;
+	std::weak_ptr<EventAreaBase> m_eventArea;
 	//振動
 	ShakePower m_shakePower;
 	int m_shakeFrame;

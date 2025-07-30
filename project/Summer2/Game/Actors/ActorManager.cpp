@@ -26,7 +26,8 @@
 #include "Stage/StageObjectCollision.h"
 #include "Stage/StageObjectDraw.h"
 #include "Stage/Sky.h"
-#include "Stage/EventArea.h"
+#include "Stage/EventAreaBase.h"
+#include "Stage/AllKillArea.h"
 //アイテム
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
@@ -443,10 +444,10 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	switch (index)
 	{
 	case Stage::StageIndex::Stage1:
-		charaPath = "Data/CSV/CharacterTransformData.csv";
-		drawPath = "Data/CSV/StageTransformData.csv";
-		collPath = "Data/CSV/StageCollisionTransformData.csv";
-		eventAreaPath = "Data/CSV/EventTransformData.csv";
+		charaPath = "Data/CSV/Stage1/Stage1CharacterTransformData.csv";
+		drawPath = "Data/CSV/Stage1/Stage1TransformData.csv";
+		collPath = "Data/CSV/Stage1/Stage1CollisionTransformData.csv";
+		eventAreaPath = "Data/CSV/Stage1/Stage1EventTransformData.csv";
 		break;
 	case Stage::StageIndex::Stage2:
 		charaPath = "Data/CSV/Stage2/Stage2CharacterTransformData.csv";
@@ -605,7 +606,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		//エリアを構成する2要素が揃ったら
 		if (eventAreaParts.size() >= kAreaPartsNum)
 		{
-			auto eventArea = std::make_shared<EventArea>(eventAreaParts.front(), eventAreaParts.back());
+			auto eventArea = std::make_shared<AllKillArea>(eventAreaParts.front(), eventAreaParts.back());
 			m_nextAddActors.emplace_back(eventArea);
 			eventAreaParts.clear();
 		}

@@ -1,0 +1,26 @@
+#pragma once
+#include "EventAreaBase.h"
+#include <list>
+//プレイヤーが範囲内に入ったかを検知しイベントが終了までチェックする
+class GameCamera;
+class ActorManager;
+class EnemyBase;
+class AllKillArea :
+	public EventAreaBase
+{
+public:
+    AllKillArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end);
+    virtual ~AllKillArea();
+    virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+private:
+    //状態遷移
+    using UpdateFunc_t = void(AllKillArea::*)(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
+    UpdateFunc_t m_update;
+    //範囲チェック状態
+    void EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
+    //イベント状態
+    void EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
+    //範囲内の敵のリスト
+    std::list<std::weak_ptr<EnemyBase>> m_areaEnemies;
+};
+

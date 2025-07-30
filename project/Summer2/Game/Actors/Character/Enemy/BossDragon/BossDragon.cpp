@@ -33,7 +33,7 @@ namespace
 	//体力
 	constexpr int kHp = 5000;
 	//モデルの旋回速度
-	constexpr int kModelRotateSpeed = 40;
+	constexpr int kModelRotateSpeed = 30;
 }
 
 BossDragon::BossDragon(int modelHandle, Vector3 pos):
@@ -89,7 +89,7 @@ void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_
 	}
 #endif
 	//ボス部屋に入った時行動開始
-	m_isActive = actorManager.lock()->GetBossArea().lock()->IsEntryBossArea();
+	m_isActive = actorManager.lock()->GetBossArea().lock()->IsEvent();
 	//アクティブ状態じゃないなら
 	if (!m_isActive)
 	{

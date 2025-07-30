@@ -645,6 +645,9 @@
     <ClCompile Include="Game\UI\Result\ResultRankingScore.cpp">
       <Filter>ソース ファイル\Game\UI\ResultUI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Stage\EventAreaBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1007,7 +1010,7 @@
     <ClInclude Include="General\Effect\TrackActorEffect.h">
       <Filter>ヘッダー ファイル\General\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Stage\EventArea.h">
+    <ClInclude Include="Game\Actors\Stage\AllKillArea.h">
       <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Stage\BossArea.h">
@@ -1105,6 +1108,9 @@
     </ClInclude>
     <ClInclude Include="Game\UI\Result\ResultRankingScore.h">
       <Filter>ヘッダー ファイル\Game\UI\ResultUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Stage\EventAreaBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

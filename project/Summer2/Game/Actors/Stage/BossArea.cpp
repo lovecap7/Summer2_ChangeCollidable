@@ -6,8 +6,7 @@
 #include "../../../General/Collision/Physics.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
-	EventArea(start,end),
-	m_isEntryBossArea(false),
+	EventAreaBase(start,end),
 	m_update(&BossArea::EntryCheckUpdate)
 {
 }
@@ -21,38 +20,21 @@ void BossArea::Update(const std::weak_ptr<GameCamera> camera, const std::weak_pt
 	(this->*m_update)(camera, actorManager);
 }
 
-void BossArea::End()
-{
-}
-
 void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	if (actorManager.lock()->GetPlayer().expired())return;
-	auto player = actorManager.lock()->GetPlayer().lock();
-	//座標から範囲に入ったかをチェック
-	auto playerPos = player->GetPos();
-	auto startPos = m_start.lock()->GetPos();
-	auto endPos = m_end.lock()->GetPos();
-	//範囲内なら
-	if (playerPos.x > startPos.x && playerPos.x < endPos.x)
+	EventAreaBase::Update(camera, actorManager);
+	if (m_isEvent)
 	{
 		//壁は閉ざす
 		std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(false);
 		std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(false);
 		//イベント開始情報をカメラに設定
-		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventArea>(shared_from_this()));
-		//イベントフラグ
-		m_isEvent = true;
-		//ボスエリアに入ったフラグ
-		m_isEntryBossArea = true;
+		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventAreaBase>(shared_from_this()));
 		//ボス以外の雑魚敵を削除
 		actorManager.lock()->AllDeleteNormalEnemy();
 		m_update = &BossArea::EventUpdate;
 		return;
 	}
-	//壁はすり抜ける
-	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(true);
-	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(true);
 }
 
 void BossArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)

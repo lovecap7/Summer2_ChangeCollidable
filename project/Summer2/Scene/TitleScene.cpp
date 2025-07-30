@@ -89,18 +89,18 @@ void TitleScene::Update()
 	}
 #endif
 	auto& fader = Fader::GetInstance();
-	//何かボタンをおしたら
-	if (input.IsTriggerAny() && m_titleUI.lock()->IsAppered())
-	{
-		//だんだん暗く
-		fader.FadeOut(kFadeOutSpeed);
-	}
 	//真っ暗になったら
 	if (fader.IsFinishFadeOut())
 	{
 		//次のシーンへ
 		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
 		return;
+	}
+	//何かボタンをおしたら
+	if (input.IsTriggerAny() && m_titleUI.lock()->IsAppered())
+	{
+		//だんだん暗く
+		fader.FadeOut(kFadeOutSpeed);
 	}
 
 	//カメラ更新

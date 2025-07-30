@@ -50,7 +50,8 @@ Model::Model(int modelHandle, VECTOR pos, Vector3 forward) :
 	m_hitCountFrame(0),
 	m_diffColor{ 1.0f,1.0f ,1.0f ,1.0f },
 	m_beforeScale(m_scale),
-	m_beforeScaleDif{}
+	m_beforeScaleDif{},
+	m_beforeSetDir{ forward.XZ() }
 {
 	//座標
 	m_pos = pos;
@@ -148,6 +149,9 @@ void Model::SetDir(Vector2 vec)
 	//向きを計算
 	Vector2 dir = vec;
 	dir = dir.Normalize();
+	//前回と同じかつ向きも同じなら何もしない
+	if (m_beforeSetDir == dir && m_forward.XZ() == dir)return; 
+	m_beforeSetDir = dir; //前回の向きを記録
 	//角度
 	float angle = Vector2::GetRad(m_forward.XZ(), dir);
 	//回転軸

@@ -10,7 +10,7 @@
 #include "../../Actors/Character/Player/Player.h"
 #include "../../Actors/Character/Enemy/EnemyBase.h"
 #include "../../Actors/ActorManager.h"
-#include "../../Actors/Stage/EventArea.h"
+#include "../../Actors/Stage/EventAreaBase.h"
 #include <DxLib.h>
 
 namespace

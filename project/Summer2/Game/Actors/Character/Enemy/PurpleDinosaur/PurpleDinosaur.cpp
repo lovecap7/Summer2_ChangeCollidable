@@ -30,7 +30,7 @@ namespace
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
 	//モデルの旋回速度
-	constexpr int kModelRotateSpeed = 30;
+	constexpr int kModelRotateSpeed = 15;
 }
 PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule, EnemyGrade::Normal)

@@ -33,7 +33,7 @@ void CSVDataSaver::SaveDataToCSV(std::shared_ptr<Score> score)
         file << highScore[0] << ","
              << highScore[1] << ","
              << highScore[2] << ","
-             << "Stage" << i << std::endl;
+             << "Stage" << i + 1 << std::endl;
     }
     //•Â‚¶‚é
     file.close();

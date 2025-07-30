@@ -1,6 +1,6 @@
 #pragma once
 #include "../UIBase.h"
-#include "../../General/Math/MyMath.h"
+#include "../../../General/Math/MyMath.h"
 class ResultUI :
     public UIBase
 {

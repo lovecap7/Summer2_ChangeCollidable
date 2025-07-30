@@ -67,6 +67,8 @@ private:
 	Vector3 m_pos;
 	//大きさ
 	Vector3 m_scale;
+	//1フレーム前の指定された向き
+	Vector2 m_beforeSetDir;
 
 	//攻撃を喰らった時にもとの状態に戻るのを数えるフレーム
 	int m_hitCountFrame;
