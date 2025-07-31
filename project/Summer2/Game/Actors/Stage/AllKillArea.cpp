@@ -7,7 +7,7 @@
 #include "../../Camera/GameCamera/GameCamera.h"
 
 AllKillArea::AllKillArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
-	EventAreaBase(start,end),
+	EventAreaBase(start,end,AreaTag::AllKill),
 	m_update(&AllKillArea::EntryCheckUpdate)
 {
 }
@@ -43,7 +43,7 @@ void AllKillArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const
 		std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(false);
 		std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(false);
 		//イベント開始情報をカメラに設定
-		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventAreaBase>(shared_from_this()));
+		camera.lock()->SetEventArea(std::dynamic_pointer_cast<AllKillArea>(shared_from_this()));
 		//更新処理の状態変更
 		m_update = &AllKillArea::EventUpdate;
 		return;

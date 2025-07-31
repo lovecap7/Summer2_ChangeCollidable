@@ -6,7 +6,7 @@
 #include "../../../General/Collision/Physics.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
-	EventAreaBase(start,end),
+	EventAreaBase(start,end,AreaTag::Boss),
 	m_update(&BossArea::EntryCheckUpdate)
 {
 }
@@ -29,7 +29,7 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const st
 		std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(false);
 		std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(false);
 		//イベント開始情報をカメラに設定
-		camera.lock()->SetEventArea(std::dynamic_pointer_cast<EventAreaBase>(shared_from_this()));
+		camera.lock()->SetEventArea(std::dynamic_pointer_cast<BossArea>(shared_from_this()));
 		//ボス以外の雑魚敵を削除
 		actorManager.lock()->AllDeleteNormalEnemy();
 		m_update = &BossArea::EventUpdate;

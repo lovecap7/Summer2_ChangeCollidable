@@ -1,6 +1,7 @@
 #include "GameCamera.h"
 #include "GameCameraStateNormal.h"
 #include "GameCameraStateAreaLock.h"
+#include "GameCameraStateZMove.h"
 #include "GameCameraStateBossArea.h"
 #include "GameCameraStateBossDeath.h"
 #include "GameCameraStateClear.h"
@@ -63,22 +64,28 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 	auto camera = m_camera.lock();
 	//プレイヤーが消滅した場合更新終了
 	if (player.expired())return;
-	//ボスエリアにプレイヤーが入ったなら
-	if (!actorManager.lock()->GetBossArea().expired())
-	{
-		if (actorManager.lock()->GetBossArea().lock()->IsEvent())
-		{
-			ChangeState(std::make_shared<GameCameraStateBossArea>(m_camera));
-			return;
-		}
-	}
 	//イベントエリアにプレイヤーが入ったなら
 	if (!camera->GetEventArea().expired())
 	{
 		if (camera->GetEventArea().lock()->IsEvent())
 		{
-			ChangeState(std::make_shared<GameCameraStateAreaLock>(m_camera));
-			return;
+			//入ったエリアに応じて状態変化
+			auto camera = m_camera.lock();
+			switch (camera->GetEventArea().lock()->GetAreaTag())
+			{
+			case AreaTag::AllKill:
+				//全滅エリア
+				ChangeState(std::make_shared<GameCameraStateAreaLock>(m_camera));
+				return;
+				//Z軸移動エリア
+			case AreaTag::ZMove:
+				ChangeState(std::make_shared<GameCameraStateZMove>(m_camera));
+				return;
+			case AreaTag::Boss:
+				//ボスエリア
+				ChangeState(std::make_shared<GameCameraStateBossArea>(m_camera));
+				return;
+			}
 		}
 	}
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動

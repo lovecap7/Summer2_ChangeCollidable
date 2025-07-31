@@ -5,11 +5,12 @@
 #include "../Character/Enemy/EnemyBase.h"
 #include "../../../General/Collision/Physics.h"
 #include "../../Camera/GameCamera/GameCamera.h"
-EventAreaBase::EventAreaBase(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
+EventAreaBase::EventAreaBase(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end, AreaTag area):
 	Actor(Shape::None),
 	m_start(start),
 	m_end(end),
-	m_isEvent(false)
+	m_isEvent(false),
+	m_areaTag(area)
 {
 }
 
@@ -19,8 +20,6 @@ EventAreaBase::~EventAreaBase()
 
 void EventAreaBase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	if (m_isEvent)return; //イベント中なら更新しない
-
 	if (actorManager.lock()->GetPlayer().expired())return;
 	auto player = actorManager.lock()->GetPlayer().lock();
 	//座標から範囲に入ったかをチェック
@@ -42,6 +41,10 @@ void EventAreaBase::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	if (dot >= 0.0f && dot <= 1.0f)
 	{
 		m_isEvent = true; //イベント中フラグを立てる
+	}
+	else
+	{
+		m_isEvent = false; //範囲外ならイベント中フラグを下ろす
 	}
 	//壁はすり抜ける
 	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(true);

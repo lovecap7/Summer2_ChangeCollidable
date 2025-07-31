@@ -1,11 +1,19 @@
 #pragma once
 #include "../Actor.h"
+
+enum class AreaTag
+{
+    AllKill, //全滅エリア
+    ZMove,   //Z軸移動エリア
+	Boss,    //ボスエリア
+};
+
 class GameCamera;
 class EventAreaBase abstract:
     public Actor
 {
 public:
-    EventAreaBase(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end);
+    EventAreaBase(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end, AreaTag area);
     virtual ~EventAreaBase();
     virtual void Init()override {};
     virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
@@ -19,9 +27,13 @@ public:
     //スタートとエンドのX座標
     Vector3 GetEventStartPos()const { return m_start.lock()->GetPos(); };
     Vector3 GetEventEndPos()const { return m_end.lock()->GetPos(); };
+    //エリア
+	AreaTag GetAreaTag()const { return m_areaTag; };
 protected:
     std::weak_ptr<Actor> m_start;
     std::weak_ptr<Actor> m_end;
     //イベント中フラグ
     bool m_isEvent;
+	//イベントのタグ
+    AreaTag m_areaTag;
 };

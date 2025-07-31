@@ -90,12 +90,13 @@
     <ClCompile Include="Game\Actors\Item\ItemBase.cpp" />
     <ClCompile Include="Game\Actors\Item\UltGageUp.cpp" />
     <ClCompile Include="Game\Actors\Stage\BossArea.cpp" />
-    <ClCompile Include="Game\Actors\Stage\EventArea.cpp" />
+    <ClCompile Include="Game\Actors\Stage\AllKillArea.cpp" />
     <ClCompile Include="Game\Actors\Stage\EventAreaBase.cpp" />
     <ClCompile Include="Game\Actors\Stage\InvisibleWall.cpp" />
     <ClCompile Include="Game\Actors\Stage\Sky.cpp" />
     <ClCompile Include="Game\Actors\Stage\StageObjectCollision.cpp" />
     <ClCompile Include="Game\Actors\Stage\StageObjectDraw.cpp" />
+    <ClCompile Include="Game\Actors\Stage\ZMoveCameraArea.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCamera.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateAreaLock.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBase.cpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateClear.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateNormal.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateStart.cpp" />
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateZMove.cpp" />
     <ClCompile Include="Game\Camera\SelectStageCamera\SelectStageCamera.cpp" />
     <ClCompile Include="Game\Camera\TitleCamera\TitleCamera.cpp" />
     <ClCompile Include="Game\GameManager.cpp" />
@@ -248,6 +250,7 @@
     <ClInclude Include="Game\Actors\Stage\Sky.h" />
     <ClInclude Include="Game\Actors\Stage\StageObjectCollision.h" />
     <ClInclude Include="Game\Actors\Stage\StageObjectDraw.h" />
+    <ClInclude Include="Game\Actors\Stage\ZMoveCameraArea.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCamera.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateAreaLock.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBase.h" />
@@ -256,6 +259,7 @@
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateClear.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateNormal.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateStart.h" />
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateZMove.h" />
     <ClInclude Include="Game\Camera\SelectStageCamera\SelectStageCamera.h" />
     <ClInclude Include="Game\Camera\TitleCamera\TitleCamera.h" />
     <ClInclude Include="Game\GameManager.h" />

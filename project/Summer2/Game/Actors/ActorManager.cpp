@@ -1,5 +1,4 @@
 #include "ActorManager.h"
-#include "Stage/BossArea.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Math/MyMath.h"
 #include "../UI/UIManager.h"
@@ -27,7 +26,9 @@
 #include "Stage/StageObjectDraw.h"
 #include "Stage/Sky.h"
 #include "Stage/EventAreaBase.h"
+#include "Stage/ZMoveCameraArea.h"
 #include "Stage/AllKillArea.h"
+#include "Stage/BossArea.h"
 //アイテム
 #include "Item/Heart.h"
 #include "Item/UltGageUp.h"
@@ -586,15 +587,22 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	}
 	//イベント部屋を作成
 	auto eventAreaData = m_csvLoader->LoadTransformDataCSV(eventAreaPath.c_str());
-	std::list<std::shared_ptr<StageObjectCollision>> eventAreaParts;
+	std::list<std::shared_ptr<StageObjectCollision>> allKillAreaParts;
+	std::list<std::shared_ptr<StageObjectCollision>> zCaneraMoveAreaParts;
 	std::list<std::shared_ptr<StageObjectCollision>> bossAreaParts;
 	//名前からコリジョンを配置していく
 	for (auto& stageData : eventAreaData)
 	{
-		if (stageData.name == "EventAreaS" || stageData.name == "EventAreaE")
+		if (stageData.name == "AllKillAreaS" || stageData.name == "AllKillAreaE")
 		{
 			auto coll = std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
-			eventAreaParts.emplace_back(coll);
+			allKillAreaParts.emplace_back(coll);
+			m_nextAddActors.emplace_back(coll);
+		}
+		if (stageData.name == "ZMoveAreaS" || stageData.name == "ZMoveAreaE")
+		{
+			auto coll = std::make_shared<StageObjectCollision>(MV1DuplicateModel(m_handles["Plane"]), stageData.pos, stageData.scale, stageData.rot);
+			zCaneraMoveAreaParts.emplace_back(coll);
 			m_nextAddActors.emplace_back(coll);
 		}
 		else if (stageData.name == "BossAreaS" || stageData.name == "BossAreaE")
@@ -604,11 +612,17 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			m_nextAddActors.emplace_back(coll);
 		}
 		//エリアを構成する2要素が揃ったら
-		if (eventAreaParts.size() >= kAreaPartsNum)
+		if (allKillAreaParts.size() >= kAreaPartsNum)
 		{
-			auto eventArea = std::make_shared<AllKillArea>(eventAreaParts.front(), eventAreaParts.back());
+			auto eventArea = std::make_shared<AllKillArea>(allKillAreaParts.front(), allKillAreaParts.back());
 			m_nextAddActors.emplace_back(eventArea);
-			eventAreaParts.clear();
+			allKillAreaParts.clear();
+		}
+		if (zCaneraMoveAreaParts.size() >= kAreaPartsNum)
+		{
+			auto eventArea = std::make_shared<ZMoveCameraArea>(zCaneraMoveAreaParts.front(), zCaneraMoveAreaParts.back());
+			m_nextAddActors.emplace_back(eventArea);
+			zCaneraMoveAreaParts.clear();
 		}
 		if (bossAreaParts.size() >= kAreaPartsNum)
 		{
