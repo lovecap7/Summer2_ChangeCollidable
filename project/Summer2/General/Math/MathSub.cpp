@@ -39,3 +39,23 @@ float MathSub::Lerp(float start, float end, float t)
     float result = start * (1.0f - t) + end * t;
     return result;
 }
+
+float MathSub::Min(float a, float b)
+{
+    float min = a;
+    if (a > b)
+    {
+        min = b;
+    }
+    return min;
+}
+
+float MathSub::Max(float a, float b)
+{
+    float max = a;
+    if (a < b)
+    {
+        max = b;
+    }
+    return max;
+}

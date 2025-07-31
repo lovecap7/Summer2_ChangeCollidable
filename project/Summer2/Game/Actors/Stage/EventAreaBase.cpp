@@ -35,17 +35,8 @@ void EventAreaBase::Update(const std::weak_ptr<GameCamera> camera, const std::we
 		sToEVec = sToEVec.Normalize();
 		sToPVec = sToPVec.Normalize();
 	}
-	//内積の結果が0以上かつ1以下なら範囲内
-	float dot = sToEVec.Dot(sToPVec);
-	dot = MathSub::ClampFloat(dot, -1.0f, 1.0f);
-	if (dot >= 0.0f && dot <= 1.0f)
-	{
-		m_isEvent = true; //イベント中フラグを立てる
-	}
-	else
-	{
-		m_isEvent = false; //範囲外ならイベント中フラグを下ろす
-	}
+	//範囲内にいるかチェック
+	m_isEvent = Vector2::IsPointInRect(startPos.XZ(), endPos.XZ(), playerPos.XZ());
 	//壁はすり抜ける
 	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(true);
 	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(true);

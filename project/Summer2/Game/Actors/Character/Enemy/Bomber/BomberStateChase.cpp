@@ -18,13 +18,13 @@
 namespace
 {
 	//プレイヤー戦闘状態になる距離
-	constexpr float kAttackDistance = 200.0f;
+	constexpr float kAttackDistance = 400.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
 	const char* kAnim = "CharacterArmature|Run";
 	//プレイヤーを追いかける速度
-	constexpr float kChaseSpeed = 5.0f;
+	constexpr float kChaseSpeed = 3.0f;
 }
 
 BomberStateChase::BomberStateChase(std::weak_ptr<Actor> owner) :

@@ -10,9 +10,6 @@
 
 namespace
 {
-	//near‚Æfar
-	constexpr float kNear = 50.0f;
-	constexpr float kFar = 5000.0f;
 	//ƒJƒƒ‰Šp“x
 	constexpr float kNormalCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
 	constexpr float kBossCameraAngleX = 40.0f * MyMath::DEG_2_RAD;

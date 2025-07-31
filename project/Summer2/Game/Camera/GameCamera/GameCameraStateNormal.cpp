@@ -18,9 +18,6 @@
 
 namespace
 {
-	//near‚Æfar
-	constexpr float kNear = 50.0f;
-	constexpr float kFar = 5000.0f;
 	//‹–ìŠp
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//ƒJƒƒ‰Šp“x

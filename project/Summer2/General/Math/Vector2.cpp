@@ -158,3 +158,14 @@ Vector2 Vector2::Lerp(Vector2 v1, Vector2 v2, float t)
     rV = v1 * (1.0f - t) + v2 * t;
     return rV;
 }
+
+bool Vector2::IsPointInRect(const Vector2& A, const Vector2& B, const Vector2& C)
+{
+    float left = MathSub::Min(A.x, B.x);
+    float right = MathSub::Max(A.x, B.x);
+    float top = MathSub::Min(A.y, B.y);
+    float bottom = MathSub::Max(A.y, B.y);
+
+    return (C.x >= left && C.x <= right &&
+        C.y >= top && C.y <= bottom);
+}

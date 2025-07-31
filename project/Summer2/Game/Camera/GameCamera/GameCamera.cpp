@@ -16,7 +16,7 @@ namespace
 {
 	//near‚Æfar
 	constexpr float kNear = 50.0f;
-	constexpr float kFar = 5000.0f;
+	constexpr float kFar = 8000.0f;
 }
 
 

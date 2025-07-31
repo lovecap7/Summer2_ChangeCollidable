@@ -16,9 +16,6 @@
 
 namespace
 {
-	//nearとfar
-	constexpr float kNear = 50.0f;
-	constexpr float kFar = 5000.0f;
 	//視野角
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
@@ -28,10 +25,12 @@ namespace
 	constexpr float kLerpRateY = 0.05f;
 	constexpr float kLerpRateZ = 0.01f;
 	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetCameraPosY = 700.0f;
+	constexpr float kOffsetCameraPosY = 800.0f;
 	constexpr float kOffsetCameraPosZ = -1300.0f;
 	//壁からの距離
 	constexpr float kDistanceFromWall = 300.0f;
+	//距離の反映率
+	constexpr float kDistanceRate = 10.0f;
 }
 GameCameraStateBossArea::GameCameraStateBossArea(std::weak_ptr<GameCamera> camera):
 	GameCameraStateBase(camera)
@@ -82,10 +81,12 @@ void GameCameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorMana
 	auto playerPos = player.lock()->GetPos();
 	//間の位置
 	Vector3 center = (boss.lock()->GetPos() + playerPos) / 2.0f;
+	//プレイヤーとボスの距離
+	float distance = (boss.lock()->GetPos() - playerPos).Magnitude();
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();
 	Vector3 nextPos = camera->GetPos();
-	nextPos.y = center.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
+	nextPos.y = center.y + kOffsetCameraPosY + (distance / kDistanceRate);//プレイヤーのY座標より高い位置
 	//エリアの外にカメラが近づいたら止まる
 	nextPos.x = center.x;
 	if (nextPos.x <= startPos.x + kDistanceFromWall)
@@ -96,7 +97,8 @@ void GameCameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorMana
 	{
 		nextPos.x = endPos.x - kDistanceFromWall;
 	}
-	nextPos.z = center.z + kOffsetCameraPosZ;
+
+	nextPos.z = center.z + kOffsetCameraPosZ - (distance / kDistanceRate);
 	//次の座標
 	nextPos.x = MathSub::Lerp(oldPos.x, nextPos.x, kLerpRateX);
 	nextPos.y = MathSub::Lerp(oldPos.y, nextPos.y, kLerpRateY);

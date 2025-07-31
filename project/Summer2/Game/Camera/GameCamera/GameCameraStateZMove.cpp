@@ -11,19 +11,16 @@
 #include <DxLib.h>
 namespace
 {
-	//nearとfar
-	constexpr float kNear = 50.0f;
-	constexpr float kFar = 5000.0f;
 	//視野角
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
-	constexpr float kCameraAngleX = 20.0f * MyMath::DEG_2_RAD;
+	constexpr float kCameraAngleX = 29.0f * MyMath::DEG_2_RAD;
 	//lerpの割合
 	constexpr float kLerpRateX = 0.1f;
 	constexpr float kLerpRateY = 0.1f;
 	constexpr float kLerpRateZ = 0.1f;
 	//ターゲットから少し離れるためのオフセット
-	constexpr float kOffsetCameraPosY = 600.0f;
+	constexpr float kOffsetCameraPosY = 900.0f;
 	constexpr float kOffsetCameraPosZ = -1400.0f;
 
 }

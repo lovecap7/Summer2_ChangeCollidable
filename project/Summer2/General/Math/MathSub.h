@@ -26,5 +26,21 @@ public:
     /// <param name="t">•âŠÔ‚ÌŠ„‡</param>
     /// <returns></returns>
     static float Lerp(float start, float end, float t);
+
+    /// <summary>
+	/// Å¬’l‚ğ•Ô‚·
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    static float Min(float a, float b);
+
+    /// <summary>
+   /// Å‘å’l‚ğ•Ô‚·
+   /// </summary>
+   /// <param name="a"></param>
+   /// <param name="b"></param>
+   /// <returns></returns>
+    static float Max(float a, float b);
 };
 

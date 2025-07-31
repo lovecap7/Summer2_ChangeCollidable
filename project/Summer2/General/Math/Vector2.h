@@ -58,6 +58,9 @@ public:
 
 	//線形補間
 	static Vector2 Lerp(Vector2 v1, Vector2 v2, float t);
+
+	//矩形範囲内にあるかをチェック
+	static bool IsPointInRect(const Vector2& A, const Vector2& B, const Vector2& C);
 };
 
 //座標で表すときに使う
