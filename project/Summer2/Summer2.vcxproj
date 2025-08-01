@@ -52,9 +52,11 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBeam.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRightPunch.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaur.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.cpp" />
@@ -212,9 +214,11 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBeam.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRightPunch.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\EnemyBase.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaur.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateAttack.h" />

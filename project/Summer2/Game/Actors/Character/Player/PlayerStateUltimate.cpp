@@ -3,7 +3,6 @@
 #include "PlayerStateWin.h"
 #include "Player.h"
 #include "UltGage.h"
-#include "../Enemy/EnemyBase.h"
 #include "../../ActorManager.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Collision/ColliderBase.h"
@@ -105,8 +104,7 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 	if (m_animCountFrame == m_attackData.startFrame)
 	{
 		//攻撃作成
-		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame,
-			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
+		CreateAttack(actorManager);
 	}
 	//攻撃判定をリセット
 	if (m_animCountFrame % kUltResetFrame == 0)
@@ -117,7 +115,7 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
 
-void PlayerStateUltimate::CreateAttack(float radius, int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, const std::weak_ptr<ActorManager> actorManager)
+void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
 {
 	auto owner = m_owner.lock();
 	//作成と参照

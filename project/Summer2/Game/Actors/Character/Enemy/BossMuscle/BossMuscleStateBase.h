@@ -18,10 +18,9 @@ protected:
 //攻撃のデータを検索するときに使う
 namespace
 {
-	std::string kOwnerName = "BossMuscle";
-	std::string kBreathName = "Breath";
-	std::string kPunchName = "Punch";
-	std::string kSweepName = "Sweep";
+	std::string kOwnerName		= "BossMuscle";
+	std::string kRightPunchName	= "RightPunch";
+	std::string kBeamName		= "Beam";
 }
 
 

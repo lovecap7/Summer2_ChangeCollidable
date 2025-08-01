@@ -1,8 +1,8 @@
-#include "PurpleDinosaurStateAttack.h"
-#include "PurpleDinosaurStateIdle.h"
-#include "PurpleDinosaurStateDeath.h"
-#include "PurpleDinosaurStateHit.h"
-#include "PurpleDinosaur.h"
+#include "BossMuscleStateRightPunch.h"
+#include "BossMuscleStateIdle.h"
+#include "BossMuscleStateDeath.h"
+#include "BossMuscleStateHit.h"
+#include "BossMuscle.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/game.h"
 #include "../../../../../General/Collision/ColliderBase.h"
@@ -21,54 +21,56 @@ namespace
 {
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
-	//左腕と左手のインデックス
-	constexpr int kLeftArmIndex = 13;
-	constexpr int kLeftHandIndex = 17;
+	//右腕と右手のインデックス
+	constexpr int kRightArmIndex = 41;
+	constexpr int kRightHandIndex = 43;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 120;//2秒くらいの感覚で攻撃
+	//怒り状態の時の速度2倍
+	constexpr float kAngryMoveSpeedRate = 2.0f;
 }
 
-PurpleDinosaurStateAttack::PurpleDinosaurStateAttack(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager):
-	PurpleDinosaurStateBase(owner),
+BossMuscleStateRightPunch::BossMuscleStateRightPunch(std::weak_ptr<Actor> owner, bool isAngry,const std::weak_ptr<ActorManager> actorManager) :
+	BossMuscleStateBase(owner, isAngry),
 	m_attackCountFrame(0)
 {
-	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kAttackName);
-	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kRightPunchName);
+	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	//通常攻撃
-	coll->SetCollState(CollisionState::Move);
+	coll->SetCollState(CollisionState::Normal);
 	//攻撃
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
 }
 
-PurpleDinosaurStateAttack::~PurpleDinosaurStateAttack()
+BossMuscleStateRightPunch::~BossMuscleStateRightPunch()
 {
 	//攻撃のクールタイム
-	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	coll->SetAttackCoolTime(kAttackCoolTime);
 	if (!m_attack.expired())m_attack.lock()->Delete();
 }
 
-void PurpleDinosaurStateAttack::Init()
+void BossMuscleStateRightPunch::Init()
 {
 	//次の状態を今の状態に更新
 	ChangeState(shared_from_this());
 }
 
-void PurpleDinosaurStateAttack::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossMuscleStateRightPunch::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	//死亡
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
-		ChangeState(std::make_shared<PurpleDinosaurStateDeath>(m_owner));
+		ChangeState(std::make_shared<BossMuscleStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
 	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
-		ChangeState(std::make_shared<PurpleDinosaurStateHit>(m_owner));
+		ChangeState(std::make_shared<BossMuscleStateHit>(m_owner,m_isAngry));
 		return;
 	}
 	//カウント
@@ -82,11 +84,11 @@ void PurpleDinosaurStateAttack::Update(const std::weak_ptr<GameCamera> camera, c
 	if (coll->GetModel()->IsFinishAnim())
 	{
 		//待機状態に戻す
-		ChangeState(std::make_shared<PurpleDinosaurStateIdle>(m_owner));
+		ChangeState(std::make_shared<BossMuscleStateIdle>(m_owner, m_isAngry));
 		return;
 	}
 	//攻撃の位置更新
-	if(!m_attack.expired()) UpdateAttackPos();
+	if (!m_attack.expired()) UpdateAttackPos();
 
 	//移動フレーム中は前に進む
 	if (m_attackCountFrame <= m_attackData.moveFrame)
@@ -101,7 +103,7 @@ void PurpleDinosaurStateAttack::Update(const std::weak_ptr<GameCamera> camera, c
 	}
 }
 
-void PurpleDinosaurStateAttack::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
+void BossMuscleStateRightPunch::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
 {
 	//作成と参照
 	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
@@ -115,20 +117,23 @@ void PurpleDinosaurStateAttack::CreateAttack(const std::weak_ptr<ActorManager> a
 		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
 }
 
-void PurpleDinosaurStateAttack::UpdateAttackPos()
+void BossMuscleStateRightPunch::UpdateAttackPos()
 {
 	auto model = m_owner.lock()->GetModel();
 	//腕と手の座標
-	VECTOR leftArm = MV1GetFramePosition(model->GetModelHandle(), kLeftArmIndex);//左腕
-	VECTOR leftHand = MV1GetFramePosition(model->GetModelHandle(), kLeftHandIndex);//手の指先
+	VECTOR arm = MV1GetFramePosition(model->GetModelHandle(), kRightArmIndex);//右腕
+	VECTOR hand = MV1GetFramePosition(model->GetModelHandle(), kRightHandIndex);//手の指先
 	//座標をセット
-	m_attack.lock()->SetStartPos(leftArm);
-	m_attack.lock()->SetEndPos(leftHand);
+	m_attack.lock()->SetStartPos(arm);
+	m_attack.lock()->SetEndPos(hand);
 }
 
-void PurpleDinosaurStateAttack::AttackMove()
+void BossMuscleStateRightPunch::AttackMove()
 {
 	//向いてる方向に移動
-	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
-	coll->GetRb()->SetMoveVec(coll->GetModel()->GetDir() * m_attackData.moveSpeed);
+	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
+	//怒り状態になっているなら速度2倍
+	float moveSpeed = m_attackData.moveSpeed;
+	if (m_isAngry) moveSpeed = moveSpeed * kAngryMoveSpeedRate;
+	coll->GetRb()->SetMoveVec(coll->GetModel()->GetDir() * moveSpeed);
 }
