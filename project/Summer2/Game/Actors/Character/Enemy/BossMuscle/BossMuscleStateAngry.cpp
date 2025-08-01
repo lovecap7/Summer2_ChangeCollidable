@@ -1,6 +1,6 @@
 #include "BossMuscleStateAngry.h"
-#include "BossMuscleStateAngryIdle.h"
 #include "BossMuscleStateDeath.h"
+#include "BossMuscleStateIdle.h"
 #include "BossMuscle.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/Collision/ColliderBase.h"
@@ -22,7 +22,7 @@ namespace
 }
 
 BossMuscleStateAngry::BossMuscleStateAngry(std::weak_ptr<Actor> owner) :
-	BossMuscleStateBase(owner)
+	BossMuscleStateBase(owner,true)
 {
 	//ë“ã@èÛë‘
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
@@ -54,7 +54,7 @@ void BossMuscleStateAngry::Update(const std::weak_ptr<GameCamera> camera, const 
 	if (coll->GetModel()->IsFinishAnim())
 	{
 		//ì{ÇËë“ã@èÛë‘Ç…
-		ChangeState(std::make_shared<BossMuscleStateAngryIdle>(m_owner));
+		ChangeState(std::make_shared<BossMuscleStateIdle>(m_owner,m_isAngry));
 		return;
 	}
 	//å∏ë¨

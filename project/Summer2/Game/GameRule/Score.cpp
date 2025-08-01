@@ -79,19 +79,20 @@ void Score::AddKillOrItemScore(std::string dataName)
 			if (dataName == data.dataName)
 			{
 				//“G‚È‚ç
-				if (dataName == ScoreDataName::kPurpleDinosaur ||
-					dataName == ScoreDataName::kSmallDragon ||
-					dataName == ScoreDataName::kBomber ||
-					dataName == ScoreDataName::kBossDragon)
+				if (dataName == ScoreDataName::kPurpleDinosaur	||
+					dataName == ScoreDataName::kSmallDragon		||
+					dataName == ScoreDataName::kBomber			||
+					dataName == ScoreDataName::kBossDragon		||
+					dataName == ScoreDataName::kBossMuscle)
 				{
 					m_killScore += data.score;
 					break;
 				}
 				//ƒAƒCƒeƒ€‚È‚ç
-				else if (dataName == ScoreDataName::kAttackUp ||
-					dataName == ScoreDataName::kDefenseUp ||
-					dataName == ScoreDataName::kHeart ||
-					dataName == ScoreDataName::kUltGageUp)
+				else if (dataName == ScoreDataName::kAttackUp	||
+						 dataName == ScoreDataName::kDefenseUp	||
+						 dataName == ScoreDataName::kHeart		||
+						 dataName == ScoreDataName::kUltGageUp)
 				{
 					m_itemScore += data.score;
 					break;

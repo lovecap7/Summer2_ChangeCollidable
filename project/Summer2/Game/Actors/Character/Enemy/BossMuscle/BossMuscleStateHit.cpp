@@ -1,7 +1,7 @@
-#include "BossMuscleStateIdle.h"
+#include "BossMuscleStateHit.h"
 #include "BossMuscleStateAngry.h"
 #include "BossMuscleStateDeath.h"
-#include "BossMuscleStateHit.h"
+#include "BossMuscleStateIdle.h"
 #include "BossMuscle.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/Collision/ColliderBase.h"
@@ -18,44 +18,30 @@ namespace
 {
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
-	//アニメーションの名前
-	const char* kNormalAnim = "Boss|Idle1";//待機
-	const char* kAnglyAnim = "Boss|Idle2";//待機
+	//アニメーション
+	const char* kAnim = "Boss|Hit";
 }
-
-BossMuscleStateIdle::BossMuscleStateIdle(std::weak_ptr<Actor> owner, bool isAngry) :
+BossMuscleStateHit::BossMuscleStateHit(std::weak_ptr<Actor> owner, bool isAngry) :
 	BossMuscleStateBase(owner,isAngry)
 {
-	//待機状態
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
-	if (isAngry)
-	{
-		//怒り状態の待機
-		coll->GetModel()->SetAnim(kAnglyAnim, true);
-	}
-	else
-	{
-		//通常の待機
-		coll->GetModel()->SetAnim(kNormalAnim, true);
-	}
-	coll->SetCollState(CollisionState::Normal);
+	//やられ
+	coll->GetModel()->SetAnim(kAnim, false);
 }
 
-BossMuscleStateIdle::~BossMuscleStateIdle()
+BossMuscleStateHit::~BossMuscleStateHit()
 {
 }
 
-void BossMuscleStateIdle::Init()
+void BossMuscleStateHit::Init()
 {
 	//次の状態を今の状態に更新
 	ChangeState(shared_from_this());
 }
 
-void BossMuscleStateIdle::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossMuscleStateHit::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//コライダブル
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
-	auto targetData = coll->GetTargetData();
 	//死亡
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
@@ -70,18 +56,21 @@ void BossMuscleStateIdle::Update(const std::weak_ptr<GameCamera> camera, const s
 		ChangeState(std::make_shared<BossMuscleStateAngry>(m_owner));
 		return;
 	}
+	auto model = coll->GetModel();
 	//ヒットリアクション
 	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
-		ChangeState(std::make_shared<BossMuscleStateHit>(m_owner,m_isAngry));
+		//初めから
+		model->ReplayAnim();
+	}
+	//モデルのアニメーションが終わったら
+	if (model->IsFinishAnim())
+	{
+		//待機
+		ChangeState(std::make_shared<BossMuscleStateIdle>(m_owner, m_isAngry));
 		return;
 	}
-	//プレイヤーを見つけたなら
-	if (targetData.isHitTarget)
-	{
-		//プレイヤーを見る
-		coll->LookAtTarget();
-	}
+
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }

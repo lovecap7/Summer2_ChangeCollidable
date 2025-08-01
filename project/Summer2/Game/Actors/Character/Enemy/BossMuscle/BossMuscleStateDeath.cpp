@@ -22,7 +22,7 @@ namespace
 }
 
 BossMuscleStateDeath::BossMuscleStateDeath(std::weak_ptr<Actor> owner) :
-	BossMuscleStateBase(owner)
+	BossMuscleStateBase(owner,true)
 {
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	//€–Só‘Ô‚É‚·‚é

@@ -672,10 +672,10 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngryIdle.cpp">
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.cpp">
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1160,10 +1160,10 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngryIdle.h">
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.h">
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
   </ItemGroup>
