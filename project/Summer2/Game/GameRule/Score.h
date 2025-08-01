@@ -67,6 +67,7 @@ namespace ScoreDataName
 	const std::string kSmallDragon		= "SmallDragon";
 	const std::string kBomber			= "Bomber";
 	const std::string kBossDragon		= "BossDragon";
+	const std::string kBossMuscle		= "BossMuscle";
 	const std::string kAttackUp			= "AttackUp";
 	const std::string kDefenseUp		= "DefenseUp";
 	const std::string kHeart			= "Heart";

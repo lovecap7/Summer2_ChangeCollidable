@@ -30,7 +30,8 @@ Model::Model(int modelHandle, VECTOR pos) :
 	m_hitCountFrame(0),
 	m_diffColor{ 1.0f,1.0f ,1.0f ,1.0f },
 	m_beforeScale(m_scale),
-	m_beforeScaleDif{}
+	m_beforeScaleDif{},
+	m_modelHeightAdjust(0.0f)
 {
 	//ç¿ïW
 	DxLib::MV1SetPosition(m_modelHandle, pos);
@@ -51,7 +52,8 @@ Model::Model(int modelHandle, VECTOR pos, Vector3 forward) :
 	m_diffColor{ 1.0f,1.0f ,1.0f ,1.0f },
 	m_beforeScale(m_scale),
 	m_beforeScaleDif{},
-	m_beforeSetDir{ forward.XZ() }
+	m_beforeSetDir{ forward.XZ() },
+	m_modelHeightAdjust(0.0f)
 {
 	//ç¿ïW
 	m_pos = pos;
@@ -273,7 +275,7 @@ bool Model::IsFinishFixedLoop()
 void Model::ApplyMat()
 {
 	Matrix4x4 mat;
-	auto pMat = Matrix4x4::TranslateMat4x4(m_pos.x, m_pos.y, m_pos.z);
+	auto pMat = Matrix4x4::TranslateMat4x4(m_pos.x, m_pos.y + m_modelHeightAdjust, m_pos.z);
 	auto rMat = m_rotation.GetMatrix();
 	auto sMat = Matrix4x4::ScaleMatrix4x4(m_scale);
 	mat = sMat * rMat * pMat;

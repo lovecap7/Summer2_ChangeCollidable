@@ -196,6 +196,12 @@
     <Filter Include="ソース ファイル\Game\UI\SelectStageUI">
       <UniqueIdentifier>{849d3589-f16f-41b5-a274-2991a4d4d9ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\BossMuscle">
+      <UniqueIdentifier>{6ee21132-6b04-4199-9932-30fe95ff4e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle">
+      <UniqueIdentifier>{61c9adc4-a22c-4031-9977-ed71f4570849}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -653,6 +659,24 @@
     </ClCompile>
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateZMove.cpp">
       <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngryIdle.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1123,6 +1147,24 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Stage\ZMoveCameraArea.h">
       <Filter>ヘッダー ファイル\Game\Actors\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngryIdle.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,8 @@ public:
 	Quaternion GetRot()const { return m_rotation; };
 	//回転速度
 	void SetRotSpeed(int speed) { m_rotaSpeed = speed; };
+	//高さ調整
+	void SetModelHeightAdjust(float height) { m_modelHeightAdjust = height; };
 	//攻撃を喰らった時のモデルのリアクション(攻撃を喰らった時に呼ぶ)
 	void ModelHit();
 	//アニメーション関係
@@ -69,6 +71,8 @@ private:
 	Vector3 m_scale;
 	//1フレーム前の指定された向き
 	Vector2 m_beforeSetDir;
+	//モデルの高さ調整
+	float m_modelHeightAdjust;
 
 	//攻撃を喰らった時にもとの状態に戻るのを数えるフレーム
 	int m_hitCountFrame;

@@ -1,6 +1,5 @@
-#include "BossDragon.h"
-#include "BossDragonStateBase.h"
-#include "BossDragonStateIdle.h"
+#include "BossMuscle.h"
+#include "BossMuscleStateIdle.h"
 #include <memory>
 #include "../../../ActorManager.h"
 #include "../../../Stage/BossArea.h"
@@ -24,19 +23,21 @@
 namespace
 {
 	//当たり判定
-	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
-	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
+	const Vector3 kCapsuleHeight = { 0.0f,150.0f,0.0f };//カプセルの上端
+	constexpr float kCapsuleRadius = 80.0f; //カプセルの半径
 	//プレイヤーを発見する距離
 	constexpr float kSearchDistance = 2000.0f;
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
 	//体力
-	constexpr int kHp = 5000;
+	constexpr int kHp = 9000;
 	//モデルの旋回速度
 	constexpr int kModelRotateSpeed = 30;
+	//モデルの高さ調整
+	constexpr float kModelHeightAdjust = -70.0f;
 }
 
-BossDragon::BossDragon(int modelHandle, Vector3 pos):
+BossMuscle::BossMuscle(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule, EnemyGrade::Boss),
 	m_isActive(false)
 {
@@ -55,21 +56,23 @@ BossDragon::BossDragon(int modelHandle, Vector3 pos):
 	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Heavy);
 	//攻撃ステータス
 	m_attackPoints = std::make_shared<AttackPoints>();
+	//モデルの高さ調整
+	m_model->SetModelHeightAdjust(kModelHeightAdjust);
 }
 
-BossDragon::~BossDragon()
+BossMuscle::~BossMuscle()
 {
 }
 
-void BossDragon::Init()
+void BossMuscle::Init()
 {
 	//コライダブルの初期化
 	AllSetting(CollisionState::Normal, Priority::High, GameTag::Enemy, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
-	auto thisPointer = std::dynamic_pointer_cast<BossDragon>(shared_from_this());
-	m_state = std::make_shared<BossDragonStateIdle>(thisPointer);
+	auto thisPointer = std::dynamic_pointer_cast<BossMuscle>(shared_from_this());
+	m_state = std::make_shared<BossMuscleStateIdle>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
 
@@ -78,7 +81,7 @@ void BossDragon::Init()
 	m_hpUI.lock()->SetIsDraw(false);
 }
 
-void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossMuscle::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 #if _DEBUG
 	//ボスを死亡させる
@@ -101,7 +104,7 @@ void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_
 	}
 	else
 	{
-		//行動開始
+		//無敵解除
 		m_hitPoints->SetIsNoDamege(false);
 	}
 	//体力の表示をする
@@ -137,11 +140,11 @@ void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_
 	m_hitPoints->ResetHitFlags();
 }
 
-void BossDragon::OnCollide(const std::shared_ptr<Collidable> other)
+void BossMuscle::OnCollide(const std::shared_ptr<Collidable> other)
 {
 }
 
-void BossDragon::Draw() const
+void BossMuscle::Draw() const
 {
 #if _DEBUG
 	DrawCapsule3D(
@@ -169,7 +172,7 @@ void BossDragon::Draw() const
 	m_model->Draw();
 }
 
-void BossDragon::Complete()
+void BossMuscle::Complete()
 {
 	m_rb->m_pos = m_rb->GetNextPos();//次の座標へ
 	Vector3 endPos = m_rb->m_pos;
@@ -179,16 +182,16 @@ void BossDragon::Complete()
 	m_model->SetPos(m_rb->GetPos().ToDxLibVector());
 }
 
-void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
+void BossMuscle::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	if (!m_hitPoints->IsDead())return;//体力がなくなっていない場合は無視
 	//スコア加算
-	score.lock()->AddKillOrItemScore(ScoreDataName::kBossDragon);
+	score.lock()->AddKillOrItemScore(ScoreDataName::kBossMuscle);
 	//死亡エフェクト
 	EffekseerManager::GetInstance().CreateEffect("BossDeathEff", m_rb->m_pos);
 }
 
-void BossDragon::End()
+void BossMuscle::End()
 {
 	Collidable::End();
 	m_model->End();

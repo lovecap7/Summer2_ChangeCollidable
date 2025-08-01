@@ -18,6 +18,7 @@
 #include "Character/Enemy/PurpleDinosaur/PurpleDinosaur.h"
 #include "Character/Enemy/SmallDragon/SmallDragon.h"
 #include "Character/Enemy/BossDragon/BossDragon.h"
+#include "Character/Enemy/BossMuscle/BossMuscle.h"
 #include "Character/Enemy/Bomber/Bomber.h"
 #include "Character/Enemy/EnemyBase.h"
 //ステージ
@@ -198,6 +199,9 @@ std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(CharacterType ch, Vec
 		break;
 	case CharacterType::BossDragon:
 		chara = std::make_shared<BossDragon>(MV1DuplicateModel(m_handles["BossDragon"]), pos);
+		break;
+	case CharacterType::BossMuscle:
+		chara = std::make_shared<BossMuscle>(MV1DuplicateModel(m_handles["BossMuscle"]), pos);
 		break;
 	default:
 		break;
@@ -412,6 +416,7 @@ void ActorManager::LoadHandle()
 	m_handles["SmallDragon"]	= { MV1LoadModel(L"Data/Model/Enemy/SmallDragon.mv1") };
 	m_handles["Bomber"]			= { MV1LoadModel(L"Data/Model/Enemy/Bomber.mv1") };
 	m_handles["BossDragon"]		= { MV1LoadModel(L"Data/Model/Enemy/BossDragon.mv1") };
+	m_handles["BossMuscle"]		= { MV1LoadModel(L"Data/Model/Enemy/BossMuscle.mv1") };
 	m_handles["Path"]			= { MV1LoadModel(L"Data/Model/Stage/1/Path.mv1") };
 	m_handles["Block_Grass"]	= { MV1LoadModel(L"Data/Model/Stage/1/Block_Grass.mv1") };
 	m_handles["Block_Stone"]	= { MV1LoadModel(L"Data/Model/Stage/2/Block_Stone.mv1") };
@@ -484,6 +489,13 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
 			m_boss = std::dynamic_pointer_cast<BossDragon>(bossDragon);
+		}
+		else if (charaData.name == "BossMuscle")
+		{
+			auto bossMuscle = CreateCharacter(CharacterType::BossMuscle, charaData.pos).lock();
+			bossMuscle->GetModel()->SetScale(charaData.scale);
+			bossMuscle->GetModel()->SetRot(charaData.rot);
+			m_boss = std::dynamic_pointer_cast<BossMuscle>(bossMuscle);
 
 		}
 		else if (charaData.name == "Bomber")
