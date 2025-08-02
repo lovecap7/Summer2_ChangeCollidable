@@ -5,10 +5,13 @@
 
 class GameCamera;
 class Collidable;
-class Strike;
+class Model;
 class Input;
 class ActorManager;
 class Actor;
+class MyEffect;
+class ULT;
+class BossMuscle;
 class BossMuscleStateBeam :
 	public BossMuscleStateBase, public std::enable_shared_from_this<BossMuscleStateBeam>
 {
@@ -20,8 +23,16 @@ public:
 private:
 	//攻撃のフレームを数える
 	int m_attackCountFrame;
+	//攻撃位置の更新
+	void UpdateBeamPos(const Vector3 pos, std::shared_ptr<Model> model, std::shared_ptr<BossMuscle> coll);
     //攻撃の作成
-    void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
+    void CreateAttack(VECTOR pos,const std::weak_ptr<ActorManager> actorManager);
     //攻撃データ
     AttackData m_attackData;
+	//ビームのチャージエフェクト参照
+	std::weak_ptr<MyEffect> m_beamChargeEff;
+	//ビームのエフェクト参照
+	std::weak_ptr<MyEffect> m_beamEff;
+	//ビームの攻撃参照
+	std::weak_ptr<ULT> m_beam;
 };

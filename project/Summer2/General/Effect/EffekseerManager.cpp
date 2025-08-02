@@ -142,6 +142,18 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["LowShockWaveEff"]), pos);
 	}
+	//ボスのビームエフェクト
+	else if (name == "BossBeamEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossBeamEff"]), pos);
+	}
+	//ボスのビームチャージエフェクト
+	else if (name == "BossBeamChargeEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossBeamChargeEff"]), pos);
+	}
+
+	
 	Entry(effect);
 	return effect;
 }
@@ -224,6 +236,11 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["FieldEff"]), actor);
 	}
+	//怒りエフェクト
+	else if (name == "BossAngryEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BossAngryEff"]), actor);
+	}
 	Entry(effect);
 	return effect;
 }
@@ -257,6 +274,9 @@ void EffekseerManager::LoadHandle()
 	m_handles["RollingEff"] = { LoadEffekseerEffect("Data/Effects/RollingEff.efkefc") };
 	m_handles["LowShockWaveEff"] = { LoadEffekseerEffect("Data/Effects/LowShockWaveEff.efkefc") };
 	m_handles["FieldEff"] = { LoadEffekseerEffect("Data/Effects/FieldEffect.efkefc") };
+	m_handles["BossBeamEff"] = { LoadEffekseerEffect("Data/Effects/BossBeamEff.efkefc") };
+	m_handles["BossBeamChargeEff"] = { LoadEffekseerEffect("Data/Effects/BossBeamChargeEff.efkefc") };
+	m_handles["BossAngryEff"] = { LoadEffekseerEffect("Data/Effects/BossAngryEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

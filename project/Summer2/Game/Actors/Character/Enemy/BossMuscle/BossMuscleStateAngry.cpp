@@ -12,7 +12,7 @@
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
-
+#include "../../../../../General/Effect/EffekseerManager.h"
 namespace
 {
 	//減速率
@@ -38,6 +38,8 @@ void BossMuscleStateAngry::Init()
 {
 	//次の状態を今の状態に更新
 	ChangeState(shared_from_this());
+	//怒りエフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("BossAngryEff", m_owner);
 }
 
 void BossMuscleStateAngry::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
