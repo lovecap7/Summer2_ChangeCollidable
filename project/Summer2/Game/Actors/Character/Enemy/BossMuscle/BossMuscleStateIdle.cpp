@@ -4,6 +4,7 @@
 #include "BossMuscleStateHit.h"
 #include "BossMuscleStateRightPunch.h"
 #include "BossMuscleStateBeam.h"
+#include "BossMuscleStateJumpAttack.h"
 #include "BossMuscle.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/Collision/ColliderBase.h"
@@ -93,7 +94,8 @@ void BossMuscleStateIdle::Update(const std::weak_ptr<GameCamera> camera, const s
 			{
 				//çUåÇèÛë‘Ç…Ç∑ÇÈ
 				//ChangeState(std::make_shared<BossMuscleStateRightPunch>(m_owner,m_isAngry, actorManager));
-				ChangeState(std::make_shared<BossMuscleStateBeam>(m_owner,m_isAngry, actorManager));
+				//ChangeState(std::make_shared<BossMuscleStateBeam>(m_owner,m_isAngry, actorManager));
+				ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner,m_isAngry, actorManager));
 				return;
 			}
 		}

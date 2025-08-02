@@ -56,6 +56,7 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateJumpAttack.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRightPunch.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaur.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateDeath.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateJumpAttack.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRightPunch.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\EnemyBase.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaur.h" />

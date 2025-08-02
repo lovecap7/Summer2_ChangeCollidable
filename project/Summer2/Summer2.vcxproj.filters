@@ -684,6 +684,9 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBeam.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateJumpAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1176,6 +1179,9 @@
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBeam.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateJumpAttack.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
   </ItemGroup>
