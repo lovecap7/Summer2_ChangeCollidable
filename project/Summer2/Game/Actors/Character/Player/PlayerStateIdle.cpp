@@ -31,6 +31,8 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
 	const char* kAnim = "Player|Idle";//待機
+	//モデルの旋回速度
+	constexpr int kModelRotateSpeed = 5;
 }
 
 PlayerStateIdle::PlayerStateIdle(std::weak_ptr<Actor> player):
@@ -40,6 +42,8 @@ PlayerStateIdle::PlayerStateIdle(std::weak_ptr<Actor> player):
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, true);
 	coll->SetCollState(CollisionState::Normal);
+	//モデルの旋回速度
+	coll->GetModel()->SetRotSpeed(kModelRotateSpeed);
 }
 
 PlayerStateIdle::~PlayerStateIdle()

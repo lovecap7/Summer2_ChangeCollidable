@@ -32,6 +32,8 @@ namespace
 	constexpr float kMaxAnimSpeed = 2.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
+	//モデルの旋回速度
+	constexpr int kModelRotateSpeed = 100;
 }
 
 PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager) :
@@ -55,7 +57,9 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 	//剣のエフェクト
-	m_swordEff = EffekseerManager::GetInstance().CreateEffect("UltChargeSwordEff", m_owner.lock()->GetPos());
+	m_laserChargeEff = EffekseerManager::GetInstance().CreateEffect("UltChargeSwordEff", m_owner.lock()->GetPos());
+	//モデルの旋回速度
+	model->SetRotSpeed(kModelRotateSpeed);
 }
 
 
@@ -64,6 +68,9 @@ PlayerStateUltimate::~PlayerStateUltimate()
 	//攻撃判定の削除
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	if (!m_attack.expired())m_attack.lock()->Delete();
+	//エフェクトの削除
+	if (!m_laserChargeEff.expired())m_laserChargeEff.lock()->Delete();
+	if (!m_laserEff.expired())m_laserEff.lock()->Delete();
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(false);
 }
@@ -93,11 +100,11 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
-	//剣のエフェクトの位置更新
-	if (!m_swordEff.expired())
+	//チャージエフェクトの位置更新
+	if (!m_laserChargeEff.expired())
 	{
 		VECTOR rightHand = MV1GetFramePosition(model->GetModelHandle(), kRightHandIndex);
-		m_swordEff.lock()->SetPos(rightHand);
+		m_laserChargeEff.lock()->SetPos(rightHand);
 	}
 
 	//攻撃発生フレーム
@@ -113,11 +120,15 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 	}
 	//少しずつ減速する
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
+	//向きの更新
+	Vector2 dir = coll->GetPlayerStickVec();
+	model->SetDir(dir);
+	//レーザーの位置更新
+	UpdateLaserPos();
 }
 
 void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
 {
-	auto owner = m_owner.lock();
 	//作成と参照
 	auto attack = std::dynamic_pointer_cast<ULT>(actorManager.lock()->CreateAttack(AttackType::ULT, m_owner).lock());
 	//攻撃を作成
@@ -127,18 +138,36 @@ void PlayerStateUltimate::CreateAttack(const std::weak_ptr<ActorManager> actorMa
 	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
 	attack->AttackSetting(data.damege, data.keepFrame,
 		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
+	//攻撃の参照を保存
+	m_attack = attack;
+	//必殺エフェクト
+	auto eff = EffekseerManager::GetInstance().CreateEffect("UltLaserEff", m_owner.lock()->GetPos());
+	//エフェクトの参照を保存
+	m_laserEff = eff; 
+	//攻撃の位置を更新
+	UpdateLaserPos();
+}
 
+void PlayerStateUltimate::UpdateLaserPos()
+{
+	auto owner = m_owner.lock();
 	//攻撃の位置
 	Vector3 startPos = owner->GetPos();
 	Vector3 endPos = owner->GetPos() + (owner->GetModel()->GetDir() * kSwordHeight);
-	//座標をセット
-	attack->SetStartPos(startPos);
-	attack->SetEndPos(endPos);
-	m_attack = attack;
-	//エフェクトの位置
-	//必殺エフェクト
-	auto eff = EffekseerManager::GetInstance().CreateEffect("UltLaserEff", m_owner.lock()->GetPos());
-	eff.lock()->SetPos(startPos);
-	eff.lock()->LookAt(owner->GetModel()->GetDir());
+	if(!m_attack.expired())
+	{
+		//攻撃の参照
+		auto attack = m_attack.lock();
+		//攻撃の位置を更新
+		attack->SetStartPos(startPos);
+		attack->SetEndPos(endPos);
+	}
+	if(!m_laserEff.expired())
+	{	
+		auto eff = m_laserEff.lock();
+		//エフェクトの位置
+		eff->SetPos(startPos);
+		eff->LookAt(owner->GetModel()->GetDir());
+	}
 }
 

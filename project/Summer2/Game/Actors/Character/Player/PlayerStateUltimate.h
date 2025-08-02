@@ -3,7 +3,7 @@
 #include "../../../../General/Battle.h"
 #include "../../../../General/CSVDataLoader.h"
 class Actor;
-class Slash;
+class ULT;
 class GameCamera;
 class ActorManager;
 class MyEffect;
@@ -21,13 +21,16 @@ private:
     //アニメーションの速度
     float m_animSpeed;
     //攻撃の参照
-    std::weak_ptr<Slash> m_attack;
+    std::weak_ptr<ULT> m_attack;
     //攻撃の作成
     void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
+	//攻撃の位置更新
+    void UpdateLaserPos();
     //攻撃データ
     AttackData m_attackData;
     //剣のエフェクト参照
-    std::weak_ptr<MyEffect> m_swordEff;
+    std::weak_ptr<MyEffect> m_laserChargeEff;
+    std::weak_ptr<MyEffect> m_laserEff;
 };
 
 
