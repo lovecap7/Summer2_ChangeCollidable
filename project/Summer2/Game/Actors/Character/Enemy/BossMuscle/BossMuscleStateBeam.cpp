@@ -29,7 +29,7 @@ namespace
 	constexpr int kRightHandIndex = 57;
 	constexpr int kLeftHandIndex = 29;
 	//次の攻撃フレーム
-	constexpr int kAttackCoolTime = 120;//2秒くらいの感覚で攻撃
+	constexpr int kAttackCoolTime = 150;
 	//怒り状態の時の速度2倍
 	constexpr float kAngryMoveSpeedRate = 2.0f;
 	//モデルの向き調整
@@ -57,6 +57,12 @@ BossMuscleStateBeam::BossMuscleStateBeam(std::weak_ptr<Actor> owner, bool isAngr
 
 BossMuscleStateBeam::~BossMuscleStateBeam()
 {
+	auto coolTime = kAttackCoolTime;
+	//怒り状態ならクールタイムを短くする
+	if (m_isAngry)coolTime *= 0.5f;
+	//攻撃のクールタイム
+	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
+	coll->SetAttackCoolTime(coolTime);
 	//エフェクトの削除
 	if (!m_beamChargeEff.expired())
 	{

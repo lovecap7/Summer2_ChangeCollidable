@@ -5,6 +5,7 @@
 #include "BossMuscleStateRightPunch.h"
 #include "BossMuscleStateBeam.h"
 #include "BossMuscleStateJumpAttack.h"
+#include "BossMuscleStateChase.h"
 #include "BossMuscle.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/Collision/ColliderBase.h"
@@ -19,8 +20,6 @@
 
 namespace
 {
-	//プレイヤーに攻撃する距離
-	constexpr float kAttackDistance = 700.0f;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーションの名前
@@ -86,8 +85,14 @@ void BossMuscleStateIdle::Update(const std::weak_ptr<GameCamera> camera, const s
 	{
 		//プレイヤーを見る
 		coll->LookAtTarget();
-		//攻撃の距離
-		if (targetData.targetDis <= kAttackDistance)
+		//近づく距離
+		if (targetData.targetDis > kMeleeAttackDistance)
+		{
+			//プレイヤーをに近づく
+			ChangeState(std::make_shared<BossMuscleStateChase>(m_owner, m_isAngry));
+			return;
+		}
+		else
 		{
 			//攻撃のクールタイムが0なら
 			if (coll->GetAttackCoolTime() <= 0)
@@ -99,25 +104,4 @@ void BossMuscleStateIdle::Update(const std::weak_ptr<GameCamera> camera, const s
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
-}
-
-
-void BossMuscleStateIdle::ThinkAttack(const std::weak_ptr<ActorManager> actorManager)
-{
-	//ランダムに決定
-	auto rand = GetRand(2);
-
-	switch (rand)
-	{
-	case 0:
-		ChangeState(std::make_shared<BossMuscleStateRightPunch>(m_owner,m_isAngry, actorManager));
-		break;
-	case 1:
-		ChangeState(std::make_shared<BossMuscleStateBeam>(m_owner, m_isAngry, actorManager));
-		break;
-	case 2:
-		ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner, m_isAngry, actorManager));
-		break;
-	}
-	return;
 }

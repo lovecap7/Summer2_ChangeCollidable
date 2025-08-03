@@ -14,5 +14,22 @@ namespace MyMath
 	constexpr float DEG_2_RAD = PI_F / 180.0f;
 	// 弧度法を度数法に変更
 	constexpr float RAD_2_DEG = 180.0f / PI_F;
+
+	/// <summary>
+	/// ランダムな値を生成します。
+	/// min以上max未満の値を返します。
+	/// </summary>
+	/// <param name="min"></param>
+	/// <param name="max"></param>
+	/// <returns>float型</returns>
+	float GetRandF(float min, float max);
+	/// <summary>
+	/// ランダムな値を生成します。
+	/// min以上max以下の値を返します。
+	/// </summary>
+	/// <param name="min"></param>
+	/// <param name="max"></param>
+	/// <returns>int型</returns>
+	int GetRand(int min, int max);
 }
 

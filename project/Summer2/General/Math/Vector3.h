@@ -109,7 +109,11 @@ public:
 	/// </summary>
 	static Vector3 Zero();
 	
-
+	/// <summary>
+	/// ランダムなベクトルを生成します(XZ)
+	/// </summary>
+	/// <returns></returns>
+	static Vector3 GetRandVecXZ();
 };
 //座標で表すときに使う
 typedef Vector3 Position3;

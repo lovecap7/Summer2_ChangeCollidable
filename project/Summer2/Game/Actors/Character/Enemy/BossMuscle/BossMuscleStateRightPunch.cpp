@@ -25,9 +25,11 @@ namespace
 	constexpr int kRightArmIndex = 41;
 	constexpr int kRightHandIndex = 43;
 	//次の攻撃フレーム
-	constexpr int kAttackCoolTime = 120;//2秒くらいの感覚で攻撃
+	constexpr int kAttackCoolTime = 120;
 	//怒り状態の時の速度2倍
 	constexpr float kAngryMoveSpeedRate = 2.0f;
+	//前進距離
+	constexpr float kAttackMoveDistance = 200.0f;
 }
 
 BossMuscleStateRightPunch::BossMuscleStateRightPunch(std::weak_ptr<Actor> owner, bool isAngry,const std::weak_ptr<ActorManager> actorManager) :
@@ -46,9 +48,12 @@ BossMuscleStateRightPunch::BossMuscleStateRightPunch(std::weak_ptr<Actor> owner,
 
 BossMuscleStateRightPunch::~BossMuscleStateRightPunch()
 {
+	auto coolTime = kAttackCoolTime;
+	//怒り状態ならクールタイムを短くする
+	if (m_isAngry)coolTime *= 0.5f;
 	//攻撃のクールタイム
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
-	coll->SetAttackCoolTime(kAttackCoolTime);
+	coll->SetAttackCoolTime(coolTime);
 	if (!m_attack.expired())m_attack.lock()->Delete();
 }
 
@@ -93,8 +98,13 @@ void BossMuscleStateRightPunch::Update(const std::weak_ptr<GameCamera> camera, c
 	//移動フレーム中は前に進む
 	if (m_attackCountFrame <= m_attackData.moveFrame)
 	{
-		//前進
-		AttackMove();
+		//プレイヤーが遠い場合のみ
+		auto targetData = coll->GetTargetData();
+		if (targetData.targetDis >= kAttackMoveDistance)
+		{
+			//前進
+			AttackMove();
+		}
 	}
 	else
 	{

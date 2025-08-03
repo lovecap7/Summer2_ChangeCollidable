@@ -4,6 +4,13 @@
 #include <vector>
 #include <string>
 #include "../../../../../General/Math/Vector3.h"
+
+namespace
+{
+	//近距離
+	constexpr float kMeleeAttackDistance = 700.0f;
+}
+
 class Actor;
 class ActorManager;
 class BossMuscleStateBase abstract :
@@ -14,6 +21,8 @@ public:
 	virtual ~BossMuscleStateBase();
 protected:
 	bool m_isAngry; //怒り状態かどうか
+	//攻撃手段を考える
+	void ThinkAttack(const std::weak_ptr<ActorManager> actorManager);
 };
 //攻撃のデータを検索するときに使う
 namespace

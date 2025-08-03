@@ -1,7 +1,9 @@
 #include "Vector3.h"
+#include "MyMath.h"
 #include "Vector2.h"
 #include "MathSub.h"
 #include "Matrix4x4.h"
+#include <random>
 #include <cmath>
 #include <cassert>
 
@@ -207,5 +209,12 @@ Vector3 Vector3::Zero()
     zero.y = 0.0f;
     zero.z = 0.0f;
     return zero;
+}
+
+Vector3 Vector3::GetRandVecXZ()
+{
+	//—”‚ğ¶¬‚µ‚ÄŠp“x‚ğŒvZ
+    float angle = MyMath::GetRandF(0.0f, 2.0f * MyMath::PI_F);
+    return Vector3(std::cosf(angle), 0.0f, std::sinf(angle));
 }
 

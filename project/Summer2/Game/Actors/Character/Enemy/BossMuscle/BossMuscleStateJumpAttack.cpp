@@ -22,6 +22,13 @@ namespace
 {
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
+	//次の攻撃フレーム
+	constexpr int kAttackCoolTime = 180;
+	//ディレイ1
+	constexpr int kDelay1Frame = 20;
+	//ディレイ2
+	constexpr int kDelay2Frame = 40;
+
 }
 
 BossMuscleStateJumpAttack::BossMuscleStateJumpAttack(std::weak_ptr<Actor> owner, bool isAngry, const std::weak_ptr<ActorManager> actorManager):
@@ -39,6 +46,12 @@ BossMuscleStateJumpAttack::BossMuscleStateJumpAttack(std::weak_ptr<Actor> owner,
 
 BossMuscleStateJumpAttack::~BossMuscleStateJumpAttack()
 {
+	auto coolTime = kAttackCoolTime;
+	//怒り状態ならクールタイムを短くする
+	if (m_isAngry)coolTime *= 0.5f;
+	//攻撃のクールタイム
+	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
+	coll->SetAttackCoolTime(coolTime);
 }
 
 void BossMuscleStateJumpAttack::Init()
@@ -75,6 +88,18 @@ void BossMuscleStateJumpAttack::Update(const std::weak_ptr<GameCamera> camera, c
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		CreateAttack(actorManager);
+	}
+	//怒り状態の時
+	if (m_isAngry)
+	{
+		if (m_attackCountFrame == m_attackData.startFrame + kDelay1Frame)
+		{
+			CreateAttack(actorManager);
+		}
+		if (m_attackCountFrame == m_attackData.startFrame + kDelay2Frame)
+		{
+			CreateAttack(actorManager);
+		}
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
