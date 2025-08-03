@@ -13,6 +13,9 @@ class BossDragonStateBase abstract :
 public:
 	BossDragonStateBase(std::weak_ptr<Actor> owner);
 	virtual ~BossDragonStateBase();
+protected:
+	//攻撃を選ぶ
+	void ThinkAttack(const std::weak_ptr<ActorManager> actorManager);
 };
 //攻撃のデータを検索するときに使う
 namespace

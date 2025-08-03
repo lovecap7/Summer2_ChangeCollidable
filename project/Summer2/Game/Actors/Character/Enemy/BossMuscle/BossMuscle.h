@@ -36,6 +36,8 @@ public:
 	void SetCollState(CollisionState collState) { m_collState = collState; }
 	//ターゲットのデータ
 	TargetData GetTargetData() const { return m_targetData; };
+	//壁に当たったか
+	bool IsWall() const { return m_isWall; }
 private:
 	//体力バー
 	std::weak_ptr<BossHPUI> m_hpUI;

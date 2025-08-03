@@ -702,6 +702,9 @@
     <ClCompile Include="General\Math\MyMath.cpp">
       <Filter>ソース ファイル\General\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRandMove.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1209,6 +1212,9 @@
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateChase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRandMove.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
   </ItemGroup>

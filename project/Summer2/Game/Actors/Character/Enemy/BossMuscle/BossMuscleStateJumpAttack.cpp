@@ -25,9 +25,9 @@ namespace
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 180;
 	//ディレイ1
-	constexpr int kDelay1Frame = 20;
+	constexpr int kDelay1Frame = 40;
 	//ディレイ2
-	constexpr int kDelay2Frame = 40;
+	constexpr int kDelay2Frame = 80;
 
 }
 

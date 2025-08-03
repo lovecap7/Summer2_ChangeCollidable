@@ -4,10 +4,13 @@ class ResultRankingScore :
     public ResultScoreUI
 {
 public:
-    ResultRankingScore(int scoreValue, Vector2 basePos, const std::wstring& text);
+    ResultRankingScore(int scoreValue, Vector2 basePos, const std::wstring& text,int nowScore);
     virtual ~ResultRankingScore();
 	void Draw()const override;
 private:
-	int m_rankingHandle; // ランキングのハンドル
+    //ランキングのハンドル
+	int m_rankingHandle;
+    //文字の色
+    int m_textColor;
 };
 

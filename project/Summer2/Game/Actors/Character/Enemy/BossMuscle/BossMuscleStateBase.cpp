@@ -2,6 +2,7 @@
 #include "BossMuscleStateRightPunch.h"
 #include "BossMuscleStateBeam.h"
 #include "BossMuscleStateJumpAttack.h"
+#include "BossMuscleStateRandMove.h"
 #include "BossMuscle.h"
 
 BossMuscleStateBase::BossMuscleStateBase(std::weak_ptr<Actor> owner, bool isAngry) :
@@ -24,7 +25,7 @@ void BossMuscleStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorMan
 	if (targetData.targetDis <= kMeleeAttackDistance)
 	{
 		//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
-		auto rand = MyMath::GetRand(0,1);
+		auto rand = MyMath::GetRand(0,2);
 		switch (rand)
 		{
 		case 0:
@@ -33,6 +34,9 @@ void BossMuscleStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorMan
 		case 1:
 			ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner, m_isAngry, actorManager));
 			break;
+		case 2:
+			ChangeState(std::make_shared<BossMuscleStateRandMove>(m_owner, m_isAngry));
+			break;
 		}
 		return;
 	}
@@ -40,7 +44,7 @@ void BossMuscleStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorMan
 	else
 	{
 		//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
-		auto rand = MyMath::GetRand(0, 1);
+		auto rand = MyMath::GetRand(0, 2);
 		switch (rand)
 		{
 		case 0:
@@ -48,6 +52,9 @@ void BossMuscleStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorMan
 			break;
 		case 1:
 			ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner, m_isAngry, actorManager));
+			break;
+		case 2:
+			ChangeState(std::make_shared<BossMuscleStateRandMove>(m_owner, m_isAngry));
 			break;
 		}
 		return;

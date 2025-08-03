@@ -1,11 +1,7 @@
 #include "BossDragonStateIdle.h"
 #include "BossDragonStateDeath.h"
 #include "BossDragonStateHit.h"
-#include "BossDragonStateChase.h"
-#include "BossDragonStateBreathAttack.h"
-#include "BossDragonStateSweepAttack.h"
 #include "BossDragon.h"
-#include "../EnemyBase.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/Collision/ColliderBase.h"
 #include "../../../ActorManager.h"
@@ -76,31 +72,4 @@ void BossDragonStateIdle::Update(const std::weak_ptr<GameCamera> camera, const s
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
-}
-
-void BossDragonStateIdle::ThinkAttack(const std::weak_ptr<ActorManager> actorManager)
-{
-	//ランダムに決定
-	auto rand = GetRand(2);
-
-	switch (rand)
-	{
-	case 0:
-		//プレイヤーをに近づく
-		ChangeState(std::make_shared<BossDragonStateChase>(m_owner));
-		break;
-	case 1:
-		//薙ぎ払い
-		ChangeState(std::make_shared<BossDragonStateSweepAttack>(m_owner, actorManager));
-		break;
-	case 2:
-		//ブレス
-		ChangeState(std::make_shared<BossDragonStateBreathAttack>(m_owner, actorManager));
-		break;
-	default:
-		//ブレス
-		ChangeState(std::make_shared<BossDragonStateBreathAttack>(m_owner, actorManager));
-		break;
-	}
-	return;
 }

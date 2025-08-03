@@ -57,6 +57,15 @@ void BossMuscleStateIdle::Init()
 
 void BossMuscleStateIdle::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+#if _DEBUG
+	//ボスを怒らせる
+	if (Input::GetInstance().IsTrigger("BossAngry"))
+	{
+		//怒り状態にする
+		ChangeState(std::make_shared<BossMuscleStateAngry>(m_owner));
+		return;
+	}
+#endif
 	//コライダブル
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	auto targetData = coll->GetTargetData();

@@ -154,6 +154,10 @@ void UIManager::LoadHandle()
 	m_textHandles["メイリオ64"] = { CreateFontToHandle(L"Meiryo", kFontSize64, 5, DX_FONTTYPE_ANTIALIASING) };
 	m_textHandles["メイリオ80"] = { CreateFontToHandle(L"Meiryo", kFontSize80, 5, DX_FONTTYPE_ANTIALIASING) };
 	m_textHandles["メイリオ96"] = { CreateFontToHandle(L"Meiryo", kFontSize96, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["MSPゴシック16"] = { CreateFontToHandle(L"MS PGothic", kFontSize16, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["MSPゴシック32"] = { CreateFontToHandle(L"MS PGothic", kFontSize32, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["MSPゴシック48"] = { CreateFontToHandle(L"MS PGothic", kFontSize48, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["MSPゴシック64"] = { CreateFontToHandle(L"MS PGothic", kFontSize64, 5, DX_FONTTYPE_ANTIALIASING) };
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_textHandles) {
 		assert(value >= 0);

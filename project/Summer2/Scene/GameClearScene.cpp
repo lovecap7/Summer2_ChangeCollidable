@@ -238,7 +238,7 @@ void GameClearScene::InitResult2UI()
 		{
 			continue;
 		}
-		scoreUI = std::make_shared<ResultRankingScore>(score, data.pos, data.text);
+		scoreUI = std::make_shared<ResultRankingScore>(score, data.pos, data.text, m_score->GetScore());
 		scoreUI->Init();
 		m_scoreUIList.emplace_back(scoreUI);
 	}

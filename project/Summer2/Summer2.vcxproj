@@ -59,6 +59,7 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateJumpAttack.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRandMove.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRightPunch.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateChase.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\EnemyBase.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateIdle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateJumpAttack.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRandMove.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateRightPunch.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateChase.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\EnemyBase.h" />

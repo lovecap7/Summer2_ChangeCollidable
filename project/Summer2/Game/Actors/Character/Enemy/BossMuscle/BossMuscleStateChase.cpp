@@ -16,8 +16,6 @@
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 namespace
 {
-	//減速率
-	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
 	const char* kAnim = "Boss|Walk";
 	//プレイヤーを追いかける速度

@@ -16,7 +16,7 @@ ResultScoreUI::ResultScoreUI(int scoreValue, Vector2 basePos, const std::wstring
 	ScoreUIBase(basePos,-1,-1),
 	m_scoreValue(scoreValue),
 	m_countFrame(0),
-	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ48")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("MSPゴシック48")),
 	m_text(text)
 {
 }

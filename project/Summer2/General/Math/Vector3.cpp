@@ -213,8 +213,17 @@ Vector3 Vector3::Zero()
 
 Vector3 Vector3::GetRandVecXZ()
 {
+	Vector3 randVec;
 	//—”‚ð¶¬‚µ‚ÄŠp“x‚ðŒvŽZ
     float angle = MyMath::GetRandF(0.0f, 2.0f * MyMath::PI_F);
-    return Vector3(std::cosf(angle), 0.0f, std::sinf(angle));
+	//XŽ²‚ÆZŽ²‚Ì¬•ª‚ðŒvŽZ
+	randVec.x = std::cosf(angle);
+	randVec.z = std::sinf(angle);
+    //³‹K‰»
+    if(randVec.SqMagnitude() > 0.0f)
+    {
+        randVec = randVec.Normalize();
+	}
+    return randVec;
 }
 

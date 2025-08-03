@@ -8,10 +8,18 @@ namespace
 	constexpr int kNumOffsetX = 100;
 }
 
-ResultRankingScore::ResultRankingScore(int scoreValue, Vector2 basePos, const std::wstring& text) :
+ResultRankingScore::ResultRankingScore(int scoreValue, Vector2 basePos, const std::wstring& text, int nowScore) :
 	ResultScoreUI(scoreValue, basePos, text),
-	m_rankingHandle(-1) // 初期化
+	m_rankingHandle(-1), // 初期化
+	m_textColor(0x000000) // 黒色
 {
+	//もし現在のスコアとランキングの値が同じなら
+	//ランキング入りをしているテキストを赤色に
+	if(scoreValue == nowScore)
+	{
+		m_textColor = 0xff2222; // 赤色
+	}
+
 	if(text == L"1st")
 	{
 		m_rankingHandle = LoadGraph(L"Data/UI/Result/1st.png");
@@ -35,6 +43,12 @@ void ResultRankingScore::Draw() const
 {
 	std::wstring num = L": " + std::format(L"{:06}", m_viewScore);
 	//テキスト
-	DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y, num.c_str(), 0x000000, m_textHandle);
+	DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y, num.c_str(), m_textColor, m_textHandle);
 	DrawRotaGraph(static_cast<int>(m_basePos.x), static_cast<int>(m_basePos.y),0.6,0.0, m_rankingHandle, true);
+	//文字が赤色ならハイスコアを更新しているので
+	if (m_textColor == 0xff2222)
+	{
+		//ハイスコアの更新を表示
+		DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y - 50, L"NewRecord!!!", m_textColor, m_textHandle);
+	}
 }

@@ -1,6 +1,7 @@
 #include "PlayerStateRolling.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateWin.h"
+#include "PlayerStateHit.h"
 #include "Player.h"
 #include "../Enemy/EnemyBase.h"
 #include "../../../../General/game.h"
@@ -24,6 +25,8 @@ namespace
 	const char* kAnim = "Player|Rolling";
 	//回避モーションの速度
 	constexpr float kAnimSpeed = 0.8f;
+	//回避状態のフレーム数
+	constexpr int kRollingFrame = 16;
 }
 
 PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
@@ -71,6 +74,18 @@ void PlayerStateRolling::Update(const std::weak_ptr<GameCamera> camera, const st
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
 	}
+	//攻撃を受けたなら
+	if (coll->GetHitPoints().lock()->IsHitReaction())
+	{
+		ChangeState(std::make_shared<PlayerStateHit>(m_owner));
+		return;
+	}
+	//無敵フレーム終了後解除
+	if(coll->GetModel()->GetNowAnimFrame() >= kRollingFrame)
+	{
+		coll->GetHitPoints().lock()->SetIsNoDamege(false);
+	}
+
 	auto rb = coll->GetRb();
 	//向いてる方向に移動
 	rb->SetMoveVec(coll->GetModel()->GetDir() * kRollingMoveSpeed);
