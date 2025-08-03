@@ -35,7 +35,7 @@ DefenseUp::DefenseUp(int modelHandle, Vector3 pos) :
 	auto firstPos = pos;
 	firstPos.y += kCollRadius;
 	m_rb->m_pos = firstPos;
-	std::dynamic_pointer_cast<SphereCollider>(m_collisionData)->m_radius = kCollRadius;
+	std::dynamic_pointer_cast<SphereCollider>(m_collisionData)->SetRadius(kCollRadius);
 	//ƒ‚ƒfƒ‹
 	m_model = std::make_shared<Model>(modelHandle, firstPos.ToDxLibVector());
 	//—Í‚ğ—^‚¦‚é
@@ -97,7 +97,7 @@ void DefenseUp::Draw() const
 	//Õ“Ë”»’è
 	DrawSphere3D(
 		GetPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<SphereCollider>(m_collisionData)->m_radius,
+		std::dynamic_pointer_cast<SphereCollider>(m_collisionData)->GetRadius(),
 		16,
 		0xff0000,
 		0xff0000,

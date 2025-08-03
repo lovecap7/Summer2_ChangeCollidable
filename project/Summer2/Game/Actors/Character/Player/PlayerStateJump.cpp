@@ -20,7 +20,7 @@
 namespace
 {
 	//ジャンプ力
-	constexpr float kJumpPower = 13.0f;
+	constexpr float kJumpPower = 15.0f;
 	//空中移動速度
 	constexpr float kMaxAirMoveSpeed = 10.00f;
 	//アニメーション

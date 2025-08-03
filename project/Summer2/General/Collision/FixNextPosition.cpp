@@ -160,7 +160,7 @@ void FixNextPosition::FixNextPosSP(const std::shared_ptr<Collidable> collA, cons
 	if (m_floorAndRoofNum > 0)
 	{
 		//補正するベクトルを返す
-		Vector3 overlapVec = OverlapVecSphereAndPoly(m_floorAndRoofNum, nextPos, *m_floorAndRoof, collDataA->m_radius);
+		Vector3 overlapVec = OverlapVecSphereAndPoly(m_floorAndRoofNum, nextPos, *m_floorAndRoof, collDataA->GetRadius());
 	
 		//ポリゴンは固定(static)なので球のみ動かす
 		rbA->AddVec(overlapVec);
@@ -179,7 +179,7 @@ void FixNextPosition::FixNextPosSP(const std::shared_ptr<Collidable> collA, cons
 		collA->SetIsWall(true);
 
 		//補正するベクトルを返す
-		Vector3 overlapVec = OverlapVecSphereAndPoly(m_wallNum, nextPos, *m_wall, collDataA->m_radius);
+		Vector3 overlapVec = OverlapVecSphereAndPoly(m_wallNum, nextPos, *m_wall, collDataA->GetRadius());
 		
 		//ポリゴンは固定(static)なので球のみ動かす
 		rbA->AddVec(overlapVec);
@@ -210,7 +210,7 @@ void FixNextPosition::FixNextPosCC(const std::shared_ptr<Collidable> collA, cons
 	//AからBへのベクトル
 	Vector3 aToB = collDataB->GetNearPos() - collDataA->GetNearPos();
 	//最短距離
-	float shortDis = collDataA->m_radius + collDataB->m_radius;
+	float shortDis = collDataA->GetRadius() + collDataB->GetRadius();
 	//どのくらい重ねっているか
 	float overlap = shortDis - aToB.Magnitude();
 	overlap = MathSub::ClampFloat(overlap, 0, shortDis);
@@ -254,7 +254,7 @@ void FixNextPosition::FixNextPosCS(const std::shared_ptr<Collidable> collA, cons
 	Vector3 aToB = rbB->GetNextPos() - collDataA->GetNearPos();
 
 	//最短距離
-	float shortDis = collDataB->m_radius + collDataA->GetRadius();
+	float shortDis = collDataB->GetRadius() + collDataA->GetRadius();
 	//どのくらい重ねっているか
 	float overlap = shortDis - aToB.Magnitude();
 	overlap = MathSub::ClampFloat(overlap, 0, shortDis);
@@ -315,12 +315,12 @@ void FixNextPosition::FixNextPosCP(const std::shared_ptr<Collidable> collA, cons
 		if (collA->m_collState == CollisionState::Jump)
 		{
 			//天井に当たった処理
-			HitRoofCP(collA, headPos, m_floorAndRoofNum, *m_floorAndRoof, collDataA->m_radius);
+			HitRoofCP(collA, headPos, m_floorAndRoofNum, *m_floorAndRoof, collDataA->GetRadius());
 		}
 		else
 		{
 			//床の高さに合わせる
-			if (HitFloorCP(collA, legPos, m_floorAndRoofNum, *m_floorAndRoof, collDataA->m_radius))
+			if (HitFloorCP(collA, legPos, m_floorAndRoofNum, *m_floorAndRoof, collDataA->GetRadius()))
 			{
 				//床に当たっているので
 				collA->SetIsFloor(true);

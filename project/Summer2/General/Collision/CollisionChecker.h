@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "../Math/MyMath.h"
 class Collidable;
 class Physics;
 class CollisionChecker
@@ -64,6 +65,22 @@ private:
     /// <param name="actorB">ポリゴン</param>
     /// <returns></returns>
     bool CheckCollCP(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+
+    /// <summary>
+	/// 球とドーナツの当たり判定
+    /// </summary>
+    /// <param name="collA">球</param>
+    /// <param name="collB">ドーナツ</param>
+    /// <returns></returns>
+    bool CheckCollSD(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
+
+    /// <summary>
+	/// カプセルとドーナツの当たり判定
+    /// </summary>
+    /// <param name="collA">カプセル</param>
+    /// <param name="collB">ドーナツ</param>
+    /// <returns></returns>
+    bool CheckCollCD(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB);
 
     /// <summary>
     /// カプセル同士で平行の場合の当たり判定処理

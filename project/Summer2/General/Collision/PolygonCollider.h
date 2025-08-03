@@ -17,7 +17,8 @@ public:
 	Vector3 GetNearFloorHitPos() const { return m_nearFloorHitPos; }
     //ƒ‚ƒfƒ‹
 	int GetModelHandle() const{ return m_modelHandle; }
-public:
+	void SetModelHandle(int modelHandle) { m_modelHandle = modelHandle; }
+private:
     //“–‚½‚è”»’è‚ğ‚·‚éƒ‚ƒfƒ‹
     int m_modelHandle;
     //“–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚Ìî•ñ

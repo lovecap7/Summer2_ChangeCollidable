@@ -37,6 +37,7 @@ enum class AttackType : int
 	Blast			= 4,
 	Breath			= 5,
 	ULT				= 6,
+	Wave			= 7,
 };
 
 class Player;

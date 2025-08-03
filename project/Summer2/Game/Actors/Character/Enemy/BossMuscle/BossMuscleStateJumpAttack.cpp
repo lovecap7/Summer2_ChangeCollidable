@@ -15,6 +15,8 @@
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../ActorManager.h"
+#include "../../../Attack/WaveAttack.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 
 namespace
 {
@@ -23,7 +25,8 @@ namespace
 }
 
 BossMuscleStateJumpAttack::BossMuscleStateJumpAttack(std::weak_ptr<Actor> owner, bool isAngry, const std::weak_ptr<ActorManager> actorManager):
-	BossMuscleStateBase(owner, isAngry)
+	BossMuscleStateBase(owner, isAngry),
+	m_attackCountFrame(0)
 {
 	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kJumpAttackName);
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
@@ -66,6 +69,33 @@ void BossMuscleStateJumpAttack::Update(const std::weak_ptr<GameCamera> camera, c
 		ChangeState(std::make_shared<BossMuscleStateIdle>(m_owner, m_isAngry));
 		return;
 	}
+	//カウント
+	++m_attackCountFrame;
+	//攻撃発生フレーム
+	if (m_attackCountFrame == m_attackData.startFrame)
+	{
+		CreateAttack(actorManager);
+	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
+
+void BossMuscleStateJumpAttack::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
+{
+	//作成と参照
+	auto attack = std::dynamic_pointer_cast<WaveAttack>(actorManager.lock()->CreateAttack(AttackType::Wave, m_owner).lock());
+	//攻撃を作成
+	auto data = m_attackData;
+	//大きさ
+	attack->SetRadius(data.radius);
+	//中点
+	attack->SetPos(m_owner.lock()->GetPos());
+	//波の広がる速度
+	attack->SetWaveSpeed(data.moveSpeed);
+	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
+	attack->AttackSetting(data.damege, data.keepFrame,
+		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
+	//必殺エフェクト
+	auto eff = EffekseerManager::GetInstance().CreateEffect("WaveAttackEff", m_owner.lock()->GetPos());
+}
+

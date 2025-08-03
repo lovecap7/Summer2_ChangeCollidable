@@ -10,7 +10,8 @@ enum class Shape
 	None,
 	Sphere,
 	Capsule,
-	Polygon
+	Polygon,
+	Torus,
 };
 
 /// <summary>

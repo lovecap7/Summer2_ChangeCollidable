@@ -16,6 +16,10 @@ public:
 	void Init()override;
 	void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
+	//UŒ‚‚ÌƒtƒŒ[ƒ€‚ğ”‚¦‚é
+	int m_attackCountFrame;
+	//UŒ‚‚Ìì¬
+	void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
 	//UŒ‚ƒf[ƒ^
 	AttackData m_attackData;
 };

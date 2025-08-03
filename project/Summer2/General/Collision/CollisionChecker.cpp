@@ -5,6 +5,7 @@
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
 #include "PolygonCollider.h"
+#include "TorusCollider.h"
 #include "../Rigidbody.h"
 
 CollisionChecker::CollisionChecker()
@@ -38,6 +39,11 @@ bool CollisionChecker::IsCollide(const std::shared_ptr<Collidable> collA, const 
 		{
 			isHit = CheckCollSP(collA, collB);
 		}
+		//ドーナツ
+		else if (shapeB == Shape::Torus)
+		{
+			isHit = CheckCollSD(collA, collB);
+		}
 	}
 	//カプセルと
 	else if (shapeA == Shape::Capsule)
@@ -56,6 +62,11 @@ bool CollisionChecker::IsCollide(const std::shared_ptr<Collidable> collA, const 
 		else if (shapeB == Shape::Polygon)
 		{
 			isHit = CheckCollCP(collA, collB);
+		}
+		//ドーナツ
+		else if (shapeB == Shape::Torus)
+		{
+			isHit = CheckCollCD(collA, collB);
 		}
 	}
 	//ポリゴンと
@@ -120,7 +131,7 @@ bool CollisionChecker::CheckCollCS(const std::shared_ptr<Collidable> collA, cons
 	//球の座標
 	Vector3 sPos = rbB->GetNextPos();
 	//最短距離
-	float shortDis = collDataA->m_radius + collDataB->m_radius;
+	float shortDis = collDataA->GetRadius() + collDataB->GetRadius();
 
 	//カプセルの座標Aから球へのベクトル
 	Vector3 AtoS = sPos - cPosA;
@@ -166,11 +177,11 @@ bool CollisionChecker::CheckCollCC(const std::shared_ptr<Collidable> collA, cons
 	//カプセルA
 	Vector3 capAStartPos = rbA->GetNextPos();
 	Vector3 capAEndPos = collDataA->GetNextEndPos(rbA->GetVec());
-	float capARadius = collDataA->m_radius;
+	float capARadius = collDataA->GetRadius();
 	//カプセルB
 	Vector3 capBStartPos = rbB->GetNextPos();
 	Vector3 capBEndPos = collDataB->GetNextEndPos(rbB->GetVec());
-	float capBRadius = collDataB->m_radius;
+	float capBRadius = collDataB->GetRadius();
 	
 	//平行かどうか確認する
 	auto capADir = capAEndPos - capAStartPos;//線分1
@@ -284,11 +295,11 @@ bool CollisionChecker::CheckCollCCVerDxLib(const std::shared_ptr<Collidable> col
 	//カプセルA
 	Vector3 capAStartPos = rbA->GetNextPos();
 	Vector3 capAEndPos = collDataA->GetNextEndPos(rbA->GetVec());
-	float capARadius = collDataA->m_radius;
+	float capARadius = collDataA->GetRadius();
 	//カプセルB
 	Vector3 capBStartPos = rbB->GetNextPos();
 	Vector3 capBEndPos = collDataB->GetNextEndPos(rbB->GetVec());
-	float capBRadius = collDataB->m_radius;
+	float capBRadius = collDataB->GetRadius();
 
 	return HitCheck_Capsule_Capsule(capAStartPos.ToDxLibVector(), capAEndPos.ToDxLibVector(), capARadius,
 		capBStartPos.ToDxLibVector(), capBEndPos.ToDxLibVector(), capBRadius);
@@ -307,7 +318,7 @@ bool CollisionChecker::CheckCollSP(const std::shared_ptr<Collidable> collA, cons
 		collDataB->GetModelHandle(),
 		-1,
 		rbA->GetNextPos().ToDxLibVector(),
-		collDataA->m_radius);
+		collDataA->GetRadius());
 	//一つも当たっていないならfalse
 	if (hitDim.HitNum <= 0 || collA->m_isTrigger)
 	{
@@ -336,7 +347,7 @@ bool CollisionChecker::CheckCollCP(const std::shared_ptr<Collidable> collA, cons
 		-1,
 		rbA->GetNextPos().ToDxLibVector(),
 		collDataA->GetNextEndPos(rbA->GetVec()).ToDxLibVector(),
-		collDataA->m_radius,
+		collDataA->GetRadius(),
 		-1);
 
 	//当たっていないならfalse
@@ -350,6 +361,84 @@ bool CollisionChecker::CheckCollCP(const std::shared_ptr<Collidable> collA, cons
 	collDataB->SetHitDim(hitDim);
 
 	return true;
+}
+
+bool CollisionChecker::CheckCollSD(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+{
+	//コリジョンデータの取得
+	auto collDataA = std::dynamic_pointer_cast<SphereCollider>(collA->m_collisionData);
+	auto collDataB = std::dynamic_pointer_cast<TorusCollider>(collB->m_collisionData);
+	//リジッドボディ
+	auto rbA = collA->m_rb;
+	auto rbB = collB->m_rb;
+	//Aのコライダーの情報
+	Vector3 posA = rbA->GetNextPos();
+	float radiusA = collDataA->GetRadius();
+	//Bのコライダーの情報
+	Vector3 posB = rbB->GetNextPos();
+	float radiusB = collDataB->GetRadius();
+	float rangeB = collDataB->GetRange();
+	
+	//XZ平面での距離
+	float dx = posB.x - posA.x;
+	float dz = posB.z - posA.z;
+	float disXZ = sqrtf(dx * dx + dz * dz);
+
+	//ドーナツの断面中心までのXZ平面での距離の差
+	float disFromRingCenterXZ = disXZ - rangeB;
+	//Y方向の差
+	float dy = posB.y - posA.y;
+	//ドーナツ断面中心から球の中心までの距離
+	float tubeDis = sqrtf(disFromRingCenterXZ * disFromRingCenterXZ + dy * dy);
+
+	return (tubeDis <= (radiusA + radiusB));
+}
+
+bool CollisionChecker::CheckCollCD(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
+{
+	//コライダーデータを取得
+	auto collDataA = std::dynamic_pointer_cast<CapsuleCollider>(collA->m_collisionData);
+	auto collDataB = std::dynamic_pointer_cast<TorusCollider>(collB->m_collisionData);
+	//リジッドボディ
+	auto rbA = collA->m_rb;
+	auto rbB = collB->m_rb;
+	//Aのコライダーの情報
+	Vector3 cPosA = rbA->GetNextPos();
+	Vector3 cPosB = collDataA->GetNextEndPos(rbA->GetVec());
+	float radiusA = collDataA->GetRadius();
+	//Bのコライダーの情報
+	Vector3 posB = rbB->GetNextPos();
+	float radiusB = collDataB->GetRadius();
+	float rangeB = collDataB->GetRange();
+
+	//カプセル中心からドーナツの中心までの距離を求める
+	Vector3 capsuleCenterXZ = { (cPosA.x + cPosB.x) * 0.5f, 0, (cPosA.z + cPosB.z) * 0.5f };
+	Vector3 torusCenterXZ = { posB.x, 0, posB.z };
+	Vector3 toCapsuleXZ = capsuleCenterXZ - torusCenterXZ;
+	float distXZ = toCapsuleXZ.Magnitude();
+
+	//距離0のときは任意にX方向に設定（ゼロ割り対策）
+	Vector3 dirXZ = Vector3{ 1, 0, 0 };
+	if(distXZ > 0.0f)
+	{
+		dirXZ = toCapsuleXZ.Normalize();
+	}
+
+	//ドーナツの断面の中心候補（XZ平面上）
+	Vector3 ringPoint = posB;
+	ringPoint.x += dirXZ.x * rangeB;
+	ringPoint.z += dirXZ.z * rangeB;
+
+	//その点とカプセルとの最短距離
+	Vector3 AB = cPosB - cPosA;
+	Vector3 AP = ringPoint - cPosA;
+
+	float t = MathSub::ClampFloat(AP.Dot(AB) / AB.Dot(AB), 0.0f, 1.0f);
+	Vector3 closest = cPosA + AB * t;
+	float dis = (ringPoint - closest).Magnitude();
+
+	//管とカプセルが交差しているか
+	return dis <= (radiusA + radiusB);
 }
 
 bool CollisionChecker::ParallelCC(const std::shared_ptr<Collidable> collA, const std::shared_ptr<Collidable> collB)
@@ -368,7 +457,7 @@ bool CollisionChecker::ParallelCC(const std::shared_ptr<Collidable> collA, const
 	Vector3 cPosC = rbB->GetNextPos();
 	Vector3 cPosD = collDataB->GetNextEndPos(rbB->GetVec());
 	//最短距離
-	float shortDis = collDataA->m_radius + collDataB->m_radius;
+	float shortDis = collDataA->GetRadius() + collDataB->GetRadius();
 	
 	//各距離をチェック
 	Vector3 ac = cPosC - cPosA;

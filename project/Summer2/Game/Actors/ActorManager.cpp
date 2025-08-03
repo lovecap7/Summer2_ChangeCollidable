@@ -44,6 +44,7 @@
 #include "Attack/Blast.h"
 #include "Attack/Breath.h"
 #include "Attack/ULT.h"
+#include "Attack/WaveAttack.h"
 
 namespace
 {
@@ -236,6 +237,9 @@ std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_pt
 		break;
 	case AttackType::ULT:
 		attack = std::make_shared<ULT>(owner);
+		break;
+	case AttackType::Wave:
+		attack = std::make_shared<WaveAttack>(owner);
 		break;
 	default:
 		break;

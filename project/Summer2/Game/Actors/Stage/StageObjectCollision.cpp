@@ -16,7 +16,7 @@ StageObjectCollision::StageObjectCollision(int modelHandle, VECTOR pos, VECTOR s
 	m_model->SetRot(angle);
 	//‰ŠúˆÊ’u
 	m_rb->SetPos(pos);
-	std::dynamic_pointer_cast<PolygonCollider>(m_collisionData)->m_modelHandle = m_collisionHandle;
+	std::dynamic_pointer_cast<PolygonCollider>(m_collisionData)->SetModelHandle(m_collisionHandle);
 	//DxLib::MV1SetScale(m_collisionHandle, scale);
 	//DxLib::MV1SetRotationXYZ(m_collisionHandle, angle);
 	//DxLib::MV1SetPosition(m_collisionHandle, pos);

@@ -30,6 +30,7 @@
     <ClCompile Include="Game\Actors\Attack\Slash.cpp" />
     <ClCompile Include="Game\Actors\Attack\SphereAttackBase.cpp" />
     <ClCompile Include="Game\Actors\Attack\Strike.cpp" />
+    <ClCompile Include="Game\Actors\Attack\TorusAttackBase.cpp" />
     <ClCompile Include="Game\Actors\Attack\ULT.cpp" />
     <ClCompile Include="Game\Actors\Attack\WaveAttack.cpp" />
     <ClCompile Include="Game\Actors\Character\CharacterBase.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="General\Collision\Collidable.cpp" />
     <ClCompile Include="General\Collision\ColliderBase.cpp" />
     <ClCompile Include="General\Collision\CollisionChecker.cpp" />
+    <ClCompile Include="General\Collision\TorusCollider.cpp" />
     <ClCompile Include="General\Collision\FixNextPosition.cpp" />
     <ClCompile Include="General\Collision\Physics.cpp" />
     <ClCompile Include="General\Collision\PolygonCollider.cpp" />
@@ -194,6 +196,7 @@
     <ClInclude Include="Game\Actors\Attack\Slash.h" />
     <ClInclude Include="Game\Actors\Attack\SphereAttackBase.h" />
     <ClInclude Include="Game\Actors\Attack\Strike.h" />
+    <ClInclude Include="Game\Actors\Attack\TorusAttackBase.h" />
     <ClInclude Include="Game\Actors\Attack\ULT.h" />
     <ClInclude Include="Game\Actors\Attack\WaveAttack.h" />
     <ClInclude Include="Game\Actors\Character\CharacterBase.h" />
@@ -311,6 +314,7 @@
     <ClInclude Include="General\Collision\Collidable.h" />
     <ClInclude Include="General\Collision\ColliderBase.h" />
     <ClInclude Include="General\Collision\CollisionChecker.h" />
+    <ClInclude Include="General\Collision\TorusCollider.h" />
     <ClInclude Include="General\Collision\FixNextPosition.h" />
     <ClInclude Include="General\Collision\Physics.h" />
     <ClInclude Include="General\Collision\PolygonCollider.h" />

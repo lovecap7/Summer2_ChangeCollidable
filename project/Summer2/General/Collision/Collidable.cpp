@@ -3,6 +3,7 @@
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
 #include "PolygonCollider.h"
+#include "TorusCollider.h"
 #include "Physics.h"
 Collidable::Collidable(Shape shape):
 	m_isThrough(false),
@@ -41,6 +42,9 @@ void Collidable::CreateCollider(Shape shape)
 		break;
 	case Shape::Polygon:
 		m_collisionData = std::make_shared<PolygonCollider>();
+		break;
+	case Shape::Torus:
+		m_collisionData = std::make_shared<TorusCollider>();
 		break;
 	default:
 		m_collisionData = nullptr;

@@ -23,8 +23,8 @@ void Strike::Draw() const
 {
 #if _DEBUG
 	auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
-	DrawCapsule3D(m_rb->m_pos.ToDxLibVector(), coll->m_endPos.ToDxLibVector(),
-		coll->m_radius, 16, 0xff0000, 0xff0000, false);
+	DrawCapsule3D(m_rb->m_pos.ToDxLibVector(), coll->GetEndPos().ToDxLibVector(),
+		coll->GetRadius(), 16, 0xff0000, 0xff0000, false);
 #endif
 }
 void Strike::OnCollide(const std::shared_ptr<Collidable> other)
@@ -34,6 +34,6 @@ void Strike::OnCollide(const std::shared_ptr<Collidable> other)
 	{
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
-		auto eff = EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", coll->m_endPos);
+		auto eff = EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", coll->GetEndPos());
 	}
 }

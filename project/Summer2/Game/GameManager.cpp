@@ -80,9 +80,20 @@ void GameManager::Update()
 	//デバッグで一時停止されてないなら
 	auto& input = Input::GetInstance();
 #if _DEBUG
-	if (!m_isUpdateStop || (input.IsTrigger("StopUpdate") && m_isUpdateStop))
+	if (input.IsTrigger("StopUpdate"))
+	{
+		m_isUpdateStop = !m_isUpdateStop;
+	}
+	if (m_isUpdateStop)
+	{
+		//更新を止める
+		Physics::GetInstance().StopUpdate();
+	}
+	if (!m_isUpdateStop || input.IsTrigger("OneFrame"))
 #endif
 	{
+		//更新を再開
+		Physics::GetInstance().StartUpdate();
 		//アクターの更新
 		m_actorManager->Update(m_score);
 		//ゲーム開始時の処理

@@ -24,8 +24,8 @@ void Slash::Draw() const
 {
 #if _DEBUG
 	auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
-	DrawCapsule3D(m_rb->m_pos.ToDxLibVector(), coll->m_endPos.ToDxLibVector(),
-		coll->m_radius,16,0xff0000,0xff0000,false);
+	DrawCapsule3D(m_rb->m_pos.ToDxLibVector(), coll->GetEndPos().ToDxLibVector(),
+		coll->GetRadius(), 16, 0xff0000, 0xff0000, false);
 #endif
 }
 
@@ -37,7 +37,7 @@ void Slash::OnCollide(const std::shared_ptr<Collidable> other)
 	{
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
-		auto HitPos = (m_rb->m_pos + coll->m_endPos) / 2.0f;
+		auto HitPos = (m_rb->m_pos + coll->GetEndPos()) / 2.0f;
 		auto eff = EffekseerManager::GetInstance().CreateEffect("SlashHitEff", HitPos);
 	}
 }

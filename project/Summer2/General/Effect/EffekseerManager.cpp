@@ -152,6 +152,11 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossBeamChargeEff"]), pos);
 	}
+	//衝撃波エフェクト
+	else if (name == "WaveAttackEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["WaveAttackEff"]), pos);
+	}
 
 	
 	Entry(effect);
@@ -277,6 +282,7 @@ void EffekseerManager::LoadHandle()
 	m_handles["BossBeamEff"] = { LoadEffekseerEffect("Data/Effects/BossBeamEff.efkefc") };
 	m_handles["BossBeamChargeEff"] = { LoadEffekseerEffect("Data/Effects/BossBeamChargeEff.efkefc") };
 	m_handles["BossAngryEff"] = { LoadEffekseerEffect("Data/Effects/BossAngryEff.efkefc") };
+	m_handles["WaveAttackEff"] = { LoadEffekseerEffect("Data/Effects/WaveAttackEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

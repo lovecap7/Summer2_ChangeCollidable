@@ -9,7 +9,7 @@ InvisibleWall::InvisibleWall(int modelHandle, Vector3 pos, VECTOR scale, VECTOR 
 {
 	//‰ŠúˆÊ’u
 	m_rb->SetPos(pos);
-	std::dynamic_pointer_cast<PolygonCollider>(m_collisionData)->m_modelHandle = modelHandle;
+	std::dynamic_pointer_cast<PolygonCollider>(m_collisionData)->SetModelHandle(modelHandle);
 	DxLib::MV1SetScale(m_modelHandle, scale);
 	DxLib::MV1SetRotationXYZ(m_modelHandle, angle);
 }

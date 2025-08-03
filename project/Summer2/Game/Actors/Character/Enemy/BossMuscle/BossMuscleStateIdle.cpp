@@ -92,14 +92,32 @@ void BossMuscleStateIdle::Update(const std::weak_ptr<GameCamera> camera, const s
 			//攻撃のクールタイムが0なら
 			if (coll->GetAttackCoolTime() <= 0)
 			{
-				//攻撃状態にする
-				//ChangeState(std::make_shared<BossMuscleStateRightPunch>(m_owner,m_isAngry, actorManager));
-				//ChangeState(std::make_shared<BossMuscleStateBeam>(m_owner,m_isAngry, actorManager));
-				ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner,m_isAngry, actorManager));
+				ThinkAttack(actorManager);
 				return;
 			}
 		}
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
+}
+
+
+void BossMuscleStateIdle::ThinkAttack(const std::weak_ptr<ActorManager> actorManager)
+{
+	//ランダムに決定
+	auto rand = GetRand(2);
+
+	switch (rand)
+	{
+	case 0:
+		ChangeState(std::make_shared<BossMuscleStateRightPunch>(m_owner,m_isAngry, actorManager));
+		break;
+	case 1:
+		ChangeState(std::make_shared<BossMuscleStateBeam>(m_owner, m_isAngry, actorManager));
+		break;
+	case 2:
+		ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner, m_isAngry, actorManager));
+		break;
+	}
+	return;
 }
