@@ -76,6 +76,8 @@ void SmallDragon::Init()
 
 void SmallDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//プレイヤーから遠いなら処理をしない
+	if (IsStopActive(actorManager))return;
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
 	//ターゲットを発見できたかをチェック

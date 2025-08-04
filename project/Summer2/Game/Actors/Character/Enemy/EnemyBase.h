@@ -32,5 +32,7 @@ protected:
 	int m_attackCoolTime;
 	//©•ª‚ÌŠK‹‰
 	EnemyGrade m_enemyGrade;
+	//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‰“‚¢‚Æ‚«‚É“–‚½‚è”»’è‚ğ’â~‚·‚é
+	bool IsStopActive(const std::weak_ptr<ActorManager> actorManager);
 };
 

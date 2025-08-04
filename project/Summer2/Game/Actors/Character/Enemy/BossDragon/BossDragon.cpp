@@ -80,6 +80,8 @@ void BossDragon::Init()
 
 void BossDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//プレイヤーから遠いなら処理をしない
+	if (IsStopActive(actorManager))return;
 #if _DEBUG
 	//ボスを死亡させる
 	if (Input::GetInstance().IsTrigger("BossDead"))
