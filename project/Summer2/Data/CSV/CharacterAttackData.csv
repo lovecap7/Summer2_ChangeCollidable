@@ -15,5 +15,6 @@ BossDragon,Breath,80,180,40,12,CharacterArmature|Headbutt,0.2,25,0,0,7,Heavy,5,L
 BossDragon,Punch,100,3,26,20,CharacterArmature|Punch,0.4,100,0,0,0,Heavy,5,Middle,1
 BossDragon,Sweep,100,40,40,24,CharacterArmature|Punch,0.6,30,0,0,0,Heavy,5,Middle,1
 BossMuscle,RightPunch,100,14,45,30,Boss|LeftPunch,0.6,100,0,10,10,Heavy,6,Middle,1
-BossMuscle,Beam,50,22,130,20,Boss|Beam,0.6,90,0,10,10,Heavy,7,Middle,0
-BossMuscle,JumpAttack,50,60,90,20,Boss|JumpAttack,0.5,30,0,0,20,Heavy,8,Middle,0
+BossMuscle,Beam,50,22,130,20,Boss|Beam,0.6,90,0,10,10,Heavy,7,Middle,1
+BossMuscle,JumpAttack,100,60,90,20,Boss|JumpAttack,0.5,30,0,0,20,Heavy,8,Middle,1
+BossMuscle,SwingAttack,200,30,60,20,Boss|SwingAttack,0.4,120,0,10,15,Heavy,9,Middle,1

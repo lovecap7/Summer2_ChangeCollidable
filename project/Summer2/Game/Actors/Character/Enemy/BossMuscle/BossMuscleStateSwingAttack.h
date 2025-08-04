@@ -4,23 +4,23 @@
 #include "../../../../../General/CSVDataLoader.h"
 
 class GameCamera;
-class Strike;
+class AreaOfEffectAttack;
 class Input;
 class ActorManager;
 class Actor;
-class BossMuscleStateRightPunch :
-	public BossMuscleStateBase, public std::enable_shared_from_this<BossMuscleStateRightPunch>
+class BossMuscleStateSwingAttack :
+	public BossMuscleStateBase, public std::enable_shared_from_this<BossMuscleStateSwingAttack>
 {
 public:
-	BossMuscleStateRightPunch(std::weak_ptr<Actor> owner, bool isAngry, const std::weak_ptr<ActorManager> actorManager);
-	~BossMuscleStateRightPunch();
+	BossMuscleStateSwingAttack(std::weak_ptr<Actor> owner, bool isAngry, const std::weak_ptr<ActorManager> actorManager);
+	~BossMuscleStateSwingAttack();
 	void Init()override;
 	void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
 	//UŒ‚‚ÌƒtƒŒ[ƒ€‚ğ”‚¦‚é
 	int m_attackCountFrame;
 	//UŒ‚‚ÌQÆ
-	std::weak_ptr<Strike> m_attack;
+	std::weak_ptr<AreaOfEffectAttack> m_attack;
 	//UŒ‚‚Ìì¬
 	void CreateAttack(const std::weak_ptr<ActorManager> actorManager);
 	//UŒ‚‚ÌˆÊ’u‚ğXV‚·‚é

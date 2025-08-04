@@ -1,4 +1,4 @@
-#include "BossMuscleStateRightPunch.h"
+#include "BossMuscleStateSwingAttack.h"
 #include "BossMuscleStateIdle.h"
 #include "BossMuscleStateDeath.h"
 #include "BossMuscleStateHit.h"
@@ -15,14 +15,12 @@
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../ActorManager.h"
-#include "../../../Attack/Strike.h"
-
+#include "../../../Attack/AreaOfEffectAttack.h"
 namespace
 {
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
-	//右腕と右手のインデックス
-	constexpr int kRightArmIndex = 41;
+	//右手のインデックス
 	constexpr int kRightHandIndex = 43;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 120;
@@ -32,11 +30,11 @@ namespace
 	constexpr float kAttackMoveDistance = 200.0f;
 }
 
-BossMuscleStateRightPunch::BossMuscleStateRightPunch(std::weak_ptr<Actor> owner, bool isAngry,const std::weak_ptr<ActorManager> actorManager) :
+BossMuscleStateSwingAttack::BossMuscleStateSwingAttack(std::weak_ptr<Actor> owner, bool isAngry, const std::weak_ptr<ActorManager> actorManager):
 	BossMuscleStateBase(owner, isAngry),
 	m_attackCountFrame(0)
 {
-	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kRightPunchName);
+	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kSwingAttackName);
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	coll->SetCollState(CollisionState::Normal);
 	//攻撃
@@ -45,7 +43,7 @@ BossMuscleStateRightPunch::BossMuscleStateRightPunch(std::weak_ptr<Actor> owner,
 	coll->LookAtTarget();
 }
 
-BossMuscleStateRightPunch::~BossMuscleStateRightPunch()
+BossMuscleStateSwingAttack::~BossMuscleStateSwingAttack()
 {
 	auto coolTime = kAttackCoolTime;
 	//怒り状態ならクールタイムを短くする
@@ -56,13 +54,13 @@ BossMuscleStateRightPunch::~BossMuscleStateRightPunch()
 	if (!m_attack.expired())m_attack.lock()->Delete();
 }
 
-void BossMuscleStateRightPunch::Init()
+void BossMuscleStateSwingAttack::Init()
 {
 	//次の状態を今の状態に更新
 	ChangeState(shared_from_this());
 }
 
-void BossMuscleStateRightPunch::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossMuscleStateSwingAttack::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	//死亡
@@ -74,7 +72,7 @@ void BossMuscleStateRightPunch::Update(const std::weak_ptr<GameCamera> camera, c
 	//ヒットリアクション
 	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
-		ChangeState(std::make_shared<BossMuscleStateHit>(m_owner,m_isAngry));
+		ChangeState(std::make_shared<BossMuscleStateHit>(m_owner, m_isAngry));
 		return;
 	}
 	//カウント
@@ -112,10 +110,10 @@ void BossMuscleStateRightPunch::Update(const std::weak_ptr<GameCamera> camera, c
 	}
 }
 
-void BossMuscleStateRightPunch::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
+void BossMuscleStateSwingAttack::CreateAttack(const std::weak_ptr<ActorManager> actorManager)
 {
 	//作成と参照
-	m_attack = std::dynamic_pointer_cast<Strike>(actorManager.lock()->CreateAttack(AttackType::Strike, m_owner).lock());
+	m_attack = std::dynamic_pointer_cast<AreaOfEffectAttack>(actorManager.lock()->CreateAttack(AttackType::AreaOfEffect, m_owner).lock());
 	//攻撃を作成
 	auto attack = m_attack.lock();
 	auto data = m_attackData;
@@ -126,18 +124,16 @@ void BossMuscleStateRightPunch::CreateAttack(const std::weak_ptr<ActorManager> a
 		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
 }
 
-void BossMuscleStateRightPunch::UpdateAttackPos()
+void BossMuscleStateSwingAttack::UpdateAttackPos()
 {
 	auto model = m_owner.lock()->GetModel();
-	//腕と手の座標
-	VECTOR arm = MV1GetFramePosition(model->GetModelHandle(), kRightArmIndex);//右腕
+	//手の座標
 	VECTOR hand = MV1GetFramePosition(model->GetModelHandle(), kRightHandIndex);//手の指先
 	//座標をセット
-	m_attack.lock()->SetStartPos(arm);
-	m_attack.lock()->SetEndPos(hand);
+	m_attack.lock()->SetPos(hand);
 }
 
-void BossMuscleStateRightPunch::AttackMove()
+void BossMuscleStateSwingAttack::AttackMove()
 {
 	//向いてる方向に移動
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());

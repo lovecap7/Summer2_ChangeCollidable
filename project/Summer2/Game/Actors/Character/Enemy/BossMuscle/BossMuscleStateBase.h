@@ -31,6 +31,7 @@ namespace
 	std::string kRightPunchName		= "RightPunch";
 	std::string kBeamName			= "Beam";
 	std::string kJumpAttackName		= "JumpAttack";
+	std::string kSwingAttackName	= "SwingAttack";
 }
 
 
