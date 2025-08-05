@@ -7,6 +7,7 @@
 #include  "../General/Effect/EffekseerManager.h"
 #include  "../Game/UI/UIManager.h"
 #include  "../General/Fader.h"
+#include  "../General/SoundManager.h"
 
 Application& Application::GetInstance()
 {
@@ -73,6 +74,9 @@ void Application::Run()
 	//フェード
 	auto& fader = Fader::GetInstance();
 	fader.Init();
+	//サウンド
+	auto& soundManager = SoundManager::GetInstance();
+	soundManager.Init();
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -92,6 +96,7 @@ void Application::Run()
 		effect.Update();
 		uiManager.Update();
 		fader.Update();
+		soundManager.Update();
 		//描画
 		uiManager.BackDraw();
 		sceneController->Draw();
@@ -127,6 +132,7 @@ void Application::Terminate()
 	Physics::GetInstance().Reset();
 	EffekseerManager::GetInstance().End();
 	UIManager::GetInstance().End();
+	SoundManager::GetInstance().End();
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 }
 

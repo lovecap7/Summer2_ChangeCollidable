@@ -4,6 +4,7 @@
 #include "../General/Fader.h"
 #include "../General/CSVDataLoader.h"
 #include "../General/StageFigure.h"
+#include "../General/SoundManager.h"
 #include "../Game/Actors/Character/Player/SelectStagePlayer.h"
 #include "../Game/Camera/SelectStageCamera/SelectStageCamera.h"
 #include "../Game/UI/Select/SelectStageBackUI.h"
@@ -54,6 +55,8 @@ SelectStageScene::SelectStageScene(SceneController& controller):
 		//ステージのフィギュアを作成
 		m_stageFigures[i] = std::make_shared<StageFigure>();
 	}
+	//BGM
+	SoundManager::GetInstance().PlayBGM("SelectStageBGM");
 }
 
 SelectStageScene::~SelectStageScene()

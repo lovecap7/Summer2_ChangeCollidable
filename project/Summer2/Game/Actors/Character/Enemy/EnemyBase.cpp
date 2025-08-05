@@ -8,7 +8,7 @@
 namespace
 {
 	//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª‰“‚¢‚Æ‚«‚É“–‚½‚è”»’è‚ğ’â~‚·‚é‹——£
-	const float kStopCollisionDistance = 1500.0f;
+	const float kStopCollisionDistance = 5000.0f;
 }
 
 EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :

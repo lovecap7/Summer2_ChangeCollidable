@@ -173,6 +173,7 @@
     <ClCompile Include="General\Model.cpp" />
     <ClCompile Include="General\Rigidbody.cpp" />
     <ClCompile Include="General\CSVDataLoader.cpp" />
+    <ClCompile Include="General\SoundManager.cpp" />
     <ClCompile Include="General\StageFigure.cpp" />
     <ClCompile Include="General\StringUtil.cpp" />
     <ClCompile Include="Main\Application.cpp" />
@@ -345,6 +346,7 @@
     <ClInclude Include="General\Model.h" />
     <ClInclude Include="General\Rigidbody.h" />
     <ClInclude Include="General\CSVDataLoader.h" />
+    <ClInclude Include="General\SoundManager.h" />
     <ClInclude Include="General\StageFigure.h" />
     <ClInclude Include="General\StageIndex.h" />
     <ClInclude Include="General\StringUtil.h" />

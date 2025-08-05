@@ -13,6 +13,7 @@
 #include "../General/Fader.h"
 #include "../General/Effect/EffekseerManager.h"
 #include "../Game/UI/Title/TitleUI.h"
+#include "../General/SoundManager.h"
 #include <memory>
 #include <cassert>
 #if _DEBUG
@@ -74,6 +75,8 @@ void TitleScene::Init()
 	auto& fader = Fader::GetInstance();
 	//‚¾‚ñ‚¾‚ñ–¾‚é‚­
 	fader.FadeIn();
+	//BGMÄ¶
+	SoundManager::GetInstance().PlayBGM("TitleBGM");
 }
 
 void TitleScene::Update()
