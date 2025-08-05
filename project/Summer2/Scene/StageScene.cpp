@@ -10,7 +10,7 @@
 #include <vector>
 #include "../General/game.h"
 #include "../General/Fader.h"
-#include "../General/SoundManager.h"
+#include "../General/Sound/SoundManager.h"
 
 namespace
 {

@@ -7,7 +7,7 @@
 #include  "../General/Effect/EffekseerManager.h"
 #include  "../Game/UI/UIManager.h"
 #include  "../General/Fader.h"
-#include  "../General/SoundManager.h"
+#include  "../General/Sound/SoundManager.h"
 
 Application& Application::GetInstance()
 {

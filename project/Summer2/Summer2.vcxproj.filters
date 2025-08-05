@@ -202,6 +202,12 @@
     <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle">
       <UniqueIdentifier>{61c9adc4-a22c-4031-9977-ed71f4570849}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\General\Sound">
+      <UniqueIdentifier>{3ce98cb5-e4a3-48a9-9ded-94699aa6c68b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\General\Sound">
+      <UniqueIdentifier>{dafa3bb4-3f61-4b07-82e4-9a9a44289250}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -708,8 +714,20 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateSwingAttack.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClCompile>
-    <ClCompile Include="General\SoundManager.cpp">
-      <Filter>ソース ファイル\General</Filter>
+    <ClCompile Include="General\Sound\SoundManager.cpp">
+      <Filter>ソース ファイル\General\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="General\Sound\SoundBase.cpp">
+      <Filter>ソース ファイル\General\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="General\Sound\BGM.cpp">
+      <Filter>ソース ファイル\General\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="General\Sound\SE.cpp">
+      <Filter>ソース ファイル\General\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="General\Sound\Voice.cpp">
+      <Filter>ソース ファイル\General\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1226,8 +1244,20 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateSwingAttack.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle</Filter>
     </ClInclude>
-    <ClInclude Include="General\SoundManager.h">
-      <Filter>ヘッダー ファイル\General</Filter>
+    <ClInclude Include="General\Sound\SoundManager.h">
+      <Filter>ヘッダー ファイル\General\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="General\Sound\SoundBase.h">
+      <Filter>ヘッダー ファイル\General\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="General\Sound\BGM.h">
+      <Filter>ヘッダー ファイル\General\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="General\Sound\SE.h">
+      <Filter>ヘッダー ファイル\General\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="General\Sound\Voice.h">
+      <Filter>ヘッダー ファイル\General\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

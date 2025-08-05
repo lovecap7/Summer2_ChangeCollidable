@@ -4,7 +4,7 @@
 #include "../Character/Player/Player.h"
 #include "../Character/Enemy/EnemyBase.h"
 #include "../../../General/Collision/Physics.h"
-#include "../../../General/SoundManager.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
 	EventAreaBase(start,end,AreaTag::Boss),

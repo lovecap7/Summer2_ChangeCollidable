@@ -9,7 +9,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
-#include "../../../../../General/SoundManager.h"
+#include "../../../../../General/Sound/SoundManager.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace

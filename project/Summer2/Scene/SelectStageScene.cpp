@@ -4,7 +4,7 @@
 #include "../General/Fader.h"
 #include "../General/CSVDataLoader.h"
 #include "../General/StageFigure.h"
-#include "../General/SoundManager.h"
+#include "../General/Sound/SoundManager.h"
 #include "../Game/Actors/Character/Player/SelectStagePlayer.h"
 #include "../Game/Camera/SelectStageCamera/SelectStageCamera.h"
 #include "../Game/UI/Select/SelectStageBackUI.h"

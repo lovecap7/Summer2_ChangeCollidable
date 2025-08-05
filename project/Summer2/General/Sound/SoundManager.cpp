@@ -1,4 +1,6 @@
 #include "SoundManager.h"
+#include "SoundBase.h"
+#include "BGM.h"
 #include <DxLib.h>
 #include <cassert>
 
@@ -6,6 +8,24 @@ namespace
 {
 	//ƒfƒtƒHƒ‹ƒg‚ÌƒTƒEƒ“ƒh‚Ì”{—¦
 	constexpr int kDefaultVolume = 127;
+}
+
+void SoundManager::Entry(std::shared_ptr<SoundBase> sound)
+{
+	//‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é‚È‚ç‚µ‚È‚¢
+	auto it = std::find(m_sounds.begin(), m_sounds.end(), sound);
+	if (it != m_sounds.end())return;
+	//“o˜^
+	m_sounds.emplace_back(sound);
+}
+
+void SoundManager::Exit(std::shared_ptr<SoundBase> sound)
+{
+	//“o˜^‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç‚µ‚È‚¢
+	auto it = std::find(m_sounds.begin(), m_sounds.end(), sound);
+	if (it == m_sounds.end())return;
+	//‰ðœ
+	m_sounds.remove(sound);
 }
 
 void SoundManager::Init()
@@ -27,51 +47,11 @@ void SoundManager::Init()
 	for (const auto& [key, value] : m_soundHandles) {
 		assert(value >= 0);
 	}
-	//Ä¶—pƒnƒ“ƒhƒ‹
-	m_playBGMHandle = -1;
-	m_playSEVCHandles = {};
 }
 void SoundManager::Update()
 {
 	//Ä¶‚ªI—¹‚µ‚½ƒnƒ“ƒhƒ‹‚ðÁ‚·
-	auto remIt = std::remove_if(
-		m_playSEVCHandles.begin(), //—v‘f‚Ì“ª
-		m_playSEVCHandles.end(), //—v‘f‚ÌI‚í‚è
-		//ƒ‰ƒ€ƒ_Ž®(–³–¼ŠÖ”)
-		[](int& handle)->bool {
-			//Ä¶‚µ‚Ä‚È‚¢‚È‚ç
-			auto isPlayEnd = !CheckSoundMem(handle);
-			if (isPlayEnd)
-			{
-				//íœ
-				DeleteSoundMem(handle);
-			}
-			return isPlayEnd;
-		});
-	//”z—ñ‚©‚ç‚àíœ
-	m_playSEVCHandles.erase(remIt, m_playSEVCHandles.end());
-}
 
-void SoundManager::PlayBGM(std::string name)
-{
-	//Ä¶’†‚Ìƒnƒ“ƒhƒ‹‚ª‚ ‚é‚È‚ç
-	if (m_playBGMHandle >= 0)
-	{
-		//Ä¶‚ðŽ~‚ß‚é
-		StopSoundMem(m_playBGMHandle);
-		//íœ
-		DeleteSoundMem(m_playBGMHandle);
-	}
-	//BGM‚ÌÄ¶
-	m_playBGMHandle = DuplicateSoundMem(m_soundHandles.at(name));
-	PlaySoundMem(m_playBGMHandle, DX_PLAYTYPE_LOOP, true);
-	ChangeVolumeSoundMem(m_bgmVolume, m_playBGMHandle);
-}
-
-void SoundManager::StopBGM()
-{
-	//Ä¶‚ðŽ~‚ß‚é
-	StopSoundMem(m_playBGMHandle);
 }
 
 void SoundManager::End()
@@ -80,6 +60,47 @@ void SoundManager::End()
 	for (const auto& [key, value] : m_soundHandles) {
 		DeleteSoundMem(value);
 	}
+	for (auto& sound : m_sounds) {
+		sound->Delete();
+	}
+	m_sounds.clear();
 	m_soundHandles.clear();
 	InitSoundMem();
+}
+
+void SoundManager::PlayBGM(std::string name)
+{
+	//‚·‚Å‚ÉŽÀ‘Ì‚ª‚ ‚é‚Æ‚«I—¹ˆ—‚ð‚·‚é
+	if (m_bgm)
+	{
+		m_bgm->End();
+	}
+	m_bgm = std::make_shared<BGM>(DuplicateSoundMem(m_soundHandles[name]),m_bgmVolume);
+	m_bgm->Init();
+	m_bgm->Play();
+}
+
+void SoundManager::StopBGM()
+{
+	m_bgm->Stop();
+}
+
+void SoundManager::PlayOnceSE(std::string name)
+{
+}
+
+void SoundManager::PlayLoopSE(std::string name)
+{
+}
+
+void SoundManager::PlayVC(std::string name)
+{
+}
+
+void SoundManager::AllPlay()
+{
+}
+
+void SoundManager::AllStop()
+{
 }

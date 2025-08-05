@@ -173,7 +173,11 @@
     <ClCompile Include="General\Model.cpp" />
     <ClCompile Include="General\Rigidbody.cpp" />
     <ClCompile Include="General\CSVDataLoader.cpp" />
-    <ClCompile Include="General\SoundManager.cpp" />
+    <ClCompile Include="General\Sound\BGM.cpp" />
+    <ClCompile Include="General\Sound\SE.cpp" />
+    <ClCompile Include="General\Sound\SoundBase.cpp" />
+    <ClCompile Include="General\Sound\SoundManager.cpp" />
+    <ClCompile Include="General\Sound\Voice.cpp" />
     <ClCompile Include="General\StageFigure.cpp" />
     <ClCompile Include="General\StringUtil.cpp" />
     <ClCompile Include="Main\Application.cpp" />
@@ -346,7 +350,11 @@
     <ClInclude Include="General\Model.h" />
     <ClInclude Include="General\Rigidbody.h" />
     <ClInclude Include="General\CSVDataLoader.h" />
-    <ClInclude Include="General\SoundManager.h" />
+    <ClInclude Include="General\Sound\BGM.h" />
+    <ClInclude Include="General\Sound\SE.h" />
+    <ClInclude Include="General\Sound\SoundBase.h" />
+    <ClInclude Include="General\Sound\SoundManager.h" />
+    <ClInclude Include="General\Sound\Voice.h" />
     <ClInclude Include="General\StageFigure.h" />
     <ClInclude Include="General\StageIndex.h" />
     <ClInclude Include="General\StringUtil.h" />
