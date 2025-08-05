@@ -55,8 +55,6 @@ SelectStageScene::SelectStageScene(SceneController& controller):
 		//ステージのフィギュアを作成
 		m_stageFigures[i] = std::make_shared<StageFigure>();
 	}
-	//BGM
-	SoundManager::GetInstance().PlayBGM("SelectStageBGM");
 }
 
 SelectStageScene::~SelectStageScene()
@@ -86,6 +84,8 @@ void SelectStageScene::Init()
 	back1->Init();
 	m_stage1Back = back1;
 	m_stage2Back = back2;
+	//BGM
+	SoundManager::GetInstance().PlayBGM("SelectStageBGM");
 }
 
 void SelectStageScene::Update()

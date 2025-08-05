@@ -19,5 +19,7 @@ private:
     void EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
     //ƒCƒxƒ“ƒgó‘Ô
     void EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
+    //‰Šú‰»
+    void InitEvent(const std::weak_ptr<ActorManager>& actorManager, const std::weak_ptr<GameCamera>& camera);
 };
 

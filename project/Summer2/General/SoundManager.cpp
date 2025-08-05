@@ -63,14 +63,15 @@ void SoundManager::PlayBGM(std::string name)
 		DeleteSoundMem(m_playBGMHandle);
 	}
 	//BGM‚ÌÄ¶
-	m_playBGMHandle = DuplicateSoundMem(m_soundHandles[name]);
+	m_playBGMHandle = DuplicateSoundMem(m_soundHandles.at(name));
 	PlaySoundMem(m_playBGMHandle, DX_PLAYTYPE_LOOP, true);
 	ChangeVolumeSoundMem(m_bgmVolume, m_playBGMHandle);
 }
 
-void SoundManager::Stop()
+void SoundManager::StopBGM()
 {
-	StopSoundFile();
+	//Ä¶‚ğ~‚ß‚é
+	StopSoundMem(m_playBGMHandle);
 }
 
 void SoundManager::End()

@@ -32,7 +32,7 @@ public:
 	//Ä¶
 	void PlayBGM(std::string name);
 	//’â~
-	void Stop();
+	void StopBGM();
 	//I—¹
 	void End();
 private:

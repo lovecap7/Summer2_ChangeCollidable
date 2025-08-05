@@ -9,6 +9,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/SoundManager.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
@@ -31,6 +32,8 @@ BossMuscleStateDeath::BossMuscleStateDeath(std::weak_ptr<Actor> owner) :
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
 	//–³“G
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//BGM‚ðŽ~‚ß‚é
+	SoundManager::GetInstance().StopBGM();
 }
 
 BossMuscleStateDeath::~BossMuscleStateDeath()

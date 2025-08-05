@@ -10,6 +10,7 @@
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
+#include "../../../../../General/SoundManager.h"
 
 namespace
 {
@@ -31,6 +32,8 @@ BossDragonStateDeath::BossDragonStateDeath(std::weak_ptr<Actor> owner) :
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
 	//–³“G
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//BGM‚ðŽ~‚ß‚é
+	SoundManager::GetInstance().StopBGM();
 }
 
 BossDragonStateDeath::~BossDragonStateDeath()

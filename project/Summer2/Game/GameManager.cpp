@@ -205,7 +205,7 @@ void GameManager::Restart(Stage::StageIndex index)
 	//エフェクトをリセット
 	EffekseerManager::GetInstance().Reset();
 	//アクターマネージャーの再スタート
-	m_actorManager->Restart(index);
+	m_actorManager->Restart();
 	//カメラの初期化
 	m_camera->Init();
 	//フラグリセット

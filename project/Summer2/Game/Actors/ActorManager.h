@@ -68,7 +68,7 @@ public:
 	//終了処理
 	void End();
 	//リスタート
-	void Restart(Stage::StageIndex index);
+	void Restart();
 
 	//追加予定のアクターを追加
 	void AddNextActor(std::shared_ptr<Actor> actor);
@@ -104,6 +104,8 @@ public:
 	void DelayUpdate(int frame);
 	//ヒットストップ
 	void HitStop(ShakePower sp,int frame);
+	//ステージ番号
+	Stage::StageIndex GetStageIndex()const { return m_stageIndex; };
 private:
 	//追加予定のアクターを実装
 	void CheckNextAddActors();
@@ -145,5 +147,7 @@ private:
 	//更新
 	bool m_isUpdate;
 	int m_delayFrame;
+	//ステージ番号
+	Stage::StageIndex m_stageIndex;
 };
 

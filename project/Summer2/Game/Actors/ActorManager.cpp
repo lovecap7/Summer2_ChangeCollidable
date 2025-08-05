@@ -99,8 +99,9 @@ void ActorManager::Exit(std::shared_ptr<Actor> actor)
 
 void ActorManager::Init(Stage::StageIndex index)
 {
+	m_stageIndex = index;
 	//ステージ情報をロード
-	LoadStage(index);
+	LoadStage(m_stageIndex);
 	//アクターを実装
 	CheckNextAddActors();
 }
@@ -163,12 +164,12 @@ void ActorManager::End()
 	AllDeleteHandles();
 }
 
-void ActorManager::Restart(Stage::StageIndex index)
+void ActorManager::Restart()
 {
 	//メモリを解放
 	AllDeleteActors();
 	//再配置
-	Init(index);
+	Init(m_stageIndex);
 }
 
 

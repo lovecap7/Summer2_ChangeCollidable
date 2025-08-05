@@ -20,6 +20,8 @@ private:
     void EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
     //イベント状態
     void EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
+    //初期化
+    void InitEvent(const std::weak_ptr<GameCamera>& camera);
     //範囲内の敵のリスト
     std::list<std::weak_ptr<EnemyBase>> m_areaEnemies;
 };

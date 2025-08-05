@@ -10,6 +10,7 @@
 #include <vector>
 #include "../General/game.h"
 #include "../General/Fader.h"
+#include "../General/SoundManager.h"
 
 namespace
 {
@@ -33,6 +34,16 @@ void StageScene::Init()
 	auto& fader = Fader::GetInstance();
 	//だんだん明るく
 	fader.FadeIn(kFadeSpeed);
+	//ステージによってBGMを変更
+	switch (m_stageIndex)
+	{
+	case Stage::StageIndex::Stage1:
+		SoundManager::GetInstance().PlayBGM("Stage1BGM");
+		break;
+	case Stage::StageIndex::Stage2:
+		SoundManager::GetInstance().PlayBGM("Stage2BGM");
+		break;
+	}
 }
 
 void StageScene::Update()
