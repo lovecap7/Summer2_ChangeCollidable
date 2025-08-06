@@ -7,6 +7,7 @@ public:
 	SoundBase(int handle,int volume,bool isLoop);
 	~SoundBase();
 	virtual void Init();
+	virtual void Update()abstract;
 	virtual void End();
 	//Ä¶
 	virtual void Play();

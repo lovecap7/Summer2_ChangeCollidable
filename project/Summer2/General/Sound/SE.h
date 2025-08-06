@@ -6,5 +6,6 @@ class SE :
 public:
     SE(int handle, int volume, bool isLoop);
     ~SE();
+    void Update()override;
 };
 

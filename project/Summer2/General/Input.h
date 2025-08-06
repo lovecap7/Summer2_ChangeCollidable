@@ -163,13 +163,19 @@ public:
 	/// 何かキーやボタンを押したときにtrue
 	/// </summary>
 	/// <returns></returns>
-	bool IsPlessAny();
+	bool IsPressAny()const;
 
 	/// <summary>
 	/// 何かキーかボタンを押した瞬間true
 	/// </summary>
 	/// <returns></returns>
-	bool IsTriggerAny();
+	bool IsTriggerAny()const;
+
+	/// <summary>
+	/// 入力があった時一定間隔でtrueを返す
+	/// </summary>
+	/// <returns></returns>
+	bool IsRepeate(const std::string& action,int deltaTime = 30)const;
 private:
 	/// <summary>
 	/// 入力の種類
@@ -187,16 +193,16 @@ private:
 	};
 
 	std::map<std::string, std::vector<InputMapInfo>> m_inputActionMap;
-
 	//現在のフレームの入力
 	std::map<std::string, bool>m_currentInput;
 	//1フレーム前の入力
 	std::map<std::string, bool>m_lastInput;
+	//入力し続けてた時のフレームカウント
+	std::map<std::string, int>m_repeateCountFrame;
 	//スティックに関する入力情報
 	StickInfo m_stickInfo = StickInfo();
 	//トリガーの状態
 	TriggerInfo m_triggerInfo = TriggerInfo();
-
 	//更新するか
 	bool m_isUpdate;
 };

@@ -13,6 +13,8 @@ namespace
 	constexpr int kScoreDataElementNum = 2;
 	//スコアデータの数
 	constexpr int kResultScoreUIDataElementNum = 4;
+	//UIデータ数
+	constexpr int kUIDataElementNum = 3;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
 	constexpr float kUnityToDXPosition = 100.0f;
 }
@@ -174,6 +176,30 @@ std::vector<ResultScoreUIData> CSVDataLoader::LoadResultScoreUIDataCSV()
 		resultScoreUIDatas.emplace_back(resultScoreUIData);
 	}
 	return resultScoreUIDatas;
+}
+
+std::vector<UIData> CSVDataLoader::LoadUIDataCSV(const char* fileName)
+{
+	//データを格納する配列
+	std::vector<UIData> uis;
+
+	//データをすべて読み込む
+	auto uiDatas = GetWStringList(fileName, kUIDataElementNum);
+
+	for (auto data : uiDatas)
+	{
+		//構造体にデータを入れていく
+		UIData uiData;
+		//テキスト
+		uiData.text = data[0];
+		//座標
+		uiData.pos.x = std::stof(data[1]);
+		uiData.pos.y = std::stof(data[2]);
+		//配列に追加
+		uis.emplace_back(uiData);
+	}
+
+	return uis;
 }
 
 //データをすべて読み込む

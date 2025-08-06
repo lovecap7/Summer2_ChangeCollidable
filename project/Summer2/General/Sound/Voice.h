@@ -6,5 +6,6 @@ class Voice :
 public:
     Voice(int handle, int volume);
     ~Voice();
+    void Update()override;
 };
 

@@ -2,6 +2,7 @@
 #include "SceneBase.h"
 #include <memory>
 #include <vector>
+#include <array>
 #include <map>
 #include <string>
 class Input;
@@ -9,8 +10,24 @@ class TitleCamera;
 class SceneController;
 class Model;
 class TitleUI;
+class TitleSelectMenuUI;
 class TitlePlayer;
 class Actor;
+class CSVDataLoader;
+
+namespace
+{
+    constexpr int kMenuNum = 4;
+}
+
+enum class MenuIndex : int
+{
+    Continue    = 0,
+    NewGame     = 1,
+    Option      = 2,
+    FinishGame  = 3
+};
+
 class TitleScene :
     public SceneBase
 {
@@ -30,7 +47,7 @@ public:
     //ハンドルロード
     void LoadHandle();
     //配置
-    void LoadStage();
+    void LoadStage(std::shared_ptr<CSVDataLoader> csvLoader);
     //ハンドル削除
     void AllDeleteHandle();
     //オブジェ削除
@@ -50,12 +67,36 @@ private:
     int m_lightHandle;
     //タイトルUI
     std::weak_ptr<TitleUI> m_titleUI;
+    //メニューUI
+    std::array<std::weak_ptr<TitleSelectMenuUI>, kMenuNum> m_menuUIs;
+    //メニューインデックス
+    MenuIndex m_menuIndex;
+    //決定
+    bool m_isDecide;
 private:
+    //状態遷移
+    using UpdateFunc_t = void(TitleScene::*)(Input& input);
+    UpdateFunc_t m_update;
+    //タイトルのみの更新
+    void UpdateTitle(Input& input);
+    //セレクト画面
+    void UpdateSelectMenu(Input& input);
+private:
+    //メニューセレクト処理
+    void SelectMenu(Input& input);
     //ライトの初期化
     void InitLight();
     //シャドウマップの初期化
     void InitShadow();
     //シャドウの更新
     void UpdateShadow();
+    //Actorの更新
+    void UpdateCommon();
+    //UIの準備、初期化
+    void InitUIs(std::shared_ptr<CSVDataLoader>& csvLoader);
+    //タイトル画面の初期化
+    void InitTitle();
+    //メニュー画面の初期化
+    void InitSelectMenu();
 };
 

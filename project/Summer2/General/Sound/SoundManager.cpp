@@ -1,6 +1,8 @@
 #include "SoundManager.h"
 #include "SoundBase.h"
 #include "BGM.h"
+#include "SE.h"
+#include "Voice.h"
 #include <DxLib.h>
 #include <cassert>
 
@@ -50,8 +52,12 @@ void SoundManager::Init()
 }
 void SoundManager::Update()
 {
+	for (auto& sound : m_sounds)
+	{
+		sound->Update();
+	}
 	//再生が終了したハンドルを消す
-
+	CheckDeleteSound();
 }
 
 void SoundManager::End()
@@ -85,22 +91,78 @@ void SoundManager::StopBGM()
 	m_bgm->Stop();
 }
 
-void SoundManager::PlayOnceSE(std::string name)
+std::weak_ptr<SE> SoundManager::PlayOnceSE(std::string name)
 {
+	auto se = std::make_shared<SE>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume, false);
+	se->Init();
+	se->Play();
+	return se;
 }
 
-void SoundManager::PlayLoopSE(std::string name)
+std::weak_ptr<SE> SoundManager::PlayLoopSE(std::string name)
 {
+	auto se = std::make_shared<SE>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume, true);
+	se->Init();
+	se->Play();
+	return se;
 }
 
-void SoundManager::PlayVC(std::string name)
+std::weak_ptr<Voice> SoundManager::PlayVC(std::string name)
 {
+	auto vc = std::make_shared<Voice>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume);
+	vc->Init();
+	vc->Play();
+	return vc;
 }
 
 void SoundManager::AllPlay()
 {
+	for (auto& sound : m_sounds)
+	{
+		sound->Play();
+	}
+	if (m_bgm)
+	{
+		m_bgm->Play();
+	}
 }
 
 void SoundManager::AllStop()
 {
+	for (auto& sound : m_sounds)
+	{
+		sound->Stop();
+	}
+	if (m_bgm)
+	{
+		m_bgm->Stop();
+	}
+}
+
+//消滅フラグをチェックして削除
+void SoundManager::CheckDeleteSound()
+{
+	std::list<std::shared_ptr<SoundBase>> deleteSound;
+	for (int i = 0;i < 3;++i)
+	{
+		bool isOneMore = false;
+		for (auto& sound : m_sounds)
+		{
+			if (sound->IsDelete())
+			{
+				isOneMore = true;
+				//終了処理
+				sound->End();
+				//削除候補
+				m_sounds.emplace_back(sound);
+			}
+		}
+		//削除
+		for (auto& sound : deleteSound)
+		{
+			Exit(sound);
+		}
+		deleteSound.clear();
+		if (!isOneMore)break;
+	}
 }

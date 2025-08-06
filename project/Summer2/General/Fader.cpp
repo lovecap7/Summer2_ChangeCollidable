@@ -43,6 +43,15 @@ void Fader::Update()
 			m_isFadeOut = false;
 		}
 	}
+	//フェード中なら
+	if (m_isFadeIn || m_isFadeOut)
+	{
+		m_isFadeNow = true;
+	}
+	else
+	{
+		m_isFadeNow = false;
+	}
 }
 //描画
 void Fader::Draw()const

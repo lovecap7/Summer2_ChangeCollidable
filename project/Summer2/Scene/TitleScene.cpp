@@ -13,7 +13,9 @@
 #include "../General/Fader.h"
 #include "../General/Effect/EffekseerManager.h"
 #include "../Game/UI/Title/TitleUI.h"
+#include "../Game/UI/Title/TitleSelectMenuUI.h"
 #include "../General/Sound/SoundManager.h"
+#include "../General/StringUtil.h"
 #include <memory>
 #include <cassert>
 #if _DEBUG
@@ -38,7 +40,10 @@ namespace
 
 
 TitleScene::TitleScene(SceneController& controller):
-	SceneBase(controller)
+	SceneBase(controller),
+	m_update(&TitleScene::UpdateTitle),
+	m_isDecide(false),
+	m_menuIndex(MenuIndex::Continue)
 {
 }
 
@@ -56,12 +61,12 @@ void TitleScene::Init()
 	m_player = std::make_shared<TitlePlayer>();
 	//ハンドルロード
 	LoadHandle();
+	//CSV
+	auto csvLoader = std::make_shared<CSVDataLoader>();
 	//配置データ
-	LoadStage();
+	LoadStage(csvLoader);
 	//UI
-	auto titleUI = std::make_shared<TitleUI>();
-	titleUI->Init();
-	m_titleUI = titleUI;
+	InitUIs(csvLoader);
 	//エフェクト
 	EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
 	//カメラの初期化
@@ -82,41 +87,8 @@ void TitleScene::Init()
 void TitleScene::Update()
 {
 	auto& input = Input::GetInstance();
-#if _DEBUG
-	//デバッグシーン
-	if (input.IsTrigger("SceneChange"))
-	{
-		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<DebugScene>(m_controller));
-		return;
-	}
-#endif
-	auto& fader = Fader::GetInstance();
-	//真っ暗になったら
-	if (fader.IsFinishFadeOut())
-	{
-		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
-		return;
-	}
-	//何かボタンをおしたら
-	if (input.IsTriggerAny() && m_titleUI.lock()->IsAppered())
-	{
-		//だんだん暗く
-		fader.FadeOut(kFadeOutSpeed);
-	}
-
-	//カメラ更新
-	m_camera->Update();
-	//プレイヤー更新
-	m_player->Update(input.IsTriggerAny() && m_titleUI.lock()->IsAppered());
-	//ステージ更新
-	for (auto& obj : m_stageObjects)
-	{
-		obj->Update();
-	}
-	//影
-	UpdateShadow();
+	//状態更新
+	(this->*m_update)(input);
 }
 
 void TitleScene::Draw()
@@ -181,10 +153,8 @@ void TitleScene::LoadHandle()
 		assert(value >= 0);
 	}
 }
-void TitleScene::LoadStage()
+void TitleScene::LoadStage(std::shared_ptr<CSVDataLoader> csvLoader)
 {
-	//配置
-	auto csvLoader = std::make_unique<CSVDataLoader>();
 	auto datas = csvLoader->LoadTransformDataCSV("Data/CSV/TitleTransformData.csv");
 	//名前からオブジェクトを配置していく
 	for (auto& data : datas)
@@ -256,6 +226,85 @@ void TitleScene::AllDeleteStage()
 	m_camera.reset();
 }
 
+void TitleScene::UpdateTitle(Input& input)
+{
+#if _DEBUG
+	//デバッグシーン
+	if (input.IsTrigger("SceneChange"))
+	{
+		//次のシーンへ
+		m_controller.ChangeScene(std::make_shared<DebugScene>(m_controller));
+		return;
+	}
+#endif
+	//何かボタンをおしたら
+	if (input.IsTriggerAny())
+	{
+		//出現しきってるなら
+		if (m_titleUI.lock()->IsAppered())
+		{
+			InitSelectMenu();
+			return;
+		}
+		else
+		{
+			//完全に出現させる
+			m_titleUI.lock()->DissolveRateMin();
+		}
+	}
+	//共通の更新処理
+	UpdateCommon();
+	
+}
+void TitleScene::UpdateSelectMenu(Input& input)
+{
+	//上下にステックを動かしてメニューの項目を選択する
+	SelectMenu(input);
+
+	auto& fader = Fader::GetInstance();
+	//真っ暗になったら
+	if (fader.IsFinishFadeOut())
+	{
+		//次のシーンへ
+		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
+		return;
+	}
+	//決定ボタンをおしたら
+	if (input.IsTrigger("A") && m_titleUI.lock()->IsAppered())
+	{
+		//だんだん暗く
+		fader.FadeOut(kFadeOutSpeed);
+		m_isDecide = true;
+	}
+	//戻るボタンをおしたら
+	if (input.IsTrigger("B") && m_titleUI.lock()->IsAppered() && !fader.IsFadeNow())
+	{
+		//初期化処理
+		InitTitle();
+		return;
+	}
+	//共通の更新処理
+	UpdateCommon();
+}
+
+void TitleScene::SelectMenu(Input& input)
+{
+	//選択
+	auto menuIndex = static_cast<int>(m_menuIndex);
+	if (input.IsRepeate("Up"))	--menuIndex;
+	if (input.IsRepeate("Down"))++menuIndex;
+	menuIndex = MathSub::ClampInt(menuIndex, static_cast<int>(MenuIndex::Continue), static_cast<int>(MenuIndex::FinishGame));
+	m_menuIndex = static_cast<MenuIndex>(menuIndex);
+	//選ばれている項目に対応したUIに選ばれていることをフラグで伝える
+	for (auto& menuUI : m_menuUIs)
+	{
+		//一度リセット
+		menuUI.lock()->SetIsSelect(false);
+	}
+	//選ばれている項目のみtrue
+	m_menuUIs[static_cast<int>(m_menuIndex)].lock()->SetIsSelect(true);
+}
+
 void TitleScene::InitLight()
 {
 	m_lightHandle = CreateDirLightHandle(kLightDir);
@@ -280,4 +329,62 @@ void TitleScene::UpdateShadow()
 	shadowMaxPos.y = kShadowMapVerticalMax;
 	shadowMaxPos.z = kShadowMapHorizon;
 	SetShadowMapDrawArea(m_shadowMapHandle, shadowMinPos.ToDxLibVector(), shadowMaxPos.ToDxLibVector());
+}
+
+void TitleScene::UpdateCommon()
+{
+	//カメラ更新
+	m_camera->Update();
+	//プレイヤー更新
+	m_player->Update(m_isDecide);
+	//ステージ更新
+	for (auto& obj : m_stageObjects)
+	{
+		obj->Update();
+	}
+	//影
+	UpdateShadow();
+}
+
+void TitleScene::InitUIs(std::shared_ptr<CSVDataLoader>& csvLoader)
+{
+	auto titleUI = std::make_shared<TitleUI>();
+	titleUI->Init();
+	m_titleUI = titleUI;
+	//メニューUI
+	auto menuData = csvLoader->LoadUIDataCSV("Data/CSV/TitleMenuUITransformData.csv");
+	for (int i = 0;i < m_menuUIs.size();++i)
+	{
+		auto menuUI = std::make_shared<TitleSelectMenuUI>(menuData[i].pos, menuData[i].text);
+		menuUI->Init();
+		m_menuUIs[i] = menuUI;
+	}
+	InitTitle();
+}
+
+void TitleScene::InitTitle()
+{
+	//メニューUIの非表示
+	for (auto& menuUI : m_menuUIs)
+	{
+		menuUI.lock()->SetIsDraw(false);
+	}
+	//タイトルを表示とリセット
+	m_titleUI.lock()->SetIsDraw(true);
+	m_titleUI.lock()->Reset();
+	//次の状態に
+	m_update = &TitleScene::UpdateTitle;
+}
+
+void TitleScene::InitSelectMenu()
+{
+	//メニューUIの表示とリセット
+	for (auto& menuUI : m_menuUIs)
+	{
+		menuUI.lock()->SetIsDraw(true);
+	}
+	//タイトルを非表示
+	m_titleUI.lock()->SetIsDraw(false);
+	//次の状態に
+	m_update = &TitleScene::UpdateSelectMenu;
 }

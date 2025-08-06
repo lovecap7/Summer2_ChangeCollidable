@@ -21,35 +21,35 @@ namespace
 
 void Input::Init()
 {
-	m_inputActionMap["Ok"] = { {InputType::kKeyboard,KEY_INPUT_RETURN},{InputType::kPad,PAD_INPUT_A} };
-	m_inputActionMap["Pause"] = { {InputType::kKeyboard,KEY_INPUT_P}, {InputType::kPad,PAD_INPUT_8} };
-	m_inputActionMap["Start"] = { {InputType::kKeyboard,KEY_INPUT_P}, {InputType::kPad,PAD_INPUT_8} };
-	m_inputActionMap["Select"] = { {InputType::kKeyboard,KEY_INPUT_TAB}, {InputType::kPad,PAD_INPUT_6} };
-	m_inputActionMap["LS"] = { {InputType::kKeyboard,KEY_INPUT_LSHIFT}, {InputType::kPad,PAD_INPUT_START} };
-	m_inputActionMap["RS"] = { {InputType::kKeyboard,KEY_INPUT_RSHIFT}, {InputType::kPad,PAD_INPUT_9} };
-	m_inputActionMap["Cancel"] = { {InputType::kKeyboard,KEY_INPUT_ESCAPE}, {InputType::kPad,PAD_INPUT_B} };
-	m_inputActionMap["Up"] = { {InputType::kKeyboard,KEY_INPUT_W}, {InputType::kPad,PAD_INPUT_UP} };
-	m_inputActionMap["Down"] = { {InputType::kKeyboard,KEY_INPUT_S}, {InputType::kPad,PAD_INPUT_DOWN} };
-	m_inputActionMap["Left"] = { {InputType::kKeyboard,KEY_INPUT_A}, {InputType::kPad,PAD_INPUT_LEFT} };
-	m_inputActionMap["Right"] = { {InputType::kKeyboard,KEY_INPUT_D}, {InputType::kPad,PAD_INPUT_RIGHT} };
-	m_inputActionMap["LB"] = { {InputType::kKeyboard,KEY_INPUT_J}, {InputType::kPad,PAD_INPUT_5} };
-	m_inputActionMap["RB"] = { {InputType::kKeyboard,KEY_INPUT_L}, {InputType::kPad,PAD_INPUT_6} };
-	m_inputActionMap["A"] = { {InputType::kKeyboard,KEY_INPUT_U}, {InputType::kPad,PAD_INPUT_1} };
-	m_inputActionMap["B"] = { {InputType::kKeyboard,KEY_INPUT_H}, {InputType::kPad,PAD_INPUT_2} };
-	m_inputActionMap["X"] = { {InputType::kKeyboard,KEY_INPUT_G}, {InputType::kPad,PAD_INPUT_3} };
-	m_inputActionMap["Y"] = { {InputType::kKeyboard,KEY_INPUT_Y}, {InputType::kPad,PAD_INPUT_4} };
+	m_inputActionMap["Ok"]		= { {InputType::kKeyboard,KEY_INPUT_RETURN}	, {InputType::kPad,PAD_INPUT_A} };
+	m_inputActionMap["Pause"]	= { {InputType::kKeyboard,KEY_INPUT_P}		, {InputType::kPad,PAD_INPUT_8} };
+	m_inputActionMap["Start"]	= { {InputType::kKeyboard,KEY_INPUT_P}		, {InputType::kPad,PAD_INPUT_8} };
+	m_inputActionMap["Select"]	= { {InputType::kKeyboard,KEY_INPUT_TAB}	, {InputType::kPad,PAD_INPUT_6} };
+	m_inputActionMap["LS"]		= { {InputType::kKeyboard,KEY_INPUT_LSHIFT}	, {InputType::kPad,PAD_INPUT_START} };
+	m_inputActionMap["RS"]		= { {InputType::kKeyboard,KEY_INPUT_RSHIFT}	, {InputType::kPad,PAD_INPUT_9} };
+	m_inputActionMap["Cancel"]	= { {InputType::kKeyboard,KEY_INPUT_ESCAPE}	, {InputType::kPad,PAD_INPUT_B} };
+	m_inputActionMap["Up"]		= { {InputType::kKeyboard,KEY_INPUT_W}		, {InputType::kPad,PAD_INPUT_UP} };
+	m_inputActionMap["Down"]	= { {InputType::kKeyboard,KEY_INPUT_S}		, {InputType::kPad,PAD_INPUT_DOWN} };
+	m_inputActionMap["Left"]	= { {InputType::kKeyboard,KEY_INPUT_A}		, {InputType::kPad,PAD_INPUT_LEFT} };
+	m_inputActionMap["Right"]	= { {InputType::kKeyboard,KEY_INPUT_D}		, {InputType::kPad,PAD_INPUT_RIGHT} };
+	m_inputActionMap["LB"]		= { {InputType::kKeyboard,KEY_INPUT_J}		, {InputType::kPad,PAD_INPUT_5} };
+	m_inputActionMap["RB"]		= { {InputType::kKeyboard,KEY_INPUT_L}		, {InputType::kPad,PAD_INPUT_6} };
+	m_inputActionMap["A"]		= { {InputType::kKeyboard,KEY_INPUT_U}		, {InputType::kPad,PAD_INPUT_1} };
+	m_inputActionMap["B"]		= { {InputType::kKeyboard,KEY_INPUT_H}		, {InputType::kPad,PAD_INPUT_2} };
+	m_inputActionMap["X"]		=	{ {InputType::kKeyboard,KEY_INPUT_G}	, {InputType::kPad,PAD_INPUT_3} };
+	m_inputActionMap["Y"]		= { {InputType::kKeyboard,KEY_INPUT_Y}		, {InputType::kPad,PAD_INPUT_4} };
 
 	//デバッグ用
-	m_inputActionMap["SceneChange"] = { {InputType::kKeyboard,KEY_INPUT_1} };
-	m_inputActionMap["StopUpdate"] = { {InputType::kKeyboard,KEY_INPUT_2} };
-	m_inputActionMap["OneFrame"] = { {InputType::kKeyboard,KEY_INPUT_I} };
-	m_inputActionMap["Enter"] = { {InputType::kKeyboard,KEY_INPUT_RETURN} };
-	m_inputActionMap["Enter"] = { {InputType::kKeyboard,KEY_INPUT_RETURN} };
-	m_inputActionMap["Max"] = { {InputType::kKeyboard,KEY_INPUT_M} ,{InputType::kPad,PAD_INPUT_5} };
-	m_inputActionMap["BossArea"] = { {InputType::kKeyboard,KEY_INPUT_B}};
-	m_inputActionMap["BossDead"] = { {InputType::kKeyboard,KEY_INPUT_N}};
-	m_inputActionMap["Clear"] = { {InputType::kKeyboard,KEY_INPUT_C}};
-	m_inputActionMap["BossAngry"] = { {InputType::kKeyboard,KEY_INPUT_A}};
+	m_inputActionMap["SceneChange"]		= { {InputType::kKeyboard,KEY_INPUT_1} };
+	m_inputActionMap["StopUpdate"]		= { {InputType::kKeyboard,KEY_INPUT_2} };
+	m_inputActionMap["OneFrame"]		= { {InputType::kKeyboard,KEY_INPUT_I} };
+	m_inputActionMap["Enter"]			= { {InputType::kKeyboard,KEY_INPUT_RETURN} };
+	m_inputActionMap["Enter"]			= { {InputType::kKeyboard,KEY_INPUT_RETURN} };
+	m_inputActionMap["Max"]				= { {InputType::kKeyboard,KEY_INPUT_M} ,{InputType::kPad,PAD_INPUT_5} };
+	m_inputActionMap["BossArea"]		= { {InputType::kKeyboard,KEY_INPUT_B}};
+	m_inputActionMap["BossDead"]		= { {InputType::kKeyboard,KEY_INPUT_N}};
+	m_inputActionMap["Clear"]			= { {InputType::kKeyboard,KEY_INPUT_C}};
+	m_inputActionMap["BossAngry"]		= { {InputType::kKeyboard,KEY_INPUT_A}};
 
 	//更新をする
 	m_isUpdate = true;
@@ -94,11 +94,18 @@ void Input::Update()
 
 			if (isPress)
 			{
+				//入力があるならカウント
+				m_repeateCountFrame[keyInfo.first]++;
 				break;
 			}
 		}
 		//現在のフレームで押されていたかどうかを返す
 		m_currentInput[keyInfo.first] = isPress;
+		if (!isPress)
+		{
+			//押されてないならリセット
+			m_repeateCountFrame[keyInfo.first] = 0;
+		}
 	}
 
 	//スティックの入力を初期化する
@@ -279,7 +286,7 @@ bool Input::IsPushTrigger(bool right)
 	return IsPushTrigger(right, kTriggerPower);
 }
 
-bool Input::IsPlessAny()
+bool Input::IsPressAny()const
 {
 	return	IsPress("Ok")		||
 			IsPress("Pause")	||
@@ -296,7 +303,7 @@ bool Input::IsPlessAny()
 			IsPress("Y");
 }
 
-bool Input::IsTriggerAny()
+bool Input::IsTriggerAny()const
 {
 	return	IsTrigger("Ok")		||
 			IsTrigger("Pause")	||
@@ -313,3 +320,16 @@ bool Input::IsTriggerAny()
 			IsTrigger("Y");
 }
 
+bool Input::IsRepeate(const std::string& action, int deltaTime)const
+{
+	//入力が入ったら
+	if (IsPress(action))
+	{
+		//一定間隔で返す
+		if (m_repeateCountFrame.at(action) % deltaTime == 0 || IsTrigger(action))
+		{
+			return true;
+		}
+	}
+	return false;
+}

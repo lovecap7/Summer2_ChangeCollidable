@@ -5,6 +5,8 @@
 #include <memory>
 class SoundBase;
 class BGM;
+class SE;
+class Voice;
 /// <summary>
 /// 音(BGM,SE)を管理するシングルトンクラス
 /// </summary>
@@ -42,28 +44,35 @@ public:
 	//BGM停止
 	void StopBGM();
 	//1度だけ再生する 
-	void PlayOnceSE(std::string name);
+	std::weak_ptr<SE> PlayOnceSE(std::string name);
 	//ループ再生する
-	void PlayLoopSE(std::string name);
+	std::weak_ptr<SE> PlayLoopSE(std::string name);
 	//1度だけ再生する 
-	void PlayVC(std::string name);
+	std::weak_ptr<Voice> PlayVC(std::string name);
 	//全ての再生を開始
 	void AllPlay();
 	//全ての再生を止める
 	void AllStop();
+	//音量
+	int GetSEVolume()	 const { return m_seVolume; };
+	int GetBGMVolume()	 const { return m_bgmVolume; };
+	int GetVoiceVolume() const { return m_voiceVolume; };
+	int GetMasterVolume()const { return m_masterVolume; };
 private:
 	//SEの音量
-	float m_seVolume;
+	int m_seVolume;
 	//BGMの音量
-	float m_bgmVolume;
+	int m_bgmVolume;
 	//ボイスの音量
-	float m_voiceVolume;
+	int m_voiceVolume;
 	//マスターの音量
-	float m_masterVolume;
+	int m_masterVolume;
 	//ハンドルの配列
 	std::map<std::string, int> m_soundHandles;
 	//サウンド
 	std::list<std::shared_ptr<SoundBase>> m_sounds;
 	//BGMは常に一つなのでここで扱う
 	std::shared_ptr<BGM> m_bgm;
+	//削除候補のものを削除
+	void CheckDeleteSound();
 };

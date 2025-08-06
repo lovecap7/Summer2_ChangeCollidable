@@ -729,6 +729,9 @@
     <ClCompile Include="General\Sound\Voice.cpp">
       <Filter>ソース ファイル\General\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\Title\TitleSelectMenuUI.cpp">
+      <Filter>ソース ファイル\Game\UI\TitleUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1258,6 +1261,9 @@
     </ClInclude>
     <ClInclude Include="General\Sound\Voice.h">
       <Filter>ヘッダー ファイル\General\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\Title\TitleSelectMenuUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

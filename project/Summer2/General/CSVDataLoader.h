@@ -5,6 +5,7 @@
 #include <array>
 #include "Battle.h"
 #include "../Game/Camera/GameCamera/GameCamera.h"
+#include "Math/MyMath.h"
 #include "StageIndex.h"
 
 //オブジェクトの情報を格納する構造体
@@ -44,6 +45,12 @@ struct ResultScoreUIData {
     Vector2         pos;    //位置
     float           scale;  //大きさ
     std::wstring    text;   //幅
+};
+//UI
+struct UIData
+{
+    std::wstring text;  //テキスト
+    Vector2      pos;   //座標
 };
 
 class CSVDataLoader
@@ -86,6 +93,12 @@ public:
     /// </summary>
     /// <returns></returns>
     std::vector <ResultScoreUIData> LoadResultScoreUIDataCSV();
+
+    /// <summary>
+    /// UI情報の読み取り
+    /// </summary>
+    /// <returns></returns>
+    std::vector <UIData> LoadUIDataCSV(const char* fileName);
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
     const std::vector<std::vector<std::wstring>> GetWStringList(const char* fileName,int elementNum);

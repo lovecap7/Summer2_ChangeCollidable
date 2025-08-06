@@ -10,6 +10,7 @@ public:
     ~TitleUI();
     void Update()override;
     void Draw() const override;
+    void Reset();
 private:
     //ƒtƒŒ[ƒ€‚ğ”‚¦‚é
     int m_countFrame;

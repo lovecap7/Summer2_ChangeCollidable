@@ -36,6 +36,8 @@ public:
 	bool IsFinishFadeIn()const;
 	//フェードアウトが終了したか
 	bool IsFinishFadeOut()const;
+	//フェード中か
+	bool IsFadeNow()const { return m_isFadeNow; };
 private:
 	//だんだん明るくなる
 	bool m_isFadeIn;
@@ -45,5 +47,7 @@ private:
 	float m_countFrame;
 	//フェード速度
 	float m_fadeSpeed;
+	//フェード中
+	bool m_isFadeNow;
 };
 

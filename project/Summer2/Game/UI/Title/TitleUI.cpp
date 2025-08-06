@@ -46,20 +46,6 @@ TitleUI::~TitleUI()
 
 void TitleUI::Update()
 {
-	auto& input = Input::GetInstance();
-	if (input.IsTriggerAny())
-	{
-		if (m_isAppeared)
-		{
-			m_isDecide = true;
-		}
-		else
-		{
-			//完全に出現させる
-			DissolveUIBase::DissolveRateMin();
-			m_isAppeared = true;
-		}
-	}
 	//だんだんタイトルが出現する
 	DissolveUIBase::Update(kDissolveSpeed, true);
 	//完全に出現したら
@@ -76,6 +62,7 @@ void TitleUI::Update()
 
 void TitleUI::Draw() const
 {
+	if (!m_isDraw)return;
 	//決定したら少し光る
 	if (m_isDecide)
 	{
@@ -91,4 +78,10 @@ void TitleUI::Draw() const
 		DrawRotaGraph(kPressAnyBottunPosX, kPressAnyBottunPosY, 1.0, 0.0, m_pressAnyBottunBackHandle, true);
 		DrawRotaGraph(kPressAnyBottunPosX, kPressAnyBottunPosY, 1.0, 0.0, m_pressAnyBottunHandle, true);
 	}
+}
+void TitleUI::Reset()
+{
+	m_countFrame = 0;
+	m_isDecide = false;
+	m_isAppeared = false;
 }

@@ -1,5 +1,6 @@
 #include "BGM.h"
 #include <DxLib.h>
+#include "SoundManager.h"
 
 BGM::BGM(int handle, int volume):
 	SoundBase(handle,volume,true)
@@ -8,6 +9,10 @@ BGM::BGM(int handle, int volume):
 
 BGM::~BGM()
 {
+}
+void BGM::Update()
+{
+	SetVolume(SoundManager::GetInstance().GetBGMVolume());
 }
 
 void BGM::ChangeBGM(int handle)
