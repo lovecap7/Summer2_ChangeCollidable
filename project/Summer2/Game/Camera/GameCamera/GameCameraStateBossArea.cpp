@@ -17,7 +17,7 @@
 namespace
 {
 	//視野角
-	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
+	constexpr float kPerspective = 40.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
 	constexpr float kCameraAngleX = 35.0f * MyMath::DEG_2_RAD;
 	//lerpの割合
@@ -26,19 +26,17 @@ namespace
 	constexpr float kLerpRateZ = 0.05f;
 	//ターゲットから少し離れるためのオフセット
 	constexpr float kOffsetCameraPosY = 800.0f;
-	constexpr float kOffsetCameraPosZ = -1200.0f;
+	constexpr float kOffsetCameraPosZ = -1000.0f;
 	//壁からの距離
 	constexpr float kDistanceFromWall = 300.0f;
 	//距離の反映率
-	constexpr float kDistanceRate = 2.0f;
+	constexpr float kDistanceRate = 3.0f;
 }
 GameCameraStateBossArea::GameCameraStateBossArea(std::weak_ptr<GameCamera> camera):
-	GameCameraStateBase(camera)
+	GameCameraStateBase(camera),
+	m_angle(kCameraAngleX)
 {
 	auto owner = m_camera.lock();
-	//カメラの角度
-	owner->SetDir(Matrix4x4::RotateXMat4x4(kCameraAngleX) *
-		Vector3::Forward());
 	//見てる位置
 	owner->SetViewPos(owner->GetPos() + owner->GetDir());
 	//カメラの座標と注視点
@@ -105,7 +103,9 @@ void GameCameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorMana
 	nextPos.y = MathSub::Lerp(oldPos.y, nextPos.y, kLerpRateY);
 	nextPos.z = MathSub::Lerp(oldPos.z, nextPos.z, kLerpRateZ);
 	//見ている向き
-	Vector3 dir = camera->GetDir();
+	//カメラの角度
+	m_angle = kCameraAngleX + (distance / 10000.0f);
+	Vector3 dir = Matrix4x4::RotateXMat4x4(m_angle) * Vector3::Forward();
 	//見てる位置
 	Vector3 viewPos = nextPos + dir;
 	//位置更新

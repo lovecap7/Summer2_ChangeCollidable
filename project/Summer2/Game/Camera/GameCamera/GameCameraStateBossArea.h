@@ -10,5 +10,7 @@ public:
 	void Init()override;
 	//ó‘Ô‚É‰‚¶‚½XVˆ—
 	void Update(const std::weak_ptr<ActorManager> actorManager) override;
+private:
+	float m_angle;
 };
 

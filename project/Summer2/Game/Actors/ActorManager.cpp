@@ -19,6 +19,7 @@
 #include "Character/Enemy/SmallDragon/SmallDragon.h"
 #include "Character/Enemy/BossDragon/BossDragon.h"
 #include "Character/Enemy/BossMuscle/BossMuscle.h"
+#include "Character/Enemy/BossKing/BossKing.h"
 #include "Character/Enemy/Bomber/Bomber.h"
 #include "Character/Enemy/EnemyBase.h"
 //ステージ
@@ -204,6 +205,9 @@ std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(CharacterType ch, Vec
 		break;
 	case CharacterType::BossMuscle:
 		chara = std::make_shared<BossMuscle>(MV1DuplicateModel(m_handles["BossMuscle"]), pos);
+		break;
+	case CharacterType::BossKing:
+		chara = std::make_shared<BossKing>(MV1DuplicateModel(m_handles["BossKing"]), pos);
 		break;
 	default:
 		break;
@@ -422,6 +426,7 @@ void ActorManager::LoadHandle()
 	m_handles["Bomber"]			= { MV1LoadModel(L"Data/Model/Enemy/Bomber.mv1") };
 	m_handles["BossDragon"]		= { MV1LoadModel(L"Data/Model/Enemy/BossDragon.mv1") };
 	m_handles["BossMuscle"]		= { MV1LoadModel(L"Data/Model/Enemy/BossMuscle.mv1") };
+	m_handles["BossKing"]		= { MV1LoadModel(L"Data/Model/Enemy/BossKing.mv1") };
 	m_handles["Path"]			= { MV1LoadModel(L"Data/Model/Stage/1/Path.mv1") };
 	m_handles["Block_Grass"]	= { MV1LoadModel(L"Data/Model/Stage/1/Block_Grass.mv1") };
 	m_handles["Block_Stone"]	= { MV1LoadModel(L"Data/Model/Stage/2/Block_Stone.mv1") };
@@ -507,6 +512,14 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			bossMuscle->GetModel()->SetScale(charaData.scale);
 			bossMuscle->GetModel()->SetRot(charaData.rot);
 			m_boss = std::dynamic_pointer_cast<BossMuscle>(bossMuscle);
+
+		}
+		else if (charaData.name == "BossKing")
+		{
+			auto bossKing = CreateCharacter(CharacterType::BossKing, charaData.pos).lock();
+			bossKing->GetModel()->SetScale(charaData.scale);
+			bossKing->GetModel()->SetRot(charaData.rot);
+			m_boss = std::dynamic_pointer_cast<BossKing>(bossKing);
 
 		}
 		else if (charaData.name == "Bomber")
@@ -669,8 +682,26 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			bossAreaParts.clear();
 		}
 	}
-	//ステージのエフェクトを作成(プレイヤーに追従)
-	EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
+	//フィールドエフェクト
+	switch (m_stageIndex)
+	{
+		switch (index)
+		{
+		case Stage::StageIndex::Stage1:
+			//ステージのエフェクトを作成(プレイヤーに追従)
+			EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
+			break;
+		case Stage::StageIndex::Stage2:
+			//ステージのエフェクトを作成(プレイヤーに追従)
+			EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
+			break;
+		case Stage::StageIndex::Stage3:
+			
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void ActorManager::AllDeleteActors()

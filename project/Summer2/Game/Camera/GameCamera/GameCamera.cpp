@@ -15,8 +15,8 @@
 namespace
 {
 	//nearとfar
-	constexpr float kNear = 500.0f;
-	constexpr float kFar = 10000.0f;
+	constexpr float kNear = 300.0f;
+	constexpr float kFar = 20000.0f;
 }
 
 
@@ -36,7 +36,7 @@ GameCamera::~GameCamera()
 
 void GameCamera::Init()
 {
-	//奥行50～3000までをカメラの描画範囲とする
+	//奥行
 	SetCameraNearFar(kNear, kFar);
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	m_state = std::make_shared<GameCameraStateStart>(shared_from_this());

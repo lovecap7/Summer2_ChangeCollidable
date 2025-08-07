@@ -16,7 +16,8 @@ enum class CharacterType : int
 	SmallDragon		= 2,
 	Bomber			= 3,
 	BossDragon		= 4,
-	BossMuscle		= 5
+	BossMuscle		= 5,
+	BossKing		= 6,
 };
 //ƒAƒCƒeƒ€‚ÌŽí—Þ
 enum class ItemType : int

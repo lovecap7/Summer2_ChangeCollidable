@@ -214,6 +214,12 @@
     <Filter Include="ヘッダー ファイル\SaveData">
       <UniqueIdentifier>{ef8c48ff-ad73-4a25-bb32-5a57fafe85cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\BossKing">
+      <UniqueIdentifier>{956231b3-ec3f-459d-b9e4-3f71d78e2fc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing">
+      <UniqueIdentifier>{88498550-abf1-4718-8b0b-808bbbfe8585}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -740,6 +746,15 @@
     </ClCompile>
     <ClCompile Include="SaveData\SaveDataManager.cpp">
       <Filter>ソース ファイル\SaveData</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKing.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1276,6 +1291,15 @@
     </ClInclude>
     <ClInclude Include="General\CSVDatas.h">
       <Filter>ヘッダー ファイル\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKing.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

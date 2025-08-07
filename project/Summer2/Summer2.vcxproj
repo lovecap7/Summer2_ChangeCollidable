@@ -51,6 +51,9 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateIdle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStatePunchAttack.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateSweepAttack.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKing.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBase.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.cpp" />
@@ -228,6 +231,9 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateIdle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStatePunchAttack.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateSweepAttack.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKing.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBase.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.h" />
