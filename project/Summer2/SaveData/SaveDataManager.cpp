@@ -49,14 +49,12 @@ void SaveDataManager::Save()
 void SaveDataManager::NewGame()
 {
 	//全てのデータを削除する
-	SaveDatas saveDatas;
-	saveDatas.stage1Clear = false;
-	saveDatas.stage2Clear = false;
-	saveDatas.stage3Clear = false;
-	saveDatas.totalPlayTime = 0;
+	m_isClearStage[Stage::StageIndex::Stage1] = false;
+	m_isClearStage[Stage::StageIndex::Stage2] = false;
+	m_isClearStage[Stage::StageIndex::Stage3] = false;
+	m_totalPlayTime = 0;
 	//CSVに書き込む
-	auto csvSaver = std::make_shared<CSVDataSaver>();
-	csvSaver->SaveDataToCSV(saveDatas);
+	Save();
 }
 
 void SaveDataManager::SaveClearStage(Stage::StageIndex stageIndex)

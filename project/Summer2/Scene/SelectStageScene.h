@@ -31,6 +31,8 @@ public:
     //ステージセレクト
     void SelectStageIndex(Input& input);
 private:
+    //決定
+    bool m_isDecide;
     //カメラ
     std::unique_ptr<SelectStageCamera> m_camera;
     //モデル

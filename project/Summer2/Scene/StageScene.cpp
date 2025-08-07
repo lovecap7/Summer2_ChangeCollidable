@@ -60,7 +60,7 @@ void StageScene::Update()
 	//ゲームクリア
 	if (input.IsTrigger("Clear"))
 	{
-		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_gameManager->GetScore(), m_stageIndex));
+		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_stageIndex));
 		return;
 	}
 #endif
@@ -75,7 +75,7 @@ void StageScene::Update()
 	//ゲームクリアしたときの処理
 	if (m_gameManager->IsGameClear())
 	{
-		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_gameManager->GetScore(),m_stageIndex));
+		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_stageIndex));
 		return;
 	}
 	//ゲームオーバーしたときの処理

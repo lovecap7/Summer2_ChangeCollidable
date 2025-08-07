@@ -17,6 +17,7 @@
 #include "../General/Sound/SoundManager.h"
 #include "../General/StringUtil.h"
 #include "../Main/Application.h"
+#include "../SaveData/SaveDataManager.h"
 #include <memory>
 #include <cassert>
 #if _DEBUG
@@ -297,9 +298,9 @@ void TitleScene::SelectMenu(Input& input)
 	}
 	//選ばれている項目のみtrue
 	m_menuUIs[static_cast<int>(m_menuIndex)].lock()->SetIsSelect(true);
-
+	auto& fader = Fader::GetInstance();
 	//決定した時インデックスから処理を分岐
-	if (input.IsTrigger("A") && m_titleUI.lock()->IsAppered())
+	if (input.IsTrigger("A") && m_titleUI.lock()->IsAppered() && !fader.IsFadeNow())
 	{
 		switch (m_menuIndex)
 		{
@@ -334,6 +335,8 @@ void TitleScene::NewGame()
 	//だんだん暗く
 	fader.FadeOut(kFadeOutSpeed);
 	m_isDecide = true;
+	//データを削除
+	SaveDataManager::GetInstance().NewGame();
 }
 
 void TitleScene::Option()

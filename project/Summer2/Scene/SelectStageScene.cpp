@@ -1,4 +1,5 @@
 #include "SelectStageScene.h"
+#include "TitleScene.h"
 #include "SceneController.h"
 #include "../General/Input.h"
 #include "../General/Fader.h"
@@ -24,7 +25,8 @@ namespace
 
 SelectStageScene::SelectStageScene(SceneController& controller):
 	SceneBase(controller),
-	m_stageIndex(static_cast<int>(Stage::StageIndex::Stage1))
+	m_stageIndex(static_cast<int>(Stage::StageIndex::Stage1)),
+	m_isDecide(false)
 {
 	//CSVデータローダー
 	auto csvLodader = std::make_shared<CSVDataLoader>();
@@ -105,18 +107,38 @@ void SelectStageScene::Update()
 	}
 #endif
 	auto& fader = Fader::GetInstance();
-	//何かボタンをおしたら
-	if (input.IsTrigger("A"))
+	if (!fader.IsFadeNow())
 	{
-		//だんだん暗く
-		fader.FadeOut(kFadeSpeed);
+		//決定ボタンをおしたら
+		if (input.IsTrigger("A"))
+		{
+			m_isDecide = true;
+			//だんだん暗く
+			fader.FadeOut(kFadeSpeed);
+		}
+		//戻るボタンをおしたら
+		else if (input.IsTrigger("B"))
+		{
+			//だんだん暗く
+			fader.FadeOut(kFadeSpeed);
+		}
 	}
 	//真っ暗になったら
 	if (fader.IsFinishFadeOut())
 	{
-		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<StageScene>(m_controller, static_cast<Stage::StageIndex>(m_stageIndex)));
-		return;
+		//決定してるなら
+		if (m_isDecide)
+		{
+			//次のシーンへ
+			m_controller.ChangeScene(std::make_shared<StageScene>(m_controller, static_cast<Stage::StageIndex>(m_stageIndex)));
+			return;
+		}
+		else
+		{
+			//タイトルへ
+			m_controller.ChangeScene(std::make_shared<TitleScene>(m_controller));
+			return;
+		}
 	}
 	//ステージを選ぶ
 	SelectStageIndex(input);

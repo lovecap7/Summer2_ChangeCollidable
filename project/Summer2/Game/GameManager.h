@@ -6,7 +6,6 @@
 class GameCamera;
 class ActorManager;
 class UIManager;
-class Score;
 class Timer;
 class TutorialDirecter;
 class GameManager
@@ -24,8 +23,6 @@ public:
     bool IsGameover() { return m_isGameover; };
     //ゲームクリア
     bool IsGameClear() { return m_isGameClear; };
-    //スコア
-    std::shared_ptr<Score> GetScore() { return m_score; };
 private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;
