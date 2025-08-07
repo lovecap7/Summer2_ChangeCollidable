@@ -1,5 +1,5 @@
 #include "GameClearScene.h"
-#include "TitleScene.h"
+#include "SelectStageScene.h"
 #include "../General/Input.h"
 #include "SceneController.h"
 #include<DxLib.h>
@@ -11,6 +11,7 @@
 #include "../Game/UI/Result/ResultUI.h"
 #include "../Game/UI/Result/ResultScoreUI.h"
 #include "../Game/UI/Result/ResultRankingScore.h"
+#include "../SaveData/SaveDataManager.h"
 
 namespace {
 	constexpr int kAppearInterval = 60;
@@ -18,9 +19,8 @@ namespace {
 	constexpr int kFrameMargin = 10;//ゲーム画面からポーズ画面までの幅
 }
 
-GameClearScene::GameClearScene(SceneController& controller, std::shared_ptr<Score> score, Stage::StageIndex index):
+GameClearScene::GameClearScene(SceneController& controller, Stage::StageIndex index):
 	SceneBase(controller),
-	m_score(score),
 	m_stageIndex(index),
 	m_update(&GameClearScene::AppearUpdate),
 	m_draw(&GameClearScene::NormalDraw),
@@ -42,10 +42,9 @@ void GameClearScene::Init()
 	uiManager.Reset();
 	//Physicsを止める
 	Physics::GetInstance().StopUpdate();
-	//スコア更新
-	m_score->UpdateScore(m_stageIndex);
-	//ハイスコアを保存
-	m_score->SaveHighScore();
+	//クリアしたことを記録する
+	auto& saveDataManager = SaveDataManager::GetInstance();
+	saveDataManager.SaveClearStage(m_stageIndex);
 	//UI
 	std::make_shared<ResultUI>()->Init();
 }
@@ -145,7 +144,7 @@ void GameClearScene::DisappearUpdate()
 	if (fader.IsFinishFadeOut())
 	{
 		//自分の下になってるシーンを切り替える
-		m_controller.ChangeBaseScene(std::make_shared<TitleScene>(m_controller));
+		m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller));
 		m_controller.PopScene();//自分は消える
 		return;
 	}
@@ -167,37 +166,40 @@ void GameClearScene::InitResult1UI()
 	//ローダー
 	auto loader = std::make_shared<CSVDataLoader>();
 	m_scoreUiData = loader->LoadResultScoreUIDataCSV();
+	//スコア
+	auto score = SaveDataManager::GetInstance().GetScore().lock();
+
 	//データの数だけUIを用意
 	for (auto& data : m_scoreUiData)
 	{
 		std::shared_ptr<ResultScoreUI> scoreUI;
-		float score = 0.0f;
+		float value = 0.0f;
 		if (data.name == "TotalScore")
 		{
-			score = m_score->GetScore();
+			value = score->GetScore();
 		}
 		else if (data.name == "KillScore")
 		{
-			score = m_score->GetKillScore();
+			value = score->GetKillScore();
 		}
 		else if (data.name == "ItemScore")
 		{
-			score = m_score->GetItemScore();
+			value = score->GetItemScore();
 		}
 		else if (data.name == "TimeScore")
 		{
-			score = m_score->GetTimeScore();
+			value = score->GetTimeScore();
 		}
 		else if (data.name == "HPScore")
 		{
-			score = m_score->GetHPScore();
+			value = score->GetHPScore();
 		}
 		//データにないものは飛ばす
 		else
 		{
 			continue;
 		}
-		scoreUI = std::make_shared<ResultScoreUI>(score, data.pos, data.text);
+		scoreUI = std::make_shared<ResultScoreUI>(value, data.pos, data.text);
 		scoreUI->Init();
 		m_scoreUIList.emplace_back(scoreUI);
 	}
@@ -215,30 +217,32 @@ void GameClearScene::InitResult2UI()
 		}
 	}
 	m_scoreUIList.clear();
+	//スコア
+	auto score = SaveDataManager::GetInstance().GetScore().lock();
 
 	//データの数だけUIを用意
 	for (auto& data : m_scoreUiData)
 	{
 		std::shared_ptr<ResultScoreUI> scoreUI;
-		float score = 0.0f;
+		float value = 0.0f;
 		if (data.name == "HighScore1")
 		{
-			score = m_score->GetHighScore(m_stageIndex)[0];
+			value = score->GetHighScore(m_stageIndex)[0];
 		}
 		else if (data.name == "HighScore2")
 		{
-			score = m_score->GetHighScore(m_stageIndex)[1];
+			value = score->GetHighScore(m_stageIndex)[1];
 		}
 		else if (data.name == "HighScore3")
 		{
-			score = m_score->GetHighScore(m_stageIndex)[2];
+			value = score->GetHighScore(m_stageIndex)[2];
 		}
 		//データにないものは飛ばす
 		else
 		{
 			continue;
 		}
-		scoreUI = std::make_shared<ResultRankingScore>(score, data.pos, data.text, m_score->GetScore());
+		scoreUI = std::make_shared<ResultRankingScore>(value, data.pos, data.text, score->GetScore());
 		scoreUI->Init();
 		m_scoreUIList.emplace_back(scoreUI);
 	}

@@ -3,7 +3,7 @@
 /// <summary>
 /// シングルトン
 /// </summary>
-class Application
+class Application final
 {
 private:
 	//シングルトンの準備
@@ -38,4 +38,10 @@ public:
 	/// 終了処理
 	/// </summary>
 	void Terminate();
+
+	//アプリケーションを終了させる
+	void FinishApplication() { m_isFinishApplication = true; };
+private:
+	//アプリケーションの終了
+	bool m_isFinishApplication;
 };

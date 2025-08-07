@@ -84,6 +84,14 @@ private:
 private:
     //メニューセレクト処理
     void SelectMenu(Input& input);
+    //続きから
+    void Continue();
+    //初めから
+    void NewGame();
+    //設定
+    void Option();
+    //ゲーム終了
+    void FinishGame();
     //ライトの初期化
     void InitLight();
     //シャドウマップの初期化
@@ -98,5 +106,6 @@ private:
     void InitTitle();
     //メニュー画面の初期化
     void InitSelectMenu();
+
 };
 

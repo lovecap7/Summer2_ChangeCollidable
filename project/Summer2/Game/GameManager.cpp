@@ -15,6 +15,7 @@
 #include "../Game/UI/TutorialUI.h"
 #include "../General/Effect/EffekseerManager.h"
 #include "TutorialDirecter.h"
+#include "../SaveData/SaveDataManager.h"
 #include <cassert>
 
 namespace
@@ -39,8 +40,6 @@ GameManager::GameManager():
 	m_camera = std::make_shared<GameCamera>();
 	//アクターマネージャー
 	m_actorManager = std::make_shared<ActorManager>(m_camera);
-	//スコア
-	m_score = std::make_shared<Score>();
 	//タイマー
 	m_timer = std::make_shared<Timer>();
 	//ライト
@@ -56,16 +55,16 @@ GameManager::~GameManager()
 
 void GameManager::Init(Stage::StageIndex index)
 {
-	//スコアの初期化
-	m_score->Init();
 	//タイマーの初期化
 	m_timer->Init();
 	//アクターマネージャーの初期化
 	m_actorManager->Init(index);
 	//カメラの初期化
 	m_camera->Init();
+
+	auto& saveDataManager = SaveDataManager::GetInstance();
 	//UI作成
-	UIManager::GetInstance().CreateGameScoreUI(m_score);
+	UIManager::GetInstance().CreateGameScoreUI(saveDataManager.GetScore());
 	UIManager::GetInstance().CreateTimerUI(m_timer);
 
 	//ステージ1ならチュートリアル
@@ -77,6 +76,7 @@ void GameManager::Init(Stage::StageIndex index)
 
 void GameManager::Update()
 {
+	auto& saveDataManager = SaveDataManager::GetInstance();
 	//デバッグで一時停止されてないなら
 	auto& input = Input::GetInstance();
 #if _DEBUG
@@ -95,7 +95,7 @@ void GameManager::Update()
 		//更新を再開
 		Physics::GetInstance().StartUpdate();
 		//アクターの更新
-		m_actorManager->Update(m_score);
+		m_actorManager->Update(saveDataManager.GetScore());
 		//ゲーム開始時の処理
 		UpdateGameStart();
 		//チュートリアル
@@ -114,7 +114,7 @@ void GameManager::Update()
 			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim() && !m_isGameClear)
 			{
 				//タイマーをスコアに加算
-				m_score->AddTimeScore(m_timer->GetTime());
+				saveDataManager.GetScore().lock()->AddTimeScore(m_timer->GetTime());
 				//クリア
 				m_isGameClear = true;
 			}
@@ -197,7 +197,7 @@ void GameManager::End()
 void GameManager::Restart(Stage::StageIndex index)
 {
 	//スコアの初期化
-	m_score->Init();
+	SaveDataManager::GetInstance().GetScore().lock()->Init();
 	//タイマーの初期化
 	m_timer->Init();
 	//UIマネージャーのリセット

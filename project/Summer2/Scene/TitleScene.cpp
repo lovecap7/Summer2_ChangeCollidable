@@ -16,6 +16,7 @@
 #include "../Game/UI/Title/TitleSelectMenuUI.h"
 #include "../General/Sound/SoundManager.h"
 #include "../General/StringUtil.h"
+#include "../Main/Application.h"
 #include <memory>
 #include <cassert>
 #if _DEBUG
@@ -258,9 +259,6 @@ void TitleScene::UpdateTitle(Input& input)
 }
 void TitleScene::UpdateSelectMenu(Input& input)
 {
-	//上下にステックを動かしてメニューの項目を選択する
-	SelectMenu(input);
-
 	auto& fader = Fader::GetInstance();
 	//真っ暗になったら
 	if (fader.IsFinishFadeOut())
@@ -268,13 +266,6 @@ void TitleScene::UpdateSelectMenu(Input& input)
 		//次のシーンへ
 		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
 		return;
-	}
-	//決定ボタンをおしたら
-	if (input.IsTrigger("A") && m_titleUI.lock()->IsAppered())
-	{
-		//だんだん暗く
-		fader.FadeOut(kFadeOutSpeed);
-		m_isDecide = true;
 	}
 	//戻るボタンをおしたら
 	if (input.IsTrigger("B") && m_titleUI.lock()->IsAppered() && !fader.IsFadeNow())
@@ -285,6 +276,9 @@ void TitleScene::UpdateSelectMenu(Input& input)
 	}
 	//共通の更新処理
 	UpdateCommon();
+	//上下にステックを動かしてメニューの項目を選択する
+	SelectMenu(input);
+
 }
 
 void TitleScene::SelectMenu(Input& input)
@@ -303,6 +297,53 @@ void TitleScene::SelectMenu(Input& input)
 	}
 	//選ばれている項目のみtrue
 	m_menuUIs[static_cast<int>(m_menuIndex)].lock()->SetIsSelect(true);
+
+	//決定した時インデックスから処理を分岐
+	if (input.IsTrigger("A") && m_titleUI.lock()->IsAppered())
+	{
+		switch (m_menuIndex)
+		{
+		case MenuIndex::Continue:
+			Continue();
+			break;
+		case MenuIndex::NewGame:
+			NewGame();
+			break;
+		case MenuIndex::Option:
+			Option();
+			break;
+		case MenuIndex::FinishGame:
+			FinishGame();
+			break;
+		}
+		return;
+	}
+}
+
+void TitleScene::Continue()
+{
+	auto& fader = Fader::GetInstance();
+	//だんだん暗く
+	fader.FadeOut(kFadeOutSpeed);
+	m_isDecide = true;
+}
+
+void TitleScene::NewGame()
+{
+	auto& fader = Fader::GetInstance();
+	//だんだん暗く
+	fader.FadeOut(kFadeOutSpeed);
+	m_isDecide = true;
+}
+
+void TitleScene::Option()
+{
+}
+
+void TitleScene::FinishGame()
+{
+	//アプリケーションの終了
+	Application::GetInstance().FinishApplication();
 }
 
 void TitleScene::InitLight()

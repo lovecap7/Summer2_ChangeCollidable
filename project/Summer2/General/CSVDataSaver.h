@@ -1,5 +1,5 @@
 #pragma once
-#include "CSVPath.h"
+#include "CSVDatas.h"
 #include <string>
 #include <memory>
 class Score;
@@ -15,6 +15,11 @@ public:
 	/// スコアを保存する
 	/// </summary>
 	/// <param name="score"></param>
-	void SaveDataToCSV(std::shared_ptr<Score> score);
+	void SaveScoreDataToCSV(std::shared_ptr<Score> score);
+
+	/// <summary>
+	/// ゲームの進捗度などを記録
+	/// </summary>
+	void SaveDataToCSV(SaveDatas saveDatas);
 };
 

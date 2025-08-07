@@ -5,13 +5,12 @@
 #include <vector>
 #include "../General/CSVDataLoader.h"
 class SceneController;
-class Score;
 class ResultScoreUI;
 class GameClearScene :
     public SceneBase
 {
 public:
-    GameClearScene(SceneController& controller,std::shared_ptr<Score> score, Stage::StageIndex index);
+    GameClearScene(SceneController& controller, Stage::StageIndex index);
     ~GameClearScene();
     //派生クラスで実装を実装
     virtual void Init()override;
@@ -40,7 +39,6 @@ private:
     void InitResult2UI();
 private:
     int m_countFrame;
-    std::shared_ptr<Score> m_score;
     //ステージの番号
     Stage::StageIndex m_stageIndex;
     //スコアUIのデータ

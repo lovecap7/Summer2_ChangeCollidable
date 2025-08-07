@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 #include <array>
-#include "../../General/CSVDataLoader.h"
+#include "../../General/CSVDatas.h"
 #include "../../General/StageIndex.h"
 class HitPoints;
 class CSVDataLoader;
@@ -22,7 +22,7 @@ public:
 	int GetKillScore()const	{ return m_killScore; };
 	int GetItemScore()const { return m_itemScore; };
 	int GetHPScore()const { return m_hpScore; };
-	std::array<int, 3> GetHighScore(Stage::StageIndex index)const;
+	std::array<int, static_cast<int>(Stage::StageIndex::StageNum)> GetHighScore(Stage::StageIndex index)const;
 	//ÉXÉRÉAâ¡éZ
 	void AddTimeScore(int time);
 	void AddKillOrItemScore(std::string dataName);

@@ -2,6 +2,7 @@
 #include "../../General/Math/MathSub.h"
 #include "../../General/HitPoints.h"
 #include "../../General/CSVDataSaver.h"
+#include "../../General/CSVDataLoader.h"
 
 Score::Score()
 {
@@ -113,7 +114,7 @@ void Score::SaveHighScore()
 {
 	//•Û‘¶‚·‚é
 	auto saver = std::make_shared<CSVDataSaver>();
-	saver->SaveDataToCSV(shared_from_this());
+	saver->SaveScoreDataToCSV(shared_from_this());
 }
 
 void Score::CheckRankingIntegrity()

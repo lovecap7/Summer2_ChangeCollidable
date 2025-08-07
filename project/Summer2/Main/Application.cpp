@@ -8,6 +8,7 @@
 #include  "../Game/UI/UIManager.h"
 #include  "../General/Fader.h"
 #include  "../General/Sound/SoundManager.h"
+#include  "../SaveData/SaveDataManager.h"
 
 Application& Application::GetInstance()
 {
@@ -18,6 +19,10 @@ Application& Application::GetInstance()
 
 bool Application::Init()
 {
+	//初期化
+	//このフラグがtrueの時アプリケーションが終了する
+	m_isFinishApplication = false;
+
 	//ゲームタイトル
 	SetWindowText(L"Spinning Knight");
 	//ゲームアイコン
@@ -77,6 +82,10 @@ void Application::Run()
 	//サウンド
 	auto& soundManager = SoundManager::GetInstance();
 	soundManager.Init();
+	//セーブデータ
+	auto& saveDataManager = SaveDataManager::GetInstance();
+	saveDataManager.Init();
+
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -97,6 +106,7 @@ void Application::Run()
 		uiManager.Update();
 		fader.Update();
 		soundManager.Update();
+		saveDataManager.Update();
 		//描画
 		uiManager.BackDraw();
 		sceneController->Draw();
@@ -117,7 +127,7 @@ void Application::Run()
 		}
 
 		//ESCキーで終了
-		if (CheckHitKey(KEY_INPUT_ESCAPE))
+		if (CheckHitKey(KEY_INPUT_ESCAPE) || m_isFinishApplication)
 		{
 			sceneController = nullptr;
 			break;
@@ -133,6 +143,7 @@ void Application::Terminate()
 	EffekseerManager::GetInstance().End();
 	UIManager::GetInstance().End();
 	SoundManager::GetInstance().End();
+	SaveDataManager::GetInstance().End();
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 }
 

@@ -44,7 +44,11 @@ private:
     //背景UI
     std::weak_ptr<SelectStageBackUI> m_stage1Back;
     std::weak_ptr<SelectStageBackUI> m_stage2Back;
+    //解放している最終ステージのインデックス
+    Stage::StageIndex m_unlockStageIndex;
     //背景を変える
     void ChangeBack();
+    //現状解放されているステージまでしか選べなくするための処理
+    void NowUnlockStage();
 };
 

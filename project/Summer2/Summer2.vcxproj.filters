@@ -208,6 +208,12 @@
     <Filter Include="ヘッダー ファイル\General\Sound">
       <UniqueIdentifier>{dafa3bb4-3f61-4b07-82e4-9a9a44289250}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\SaveData">
+      <UniqueIdentifier>{2c69dc20-5cdb-4b63-8ad6-81974aadef90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\SaveData">
+      <UniqueIdentifier>{ef8c48ff-ad73-4a25-bb32-5a57fafe85cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -732,6 +738,9 @@
     <ClCompile Include="Game\UI\Title\TitleSelectMenuUI.cpp">
       <Filter>ソース ファイル\Game\UI\TitleUI</Filter>
     </ClCompile>
+    <ClCompile Include="SaveData\SaveDataManager.cpp">
+      <Filter>ソース ファイル\SaveData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1103,9 +1112,6 @@
     <ClInclude Include="General\CSVDataSaver.h">
       <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
-    <ClInclude Include="General\CSVPath.h">
-      <Filter>ヘッダー ファイル\General</Filter>
-    </ClInclude>
     <ClInclude Include="Game\UI\TutorialUI.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
     </ClInclude>
@@ -1264,6 +1270,12 @@
     </ClInclude>
     <ClInclude Include="Game\UI\Title\TitleSelectMenuUI.h">
       <Filter>ヘッダー ファイル\Game\UI\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveData\SaveDataManager.h">
+      <Filter>ヘッダー ファイル\SaveData</Filter>
+    </ClInclude>
+    <ClInclude Include="General\CSVDatas.h">
+      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

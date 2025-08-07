@@ -13,7 +13,7 @@ CSVDataSaver::~CSVDataSaver()
 {
 }
 
-void CSVDataSaver::SaveDataToCSV(std::shared_ptr<Score> score)
+void CSVDataSaver::SaveScoreDataToCSV(std::shared_ptr<Score> score)
 {
     //ファイルを開く(ない場合は作成される)
     std::ofstream file(kHighScoreDataPath);
@@ -35,6 +35,28 @@ void CSVDataSaver::SaveDataToCSV(std::shared_ptr<Score> score)
              << highScore[2] << ","
              << "Stage" << i + 1 << std::endl;
     }
+    //閉じる
+    file.close();
+}
+
+void CSVDataSaver::SaveDataToCSV(SaveDatas saveDatas)
+{
+    //ファイルを開く(ない場合は作成される)
+    std::ofstream file(kSaveDataPath);
+    //ファイルが読み込めなかったら
+    if (!file)
+    {
+        assert("ファイルの読み込みに失敗");
+    }
+
+    //ヘッダーを書き込む
+    file << "ステージ1のクリア,ステージ2のクリア,ステージ3のクリア,総プレイ時間\n";
+
+    //データ書き込み
+    file << static_cast<int>(saveDatas.stage1Clear) << ","//ステージ1のクリア
+         << static_cast<int>(saveDatas.stage2Clear) << ","//ステージ2のクリア
+         << static_cast<int>(saveDatas.stage3Clear) << ","//ステージ3のクリア
+         << saveDatas.totalPlayTime << std::endl;
     //閉じる
     file.close();
 }

@@ -3,55 +3,7 @@
 #include <string>
 #include <vector>
 #include <array>
-#include "Battle.h"
-#include "../Game/Camera/GameCamera/GameCamera.h"
-#include "Math/MyMath.h"
-#include "StageIndex.h"
-
-//オブジェクトの情報を格納する構造体
-struct ObjectData {
-    std::string name;      //オブジェクト名
-    VECTOR      pos;       //位置
-    VECTOR      rot;       //回転（ラジアン）
-    VECTOR      scale;     //スケール
-};
-//オブジェクトの情報を格納する構造体
-struct AttackData {
-    std::string                 ownerName;     //キャラクター名
-	std::string                 attackName;	   //攻撃名
-	int                         damege;		   //ダメージ
-	int                         keepFrame;	   //持続
-	int                         startFrame;	   //発生
-	float                       knockBackPower;//ノックバックの大きさ
-	std::string                 anim;	       //アニメーション
-	float                       animSpeed;	   //アニメーションの速度
-	float                       radius;        //攻撃の半径
-	int                         addUltGage;    //攻撃がヒットしたときの加算ゲージ量
-	int                         moveFrame;     //前進するフレーム
-    float                       moveSpeed;     //移動量
-    Battle::AttackWeight        attackWeight;  //攻撃の重さ(これを基準に怯むかどうかを計算)
-    int                         hitStopFrame;  //ヒットストップの長さ
-    ShakePower                  shakePower;    //カメラの揺れ
-    int                         attackNum;     //攻撃回数
-};
-//スコアの情報を格納する構造体
-struct ScoreData {
-    std::string dataName;  //データ名
-    int         score;     //スコア
-};
-//リザルトスコアUI情報を格納する構造体
-struct ResultScoreUIData {
-    std::string     name;   //スコア名
-    Vector2         pos;    //位置
-    float           scale;  //大きさ
-    std::wstring    text;   //幅
-};
-//UI
-struct UIData
-{
-    std::wstring text;  //テキスト
-    Vector2      pos;   //座標
-};
+#include "CSVDatas.h"
 
 class CSVDataLoader
 {
@@ -99,6 +51,12 @@ public:
     /// </summary>
     /// <returns></returns>
     std::vector <UIData> LoadUIDataCSV(const char* fileName);
+
+    /// <summary>
+    /// セーブデータの読み取り
+    /// </summary>
+    /// <returns></returns>
+    SaveDatas LoadSaveDataCSV();
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
     const std::vector<std::vector<std::wstring>> GetWStringList(const char* fileName,int elementNum);

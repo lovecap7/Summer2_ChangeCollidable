@@ -31,8 +31,6 @@ private:
 	std::shared_ptr<ActorManager> m_actorManager;
     //カメラ
     std::shared_ptr<GameCamera> m_camera;
-    //スコア
-    std::shared_ptr<Score> m_score;
     //タイマー
     std::shared_ptr<Timer> m_timer;
     //チュートリアル

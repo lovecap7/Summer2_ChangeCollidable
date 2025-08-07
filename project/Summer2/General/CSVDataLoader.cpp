@@ -1,7 +1,6 @@
 #include <fstream>   // ファイル読み込み用
 #include <sstream>   // 文字列分解用（stringstream）stringをファイルのように扱える
 #include "CSVDataLoader.h"
-#include "CSVPath.h"
 #include "StringUtil.h"
 namespace
 {
@@ -15,6 +14,8 @@ namespace
 	constexpr int kResultScoreUIDataElementNum = 4;
 	//UIデータ数
 	constexpr int kUIDataElementNum = 3;
+	//セーブデータの要素数
+	constexpr int kSaveDataElementNum = 4;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
 	constexpr float kUnityToDXPosition = 100.0f;
 }
@@ -200,6 +201,25 @@ std::vector<UIData> CSVDataLoader::LoadUIDataCSV(const char* fileName)
 	}
 
 	return uis;
+}
+
+SaveDatas CSVDataLoader::LoadSaveDataCSV()
+{
+	//データを保存する変数
+	SaveDatas saveDatas;
+	//データをすべて読み込む
+	auto valuesDatas = GetStringList(kSaveDataPath.c_str(), kSaveDataElementNum);
+	//データを格納してく
+	for (auto data : valuesDatas)
+	{		
+		//クリアしたステージのロード
+		saveDatas.stage1Clear = data[0] == "1";
+		saveDatas.stage2Clear = data[1] == "2";
+		saveDatas.stage3Clear = data[2] == "3";
+		//総プレイ時間
+		saveDatas.totalPlayTime = std::stoi(data[3]);
+	}
+	return saveDatas;
 }
 
 //データをすべて読み込む

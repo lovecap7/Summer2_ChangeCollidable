@@ -183,6 +183,7 @@
     <ClCompile Include="General\StringUtil.cpp" />
     <ClCompile Include="Main\Application.cpp" />
     <ClCompile Include="Main\main.cpp" />
+    <ClCompile Include="SaveData\SaveDataManager.cpp" />
     <ClCompile Include="Scene\DebugScene.cpp" />
     <ClCompile Include="Scene\GameClearScene.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
@@ -333,8 +334,8 @@
     <ClInclude Include="General\Collision\Physics.h" />
     <ClInclude Include="General\Collision\PolygonCollider.h" />
     <ClInclude Include="General\Collision\SphereCollider.h" />
+    <ClInclude Include="General\CSVDatas.h" />
     <ClInclude Include="General\CSVDataSaver.h" />
-    <ClInclude Include="General\CSVPath.h" />
     <ClInclude Include="General\Effect\EffekseerManager.h" />
     <ClInclude Include="General\Effect\MyEffect.h" />
     <ClInclude Include="General\Effect\TrackActorEffect.h" />
@@ -362,6 +363,7 @@
     <ClInclude Include="General\StringUtil.h" />
     <ClInclude Include="Main\Application.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SaveData\SaveDataManager.h" />
     <ClInclude Include="Scene\DebugScene.h" />
     <ClInclude Include="Scene\GameClearScene.h" />
     <ClInclude Include="Scene\GameoverScene.h" />

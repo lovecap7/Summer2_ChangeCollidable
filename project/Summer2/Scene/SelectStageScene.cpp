@@ -8,6 +8,7 @@
 #include "../Game/Actors/Character/Player/SelectStagePlayer.h"
 #include "../Game/Camera/SelectStageCamera/SelectStageCamera.h"
 #include "../Game/UI/Select/SelectStageBackUI.h"
+#include "../SaveData/SaveDataManager.h"
 #include "StageScene.h"
 #include <memory>
 #include <DxLib.h>
@@ -63,6 +64,9 @@ SelectStageScene::~SelectStageScene()
 
 void SelectStageScene::Init()
 {
+	//解放しているステージまでしか選べなくするための処理
+	NowUnlockStage();
+
 	auto& fader = Fader::GetInstance();
 	//だんだん明るく
 	fader.FadeIn(kFadeSpeed);
@@ -159,6 +163,8 @@ void SelectStageScene::End()
 	{
 		stageFigure->End();
 	}
+	//現状のデータをセーブ
+	SaveDataManager::GetInstance().Save();
 }
 
 void SelectStageScene::Restart()
@@ -167,9 +173,10 @@ void SelectStageScene::Restart()
 
 void SelectStageScene::SelectStageIndex(Input& input)
 {
+	//解放されてるステージまでしか選べない
 	if (input.IsTrigger("Left"))--m_stageIndex;
 	if (input.IsTrigger("Right"))++m_stageIndex;
-	m_stageIndex = MathSub::ClampInt(m_stageIndex, static_cast<int>(Stage::StageIndex::Stage1), static_cast<int>(Stage::StageIndex::Stage3));
+	m_stageIndex = MathSub::ClampInt(m_stageIndex, static_cast<int>(Stage::StageIndex::Stage1), static_cast<int>(m_unlockStageIndex));
 }
 
 void SelectStageScene::ChangeBack()
@@ -188,5 +195,28 @@ void SelectStageScene::ChangeBack()
 	{
 		m_stage1Back.lock()->SetAppear(false);
 		m_stage2Back.lock()->SetAppear(false);
+	}
+}
+
+void SelectStageScene::NowUnlockStage()
+{
+	auto& saveDatas = SaveDataManager::GetInstance();
+	//ステージ1をクリアしていないなら
+	if (!saveDatas.IsClearStage(Stage::StageIndex::Stage1))
+	{
+		//ステージ1しか選べなくする
+		m_unlockStageIndex = Stage::StageIndex::Stage1;
+	}
+	//ステージ2をクリアしていないなら
+	else if (!saveDatas.IsClearStage(Stage::StageIndex::Stage2))
+	{
+		//ステージ2までしか選べなくする
+		m_unlockStageIndex = Stage::StageIndex::Stage2;
+	}
+	//ここまで来たら全て解放
+	else if (!saveDatas.IsClearStage(Stage::StageIndex::Stage3))
+	{
+		//全ステージ解放
+		m_unlockStageIndex = Stage::StageIndex::Stage3;
 	}
 }
