@@ -19,18 +19,18 @@ namespace
 	//視野角
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
-	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
+	constexpr float kCameraAngleX = 35.0f * MyMath::DEG_2_RAD;
 	//lerpの割合
 	constexpr float kLerpRateX = 0.1f;
 	constexpr float kLerpRateY = 0.1f;
 	constexpr float kLerpRateZ = 0.05f;
 	//ターゲットから少し離れるためのオフセット
 	constexpr float kOffsetCameraPosY = 800.0f;
-	constexpr float kOffsetCameraPosZ = -1300.0f;
+	constexpr float kOffsetCameraPosZ = -1200.0f;
 	//壁からの距離
 	constexpr float kDistanceFromWall = 300.0f;
 	//距離の反映率
-	constexpr float kDistanceRate = 8.0f;
+	constexpr float kDistanceRate = 2.0f;
 }
 GameCameraStateBossArea::GameCameraStateBossArea(std::weak_ptr<GameCamera> camera):
 	GameCameraStateBase(camera)

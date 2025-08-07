@@ -467,6 +467,10 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		eventAreaPath = "Data/CSV/Stage2/Stage2EventTransformData.csv";
 		break;
 	case Stage::StageIndex::Stage3:
+		charaPath = "Data/CSV/Stage3/Stage3CharacterTransformData.csv";
+		drawPath = "Data/CSV/Stage3/Stage3TransformData.csv";
+		collPath = "Data/CSV/Stage3/Stage3CollisionTransformData.csv";
+		eventAreaPath = "Data/CSV/Stage3/Stage3EventTransformData.csv";
 		break;
 	default:
 		break;
