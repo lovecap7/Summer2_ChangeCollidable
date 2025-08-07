@@ -425,6 +425,8 @@ void ActorManager::LoadHandle()
 	m_handles["Path"]			= { MV1LoadModel(L"Data/Model/Stage/1/Path.mv1") };
 	m_handles["Block_Grass"]	= { MV1LoadModel(L"Data/Model/Stage/1/Block_Grass.mv1") };
 	m_handles["Block_Stone"]	= { MV1LoadModel(L"Data/Model/Stage/2/Block_Stone.mv1") };
+	m_handles["ThroneRoom"]		= { MV1LoadModel(L"Data/Model/Stage/3/ThroneRoom.mv1") };
+	m_handles["Chair"]			= { MV1LoadModel(L"Data/Model/Stage/3/Chair.mv1") };
 	m_handles["Cube"]			= { MV1LoadModel(L"Data/Model/Collision/Cube.mv1")};
 	m_handles["Cylinder"]		= { MV1LoadModel(L"Data/Model/Collision/Cylinder.mv1") };
 	m_handles["Plane"]			= { MV1LoadModel(L"Data/Model/Collision/Plane.mv1") };
@@ -530,55 +532,69 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	{
 		if (stageData.name == "Path")
 		{
-			std::shared_ptr<StageObjectDraw> path =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Path"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(path);
+			m_nextAddActors.emplace_back(obj);
 		}
 		else if (stageData.name == "Block_Grass")
 		{
 			//‘å‚«‚³‚ð1/100‚µ‚È‚¢‚Æ‘å‚«‚·‚¬‚é‚Ì‚Å
 			stageData.scale = VScale(stageData.scale, 0.01f);
-			std::shared_ptr<StageObjectDraw> blockGrass =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Block_Grass"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(blockGrass);
+			m_nextAddActors.emplace_back(obj);
 		}
 		else if (stageData.name == "Block_Stone")
 		{
 			//‘å‚«‚³‚ð1/100‚µ‚È‚¢‚Æ‘å‚«‚·‚¬‚é‚Ì‚Å
 			stageData.scale = VScale(stageData.scale, 0.01f);
-			std::shared_ptr<StageObjectDraw> blockGrass =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Block_Stone"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(blockGrass);
+			m_nextAddActors.emplace_back(obj);
 		}
 		else if (stageData.name == "Tree")
 		{
-			std::shared_ptr<StageObjectDraw> path =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Tree"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(path);
+			m_nextAddActors.emplace_back(obj);
 		}
 		else if (stageData.name == "Grass")
 		{
-			std::shared_ptr<StageObjectDraw> path =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Grass"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(path);
+			m_nextAddActors.emplace_back(obj);
 		}
 		else if (stageData.name == "Flower")
 		{
-			std::shared_ptr<StageObjectDraw> path =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Flower"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(path);
+			m_nextAddActors.emplace_back(obj);
 		}
 		else if (stageData.name == "Rock1")
 		{
-			std::shared_ptr<StageObjectDraw> path =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Rock1"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(path);
+			m_nextAddActors.emplace_back(obj);
 		}
 		else if (stageData.name == "Rock2")
 		{
-			std::shared_ptr<StageObjectDraw> path =
+			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Rock2"]), stageData.pos, stageData.scale, stageData.rot);
-			m_nextAddActors.emplace_back(path);
+			m_nextAddActors.emplace_back(obj);
+		}
+		else if (stageData.name == "ThroneRoom")
+		{
+			std::shared_ptr<StageObjectDraw> obj =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["ThroneRoom"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(obj);
+		}
+		else if (stageData.name == "Chair")
+		{
+			//‘å‚«‚³‚ð1/100‚µ‚È‚¢‚Æ‘å‚«‚·‚¬‚é‚Ì‚Å
+			stageData.scale = VScale(stageData.scale, 0.01f);
+			std::shared_ptr<StageObjectDraw> obj =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Chair"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(obj);
 		}
 	}
 	//“–‚½‚è”»’è—p
