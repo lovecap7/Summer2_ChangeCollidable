@@ -1,0 +1,3 @@
+Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ
+BossAreaS,-51.2,0.5,-24.6,90,90,0,2,1,5
+BossAreaE,54.9,0.5,27,90,270,0,10,1,5
