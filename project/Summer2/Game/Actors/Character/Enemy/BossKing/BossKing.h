@@ -38,6 +38,9 @@ public:
 	TargetData GetTargetData() const { return m_targetData; };
 	//壁に当たったか
 	bool IsWall() const { return m_isWall; }
+	//ゲームの進行に使う関数
+	//ゲーム開始アニメーションをしている
+	bool IsStartAnim();
 private:
 	//体力バー
 	std::weak_ptr<BossHPUI> m_hpUI;

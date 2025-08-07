@@ -756,6 +756,12 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateStart.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBossStart.cpp">
+      <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1300,6 +1306,12 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateStart.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBossStart.h">
+      <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

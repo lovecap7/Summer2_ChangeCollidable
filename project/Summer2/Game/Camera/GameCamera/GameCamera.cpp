@@ -1,6 +1,7 @@
 #include "GameCamera.h"
 #include "GameCameraStateBase.h"
 #include "GameCameraStateStart.h"
+#include "GameCameraStateBossStart.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Collision/Collidable.h"
 #include "../../../General/game.h"
@@ -34,12 +35,19 @@ GameCamera::~GameCamera()
 {
 }
 
-void GameCamera::Init()
+void GameCamera::Init(Stage::StageIndex stageIndex)
 {
 	//奥行
 	SetCameraNearFar(kNear, kFar);
-	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
-	m_state = std::make_shared<GameCameraStateStart>(shared_from_this());
+	//ステージ3はのみボスをアップにするカメラからスタート
+	if (stageIndex == Stage::StageIndex::Stage3)
+	{
+		m_state = std::make_shared<GameCameraStateBossStart>(shared_from_this());
+	}
+	else
+	{
+		m_state = std::make_shared<GameCameraStateStart>(shared_from_this());
+	}
 	//状態を変化する
 	m_state->ChangeState(m_state);
 }

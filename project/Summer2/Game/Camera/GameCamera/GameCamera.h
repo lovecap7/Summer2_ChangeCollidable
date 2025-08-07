@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "../../../General/Math/MyMath.h"
+#include "../../../General/StageIndex.h"
 
 enum class ShakePower : int
 {
@@ -22,7 +23,7 @@ public:
 	GameCamera();
 	~GameCamera();
 	//初期化処理
-	void Init();
+	void Init(Stage::StageIndex stageIndex);
 	//更新処理
 	void Update(const std::weak_ptr<ActorManager> actorManager);
 	//カメラの座標
@@ -53,7 +54,6 @@ private:
 	ShakePower m_shakePower;
 	int m_shakeFrame;
 	int m_maxShakeFrame;
-
 	//状態遷移
 	std::shared_ptr<GameCameraStateBase> m_state;
 };

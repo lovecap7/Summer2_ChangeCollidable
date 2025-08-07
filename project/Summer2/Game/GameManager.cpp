@@ -60,7 +60,7 @@ void GameManager::Init(Stage::StageIndex index)
 	//アクターマネージャーの初期化
 	m_actorManager->Init(index);
 	//カメラの初期化
-	m_camera->Init();
+	m_camera->Init(index);
 
 	auto& saveDataManager = SaveDataManager::GetInstance();
 	//UI作成
@@ -207,7 +207,7 @@ void GameManager::Restart(Stage::StageIndex index)
 	//アクターマネージャーの再スタート
 	m_actorManager->Restart();
 	//カメラの初期化
-	m_camera->Init();
+	m_camera->Init(index);
 	//フラグリセット
 	m_isGameover = false;
 	m_isGameClear = false;

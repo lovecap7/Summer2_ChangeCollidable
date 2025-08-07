@@ -54,6 +54,7 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKing.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateStart.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.cpp" />
@@ -119,6 +120,7 @@
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBase.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBossArea.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBossDeath.cpp" />
+    <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBossStart.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateClear.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateNormal.cpp" />
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateStart.cpp" />
@@ -234,6 +236,7 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKing.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBase.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateIdle.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateStart.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.h" />
@@ -299,6 +302,7 @@
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBase.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBossArea.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBossDeath.h" />
+    <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBossStart.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateClear.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateNormal.h" />
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateStart.h" />

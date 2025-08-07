@@ -1,4 +1,4 @@
-#include "GameCameraStateStart.h"
+#include "GameCameraStateBossStart.h"
 #include "GameCamera.h"
 #include "GameCameraStateNormal.h"
 #include "../../../General/Rigidbody.h"
@@ -10,6 +10,7 @@
 #include "../../Actors/Stage/BossArea.h"
 #include "../../Actors/ActorManager.h"
 #include "../../Actors/Stage/EventAreaBase.h"
+#include "../../Actors/Character/Enemy/BossKing/BossKing.h"
 #include <DxLib.h>
 
 namespace
@@ -28,7 +29,7 @@ namespace
 	constexpr float kOffsetCameraViewPosY = 100.0f;
 }
 
-GameCameraStateStart::GameCameraStateStart(std::weak_ptr<GameCamera> camera) :
+GameCameraStateBossStart::GameCameraStateBossStart(std::weak_ptr<GameCamera> camera) :
 	GameCameraStateBase(camera)
 {
 	auto owner = m_camera.lock();
@@ -43,34 +44,35 @@ GameCameraStateStart::GameCameraStateStart(std::weak_ptr<GameCamera> camera) :
 	SetupCamera_Perspective(kPerspective);
 }
 
-void GameCameraStateStart::Init()
+void GameCameraStateBossStart::Init()
 {
 	//次の状態を自分の状態を入れる
 	ChangeState(shared_from_this());
 }
 
-void GameCameraStateStart::Update(const std::weak_ptr<ActorManager> actorManager)
+void GameCameraStateBossStart::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	auto player = actorManager.lock()->GetPlayer();
+	auto boss = actorManager.lock()->GetBoss();
 	auto camera = m_camera.lock();
 	//プレイヤーが消滅した場合更新終了
-	if (player.expired())return;
+	if (boss.expired())return;
+	auto king = std::dynamic_pointer_cast<BossKing>(boss.lock());
 	//プレイヤーのスタート状態が終わったらカメラを通常状態に
-	if (!player.lock()->IsStartAnim())
+	if (!king->IsStartAnim())
 	{
 		ChangeState(std::make_shared<GameCameraStateNormal>(m_camera));
 		return;
 	}
-	//プレイヤー
-	auto playerPos = player.lock()->GetRb()->GetPos();
+	//ボス
+	auto bossPos = king->GetRb()->GetPos();
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();
 	Vector3 nextPos = camera->GetPos();
 	nextPos.z = kCameraPosZ;
-	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
-	nextPos.x = playerPos.x + kOffsetCameraPosX;
+	nextPos.y = bossPos.y + kOffsetCameraPosY;
+	nextPos.x = bossPos.x + kOffsetCameraPosX;
 	//見てる位置
-	Vector3 viewPos = playerPos;
+	Vector3 viewPos = bossPos;
 	viewPos.y += kOffsetCameraViewPosY;
 	//位置更新
 	SetCameraPositionAndTarget_UpVecY(nextPos.ToDxLibVector(), viewPos.ToDxLibVector());
