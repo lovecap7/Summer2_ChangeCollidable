@@ -130,12 +130,24 @@ void UIManager::CreateTimerUI(const std::weak_ptr<Timer> timer)
 
 int UIManager::GetImageHandle(const std::string& name) const
 {
-	return m_imageHandles.at(name);
+	auto it = m_imageHandles.find(name);
+	if (it == m_imageHandles.end()) {
+		//ログを出すかデフォルト値を返す
+		assert(false && "ImageHandles not found");
+		return -1;
+	}
+	return it->second;
 }
 
 int UIManager::GetTextHandle(const std::string& name) const
 {
-	return m_textHandles.at(name);
+	auto it = m_textHandles.find(name);
+	if (it == m_textHandles.end()) {
+		//ログを出すかデフォルト値を返す
+		assert(false && "TextHandle not found");
+		return -1;
+	}
+	return it->second;
 }
 
 void UIManager::LoadHandle()

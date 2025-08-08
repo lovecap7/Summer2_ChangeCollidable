@@ -107,22 +107,6 @@ void SelectStageScene::Update()
 	}
 #endif
 	auto& fader = Fader::GetInstance();
-	if (!fader.IsFadeNow())
-	{
-		//決定ボタンをおしたら
-		if (input.IsTrigger("A"))
-		{
-			m_isDecide = true;
-			//だんだん暗く
-			fader.FadeOut(kFadeSpeed);
-		}
-		//戻るボタンをおしたら
-		else if (input.IsTrigger("B"))
-		{
-			//だんだん暗く
-			fader.FadeOut(kFadeSpeed);
-		}
-	}
 	//真っ暗になったら
 	if (fader.IsFinishFadeOut())
 	{
@@ -138,6 +122,22 @@ void SelectStageScene::Update()
 			//タイトルへ
 			m_controller.ChangeScene(std::make_shared<TitleScene>(m_controller));
 			return;
+		}
+	}
+	if (!fader.IsFadeNow())
+	{
+		//決定ボタンをおしたら
+		if (input.IsTrigger("A"))
+		{
+			m_isDecide = true;
+			//だんだん暗く
+			fader.FadeOut(kFadeSpeed);
+		}
+		//戻るボタンをおしたら
+		else if (input.IsTrigger("B"))
+		{
+			//だんだん暗く
+			fader.FadeOut(kFadeSpeed);
 		}
 	}
 	//ステージを選ぶ

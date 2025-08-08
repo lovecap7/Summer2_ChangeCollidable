@@ -30,6 +30,9 @@ namespace
 
 	//クリア時に回転するフレーム
 	constexpr int kClearRotaFrame = 400;
+	//nearとfar
+	constexpr float kNear = 10.0f;
+	constexpr float kFar = 10000.0f;
 }
 GameCameraStateClear::GameCameraStateClear(std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager):
 	GameCameraStateBase(camera),
@@ -47,6 +50,8 @@ GameCameraStateClear::GameCameraStateClear(std::weak_ptr<GameCamera> camera, con
 	auto viewPos = playerPos;
 	viewPos.y += kOffsetClearStartViewPosY;
 	owner->SetViewPos(viewPos);
+	//奥行
+	SetCameraNearFar(kNear, kFar);
 }
 
 void GameCameraStateClear::Init()

@@ -64,8 +64,6 @@ bool Application::Init()
 
 void Application::Run()
 {
-	//アプリケーション以外はここで宣言と初期化
-	SceneController* sceneController = new SceneController();
 	//コントローラー
 	auto& input = Input::GetInstance();
 	input.Init();
@@ -85,6 +83,8 @@ void Application::Run()
 	//セーブデータ
 	auto& saveDataManager = SaveDataManager::GetInstance();
 	saveDataManager.Init();
+	//アプリケーション以外はここで宣言と初期化
+	SceneController* sceneController = new SceneController();
 
 
 	//ゲームループ
