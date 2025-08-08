@@ -762,6 +762,18 @@
     <ClCompile Include="Game\Camera\GameCamera\GameCameraStateBossStart.cpp">
       <Filter>ソース ファイル\Game\Camera\GameCamera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateDeath.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateHit.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateChase.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateChange.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1312,6 +1324,18 @@
     </ClInclude>
     <ClInclude Include="Game\Camera\GameCamera\GameCameraStateBossStart.h">
       <Filter>ヘッダー ファイル\Game\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateDeath.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateHit.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateChase.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateChange.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

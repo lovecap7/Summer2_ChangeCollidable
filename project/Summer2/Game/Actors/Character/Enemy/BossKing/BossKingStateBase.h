@@ -17,19 +17,19 @@ class BossKingStateBase abstract :
 	public CharacterStateBase
 {
 public:
-	BossKingStateBase(std::weak_ptr<Actor> owner);
+	BossKingStateBase(std::weak_ptr<Actor> owner, bool isTransformSecond);
 	virtual ~BossKingStateBase();
 protected:
-	
+	//第二形態
+	bool m_isTransformSecond;
+	//攻撃手段を考える
+	void ThinkAttack(const std::weak_ptr<ActorManager> actorManager);
 };
+
 //攻撃のデータを検索するときに使う
 namespace
 {
 	std::string kOwnerName = "BossKing";
-	std::string kRightPunchName = "RightPunch";
-	std::string kBeamName = "Beam";
-	std::string kJumpAttackName = "JumpAttack";
-	std::string kSwingAttackName = "SwingAttack";
 }
 
 

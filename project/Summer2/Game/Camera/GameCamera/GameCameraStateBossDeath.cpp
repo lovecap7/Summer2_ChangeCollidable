@@ -1,6 +1,7 @@
 #include "GameCameraStateBossDeath.h"
 #include "GameCameraStateClear.h"
 #include "GameCameraStateNormal.h"
+#include "GameCameraStateBossArea.h"
 #include "GameCamera.h"
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Collision/Collidable.h"
@@ -27,6 +28,10 @@ namespace
 	constexpr float kOffsetCameraPosZ = -1300.0f;
 	//壁からの距離
 	constexpr float kDistanceFromWall = 300.0f;
+	//ヒットストップのフレーム
+	constexpr int kHitStopFrame = 60;
+	//揺れるフレーム
+	constexpr int kShakeFrame = 30;
 }
 GameCameraStateBossDeath::GameCameraStateBossDeath(std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) :
 	GameCameraStateBase(camera)
@@ -36,8 +41,8 @@ GameCameraStateBossDeath::GameCameraStateBossDeath(std::weak_ptr<GameCamera> cam
 	//位置更新
 	DxLib::SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), boss->GetPos().ToDxLibVector());
 	//撃破ストップ
-	actorManager.lock()->DelayUpdate(60);
-	owner->SetCameraShake(ShakePower::Highest, 30);
+	actorManager.lock()->DelayUpdate(kHitStopFrame);
+	owner->SetCameraShake(ShakePower::Highest, kShakeFrame);
 	Physics::GetInstance().DelayUpdate(60);
 }
 
@@ -61,6 +66,12 @@ void GameCameraStateBossDeath::Update(const std::weak_ptr<ActorManager> actorMan
 		return;
 	}
 	auto boss = actorManager.lock()->GetBoss().lock();
+	//死んでいないなら
+	if (!boss->GetHitPoints().lock()->IsDead())
+	{
+		ChangeState(std::make_shared<GameCameraStateBossArea>(m_camera));
+		return;
+	}
 	auto camera = m_camera.lock();
 	//位置更新
 	DxLib::SetCameraPositionAndTarget_UpVecY(camera->GetPos().ToDxLibVector(), boss->GetPos().ToDxLibVector());

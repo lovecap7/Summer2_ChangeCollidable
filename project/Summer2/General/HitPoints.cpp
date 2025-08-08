@@ -87,3 +87,8 @@ void HitPoints::DefenseBuff(Battle::Armor armor, float damageCutRate, int buffFr
 	m_defence.damageCutRate = damageCutRate;
 	m_buffCountFrame = buffFrame;
 }
+
+void HitPoints::Revival()
+{
+	m_hp = m_maxHp;
+}

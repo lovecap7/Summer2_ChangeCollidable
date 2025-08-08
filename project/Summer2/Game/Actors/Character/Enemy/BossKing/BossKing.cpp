@@ -208,3 +208,9 @@ bool BossKing::IsStartAnim()
 	}
 	return true;
 }
+
+void BossKing::FullRecovery()
+{
+	//‘S‰ñ•œ
+	m_hitPoints->Revival();
+}

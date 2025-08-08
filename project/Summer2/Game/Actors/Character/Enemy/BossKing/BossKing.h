@@ -41,6 +41,8 @@ public:
 	//ゲームの進行に使う関数
 	//ゲーム開始アニメーションをしている
 	bool IsStartAnim();
+	//体力全回復
+	void FullRecovery();
 private:
 	//体力バー
 	std::weak_ptr<BossHPUI> m_hpUI;

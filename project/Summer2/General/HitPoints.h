@@ -38,6 +38,8 @@ public:
 	void SetIsNoDamege(bool isNoDamage) { m_isNoDamage = isNoDamage; };
 	//ƒAƒCƒeƒ€‚ğ‚Æ‚Á‚½‚É‚æ‚ÔŠÖ”
 	void DefenseBuff(Battle::Armor armor, float damageCutRate, int buffFrame);
+	//•œŠˆ
+	void Revival();
 private:
 	//‘Ì—Í
 	int m_hp;

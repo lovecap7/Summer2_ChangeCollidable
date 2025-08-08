@@ -30,17 +30,21 @@ void Timer::Update()
 	if (!m_isUpdate)return;
 	if (m_time < kMaxTime)
 	{
-		//総フレーム
+		//総フレーム数
 		++m_time;
-		//ミリ秒
+		//ミリ秒を更新（60フレーム = 1秒と仮定）
 		++m_millisecond;
 		if (m_millisecond >= kMillisecond)
 		{
 			m_millisecond = 0;
+			++m_seconds;
+
+			// 秒が60を超えたら分に繰り上げ
+			if (m_seconds >= kSeconds)
+			{
+				m_seconds = 0;
+				++m_minutes;
+			}
 		}
-		//秒を更新
-		m_seconds = m_time / kSeconds;
-		//分
-		m_minutes = m_seconds / kMinutes;
 	}
 }

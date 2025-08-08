@@ -1,8 +1,7 @@
-#include "BossKingStateStart.h"
-#include "BossKingStateIdle.h"
+#include "BossKingStateDeath.h"
 #include "BossKing.h"
 #include "../EnemyBase.h"
-#include "../../../../../General/Collision/ColliderBase.h"
+#include "../../../Actor.h"
 #include "../../../ActorManager.h"
 #include "../../../../../General/Rigidbody.h"
 #include "../../../../../General/Collision/Collidable.h"
@@ -11,49 +10,48 @@
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
+#include "../../../../../General/Sound/SoundManager.h"
+
 namespace
 {
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
-	const char* kAnim = "Boss3|Start";
+	const char* kAnim = "Boss3|Death";
 }
 
-BossKingStateStart::BossKingStateStart(std::weak_ptr<Actor> owner) :
-	BossKingStateBase(owner,false)
+BossKingStateDeath::BossKingStateDeath(std::weak_ptr<Actor> owner) :
+	BossKingStateBase(owner,true)
 {
-	//スタート状態
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
+	//死亡状態にする
+	coll->SetCollState(CollisionState::Dead);
+	//死亡
 	coll->GetModel()->SetAnim(kAnim, false);
-	coll->SetCollState(CollisionState::Normal);
+	//無敵
+	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//BGMを止める
+	SoundManager::GetInstance().StopBGM();
 }
 
-BossKingStateStart::~BossKingStateStart()
+BossKingStateDeath::~BossKingStateDeath()
 {
-	
 }
 
-void BossKingStateStart::Init()
+void BossKingStateDeath::Init()
 {
-	//次の状態を自分の状態を入れる
+	//次の状態を今の状態に更新
 	ChangeState(shared_from_this());
 }
 
-void BossKingStateStart::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BossKingStateDeath::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//入力を止める
-	auto& input = Input::GetInstance();
-	input.StopUpdate();
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
-	//モデルのアニメーションが終わったら
+	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
 	{
-		//入力を開始
-		input.StartUpdate();
-		//待機
-		ChangeState(std::make_shared<BossKingStateIdle>(m_owner,false));
-		return;
+		coll->Delete();//削除
 	}
-	//だんだん減速
+	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }
