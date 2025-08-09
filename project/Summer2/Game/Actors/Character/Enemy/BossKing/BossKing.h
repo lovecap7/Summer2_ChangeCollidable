@@ -12,7 +12,7 @@ class BossKing :
 	public EnemyBase
 {
 public:
-	BossKing(int modelHandle, Vector3 pos);
+	BossKing(int modelHandle, int transHandle, Vector3 pos);
 	~BossKing();
 	//初期化処理
 	void Init()override;
@@ -41,6 +41,9 @@ public:
 	//ゲームの進行に使う関数
 	//ゲーム開始アニメーションをしている
 	bool IsStartAnim();
+	//変身
+	void TransformSecond();
+	//全回復
 	//体力全回復
 	void FullRecovery();
 private:
@@ -48,5 +51,8 @@ private:
 	std::weak_ptr<BossHPUI> m_hpUI;
 	//行動開始
 	bool m_isActive;
+	//変身モデル
+	int m_transHandle;
+private:
 };
 

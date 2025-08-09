@@ -19,7 +19,8 @@ namespace
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
-	const char* kAnim = "Boss3|Death";
+	const char* kDeathAnim = "Boss3|Death";
+	const char* kStandingAnim = "Boss3|Standing";
 	//アニメーション速度
 	constexpr float kAnimSpeed = 0.3f;
 }
@@ -30,7 +31,7 @@ BossKingStateChange::BossKingStateChange(std::weak_ptr<Actor> owner) :
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
 	coll->SetCollState(CollisionState::Normal);
 	//死亡
-	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
+	coll->GetModel()->SetAnim(kDeathAnim, false, kAnimSpeed);
 	//無敵
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 }
@@ -51,15 +52,27 @@ void BossKingStateChange::Update(const std::weak_ptr<GameCamera> camera, const s
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
 	{
-		//無敵解除
-		coll->GetHitPoints().lock()->SetIsNoDamege(false);
-		//UIの描画を開始
-		UIManager::GetInstance().StartDraw();
-		//全回復
-		coll->FullRecovery();
-		//待機状態
-		ChangeState(std::make_shared<BossKingStateIdle>(m_owner, true));
-		return;
+		if (m_isTransformSecond)
+		{
+			//UIの描画を開始
+			UIManager::GetInstance().StartDraw();
+			//全回復
+			coll->FullRecovery();
+			//無敵解除
+			coll->GetHitPoints().lock()->SetIsNoDamege(false);
+			//待機状態
+			ChangeState(std::make_shared<BossKingStateIdle>(m_owner, true));
+			return;
+		}
+		else
+		{
+			//変身
+			coll->TransformSecond();
+			//立ち上がる
+			coll->GetModel()->SetAnim(kStandingAnim, false);
+			//変身フラグ
+			m_isTransformSecond = true;
+		}
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);

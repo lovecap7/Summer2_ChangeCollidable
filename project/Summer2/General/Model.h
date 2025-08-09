@@ -22,6 +22,8 @@ public:
 	void SetDir(Vector2 vec);
 	void SetDiffuseColor(float r, float g, float b, float a);
 	void SetDiffuseColor(COLOR_F color);
+	//モデル変更
+	void SetModel(int modelHandle);
 	//ゲッター
 	Vector3 GetPos() const { return m_pos; };
 	Vector3 GetScale() const { return m_scale; };

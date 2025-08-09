@@ -220,6 +220,9 @@
     <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing">
       <UniqueIdentifier>{88498550-abf1-4718-8b0b-808bbbfe8585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\BossKing\BossKing2">
+      <UniqueIdentifier>{9358bb84-cacf-4db6-bc4b-a239d5dfbd2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">

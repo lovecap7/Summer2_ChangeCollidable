@@ -183,6 +183,14 @@ void Model::SetDiffuseColor(COLOR_F color)
 	DxLib::MV1SetDifColorScale(m_modelHandle, m_diffColor);
 }
 
+void Model::SetModel(int modelHandle)
+{
+	//ƒ‚ƒfƒ‹‚Ìíœ
+	End();
+	//V‚µ‚¢ƒ‚ƒfƒ‹
+	m_modelHandle = modelHandle;
+}
+
 Vector3 Model::GetDir()
 {
 	Vector3 dir = m_forward;

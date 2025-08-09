@@ -37,9 +37,10 @@ namespace
 	constexpr float kModelHeightAdjust = -70.0f;
 }
 
-BossKing::BossKing(int modelHandle, Vector3 pos) :
+BossKing::BossKing(int modelHandle, int transHandle, Vector3 pos):
 	EnemyBase(Shape::Capsule, EnemyGrade::Boss),
-	m_isActive(false)
+	m_isActive(false),
+	m_transHandle(transHandle)
 {
 	//ƒ‚ƒfƒ‹‚Ì‰Šú‰»
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
@@ -207,6 +208,12 @@ bool BossKing::IsStartAnim()
 		return false;
 	}
 	return true;
+}
+
+void BossKing::TransformSecond()
+{
+	//ƒ‚ƒfƒ‹‚ğ•ÏX
+	m_model->SetModel(m_transHandle);
 }
 
 void BossKing::FullRecovery()

@@ -207,7 +207,7 @@ std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(CharacterType ch, Vec
 		chara = std::make_shared<BossMuscle>(MV1DuplicateModel(m_handles["BossMuscle"]), pos);
 		break;
 	case CharacterType::BossKing:
-		chara = std::make_shared<BossKing>(MV1DuplicateModel(m_handles["BossKing"]), pos);
+		chara = std::make_shared<BossKing>(MV1DuplicateModel(m_handles["BossKing"]), MV1DuplicateModel(m_handles["BossKing2"]), pos);
 		break;
 	default:
 		break;
@@ -427,6 +427,7 @@ void ActorManager::LoadHandle()
 	m_handles["BossDragon"]		= { MV1LoadModel(L"Data/Model/Enemy/BossDragon.mv1") };
 	m_handles["BossMuscle"]		= { MV1LoadModel(L"Data/Model/Enemy/BossMuscle.mv1") };
 	m_handles["BossKing"]		= { MV1LoadModel(L"Data/Model/Enemy/BossKing.mv1") };
+	m_handles["BossKing2"]		= { MV1LoadModel(L"Data/Model/Enemy/BossKing2.mv1") };
 	m_handles["Path"]			= { MV1LoadModel(L"Data/Model/Stage/1/Path.mv1") };
 	m_handles["Block_Grass"]	= { MV1LoadModel(L"Data/Model/Stage/1/Block_Grass.mv1") };
 	m_handles["Block_Stone"]	= { MV1LoadModel(L"Data/Model/Stage/2/Block_Stone.mv1") };
