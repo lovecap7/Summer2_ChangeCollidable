@@ -26,22 +26,22 @@ void BossMuscleStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorMan
 	if (targetData.targetDis <= kMeleeAttackDistance)
 	{
 		//UŒ‚‚Ì”
-		int attackNum = 2;
+		int attackNum = 3;
 		if (m_isAngry)attackNum += 1; //“{‚èó‘Ô‚È‚çUŒ‚‚Ìí—Ş‚ğ‘‚â‚·
 		//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
-		auto rand = MyMath::GetRand(0, attackNum);
+		auto rand = MyMath::GetRand(1, attackNum);
 		switch (rand)
 		{
-		case 0:
+		case 1:
 			ChangeState(std::make_shared<BossMuscleStateRightPunch>(m_owner, m_isAngry, actorManager));
 			break;
-		case 1:
+		case 2:
 			ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner, m_isAngry, actorManager));
 			break;
-		case 2:
+		case 3:
 			ChangeState(std::make_shared<BossMuscleStateRandMove>(m_owner, m_isAngry));
 			break;
-		case 3:
+		case 4:
 			ChangeState(std::make_shared<BossMuscleStateSwingAttack>(m_owner, m_isAngry, actorManager));
 			break;
 		}
@@ -51,22 +51,22 @@ void BossMuscleStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorMan
 	else
 	{
 		//UŒ‚‚Ì”
-		int attackNum = 2;
+		int attackNum = 3;
 		if (m_isAngry)attackNum += 1; //“{‚èó‘Ô‚È‚çUŒ‚‚Ìí—Ş‚ğ‘‚â‚·
 		//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
-		auto rand = MyMath::GetRand(0, attackNum);
+		auto rand = MyMath::GetRand(1, attackNum);
 		switch (rand)
 		{
-		case 0:
+		case 1:
 			ChangeState(std::make_shared<BossMuscleStateBeam>(m_owner, m_isAngry, actorManager));
 			break;
-		case 1:
+		case 2:
 			ChangeState(std::make_shared<BossMuscleStateJumpAttack>(m_owner, m_isAngry, actorManager));
 			break;
-		case 2:
+		case 3:
 			ChangeState(std::make_shared<BossMuscleStateRandMove>(m_owner, m_isAngry));
 			break;
-		case 3:
+		case 4:
 			ChangeState(std::make_shared<BossMuscleStateSwingAttack>(m_owner, m_isAngry, actorManager));
 			break;
 		}

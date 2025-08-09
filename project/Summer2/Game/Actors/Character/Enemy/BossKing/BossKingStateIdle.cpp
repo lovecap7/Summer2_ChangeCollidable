@@ -89,8 +89,8 @@ void BossKingStateIdle::Update(const std::weak_ptr<GameCamera> camera, const std
 			//攻撃のクールタイムが0なら
 			if (coll->GetAttackCoolTime() <= 0)
 			{
-				//ThinkAttack(actorManager);
-				//return;
+				ThinkAttack(actorManager);
+				return;
 			}
 		}
 	}

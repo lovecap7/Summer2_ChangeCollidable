@@ -220,8 +220,17 @@
     <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing">
       <UniqueIdentifier>{88498550-abf1-4718-8b0b-808bbbfe8585}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\BossKing\BossKing2">
+    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\BossKing\First">
+      <UniqueIdentifier>{ce65d596-cf8d-4467-88f2-d05851ac1af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Actors\Character\Enemy\BossKing\Second">
       <UniqueIdentifier>{9358bb84-cacf-4db6-bc4b-a239d5dfbd2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\First">
+      <UniqueIdentifier>{3af54978-db48-4215-965a-109be81bf942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\Second">
+      <UniqueIdentifier>{1af814e4-ef95-4480-a7bc-01d607ead279}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -776,6 +785,15 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateChange.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateMagicWave.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBlastAttack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBeam.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1339,6 +1357,15 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateChange.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateMagicWave.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBlastAttack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBeam.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

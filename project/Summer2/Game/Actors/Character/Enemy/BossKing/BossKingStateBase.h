@@ -29,7 +29,10 @@ protected:
 //攻撃のデータを検索するときに使う
 namespace
 {
-	std::string kOwnerName = "BossKing";
+	std::string kOwnerName		= "BossKing";
+	std::string kMagicWaveName	= "MagicWave";
+	std::string kBlastAttackName = "BlastAttack";
+	std::string kBeamName = "Beam";
 }
 
 

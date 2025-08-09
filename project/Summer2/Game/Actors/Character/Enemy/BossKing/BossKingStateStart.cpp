@@ -11,6 +11,7 @@
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 namespace
 {
 	//減速率
@@ -26,6 +27,8 @@ BossKingStateStart::BossKingStateStart(std::weak_ptr<Actor> owner) :
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, false);
 	coll->SetCollState(CollisionState::Normal);
+	//オーラエフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("BossKingStartEff", m_owner);
 }
 
 BossKingStateStart::~BossKingStateStart()

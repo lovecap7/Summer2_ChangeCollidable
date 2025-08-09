@@ -17,6 +17,8 @@ public:
 	void SetRot(Vector3 rot);		//回転
 	void SetScale(Vector3 scale);	//拡大
 	void LookAt(Vector3 dir);		//向きたい方向
+	//ゲッター
+	Vector3 GetPos()const { return m_pos; };
 
 	//指定フレーム再生
 	void SpecificFrame(int frame);

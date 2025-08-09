@@ -47,11 +47,21 @@ public:
 	//エフェクトを作成
 	std::weak_ptr<MyEffect> CreateEffect(std::string name, Vector3 pos);
 	std::weak_ptr<TrackActorEffect> CreateTrackActorEffect(std::string name, std::weak_ptr<Actor> actor);
+	//エフェクトを止める
+	void StopEffect();
+	//エフェクトを開始
+	void StartEffect();
+	//数フレーム止める
+	void DelayUpdate(int frame);
 private:
 	//ハンドル
 	std::map<std::string, int> m_handles;
 	//エフェクトの配列
 	std::list<std::shared_ptr<MyEffect>> m_effects;
+	//更新するか
+	bool m_isUpdate;
+	//更新を遅らせる
+	int m_delayFrame;
 private:
 	//ハンドルロード
 	void LoadHandle();
@@ -59,5 +69,7 @@ private:
 	void AllDeleteHandle();
 	//削除候補のエフェクトを削除
 	void CheckDeleteEffect();
+	//更新を遅延させるフレームの処理
+	void UpdateDelay();
 };
 

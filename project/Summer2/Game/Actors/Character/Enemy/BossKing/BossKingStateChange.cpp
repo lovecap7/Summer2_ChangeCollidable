@@ -12,6 +12,7 @@
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../../../General/Sound/SoundManager.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../UI/UIManager.h"
 
 namespace
@@ -44,6 +45,8 @@ void BossKingStateChange::Init()
 {
 	//次の状態を今の状態に更新
 	ChangeState(shared_from_this());
+	//エフェクト
+	EffekseerManager::GetInstance().CreateTrackActorEffect("BossKingTransEff", m_owner);
 }
 
 void BossKingStateChange::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)

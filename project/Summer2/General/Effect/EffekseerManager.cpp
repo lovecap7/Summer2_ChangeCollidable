@@ -35,10 +35,27 @@ void EffekseerManager::Init()
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 	//ハンドルロード
 	LoadHandle();
+	//初期化
+	m_isUpdate = true;
+	m_delayFrame = 0;
 }
 
 void EffekseerManager::Update()
 {
+	//遅延処理
+	UpdateDelay();
+	//更新をしないなら
+	if (!m_isUpdate || m_delayFrame > 0)
+	{
+		//再生ストップ
+		StopEffect();
+		return;
+	}
+	else
+	{
+		//再生
+		StartEffect();
+	}
 	//更新
 	for (auto& eff : m_effects)
 	{
@@ -147,15 +164,35 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossBeamEff"]), pos);
 	}
+	//ボス(King)のビームエフェクト
+	else if (name == "BossKingBeamEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossKingBeamEff"]), pos);
+	}
 	//ボスのビームチャージエフェクト
 	else if (name == "BossBeamChargeEff")
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossBeamChargeEff"]), pos);
 	}
-	//衝撃波エフェクト
+	//ボス(king)のビームチャージエフェクト
+	else if (name == "BossKingBeamChargeEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BossKingBeamChargeEff"]), pos);
+	}
+	//衝撃波1エフェクト
 	else if (name == "WaveAttackEff")
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["WaveAttackEff"]), pos);
+	}
+	//衝撃波2エフェクト
+	else if (name == "MagicWaveEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["MagicWaveEff"]), pos);
+	}
+	//爆発魔法陣
+	else if (name == "BlastMagicEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BlastMagicEff"]), pos);
 	}
 
 	
@@ -246,8 +283,42 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BossAngryEff"]), actor);
 	}
+	//ボス3のオーラエフェクト
+	else if (name == "BossKingStartEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BossKingStartEff"]), actor);
+	}
+	//ボス3の変身オーラエフェクト
+	else if (name == "BossKingTransEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BossKingTransEff"]), actor);
+	}
 	Entry(effect);
 	return effect;
+}
+
+void EffekseerManager::StopEffect()
+{
+	//止める
+	for (auto& eff : m_effects)
+	{
+		eff->Stop();
+	}
+}
+
+void EffekseerManager::StartEffect()
+{
+	//再生
+	for (auto& eff : m_effects)
+	{
+		eff->Play();
+	}
+}
+
+void EffekseerManager::DelayUpdate(int frame)
+{
+	m_delayFrame = frame;
+	m_isUpdate = false;
 }
 
 void EffekseerManager::LoadHandle()
@@ -281,8 +352,14 @@ void EffekseerManager::LoadHandle()
 	m_handles["FieldEff"] = { LoadEffekseerEffect("Data/Effects/FieldEffect.efkefc") };
 	m_handles["BossBeamEff"] = { LoadEffekseerEffect("Data/Effects/BossBeamEff.efkefc") };
 	m_handles["BossBeamChargeEff"] = { LoadEffekseerEffect("Data/Effects/BossBeamChargeEff.efkefc") };
+	m_handles["BossKingBeamEff"] = { LoadEffekseerEffect("Data/Effects/BossKingBeamEff.efkefc") };
+	m_handles["BossKingBeamChargeEff"] = { LoadEffekseerEffect("Data/Effects/BossKingBeamChargeEff.efkefc") };
 	m_handles["BossAngryEff"] = { LoadEffekseerEffect("Data/Effects/BossAngryEff.efkefc") };
 	m_handles["WaveAttackEff"] = { LoadEffekseerEffect("Data/Effects/WaveAttackEff.efkefc") };
+	m_handles["MagicWaveEff"] = { LoadEffekseerEffect("Data/Effects/MagicWaveEff.efkefc") };
+	m_handles["BossKingStartEff"] = { LoadEffekseerEffect("Data/Effects/BossKingStartEff.efkefc") };
+	m_handles["BossKingTransEff"] = { LoadEffekseerEffect("Data/Effects/BossKingTransEff.efkefc") };
+	m_handles["BlastMagicEff"] = { LoadEffekseerEffect("Data/Effects/BlastMagicEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);
@@ -324,5 +401,16 @@ void EffekseerManager::CheckDeleteEffect()
 		}
 		deleteEffect.clear();
 		if (!isOneMore)break;
+	}
+}
+void EffekseerManager::UpdateDelay()
+{
+	if (m_delayFrame > 0)
+	{
+		--m_delayFrame;
+		if (m_delayFrame <= 0)
+		{
+			m_isUpdate = true;
+		}
 	}
 }

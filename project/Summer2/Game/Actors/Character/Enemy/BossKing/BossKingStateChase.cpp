@@ -86,8 +86,8 @@ void BossKingStateChase::Update(const std::weak_ptr<GameCamera> camera, const st
 		//攻撃のクールタイムが0なら
 		if (coll->GetAttackCoolTime() <= 0)
 		{
-			//ThinkAttack(actorManager);
-			//return;
+			ThinkAttack(actorManager);
+			return;
 		}
 		//近づく距離
 		if (targetData.targetDis > kMeleeAttackDistance)

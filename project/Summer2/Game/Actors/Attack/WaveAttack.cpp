@@ -22,6 +22,7 @@ void WaveAttack::Update(const std::weak_ptr<GameCamera> camera, const std::weak_
 
 void WaveAttack::Draw() const
 {
+#if _DEBUG
 	auto coll = std::dynamic_pointer_cast<TorusCollider>(m_collisionData);
 	DrawSphere3D(m_rb->m_pos.ToDxLibVector(),
 		coll->GetRange(), 16, 0xff0000, 0xffffff, false);
@@ -36,7 +37,7 @@ void WaveAttack::Draw() const
 		Vector3 pos = m_rb->m_pos + offset;
 		DrawSphere3D(pos.ToDxLibVector(), coll->GetRadius(), 16, 0xff0000, 0xffffff, false);
 	}
-
+#endif
 }
 
 void WaveAttack::OnCollide(const std::shared_ptr<Collidable> other)

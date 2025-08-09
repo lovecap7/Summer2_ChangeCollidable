@@ -396,8 +396,13 @@ void ActorManager::DelayUpdate(int frame)
 void ActorManager::HitStop(ShakePower sp, int frame)
 {
 	if (m_delayFrame > frame)return;
+	//•¨—‹““®Ž~‚ß‚é
 	Physics::GetInstance().DelayUpdate(frame);
+	//ƒJƒƒ‰—h‚ç‚·
 	m_camera.lock()->SetCameraShake(sp, frame);
+	//ƒGƒtƒFƒNƒg‚ðŽ~‚ß‚é
+	EffekseerManager::GetInstance().DelayUpdate(frame);
+	//actor‚ÌXVŽ~‚ß‚é
 	this->DelayUpdate(frame);
 }
 
