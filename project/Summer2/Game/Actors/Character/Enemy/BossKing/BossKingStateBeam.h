@@ -1,7 +1,7 @@
 #pragma once
 #include "BossKingStateBase.h"
 #include "../../../../../General/Battle.h"
-#include "../../../../../General/CSVDataLoader.h"
+#include "../../../../../General/CSVDatas.h"
 #include "../../../../../General/Math/MyMath.h"
 
 class GameCamera;
@@ -16,7 +16,7 @@ class BossKingStateBeam :
 	public BossKingStateBase, public std::enable_shared_from_this<BossKingStateBeam>
 {
 public:
-	BossKingStateBeam(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager);
+	BossKingStateBeam(std::weak_ptr<Actor> owner, bool isTransSecond,const std::weak_ptr<ActorManager> actorManager);
 	~BossKingStateBeam();
 	void Init()override;
 	void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;

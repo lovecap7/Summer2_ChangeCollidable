@@ -106,6 +106,7 @@ void BossDragonStateBreathAttack::CreateAttack(const std::weak_ptr<ActorManager>
 	EffekseerManager::GetInstance().CreateTrackActorEffect("BreathEff", std::dynamic_pointer_cast<Actor>(m_attack3.lock()));
 }
 
+
 void BossDragonStateBreathAttack::SetupBreath(std::weak_ptr<Breath> bullet, float angle)
 {
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());

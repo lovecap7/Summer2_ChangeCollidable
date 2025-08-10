@@ -17,7 +17,7 @@ namespace
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
-	const char* kAnim = "Boss3|Death";
+	const char* kAnim = "Boss3|Dead";
 }
 
 BossKingStateDeath::BossKingStateDeath(std::weak_ptr<Actor> owner) :

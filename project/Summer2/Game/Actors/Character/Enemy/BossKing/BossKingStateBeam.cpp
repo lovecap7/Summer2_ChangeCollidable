@@ -41,8 +41,8 @@ namespace
 	constexpr int kUpdateDirFrame = 60;
 }
 
-BossKingStateBeam::BossKingStateBeam(std::weak_ptr<Actor> owner, const std::weak_ptr<ActorManager> actorManager) :
-	BossKingStateBase(owner, false),
+BossKingStateBeam::BossKingStateBeam(std::weak_ptr<Actor> owner, bool isTransSecond, const std::weak_ptr<ActorManager> actorManager) :
+	BossKingStateBase(owner, isTransSecond),
 	m_attackCountFrame(0)
 {
 	m_attackData = actorManager.lock()->GetAttackData(kOwnerName, kBeamName);

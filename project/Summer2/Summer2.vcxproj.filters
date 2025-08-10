@@ -795,6 +795,18 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBeam.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBack.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRandMove.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRapidFire.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateImpact.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1366,6 +1378,18 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBeam.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRandMove.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateBack.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\First</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRapidFire.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateImpact.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

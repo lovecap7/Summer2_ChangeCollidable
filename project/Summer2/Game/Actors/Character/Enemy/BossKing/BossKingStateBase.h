@@ -1,5 +1,6 @@
 #pragma once
 #include "../../CharacterStateBase.h"
+#include "../../CharacterBase.h"
 #include <memory>
 #include <vector>
 #include <string>
@@ -24,15 +25,22 @@ protected:
 	bool m_isTransformSecond;
 	//攻撃手段を考える
 	void ThinkAttack(const std::weak_ptr<ActorManager> actorManager);
+private:
+	//第一形態の攻撃手段
+	void ThinkAttackFirst(CharacterBase::TargetData& targetData, const std::weak_ptr<ActorManager> actorManager);
+	//第二形態の攻撃手段
+	void ThinkAttackSecond(CharacterBase::TargetData& targetData, const std::weak_ptr<ActorManager> actorManager);
 };
 
 //攻撃のデータを検索するときに使う
 namespace
 {
-	std::string kOwnerName		= "BossKing";
-	std::string kMagicWaveName	= "MagicWave";
-	std::string kBlastAttackName = "BlastAttack";
-	std::string kBeamName = "Beam";
+	std::string kOwnerName			= "BossKing";
+	std::string kMagicWaveName		= "MagicWave";
+	std::string kBlastAttackName	= "BlastAttack";
+	std::string kBeamName			= "Beam";
+	std::string kRapidFireName		= "RapidFire";
+	std::string kImpactName			= "Impact";
 }
 
 
