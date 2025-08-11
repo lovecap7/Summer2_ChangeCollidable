@@ -46,6 +46,7 @@
 #include "Attack/Breath.h"
 #include "Attack/ULT.h"
 #include "Attack/WaveAttack.h"
+#include "Attack/HomingBullet.h"
 
 namespace
 {
@@ -121,15 +122,21 @@ void ActorManager::Update(const std::weak_ptr<Score> score)
 		actor->Update(m_camera,shared_from_this());
 	}
 	//ボスが倒されたとき
-	if (m_boss.expired())
+	if (IsBossDead())
 	{
-		//経過フレームを増やす
-		m_bossDisappearFrame++;
-		//ボスが完全に消えるまでのフレーム数を超えたら
-		if (IsBossDisappear())
+		//攻撃をすべて削除
+		AllDeleteAttack();
+		//消滅したとき
+		if (m_boss.expired())
 		{
-			//プレイヤーの体力からスコアを加算
-			score.lock()->AddHPScore(m_player.lock()->GetHitPoints());
+			//経過フレームを増やす
+			m_bossDisappearFrame++;
+			//ボスが完全に消えるまでのフレーム数を超えたら
+			if (IsBossDisappear())
+			{
+				//プレイヤーの体力からスコアを加算
+				score.lock()->AddHPScore(m_player.lock()->GetHitPoints());
+			}
 		}
 	}
 	//消滅フラグチェック
@@ -246,6 +253,9 @@ std::weak_ptr<AttackBase> ActorManager::CreateAttack(AttackType at, std::weak_pt
 	case AttackType::Wave:
 		attack = std::make_shared<WaveAttack>(owner);
 		break;
+	case AttackType::Homing:
+		attack = std::make_shared<HomingBullet>(owner);
+		break;
 	default:
 		break;
 	}
@@ -297,6 +307,19 @@ void ActorManager::AllDeleteNormalEnemy()
 			{
 				enemy->Delete();
 			}
+		}
+	}
+}
+
+void ActorManager::AllDeleteAttack()
+{
+	//攻撃
+	for (auto& actor : m_actors)
+	{
+		//敵を探す
+		if (actor->GetGameTag() == GameTag::Attack)
+		{
+			actor->Delete();
 		}
 	}
 }
@@ -541,8 +564,6 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			purpleDinosaur->GetModel()->SetRot(charaData.rot);
 		}
 	}
-	//空を作成
-	m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
 	//描画用
 	//配置データを取得
 	auto stageDrawData = m_csvLoader->LoadTransformDataCSV(drawPath.c_str());
@@ -688,16 +709,20 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			bossAreaParts.clear();
 		}
 	}
-	//フィールドエフェクト
+	//フィールド
 	switch (m_stageIndex)
 	{
 		switch (index)
 		{
 		case Stage::StageIndex::Stage1:
+			//空を作成
+			m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
 			//ステージのエフェクトを作成(プレイヤーに追従)
 			EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
 			break;
 		case Stage::StageIndex::Stage2:
+			//空を作成
+			m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
 			//ステージのエフェクトを作成(プレイヤーに追従)
 			EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
 			break;

@@ -6,6 +6,7 @@
 #include "BossKingStateRandMove.h"
 #include "BossKingStateRapidFire.h"
 #include "BossKingStateImpact.h"
+#include "BossKingStateUlt.h"
 #include "BossKing.h"
 
 BossKingStateBase::BossKingStateBase(std::weak_ptr<Actor> owner, bool isTransformSecond):
@@ -86,7 +87,7 @@ void BossKingStateBase::ThinkAttackSecond(CharacterBase::TargetData& targetData,
 	if (targetData.targetDis <= kMeleeAttackDistance)
 	{
 		//UŒ‚‚Ì”
-		int attackNum = 4;
+		int attackNum = 5;
 		//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
 		auto rand = MyMath::GetRand(1, attackNum);
 		switch (rand)
@@ -103,6 +104,9 @@ void BossKingStateBase::ThinkAttackSecond(CharacterBase::TargetData& targetData,
 		case 4:
 			ChangeState(std::make_shared<BossKingStateImpact>(m_owner, actorManager));
 			break;
+		case 5:
+			ChangeState(std::make_shared<BossKingStateUlt>(m_owner, actorManager));
+			break;
 		}
 		return;
 	}
@@ -110,7 +114,7 @@ void BossKingStateBase::ThinkAttackSecond(CharacterBase::TargetData& targetData,
 	else
 	{
 		//UŒ‚‚Ì”
-		int attackNum = 3;
+		int attackNum = 4;
 		//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
 		auto rand = MyMath::GetRand(1, attackNum);
 		switch (rand)
@@ -123,6 +127,9 @@ void BossKingStateBase::ThinkAttackSecond(CharacterBase::TargetData& targetData,
 			break;
 		case 3:
 			ChangeState(std::make_shared<BossKingStateRapidFire>(m_owner, actorManager));
+			break;
+		case 4:
+			ChangeState(std::make_shared<BossKingStateUlt>(m_owner, actorManager));
 			break;
 		}
 		return;

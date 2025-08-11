@@ -59,7 +59,6 @@ void PlayerStateIdle::Update(const std::weak_ptr<GameCamera> camera, const std::
 	auto& input = Input::GetInstance();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	Vector3 vec = coll->GetRb()->GetVec();
-	
 	//ƒ{ƒX‚ð“|‚·
 	if (actorManager.lock()->IsBossDisappear())
 	{

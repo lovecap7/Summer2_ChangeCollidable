@@ -194,7 +194,16 @@ std::weak_ptr<MyEffect> EffekseerManager::CreateEffect(std::string name, Vector3
 	{
 		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BlastMagicEff"]), pos);
 	}
-
+	//魔法陣
+	else if (name == "MagicCircleEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["MagicCircleEff"]), pos);
+	}
+	//大きな魔法陣
+	else if (name == "BigMagicCircleEff")
+	{
+		effect = std::make_shared<MyEffect>(PlayEffekseer3DEffect(m_handles["BigMagicCircleEff"]), pos);
+	}
 	
 	Entry(effect);
 	return effect;
@@ -293,6 +302,7 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BossKingTransEff"]), actor);
 	}
+	
 	Entry(effect);
 	return effect;
 }
@@ -360,6 +370,8 @@ void EffekseerManager::LoadHandle()
 	m_handles["BossKingStartEff"] = { LoadEffekseerEffect("Data/Effects/BossKingStartEff.efkefc") };
 	m_handles["BossKingTransEff"] = { LoadEffekseerEffect("Data/Effects/BossKingTransEff.efkefc") };
 	m_handles["BlastMagicEff"] = { LoadEffekseerEffect("Data/Effects/BlastMagicEff.efkefc") };
+	m_handles["MagicCircleEff"] = { LoadEffekseerEffect("Data/Effects/MagicCircleEff.efkefc") };
+	m_handles["BigMagicCircleEff"] = { LoadEffekseerEffect("Data/Effects/BigMagicCircleEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

@@ -27,6 +27,7 @@
     <ClCompile Include="Game\Actors\Attack\Breath.cpp" />
     <ClCompile Include="Game\Actors\Attack\Bullet.cpp" />
     <ClCompile Include="Game\Actors\Attack\CapsuleAttackBase.cpp" />
+    <ClCompile Include="Game\Actors\Attack\HomingBullet.cpp" />
     <ClCompile Include="Game\Actors\Attack\Slash.cpp" />
     <ClCompile Include="Game\Actors\Attack\SphereAttackBase.cpp" />
     <ClCompile Include="Game\Actors\Attack\Strike.cpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRandMove.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRapidFire.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateStart.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateUlt.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.cpp" />
@@ -220,6 +222,7 @@
     <ClInclude Include="Game\Actors\Attack\Breath.h" />
     <ClInclude Include="Game\Actors\Attack\Bullet.h" />
     <ClInclude Include="Game\Actors\Attack\CapsuleAttackBase.h" />
+    <ClInclude Include="Game\Actors\Attack\HomingBullet.h" />
     <ClInclude Include="Game\Actors\Attack\Slash.h" />
     <ClInclude Include="Game\Actors\Attack\SphereAttackBase.h" />
     <ClInclude Include="Game\Actors\Attack\Strike.h" />
@@ -259,6 +262,7 @@
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRandMove.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateRapidFire.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateStart.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateUlt.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscle.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateAngry.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossMuscle\BossMuscleStateBase.h" />

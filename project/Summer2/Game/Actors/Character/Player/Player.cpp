@@ -104,6 +104,7 @@ void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<
 {
 	//入力の取得
 	auto& input = Input::GetInstance();
+
 	//プレイヤーの移動やモデルの向きを更新するための
 	//入力ベクトルを更新
 	UpdatePlayerStickVec(input);

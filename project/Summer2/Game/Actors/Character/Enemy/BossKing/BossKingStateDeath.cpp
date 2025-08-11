@@ -11,13 +11,16 @@
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../../../General/Sound/SoundManager.h"
+#include "../../../../../General/Effect/EffekseerManager.h"
 
 namespace
 {
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーション
-	const char* kAnim = "Boss3|Dead";
+	const char* kAnim = "Boss3|Boss3|Boss3|Dead";
+	//高さ調整
+	constexpr float kModelHeightAdjust = 1.0f;
 }
 
 BossKingStateDeath::BossKingStateDeath(std::weak_ptr<Actor> owner) :
@@ -32,6 +35,10 @@ BossKingStateDeath::BossKingStateDeath(std::weak_ptr<Actor> owner) :
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 	//BGMを止める
 	SoundManager::GetInstance().StopBGM();
+	//エフェクトの削除
+	EffekseerManager::GetInstance().Reset();
+	//高さ調整
+	coll->GetModel()->SetModelHeightAdjust(kModelHeightAdjust);
 }
 
 BossKingStateDeath::~BossKingStateDeath()

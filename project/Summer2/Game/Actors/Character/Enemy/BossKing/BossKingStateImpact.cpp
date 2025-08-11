@@ -117,4 +117,6 @@ void BossKingStateImpact::CreateAttack(const std::weak_ptr<ActorManager> actorMa
 	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
 	attack->AttackSetting(data.damege, data.keepFrame,
 		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
+	//爆発
+	EffekseerManager::GetInstance().CreateEffect("ExplosionEff", pos);
 }

@@ -31,15 +31,6 @@
     <Filter Include="ヘッダー ファイル\General\Math">
       <UniqueIdentifier>{bf79fb63-51ee-4b87-898d-378bc9c376ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\General">
-      <UniqueIdentifier>{7ae01a99-d109-4086-8311-a504209b4bab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\General\Math">
-      <UniqueIdentifier>{81eab5b5-2eb2-427b-9260-faa5a410a63a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\General\Collision">
-      <UniqueIdentifier>{51dac2a2-6ad8-4c15-b30f-3eec61bc0a53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\General\Collision">
       <UniqueIdentifier>{251abc8c-27cd-4831-902c-ce1e9854870a}</UniqueIdentifier>
     </Filter>
@@ -145,9 +136,6 @@
     <Filter Include="ソース ファイル\Game\GameRule">
       <UniqueIdentifier>{b69a8c14-0e52-4cdb-8b94-bec7dfe6d29b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\General\Effect">
-      <UniqueIdentifier>{16326b3b-bea3-45dd-a048-af201d9e449e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\General\Effect">
       <UniqueIdentifier>{3b17f0c5-0f3f-460a-a674-e9e2fa6f8c41}</UniqueIdentifier>
     </Filter>
@@ -202,9 +190,6 @@
     <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossMuscle">
       <UniqueIdentifier>{61c9adc4-a22c-4031-9977-ed71f4570849}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\General\Sound">
-      <UniqueIdentifier>{3ce98cb5-e4a3-48a9-9ded-94699aa6c68b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\General\Sound">
       <UniqueIdentifier>{dafa3bb4-3f61-4b07-82e4-9a9a44289250}</UniqueIdentifier>
     </Filter>
@@ -231,6 +216,21 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\Second">
       <UniqueIdentifier>{1af814e4-ef95-4480-a7bc-01d607ead279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\General">
+      <UniqueIdentifier>{7ae01a99-d109-4086-8311-a504209b4bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\General\Math">
+      <UniqueIdentifier>{81eab5b5-2eb2-427b-9260-faa5a410a63a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\General\Collision">
+      <UniqueIdentifier>{51dac2a2-6ad8-4c15-b30f-3eec61bc0a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\General\Effect">
+      <UniqueIdentifier>{16326b3b-bea3-45dd-a048-af201d9e449e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\General\Sound">
+      <UniqueIdentifier>{3ce98cb5-e4a3-48a9-9ded-94699aa6c68b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -806,6 +806,12 @@
     </ClCompile>
     <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateImpact.cpp">
       <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\BossKing\BossKingStateUlt.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\Attack\HomingBullet.cpp">
+      <Filter>ソース ファイル\Game\Actors\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1390,6 +1396,12 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateImpact.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\BossKing\BossKingStateUlt.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\BossKing\Second</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Attack\HomingBullet.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

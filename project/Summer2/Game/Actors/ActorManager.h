@@ -39,6 +39,7 @@ enum class AttackType : int
 	Breath			= 5,
 	ULT				= 6,
 	Wave			= 7,
+	Homing			= 8,
 };
 
 class Player;
@@ -81,6 +82,8 @@ public:
 	std::weak_ptr<ItemBase> CreateItem(ItemType it, Vector3 pos);
 	//G‹›“G‚ğ‚·‚×‚Äíœ
 	void AllDeleteNormalEnemy();
+	//UŒ‚‚ğ‚·‚×‚Äíœ
+	void AllDeleteAttack();
 
 	//ƒvƒŒƒCƒ„[‚ğæ“¾
 	std::weak_ptr<Player> GetPlayer() const { return m_player; };

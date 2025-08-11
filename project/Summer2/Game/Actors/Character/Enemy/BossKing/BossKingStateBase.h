@@ -41,6 +41,7 @@ namespace
 	std::string kBeamName			= "Beam";
 	std::string kRapidFireName		= "RapidFire";
 	std::string kImpactName			= "Impact";
+	std::string kUltName			= "Ult";
 }
 
 
