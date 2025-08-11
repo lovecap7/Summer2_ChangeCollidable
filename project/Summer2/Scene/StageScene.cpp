@@ -11,6 +11,7 @@
 #include "../General/game.h"
 #include "../General/Fader.h"
 #include "../General/Sound/SoundManager.h"
+#include "../General/LoadingManager.h"
 
 namespace
 {
@@ -21,7 +22,13 @@ StageScene::StageScene(SceneController& controller, Stage::StageIndex index):
 	SceneBase(controller),
 	m_stageIndex(index)
 {
+	//非同期開始
+	LoadingManager::GetInstance().StartLoading();
 	m_gameManager = std::make_unique<GameManager>();
+	//ロード初期化
+	LoadingManager::GetInstance().Init();
+	//非同期終了
+	LoadingManager::GetInstance().StopLoading();
 }
 
 StageScene::~StageScene()

@@ -52,12 +52,17 @@ public:
 	/// </summary>
 	void UpdateBaseScene();
 	/// <summary>
-	/// ロードシーンの準備
+	/// 更新する
 	/// </summary>
-	/// <param name="scene"></param>
-	void LoadAndChangeScene(std::shared_ptr<SceneBase> scene);
+	void StartUpdate() { m_isUpdate = true; };
+	/// <summary>
+	/// 更新を止める
+	/// </summary>
+	void StopUpdate() { m_isUpdate = false; };
 private:
 	using SceneStack_t = std::list<std::shared_ptr<SceneBase>>;//シーンをスタック構造にするための型
 	SceneStack_t m_scenes;//現在実行中のシーン(中が何かは知らない)
+	//シーンの更新
+	bool m_isUpdate;
 };
 

@@ -6,7 +6,6 @@
 #include "PlayerStateDeath.h"
 #include "PlayerStateWin.h"
 #include "Player.h"
-#include "Player.h"
 #include "UltGage.h"
 #include "../Enemy/EnemyBase.h"
 #include "../../ActorManager.h"
@@ -22,6 +21,7 @@
 #include "../../../../General/Animator.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/MyEffect.h"
+#include "../../../../General/Sound/SoundManager.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
@@ -101,6 +101,8 @@ void PlayerStateNA::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	//UŒ‚”­¶ƒtƒŒ[ƒ€
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("NA");
 		//UŒ‚ì¬
 		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame, 
 			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);

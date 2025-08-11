@@ -813,6 +813,9 @@
     <ClCompile Include="Game\Actors\Attack\HomingBullet.cpp">
       <Filter>ソース ファイル\Game\Actors\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="General\LoadingManager.cpp">
+      <Filter>ソース ファイル\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1402,6 +1405,9 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Attack\HomingBullet.h">
       <Filter>ヘッダー ファイル\Game\Actors\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="General\LoadingManager.h">
+      <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

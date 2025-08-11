@@ -1,10 +1,12 @@
 #pragma once
 #include "PlayerStateBase.h"
 #include "../../../../General/CSVDataLoader.h"
+#include <memory>
 class Actor;
 class GameCamera;
 class MyEffect;
 class TrackActorEffect;
+class SE;
 class PlayerStateCharge :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateCharge>
 {
@@ -24,6 +26,8 @@ private:
     float m_chargeLevel3Frame;
     //攻撃データ
     AttackData m_attackData;
+    //チャージSE
+    std::weak_ptr<SE> m_chargeSE;
 };
 
 

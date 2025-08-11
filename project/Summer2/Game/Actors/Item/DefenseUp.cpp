@@ -8,6 +8,7 @@
 #include "../../../General/HitPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/TrackActorEffect.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../../GameRule/Score.h"
@@ -79,6 +80,8 @@ void DefenseUp::OnCollide(const std::shared_ptr<Collidable> other)
 	//プレイヤーに当たった時の処理
 	if (other->GetGameTag() == GameTag::Player)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("GetItem");
 		//ダメージカットとアーマー強化
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetHitPoints().lock()->DefenseBuff(Battle::Armor::Heavy, kDamageCutRate, kDamageCutKeepFrame);

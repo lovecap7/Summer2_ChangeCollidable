@@ -38,6 +38,7 @@ void SoundManager::Init()
 	m_voiceVolume = kDefaultVolume;
 	m_masterVolume = kDefaultVolume;
 	//音のハンドルロード
+	//BGM
 	m_soundHandles["TitleBGM"] = LoadSoundMem(L"Data/Sound/BGM/Title.mp3");
 	m_soundHandles["SelectStageBGM"] = LoadSoundMem(L"Data/Sound/BGM/SelectStage.mp3");
 	m_soundHandles["Stage1BGM"] = LoadSoundMem(L"Data/Sound/BGM/Stage1.mp3");
@@ -45,6 +46,26 @@ void SoundManager::Init()
 	m_soundHandles["Stage1_BossBGM"] = LoadSoundMem(L"Data/Sound/BGM/Stage1_Boss.mp3");
 	m_soundHandles["Stage2_BossBGM"] = LoadSoundMem(L"Data/Sound/BGM/Stage2_Boss.mp3");
 	m_soundHandles["Stage3_BossBGM"] = LoadSoundMem(L"Data/Sound/BGM/Stage3_Boss.mp3");
+	//SE
+	m_soundHandles["Decide"] = LoadSoundMem(L"Data/Sound/SE/Decide.mp3");
+	m_soundHandles["Select"] = LoadSoundMem(L"Data/Sound/SE/Select.mp3");
+	m_soundHandles["Cancel"] = LoadSoundMem(L"Data/Sound/SE/Cancel.mp3");
+	//プレイヤー
+	m_soundHandles["NA"] = LoadSoundMem(L"Data/Sound/SE/Player/NA.mp3");
+	m_soundHandles["CA"] = LoadSoundMem(L"Data/Sound/SE/Player/CA.mp3");
+	m_soundHandles["UltCharge"] = LoadSoundMem(L"Data/Sound/SE/Player/UltCharge.mp3");
+	m_soundHandles["UltLaser"] = LoadSoundMem(L"Data/Sound/SE/Player/UltLaser.mp3");
+	m_soundHandles["UltShot"] = LoadSoundMem(L"Data/Sound/SE/Player/UltShot.mp3");
+	m_soundHandles["GetItem"] = LoadSoundMem(L"Data/Sound/SE/Player/GetItem.mp3");
+	m_soundHandles["CARankUp"] = LoadSoundMem(L"Data/Sound/SE/Player/CARankUp.mp3");
+	m_soundHandles["CARankMax"] = LoadSoundMem(L"Data/Sound/SE/Player/CARankMax.mp3");
+	m_soundHandles["CACharge"] = LoadSoundMem(L"Data/Sound/SE/Player/CACharge.mp3");
+	//ヒット
+	m_soundHandles["SlashHit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit1.mp3");
+	m_soundHandles["SlashHit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit2.mp3");
+	m_soundHandles["UltHit"] = LoadSoundMem(L"Data/Sound/SE/Hit/UltHit.mp3");
+	m_soundHandles["Strike"] = LoadSoundMem(L"Data/Sound/SE/Hit/Strike.mp3");
+
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_soundHandles) {
 		assert(value >= 0);
@@ -151,10 +172,8 @@ void SoundManager::CheckDeleteSound()
 			if (sound->IsDelete())
 			{
 				isOneMore = true;
-				//終了処理
-				sound->End();
 				//削除候補
-				m_sounds.emplace_back(sound);
+				deleteSound.emplace_back(sound);
 			}
 		}
 		//削除

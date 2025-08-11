@@ -6,7 +6,8 @@
 #include "DebugScene.h"
 #endif
 
-SceneController::SceneController()
+SceneController::SceneController():
+	m_isUpdate(true)
 {
 #if _DEBUG
 	//一番最初のシーンだけは割り当てる
@@ -22,6 +23,8 @@ SceneController::SceneController()
 
 void SceneController::Update()
 {
+	//更新をしないならreturn
+	if (!m_isUpdate)return;
 	//最後にプッシュ(入れた)シーンのみ更新処理を行う(他のシーンは更新はストップ)
 	m_scenes.back()->Update();
 }

@@ -8,6 +8,7 @@
 #include "../../../General/AttackPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/TrackActorEffect.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../../GameRule/Score.h"
@@ -80,6 +81,8 @@ void AttackUp::OnCollide(const std::shared_ptr<Collidable> other)
 	//プレイヤーに当たった時の処理
 	if (other->GetGameTag() == GameTag::Player)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("GetItem");
 		//攻撃アップバフ
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetAttackPoints().lock()->AttackBuff(kDamageRate, Battle::AttackWeight::Heavy, kAttackUpKeepFrame);

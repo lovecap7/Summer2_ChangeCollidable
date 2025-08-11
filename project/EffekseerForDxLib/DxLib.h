@@ -5640,4 +5640,3 @@ using namespace DxLib ;
 
 #endif // DX_LIB_H
 
-

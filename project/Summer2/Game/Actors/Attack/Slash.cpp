@@ -3,6 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../ActorManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 
@@ -35,6 +36,15 @@ void Slash::OnCollide(const std::shared_ptr<Collidable> other)
 	//攻撃が成功したなら
 	if (m_isSuccessAttack)
 	{
+		//SE
+		if (MyMath::GetRand(0, 1))
+		{	
+			SoundManager::GetInstance().PlayOnceSE("SlashHit1");
+		}
+		else
+		{
+			SoundManager::GetInstance().PlayOnceSE("SlashHit2");
+		}
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
 		auto HitPos = (m_rb->m_pos + coll->GetEndPos()) / 2.0f;

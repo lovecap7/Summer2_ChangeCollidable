@@ -89,6 +89,10 @@ void TitleScene::Init()
 void TitleScene::Update()
 {
 	auto& input = Input::GetInstance();
+	if (m_shadowMapHandle >= 0) {
+		//シャドウマップが想定するライトの方向もセット
+		SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
+	}
 	//状態更新
 	(this->*m_update)(input);
 }
@@ -245,6 +249,8 @@ void TitleScene::UpdateTitle(Input& input)
 		//出現しきってるなら
 		if (m_titleUI.lock()->IsAppered())
 		{
+			//決定SE
+			SoundManager::GetInstance().PlayOnceSE("Decide");
 			InitSelectMenu();
 			return;
 		}
@@ -271,6 +277,8 @@ void TitleScene::UpdateSelectMenu(Input& input)
 	//戻るボタンをおしたら
 	if (input.IsTrigger("B") && m_titleUI.lock()->IsAppered() && !fader.IsFadeNow())
 	{
+		//キャンセルSE
+		SoundManager::GetInstance().PlayOnceSE("Cancel");
 		//初期化処理
 		InitTitle();
 		return;
@@ -288,6 +296,12 @@ void TitleScene::SelectMenu(Input& input)
 	auto menuIndex = static_cast<int>(m_menuIndex);
 	if (input.IsRepeate("Up"))	--menuIndex;
 	if (input.IsRepeate("Down"))++menuIndex;
+	//値が変化したら
+	if (menuIndex != static_cast<int>(m_menuIndex))
+	{
+		//セレクトSE
+		SoundManager::GetInstance().PlayOnceSE("Select");
+	}
 	menuIndex = MathSub::ClampInt(menuIndex, static_cast<int>(MenuIndex::Continue), static_cast<int>(MenuIndex::FinishGame));
 	m_menuIndex = static_cast<MenuIndex>(menuIndex);
 	//選ばれている項目に対応したUIに選ばれていることをフラグで伝える
@@ -302,6 +316,8 @@ void TitleScene::SelectMenu(Input& input)
 	//決定した時インデックスから処理を分岐
 	if (input.IsTrigger("A") && m_titleUI.lock()->IsAppered() && !fader.IsFadeNow())
 	{
+		//決定SE
+		SoundManager::GetInstance().PlayOnceSE("Decide");
 		switch (m_menuIndex)
 		{
 		case MenuIndex::Continue:
@@ -358,8 +374,6 @@ void TitleScene::InitShadow()
 {
 	//シャドウマップハンドルの作成
 	m_shadowMapHandle = MakeShadowMap(kShadowMapWidth, kShadowMapHeight);
-	//シャドウマップが想定するライトの方向もセット
-	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
 }
 
 void TitleScene::UpdateShadow()

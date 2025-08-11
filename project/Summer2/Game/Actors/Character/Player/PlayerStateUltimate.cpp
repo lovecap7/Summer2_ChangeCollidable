@@ -15,6 +15,7 @@
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/MyEffect.h"
+#include "../../../../General/Sound/SoundManager.h"
 #include "../../Attack/ULT.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
@@ -60,6 +61,8 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	m_laserChargeEff = EffekseerManager::GetInstance().CreateEffect("UltChargeSwordEff", m_owner.lock()->GetPos());
 	//モデルの旋回速度
 	model->SetRotSpeed(kModelRotateSpeed);
+	//SE
+	SoundManager::GetInstance().PlayOnceSE("UltCharge");
 }
 
 
@@ -110,6 +113,9 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 	//攻撃発生フレーム
 	if (m_animCountFrame == m_attackData.startFrame)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("UltLaser");
+		SoundManager::GetInstance().PlayOnceSE("UltShot");
 		//攻撃作成
 		CreateAttack(actorManager);
 	}

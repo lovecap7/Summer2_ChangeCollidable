@@ -20,6 +20,8 @@
 #include "../../../../General/Animator.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
+#include "../../../../General/Sound/SoundManager.h"
+#include "../../../../General/Sound/SE.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
@@ -54,6 +56,9 @@ PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player, const std::wea
 	m_chargeLevel3Frame = level3.keepFrame;
 	//1段階目
 	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA1Name);
+	//SE
+	SoundManager::GetInstance().PlayOnceSE("CARankUp");
+	m_chargeSE = SoundManager::GetInstance().PlayLoopSE("CACharge");
 }
 
 PlayerStateCharge::~PlayerStateCharge()
@@ -61,6 +66,11 @@ PlayerStateCharge::~PlayerStateCharge()
 	m_chargeEff.lock()->Delete();
 	//エフェクトを数フレーム後削除
 	m_levelEff.lock()->Delete();
+	//SE削除
+	if (!m_chargeSE.expired())
+	{
+		m_chargeSE.lock()->Delete();
+	}
 }
 void PlayerStateCharge::Init()
 {
@@ -119,6 +129,8 @@ void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std
 		//2段階目
 		if (m_chargeFrame == m_chargeLevel2Frame)
 		{
+			//SE
+			SoundManager::GetInstance().PlayOnceSE("CARankUp");
 			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA2Name);
 			//段階ごとにエフェクトを変更
 			m_levelEff.lock()->Delete();
@@ -127,6 +139,8 @@ void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std
 		//3段階目
 		else if(m_chargeFrame == m_chargeLevel3Frame)
 		{
+			//SE
+			SoundManager::GetInstance().PlayOnceSE("CARankMax");
 			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA3Name);
 			//段階ごとにエフェクトを変更
 			m_levelEff.lock()->Delete();

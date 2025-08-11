@@ -7,6 +7,7 @@
 #include "../../../General/Model.h"
 #include "../../../General/HitPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../../GameRule/Score.h"
@@ -76,6 +77,8 @@ void Heart::OnCollide(const std::shared_ptr<Collidable> other)
 	//ƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½Žž‚Ìˆ—
 	if (other->GetGameTag() == GameTag::Player)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("GetItem");
 		//‰ñ•œ
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetHitPoints().lock()->Heal(kHealValue);

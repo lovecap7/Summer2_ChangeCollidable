@@ -3,6 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 
 Strike::Strike(std::weak_ptr<Actor> owner):
@@ -27,11 +28,14 @@ void Strike::Draw() const
 		coll->GetRadius(), 16, 0xff0000, 0xff0000, false);
 #endif
 }
+
 void Strike::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	AttackBase::OnCollide(other);
 	if (m_isHit)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("Strike");
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
 		auto eff = EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", coll->GetEndPos());

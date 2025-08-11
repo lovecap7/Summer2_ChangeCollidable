@@ -6,6 +6,7 @@
 #include "../../../General/Input.h"
 #include "../../../General/Model.h"
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../Character/Player/UltGage.h"
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
@@ -76,6 +77,8 @@ void UltGageUp::OnCollide(const std::shared_ptr<Collidable> other)
 	//プレイヤーに当たった時の処理
 	if (other->GetGameTag() == GameTag::Player)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("GetItem");
 		//ゲージアップ
 		auto player = std::dynamic_pointer_cast<Player>(other);
 		player->GetUltGage().lock()->AddUltGage(kGageValue);

@@ -9,6 +9,7 @@
 #include  "../General/Fader.h"
 #include  "../General/Sound/SoundManager.h"
 #include  "../SaveData/SaveDataManager.h"
+#include  "../General/LoadingManager.h"
 
 Application& Application::GetInstance()
 {
@@ -64,6 +65,10 @@ bool Application::Init()
 
 void Application::Run()
 {
+	//ローディング
+	auto& loadingManager = LoadingManager::GetInstance();
+	//非同期ロード開始
+	loadingManager.StartLoading();
 	//コントローラー
 	auto& input = Input::GetInstance();
 	input.Init();
@@ -83,9 +88,12 @@ void Application::Run()
 	//セーブデータ
 	auto& saveDataManager = SaveDataManager::GetInstance();
 	saveDataManager.Init();
-	//アプリケーション以外はここで宣言と初期化
+	//シーン
 	SceneController* sceneController = new SceneController();
-
+	//ローディング初期化
+	loadingManager.Init();
+	//非同期終了
+	loadingManager.StopLoading();
 
 	//ゲームループ
 	while (ProcessMessage() != -1) // Windowsが行う処理を待つ
@@ -97,22 +105,34 @@ void Application::Run()
 		ClearDrawScreen();
 
 		//ここにゲームの処理を書く
-		
 		//更新
-		input.Update();
-		sceneController->Update();
-		physics.Update();
-		effect.Update();
-		uiManager.Update();
-		fader.Update();
-		soundManager.Update();
-		saveDataManager.Update();
+		//ロード中は更新を止める
+		bool isLoading = loadingManager.IsLoading();
+		
+		if (!isLoading)
+		{
+			input.Update();
+			sceneController->Update();
+			physics.Update();
+			effect.Update();
+			uiManager.Update();
+			soundManager.Update();
+			saveDataManager.Update();
+			fader.Update();
+		}
+		loadingManager.Update();
+		//ロード中は描画を止める
+		if (!isLoading)
+		{
+			uiManager.BackDraw();
+			sceneController->Draw();
+			effect.Draw();
+			uiManager.FrontDraw();
+			fader.Draw();
+		}
 		//描画
-		uiManager.BackDraw();
-		sceneController->Draw();
-		effect.Draw();
-		uiManager.FrontDraw();
-		fader.Draw();
+		loadingManager.Draw();
+
 #if _DEBUG
 		DrawFormatString(0, 500, 0xff0000, L"FPS : %.2f", GetFPS());
 #endif
@@ -144,6 +164,7 @@ void Application::Terminate()
 	UIManager::GetInstance().End();
 	SoundManager::GetInstance().End();
 	SaveDataManager::GetInstance().End();
+	LoadingManager::GetInstance().End();
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 }
 

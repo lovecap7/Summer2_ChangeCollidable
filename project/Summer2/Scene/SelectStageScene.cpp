@@ -130,6 +130,8 @@ void SelectStageScene::Update()
 		//決定ボタンをおしたら
 		if (input.IsTrigger("A"))
 		{
+			//決定SE
+			SoundManager::GetInstance().PlayOnceSE("Decide");
 			m_isDecide = true;
 			//だんだん暗く
 			fader.FadeOut(kFadeSpeed);
@@ -137,6 +139,8 @@ void SelectStageScene::Update()
 		//戻るボタンをおしたら
 		else if (input.IsTrigger("B"))
 		{
+			//決定SE
+			SoundManager::GetInstance().PlayOnceSE("Cancel");
 			//だんだん暗く
 			fader.FadeOut(kFadeSpeed);
 		}
@@ -161,6 +165,9 @@ void SelectStageScene::Draw()
 #if _DEBUG
 	DrawString(0, 0, L"SelectStage Scene", 0xffffff);
 	DrawString(0, 16, L"[D]キーで Debug Scene", 0xffffff);
+
+	DrawFormatString(0, 80, 0xffff00, L"StageIndex : %d", m_stageIndex);
+	DrawFormatString(0, 160, 0xffff00, L"UnlockStageIndex : %d", static_cast<int>(m_unlockStageIndex));
 #endif
 	//プレイヤーの描画
 	m_player->Draw();
@@ -169,10 +176,6 @@ void SelectStageScene::Draw()
 	{
 		stageFigure->Draw();
 	}	
-
-	DrawFormatString(0, 80, 0xffff00,L"StageIndex : %d",m_stageIndex);
-	DrawFormatString(0, 80, 0xffff00,L"UnlockStageIndex : %d",static_cast<int>(m_unlockStageIndex));
-	
 }
 
 void SelectStageScene::End()

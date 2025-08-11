@@ -42,10 +42,6 @@ GameManager::GameManager():
 	m_actorManager = std::make_shared<ActorManager>(m_camera);
 	//タイマー
 	m_timer = std::make_shared<Timer>();
-	//ライト
-	InitLight();
-	//シャドウマップの準備
-	InitShadow();
 }
 
 
@@ -72,6 +68,11 @@ void GameManager::Init(Stage::StageIndex index)
 	{
 		m_tutorialDirecter = std::make_shared<TutorialDirecter>();
 	}
+
+	//ライト
+	InitLight();
+	//シャドウマップの準備
+	InitShadow();
 }
 
 void GameManager::Update()
@@ -158,18 +159,23 @@ void GameManager::Draw() const
 	//screenPos = ConvWorldPosToScreenPos(VGet(0, 0, -500));
 	//DrawString(screenPos.x, screenPos.y, L"Z-", 0xffffff);
 #endif
-	//シャドウマップへの描画の準備
-	ShadowMap_DrawSetup(m_shadowMapHandle);
-	//シャドウマップへのアクターの描画
-	m_actorManager->Draw();
-	//シャドウマップへの描画を終了
-	ShadowMap_DrawEnd();
-	//描画に使用するシャドウマップを設定
-	SetUseShadowMap(0, m_shadowMapHandle);
-	//アクターの描画
-	m_actorManager->Draw();
-	//描画に使用するシャドウマップの設定を解除
-	SetUseShadowMap(0, -1);
+	if (m_shadowMapHandle >= 0)
+	{
+		//シャドウマップが想定するライトの方向もセット
+		SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
+		//シャドウマップへの描画の準備
+		ShadowMap_DrawSetup(m_shadowMapHandle);
+		//シャドウマップへのアクターの描画
+		m_actorManager->Draw();
+		//シャドウマップへの描画を終了
+		ShadowMap_DrawEnd();
+		//描画に使用するシャドウマップを設定
+		SetUseShadowMap(0, m_shadowMapHandle);
+		//アクターの描画
+		m_actorManager->Draw();
+		//描画に使用するシャドウマップの設定を解除
+		SetUseShadowMap(0, -1);
+	}
 }
 
 void GameManager::End()
@@ -223,8 +229,6 @@ void GameManager::InitShadow()
 {
 	//シャドウマップハンドルの作成
 	m_shadowMapHandle = MakeShadowMap(kShadowMapWidth, kShadowMapHeight);
-	//シャドウマップが想定するライトの方向もセット
-	SetShadowMapLightDirection(m_shadowMapHandle, kLightDir);
 }
 
 void GameManager::UpdateShadowDrawArea()

@@ -712,26 +712,23 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	//フィールド
 	switch (m_stageIndex)
 	{
-		switch (index)
-		{
-		case Stage::StageIndex::Stage1:
-			//空を作成
-			m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
-			//ステージのエフェクトを作成(プレイヤーに追従)
-			EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
-			break;
-		case Stage::StageIndex::Stage2:
-			//空を作成
-			m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
-			//ステージのエフェクトを作成(プレイヤーに追従)
-			EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
-			break;
-		case Stage::StageIndex::Stage3:
-			
-			break;
-		default:
-			break;
-		}
+	case Stage::StageIndex::Stage1:
+		//空を作成
+		m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
+		//ステージのエフェクトを作成(プレイヤーに追従)
+		EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
+		break;
+	case Stage::StageIndex::Stage2:
+		//空を作成
+		m_actors.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_handles["Sky"])));
+		//ステージのエフェクトを作成(プレイヤーに追従)
+		EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
+		break;
+	case Stage::StageIndex::Stage3:
+
+		break;
+	default:
+		break;
 	}
 }
 
