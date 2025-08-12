@@ -20,7 +20,6 @@
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
 #include "../../../../General/Effect/MyEffect.h"
-#include "../../../../General/Sound/SoundManager.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../Attack/Slash.h"
 
@@ -70,7 +69,9 @@ PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 		m_slashEff = EffekseerManager::GetInstance().CreateEffect("SlashtTraject1Eff", m_owner.lock()->GetPos());
 	}
 	//SE
-	SoundManager::GetInstance().PlayOnceSE("CA");
+	coll->PlayerOnceSE("CA");
+	//VC
+	RandAttackVC();
 }
 
 PlayerStateCA::~PlayerStateCA()

@@ -40,6 +40,8 @@ PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
 	coll->GetModel()->SetDir(coll->GetPlayerStickVec());
 	//–³“G
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//ƒ‰ƒ“ƒ_ƒ€VC
+	RandRollingVC(coll);
 }
 
 PlayerStateRolling::~PlayerStateRolling()
@@ -89,4 +91,16 @@ void PlayerStateRolling::Update(const std::weak_ptr<GameCamera> camera, const st
 	auto rb = coll->GetRb();
 	//Œü‚¢‚Ä‚é•ûŒü‚ÉˆÚ“®
 	rb->SetMoveVec(coll->GetModel()->GetDir() * kRollingMoveSpeed);
+}
+
+void PlayerStateRolling::RandRollingVC(std::shared_ptr<Player> coll)
+{
+	if (MyMath::IsRand())
+	{
+		coll->PlayerVC("Rolling1");
+	}
+	else
+	{
+		coll->PlayerVC("Rolling2");
+	}
 }

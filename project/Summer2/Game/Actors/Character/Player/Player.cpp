@@ -19,12 +19,14 @@
 #include "../../../../General/Animator.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/TrackActorEffect.h"
+#include "../../../../General/Sound/SoundManager.h"
 #include "../../ActorManager.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "UltGage.h"
 #include "../../../UI/UIManager.h"
 #include <DxLib.h>
 #include <cmath>
+#include <cassert>
 
 namespace
 {
@@ -87,7 +89,8 @@ void Player::Init()
 	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Player, false, false,true);
 	//Physicsに登録
 	Collidable::Init();
-
+	//音初期化
+	InitSound();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<Player>(shared_from_this());
 	m_state = std::make_shared<PlayerStateStart>(thisPointer);
@@ -95,10 +98,10 @@ void Player::Init()
 	m_state->ChangeState(m_state);
 	//初期化座標
 	m_initPos = m_rb->m_pos;
-
 	//プレイヤー関連のUIの準備
 	UIManager::GetInstance().CreatePlayerUI(thisPointer);
 }
+
 
 void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
@@ -210,8 +213,12 @@ void Player::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 
 void Player::End()
 {
-	Collidable::End();
 	m_model->End();
+	//削除
+	for (const auto& [key, value] : m_soundHandles) {
+		DeleteSoundMem(value);
+	}
+	Collidable::End();
 }
 
 bool Player::IsStartAnim()
@@ -243,6 +250,21 @@ bool Player::IsFinishClearAnim()
 	}
 	//勝利状態の時にアニメーションが終了したらtrue
 	return m_model->IsFinishAnim();
+}
+
+std::weak_ptr<SE>  Player::PlayerOnceSE(std::string name)
+{
+	return SoundManager::GetInstance().PlayOnceSE(m_soundHandles.at(name));
+}
+
+std::weak_ptr<SE>  Player::PlayerLoopSE(std::string name)
+{
+	return SoundManager::GetInstance().PlayLoopSE(m_soundHandles.at(name));
+}
+
+std::weak_ptr<Voice> Player::PlayerVC(std::string name)
+{
+	return SoundManager::GetInstance().PlayVC(m_soundHandles.at(name));
 }
 
 void Player::TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos)
@@ -309,5 +331,35 @@ void Player::CheckUltMax()
 	else if (!m_ultMaxEff.expired() && !m_ultGage->IsMaxUlt())
 	{
 		m_ultMaxEff.lock()->Delete();
+	}
+}
+
+void Player::InitSound()
+{
+	//プレイヤーSE
+	m_soundHandles["NA"] = LoadSoundMem(L"Data/Sound/SE/Player/NA.mp3");
+	m_soundHandles["CA"] = LoadSoundMem(L"Data/Sound/SE/Player/CA.mp3");
+	m_soundHandles["UltCharge"] = LoadSoundMem(L"Data/Sound/SE/Player/UltCharge.mp3");
+	m_soundHandles["UltLaser"] = LoadSoundMem(L"Data/Sound/SE/Player/UltLaser.mp3");
+	m_soundHandles["UltShot"] = LoadSoundMem(L"Data/Sound/SE/Player/UltShot.mp3");
+	m_soundHandles["CARankUp"] = LoadSoundMem(L"Data/Sound/SE/Player/CARankUp.mp3");
+	m_soundHandles["CARankMax"] = LoadSoundMem(L"Data/Sound/SE/Player/CARankMax.mp3");
+	m_soundHandles["CACharge"] = LoadSoundMem(L"Data/Sound/SE/Player/CACharge.mp3");
+	//VC
+	m_soundHandles["Attack1"] = LoadSoundMem(L"Data/Sound/VC/Player/Attack1.mp3");
+	m_soundHandles["Attack2"] = LoadSoundMem(L"Data/Sound/VC/Player/Attack2.mp3");
+	m_soundHandles["Attack3"] = LoadSoundMem(L"Data/Sound/VC/Player/Attack3.mp3");
+	m_soundHandles["Damage1"] = LoadSoundMem(L"Data/Sound/VC/Player/Damage1.mp3");
+	m_soundHandles["Damage2"] = LoadSoundMem(L"Data/Sound/VC/Player/Damage2.mp3");
+	m_soundHandles["Damage3"] = LoadSoundMem(L"Data/Sound/VC/Player/Damage3.wav");
+	m_soundHandles["Ult"] = LoadSoundMem(L"Data/Sound/VC/Player/Ult.mp3");
+	m_soundHandles["Dead"] = LoadSoundMem(L"Data/Sound/VC/Player/Dead.wav");
+	m_soundHandles["Result"] = LoadSoundMem(L"Data/Sound/VC/Player/Result.mp3");
+	m_soundHandles["Rolling1"] = LoadSoundMem(L"Data/Sound/VC/Player/Rolling1.wav");
+	m_soundHandles["Rolling2"] = LoadSoundMem(L"Data/Sound/VC/Player/Rolling2.wav");
+	m_soundHandles["Start"] = LoadSoundMem(L"Data/Sound/VC/Player/Start.mp3");
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_soundHandles) {
+		assert(value >= 0);
 	}
 }

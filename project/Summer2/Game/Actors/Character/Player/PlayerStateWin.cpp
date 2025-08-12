@@ -7,6 +7,7 @@
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
 #include "../../../../General/HitPoints.h"
+#include "../../../../General/Sound/SoundManager.h"
 #include "../../../Camera/GameCamera/GameCamera.h"
 
 namespace
@@ -21,6 +22,8 @@ PlayerStateWin::PlayerStateWin(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player),
 	m_countFrame(0)
 {
+	//Ÿ—˜BGM
+	SoundManager::GetInstance().PlayBGM("WinBGM");
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//Ÿ—˜ó‘Ô
 	coll->GetModel()->SetAnim(kAnim, false);

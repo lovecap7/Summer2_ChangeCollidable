@@ -2,6 +2,8 @@
 #include "../CharacterBase.h"
 #include "../../../../General/Math/MyMath.h"
 #include <memory>
+#include <map>
+#include <string>
 
 class ActorManager;
 class UltGage;
@@ -10,6 +12,8 @@ class CharacterStateBase;
 class HitPoints;
 class TrackActorEffect;
 class Input;
+class SE;
+class Voice;
 class Player :
 	public CharacterBase
 {
@@ -58,6 +62,10 @@ public:
 	bool IsClearAnim();
 	//ゲームクリアアニメーション終了
 	bool IsFinishClearAnim();
+	//プレイヤーSE
+	std::weak_ptr<SE>  PlayerOnceSE(std::string name);
+	std::weak_ptr<SE>  PlayerLoopSE(std::string name);
+	std::weak_ptr<Voice>  PlayerVC(std::string name);
 private:
 	//スティックの向きを持つベクトル
 	Vector2 m_stickVec;
@@ -72,6 +80,9 @@ private:
 
 	//落下したときに戻す座標(チェックポイントを実装したら使う)
 	Vector3 m_initPos;
+
+	//サウンド
+	std::map<std::string, int> m_soundHandles;
 private:
 	//プレイヤーの入力ベクトルを更新
 	void UpdatePlayerStickVec(Input& input);
@@ -79,5 +90,7 @@ private:
 	void CheckRunKeep();
 	//必殺ゲージが最大か確認
 	void CheckUltMax();
+	//サウンド初期化
+	void InitSound();
 };
 

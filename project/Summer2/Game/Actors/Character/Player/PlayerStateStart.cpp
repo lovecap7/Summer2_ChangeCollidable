@@ -28,6 +28,8 @@ PlayerStateStart::PlayerStateStart(std::weak_ptr<Actor> player) :
 	//UI”ñ•\Ž¦
 	UIManager::GetInstance().StopDraw();
 	UIManager::GetInstance().StopUpdate();
+	//VC
+	coll->PlayerVC("Start");
 }
 
 PlayerStateStart::~PlayerStateStart()

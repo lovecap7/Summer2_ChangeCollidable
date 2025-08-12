@@ -13,6 +13,8 @@ class PlayerStateBase abstract:
 public:
 	PlayerStateBase(std::weak_ptr<Actor> player);
 	virtual ~PlayerStateBase();
+	//ランダムで攻撃ボイスを出す
+	void RandAttackVC();
 protected:
 	//進行方向を返す関数
 	virtual Vector3 GetForwardVec(const std::weak_ptr<GameCamera> camera);

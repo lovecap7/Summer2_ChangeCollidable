@@ -21,7 +21,6 @@
 #include "../../../../General/Animator.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/MyEffect.h"
-#include "../../../../General/Sound/SoundManager.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
 namespace
@@ -47,6 +46,8 @@ PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 	m_comboNum(1),
 	m_attackCountFrame(0)
 {
+	//VC
+	RandAttackVC();
 	//攻撃データの初期化
 	InitAttackData(actorManager);
 	//衝撃エフェクト
@@ -102,7 +103,7 @@ void PlayerStateNA::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		//SE
-		SoundManager::GetInstance().PlayOnceSE("NA");
+		coll->PlayerOnceSE("NA");
 		//攻撃作成
 		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame, 
 			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);
@@ -238,6 +239,8 @@ void PlayerStateNA::InitAttackData(const std::weak_ptr<ActorManager> actorManage
 		break;
 	case kMaxComboNum:
 		attackName = kNA4Name;
+		//VC
+		RandAttackVC();
 		break;
 	default:
 		break;

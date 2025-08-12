@@ -5,6 +5,7 @@
 #include<DxLib.h>
 #include "../General/game.h"
 #include "../General/Collision/Physics.h"
+#include "../General/Sound/SoundManager.h"
 #include "../Game/GameRule/Score.h"
 #include "../General/Fader.h"
 #include "../Game/UI/UIManager.h"
@@ -26,6 +27,8 @@ GameClearScene::GameClearScene(SceneController& controller, Stage::StageIndex in
 	m_draw(&GameClearScene::NormalDraw),
 	m_countFrame(0)
 {
+	//èüóòBGM
+	SoundManager::GetInstance().PlayBGM("ResultBGM");
 }
 
 GameClearScene::~GameClearScene()

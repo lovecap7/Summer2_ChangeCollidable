@@ -15,7 +15,7 @@
 
 namespace
 {
-	constexpr float kFadeSpeed = 10.0f;
+	constexpr float kFadeSpeed = 20.0f;
 }
 
 StageScene::StageScene(SceneController& controller, Stage::StageIndex index):

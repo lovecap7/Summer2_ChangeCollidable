@@ -36,4 +36,5 @@ namespace MyMath
 	/// </summary>
 	/// <returns></returns>
 	bool IsRand();
+}
 

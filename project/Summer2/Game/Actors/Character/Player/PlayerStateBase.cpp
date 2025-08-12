@@ -13,6 +13,25 @@ PlayerStateBase::~PlayerStateBase()
 {
 }
 
+void PlayerStateBase::RandAttackVC()
+{
+	auto player = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	switch (MyMath::GetRand(1,3))
+	{
+	case 1:
+		player->PlayerVC("Attack1");
+		break;
+	case 2:
+		player->PlayerVC("Attack2");
+		break;
+	case 3:
+		player->PlayerVC("Attack3");
+		break;
+	default:
+		break;
+	}
+}
+
 Vector3 PlayerStateBase::GetForwardVec(const std::weak_ptr<GameCamera> camera)
 {
 	Vector3 rV = { 0.0f,0.0f,0.0f, };

@@ -34,7 +34,7 @@ void SoundManager::Init()
 {
 	//音量の設定
 	m_seVolume = kDefaultVolume;
-	m_bgmVolume = 30;
+	m_bgmVolume = kDefaultVolume;
 	m_voiceVolume = kDefaultVolume;
 	m_masterVolume = kDefaultVolume;
 	//音のハンドルロード
@@ -46,26 +46,20 @@ void SoundManager::Init()
 	m_soundHandles["Stage1_BossBGM"] = LoadSoundMem(L"Data/Sound/BGM/Stage1_Boss.mp3");
 	m_soundHandles["Stage2_BossBGM"] = LoadSoundMem(L"Data/Sound/BGM/Stage2_Boss.mp3");
 	m_soundHandles["Stage3_BossBGM"] = LoadSoundMem(L"Data/Sound/BGM/Stage3_Boss.mp3");
+	m_soundHandles["WinBGM"] = LoadSoundMem(L"Data/Sound/BGM/Win.mp3");
+	m_soundHandles["ResultBGM"] = LoadSoundMem(L"Data/Sound/BGM/Result.mp3");
 	//SE
 	m_soundHandles["Decide"] = LoadSoundMem(L"Data/Sound/SE/Decide.mp3");
 	m_soundHandles["Select"] = LoadSoundMem(L"Data/Sound/SE/Select.mp3");
 	m_soundHandles["Cancel"] = LoadSoundMem(L"Data/Sound/SE/Cancel.mp3");
-	//プレイヤー
-	m_soundHandles["NA"] = LoadSoundMem(L"Data/Sound/SE/Player/NA.mp3");
-	m_soundHandles["CA"] = LoadSoundMem(L"Data/Sound/SE/Player/CA.mp3");
-	m_soundHandles["UltCharge"] = LoadSoundMem(L"Data/Sound/SE/Player/UltCharge.mp3");
-	m_soundHandles["UltLaser"] = LoadSoundMem(L"Data/Sound/SE/Player/UltLaser.mp3");
-	m_soundHandles["UltShot"] = LoadSoundMem(L"Data/Sound/SE/Player/UltShot.mp3");
-	m_soundHandles["GetItem"] = LoadSoundMem(L"Data/Sound/SE/Player/GetItem.mp3");
-	m_soundHandles["CARankUp"] = LoadSoundMem(L"Data/Sound/SE/Player/CARankUp.mp3");
-	m_soundHandles["CARankMax"] = LoadSoundMem(L"Data/Sound/SE/Player/CARankMax.mp3");
-	m_soundHandles["CACharge"] = LoadSoundMem(L"Data/Sound/SE/Player/CACharge.mp3");
+	m_soundHandles["GetItem"] = LoadSoundMem(L"Data/Sound/SE/GetItem.wav");
 	//ヒット
 	m_soundHandles["SlashHit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit1.mp3");
 	m_soundHandles["SlashHit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit2.mp3");
 	m_soundHandles["UltHit"] = LoadSoundMem(L"Data/Sound/SE/Hit/UltHit.mp3");
 	m_soundHandles["Hit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit1.mp3");
 	m_soundHandles["Hit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit2.mp3");
+
 
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_soundHandles) {
@@ -115,7 +109,20 @@ void SoundManager::StopBGM()
 
 std::weak_ptr<SE> SoundManager::PlayOnceSE(std::string name)
 {
-	auto se = std::make_shared<SE>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume, false);
+	std::shared_ptr<SE> se;
+	auto it = m_soundHandles.find(name);
+	if (it != m_soundHandles.end()) {
+		// キーがある場合
+		se = std::make_shared<SE>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume, false);
+		se->Init();
+		se->Play();
+	}
+	return se;
+}
+
+std::weak_ptr<SE> SoundManager::PlayOnceSE(int handle)
+{
+	auto se = std::make_shared<SE>(DuplicateSoundMem(handle), m_seVolume, false);
 	se->Init();
 	se->Play();
 	return se;
@@ -123,7 +130,20 @@ std::weak_ptr<SE> SoundManager::PlayOnceSE(std::string name)
 
 std::weak_ptr<SE> SoundManager::PlayLoopSE(std::string name)
 {
-	auto se = std::make_shared<SE>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume, true);
+	std::shared_ptr<SE> se;
+	auto it = m_soundHandles.find(name);
+	if (it != m_soundHandles.end()) {
+		// キーがある場合
+		se = std::make_shared<SE>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume, true);
+		se->Init();
+		se->Play();
+	}
+	return se;
+}
+
+std::weak_ptr<SE> SoundManager::PlayLoopSE(int handle)
+{
+	auto se = std::make_shared<SE>(DuplicateSoundMem(handle), m_seVolume, true);
 	se->Init();
 	se->Play();
 	return se;
@@ -131,7 +151,20 @@ std::weak_ptr<SE> SoundManager::PlayLoopSE(std::string name)
 
 std::weak_ptr<Voice> SoundManager::PlayVC(std::string name)
 {
-	auto vc = std::make_shared<Voice>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume);
+	std::shared_ptr<Voice> vc;
+	auto it = m_soundHandles.find(name);
+	if (it != m_soundHandles.end()) {
+		// キーがある場合
+		vc = std::make_shared<Voice>(DuplicateSoundMem(m_soundHandles[name]), m_seVolume);
+		vc->Init();
+		vc->Play();
+	}
+	return vc;
+}
+
+std::weak_ptr<Voice> SoundManager::PlayVC(int handle)
+{
+	auto vc = std::make_shared<Voice>(DuplicateSoundMem(handle), m_seVolume);
 	vc->Init();
 	vc->Play();
 	return vc;

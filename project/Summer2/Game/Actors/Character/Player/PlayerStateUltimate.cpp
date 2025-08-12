@@ -15,7 +15,6 @@
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../../General/Effect/MyEffect.h"
-#include "../../../../General/Sound/SoundManager.h"
 #include "../../Attack/ULT.h"
 #include "../../../../Game/Camera/GameCamera/GameCamera.h"
 
@@ -62,7 +61,9 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	//ÉÇÉfÉãÇÃê˘âÒë¨ìx
 	model->SetRotSpeed(kModelRotateSpeed);
 	//SE
-	SoundManager::GetInstance().PlayOnceSE("UltCharge");
+	coll->PlayerOnceSE("UltCharge");
+	//VC
+	coll->PlayerVC("Ult");
 }
 
 
@@ -114,8 +115,8 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 	if (m_animCountFrame == m_attackData.startFrame)
 	{
 		//SE
-		SoundManager::GetInstance().PlayOnceSE("UltLaser");
-		SoundManager::GetInstance().PlayOnceSE("UltShot");
+		coll->PlayerOnceSE("UltLaser");
+		coll->PlayerOnceSE("UltShot");
 		//çUåÇçÏê¨
 		CreateAttack(actorManager);
 	}

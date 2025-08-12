@@ -4,6 +4,7 @@ class Actor;
 class Input;
 class GameCamera;
 class ActorManager;
+class Player;
 class PlayerStateHit :
     public PlayerStateBase, public std::enable_shared_from_this<PlayerStateHit>
 {
@@ -15,5 +16,7 @@ public:
 private:
 	//ランダムでヒットアニメーションを選ぶ
 	void RandHitAnim();
+    //ランダムでダメージVC
+    void RandDamageVC(std::shared_ptr<Player> coll);
 };
 

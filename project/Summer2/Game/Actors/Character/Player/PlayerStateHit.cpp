@@ -27,14 +27,17 @@ namespace
 }
 
 
-PlayerStateHit::PlayerStateHit(std::weak_ptr<Actor> player):
+PlayerStateHit::PlayerStateHit(std::weak_ptr<Actor> player) :
 	PlayerStateBase(player)
 {
 	//ランダムにヒットアニメーションを選ぶ
 	RandHitAnim();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->SetCollState(CollisionState::Normal);
+	//ランダムダメージVC
+	RandDamageVC(coll);
 }
+
 
 PlayerStateHit::~PlayerStateHit()
 {
@@ -91,5 +94,22 @@ void PlayerStateHit::RandHitAnim()
 	else
 	{
 		coll->GetModel()->SetAnim(kHit2Anim, false, kHit2AnimSpeed);
+	}
+}
+void PlayerStateHit::RandDamageVC(std::shared_ptr<Player> coll)
+{
+	switch (MyMath::GetRand(1, 3))
+	{
+	case 1:
+		coll->PlayerVC("Damage1");
+		break;
+	case 2:
+		coll->PlayerVC("Damage2");
+		break;
+	case 3:
+		coll->PlayerVC("Damage3");
+		break;
+	default:
+		break;
 	}
 }
