@@ -22,3 +22,8 @@ int MyMath::GetRand(int min, int max)
     std::uniform_int_distribution<int> dist(min, max);
     return dist(mt);
 }
+
+bool MyMath::IsRand()
+{
+    return GetRand(0, 1);
+}

@@ -3,6 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Effect/MyEffect.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 #include "../Character/CharacterBase.h"
 
@@ -33,6 +34,15 @@ void AreaOfEffectAttack::OnCollide(const std::shared_ptr<Collidable> other)
 	AttackBase::OnCollide(other);
 	if (m_isSuccessAttack)
 	{
+		//SE
+		if (MyMath::IsRand())
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit1");
+		}
+		else
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit2");
+		}
 		auto otherPos = std::dynamic_pointer_cast<CharacterBase>(other)->GetPos();
 		auto centerPos = (otherPos + m_rb->m_pos) / 2.0f;
 		//ヒットエフェクト

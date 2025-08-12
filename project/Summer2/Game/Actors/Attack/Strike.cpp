@@ -35,7 +35,14 @@ void Strike::OnCollide(const std::shared_ptr<Collidable> other)
 	if (m_isHit)
 	{
 		//SE
-		SoundManager::GetInstance().PlayOnceSE("Strike");
+		if (MyMath::IsRand())
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit1");
+		}
+		else
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit2");
+		}
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
 		auto eff = EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", coll->GetEndPos());

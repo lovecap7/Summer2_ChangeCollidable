@@ -34,7 +34,7 @@ void SoundManager::Init()
 {
 	//音量の設定
 	m_seVolume = kDefaultVolume;
-	m_bgmVolume = kDefaultVolume;
+	m_bgmVolume = 30;
 	m_voiceVolume = kDefaultVolume;
 	m_masterVolume = kDefaultVolume;
 	//音のハンドルロード
@@ -64,7 +64,8 @@ void SoundManager::Init()
 	m_soundHandles["SlashHit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit1.mp3");
 	m_soundHandles["SlashHit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit2.mp3");
 	m_soundHandles["UltHit"] = LoadSoundMem(L"Data/Sound/SE/Hit/UltHit.mp3");
-	m_soundHandles["Strike"] = LoadSoundMem(L"Data/Sound/SE/Hit/Strike.mp3");
+	m_soundHandles["Hit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit1.mp3");
+	m_soundHandles["Hit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit2.mp3");
 
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_soundHandles) {

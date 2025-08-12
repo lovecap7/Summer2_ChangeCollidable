@@ -4,6 +4,7 @@
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../Character/CharacterBase.h"
 #include "../../../General/HitPoints.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Player/UltGage.h"
@@ -19,6 +20,15 @@ void Bullet::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<
 	//攻撃が当たったなら
 	if (m_isHit)
 	{
+		//SE
+		if (MyMath::IsRand())
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit1");
+		}
+		else
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit2");
+		}
 		//ヒットストップ
 		actorManager.lock()->HitStop(m_shakePower, m_hitStopFrame);
 		//削除

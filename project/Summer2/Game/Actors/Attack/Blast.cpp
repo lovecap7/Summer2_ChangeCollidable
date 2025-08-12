@@ -5,6 +5,7 @@
 #include "../../../General/Rigidbody.h"
 #include "../../../General/HitPoints.h"
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Sound/SoundManager.h"
 #include "../ActorManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 
@@ -22,6 +23,8 @@ void Blast::Init()
 	AttackBase::Init();
 	//爆発エフェクト
 	EffekseerManager::GetInstance().CreateEffect("ExplosionEff", m_rb->m_pos);
+	//SE
+	SoundManager::GetInstance().PlayOnceSE("Blast");
 }
 
 void Blast::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
@@ -29,6 +32,15 @@ void Blast::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<A
 	//攻撃が当たったなら
 	if (m_isHit)
 	{
+		//SE
+		if (MyMath::IsRand())
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit1");
+		}
+		else
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit2");
+		}
 		actorManager.lock()->HitStop(m_shakePower, m_hitStopFrame);
 	}
 	//持続フレームを減らす

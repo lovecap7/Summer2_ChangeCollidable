@@ -3,6 +3,7 @@
 #include "../../../General/Rigidbody.h"
 #include <DxLib.h>
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Sound/SoundManager.h"
 WaveAttack::WaveAttack(std::weak_ptr<Actor> owner):
 	TorusAttackBase(owner),
 	m_waveSpeed(0.0f)
@@ -45,6 +46,15 @@ void WaveAttack::OnCollide(const std::shared_ptr<Collidable> other)
 	AttackBase::OnCollide(other);
 	if (m_isHit)
 	{
+		//SE
+		if (MyMath::IsRand())
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit1");
+		}
+		else
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit2");
+		}
 		//ヒットエフェクト
 		auto coll = std::dynamic_pointer_cast<TorusCollider>(m_collisionData);
 		auto hitPos = std::dynamic_pointer_cast<Actor>(other)->GetNextPos();

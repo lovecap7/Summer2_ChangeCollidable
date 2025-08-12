@@ -7,6 +7,7 @@
 #include "../Character/Player/Player.h"
 #include "../Character/Player/UltGage.h"
 #include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Sound/SoundManager.h"
 
 Breath::Breath(std::weak_ptr<Actor> owner) :
 	SphereAttackBase(owner)
@@ -28,6 +29,15 @@ void Breath::OnCollide(const std::shared_ptr<Collidable> other)
 	//攻撃が成功したなら
 	if (m_isSuccessAttack)
 	{
+		//SE
+		if (MyMath::IsRand())
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit1");
+		}
+		else
+		{
+			SoundManager::GetInstance().PlayOnceSE("Hit2");
+		}
 		//ヒットエフェクト
 		auto HitPos = m_rb->m_pos;
 		EffekseerManager::GetInstance().CreateEffect("ImpactHitEff", HitPos);

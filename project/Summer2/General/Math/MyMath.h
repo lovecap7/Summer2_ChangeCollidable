@@ -31,5 +31,9 @@ namespace MyMath
 	/// <param name="max"></param>
 	/// <returns>int型</returns>
 	int GetRand(int min, int max);
-}
+	/// <summary>
+	/// ランダムでオンオフを返す
+	/// </summary>
+	/// <returns></returns>
+	bool IsRand();
 

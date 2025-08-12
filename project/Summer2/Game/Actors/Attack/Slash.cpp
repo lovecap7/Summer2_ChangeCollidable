@@ -37,7 +37,7 @@ void Slash::OnCollide(const std::shared_ptr<Collidable> other)
 	if (m_isSuccessAttack)
 	{
 		//SE
-		if (MyMath::GetRand(0, 1))
+		if (MyMath::IsRand())
 		{	
 			SoundManager::GetInstance().PlayOnceSE("SlashHit1");
 		}
