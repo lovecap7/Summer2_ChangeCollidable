@@ -1,6 +1,7 @@
 #include "BossMuscle.h"
 #include "BossMuscleStateIdle.h"
 #include <memory>
+#include <cassert>
 #include "../../../ActorManager.h"
 #include "../../../Stage/BossArea.h"
 #include "../../Player/Player.h"
@@ -70,12 +71,13 @@ void BossMuscle::Init()
 	AllSetting(CollisionState::Normal, Priority::High, GameTag::Enemy, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
+	//サウンド
+	InitSound();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<BossMuscle>(shared_from_this());
 	m_state = std::make_shared<BossMuscleStateIdle>(thisPointer,false);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-
 	//敵関連のUIの準備
 	m_hpUI = UIManager::GetInstance().CreateBossUI(thisPointer);
 	m_hpUI.lock()->SetIsDraw(false);
@@ -194,6 +196,19 @@ void BossMuscle::Dead(const std::weak_ptr<ActorManager> actorManager, const std:
 
 void BossMuscle::End()
 {
-	Collidable::End();
+	EndSound();
 	m_model->End();
+	Collidable::End();
+}
+void BossMuscle::InitSound()
+{
+	//VC
+	m_soundHandles["Attack"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossMuscle/Attack.mp3");
+	m_soundHandles["Damage"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossMuscle/Damage.mp3");
+	m_soundHandles["Dead"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossMuscle/Dead.mp3");
+	m_soundHandles["Angry"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossMuscle/Angry.mp3");
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_soundHandles) {
+		assert(value >= 0);
+	}
 }

@@ -25,6 +25,8 @@ protected:
 	bool m_isTransformSecond;
 	//攻撃手段を考える
 	void ThinkAttack(const std::weak_ptr<ActorManager> actorManager);
+	//ランダム攻撃ボイス
+	void RandAttackVC();
 private:
 	//第一形態の攻撃手段
 	void ThinkAttackFirst(CharacterBase::TargetData& targetData, const std::weak_ptr<ActorManager> actorManager);

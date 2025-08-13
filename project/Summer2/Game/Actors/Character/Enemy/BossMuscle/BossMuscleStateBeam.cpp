@@ -53,6 +53,8 @@ BossMuscleStateBeam::BossMuscleStateBeam(std::weak_ptr<Actor> owner, bool isAngr
 	coll->LookAtTarget();
 	//チャージエフェクト
 	m_beamChargeEff = EffekseerManager::GetInstance().CreateEffect("BossBeamChargeEff", m_owner.lock()->GetPos());
+	//VC
+	coll->CharacterVC("Attack");
 }
 
 BossMuscleStateBeam::~BossMuscleStateBeam()

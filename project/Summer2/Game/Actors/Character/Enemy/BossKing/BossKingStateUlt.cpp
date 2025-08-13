@@ -62,6 +62,10 @@ BossKingStateUlt::BossKingStateUlt(std::weak_ptr<Actor> owner, const std::weak_p
 	effectManager.CreateEffect("MagicCircleEff", backPos);
 	effectManager.CreateEffect("MagicCircleEff", rightPos);
 	effectManager.CreateEffect("MagicCircleEff", leftPos);
+	//VC
+	coll->CharacterVC("Ult");
+	//SE
+	coll->CharacterOnceSE("MagicCircle");
 }
 BossKingStateUlt::~BossKingStateUlt()
 {//攻撃のクールタイム
@@ -119,6 +123,11 @@ void BossKingStateUlt::Update(const std::weak_ptr<GameCamera> camera, const std:
 		CreateAttack(actorManager, backPos);
 		CreateAttack(actorManager, rightPos);
 		CreateAttack(actorManager, leftPos);
+	}
+	if (m_attackCountFrame == m_attackData.startFrame)
+	{
+		//VC
+		coll->CharacterVC("Change");
 	}
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())

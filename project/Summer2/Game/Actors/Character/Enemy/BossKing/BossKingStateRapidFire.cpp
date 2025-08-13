@@ -50,6 +50,8 @@ BossKingStateRapidFire::BossKingStateRapidFire(std::weak_ptr<Actor> owner, const
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//‘ŠŽè‚Ì‚Ù‚¤‚ðŒü‚­
 	coll->LookAtTarget();
+	//VC
+	RandAttackVC();
 }
 
 BossKingStateRapidFire::~BossKingStateRapidFire()

@@ -27,6 +27,8 @@ BossMuscleStateHit::BossMuscleStateHit(std::weak_ptr<Actor> owner, bool isAngry)
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	//‚â‚ç‚ê
 	coll->GetModel()->SetAnim(kAnim, false);
+	//VC
+	coll->CharacterVC("Damage");
 }
 
 BossMuscleStateHit::~BossMuscleStateHit()

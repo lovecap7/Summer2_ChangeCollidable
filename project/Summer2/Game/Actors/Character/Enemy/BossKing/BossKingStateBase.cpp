@@ -34,6 +34,30 @@ void BossKingStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorManag
 		ThinkAttackSecond(targetData, actorManager);
 	}
 }
+void BossKingStateBase::RandAttackVC()
+{
+	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
+	switch (MyMath::GetRand(1, 5))
+	{
+	case 1:
+		coll->CharacterVC("Attack1");
+		break;
+	case 2:
+		coll->CharacterVC("Attack2");
+		break;
+	case 3:
+		coll->CharacterVC("Attack3");
+		break;
+	case 4:
+		coll->CharacterVC("Attack4");
+		break;
+	case 5:
+		coll->CharacterVC("Attack5");
+		break;
+	default:
+		break;
+	}
+}
 
 void BossKingStateBase::ThinkAttackFirst(CharacterBase::TargetData& targetData, const std::weak_ptr<ActorManager> actorManager)
 {

@@ -35,6 +35,10 @@ BossKingStateChange::BossKingStateChange(std::weak_ptr<Actor> owner) :
 	coll->GetModel()->SetAnim(kDeathAnim, false, kAnimSpeed);
 	//–³“G
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//VC
+	coll->CharacterVC("Change");
+	//SE
+	coll->CharacterOnceSE("Change");
 }
 
 BossKingStateChange::~BossKingStateChange()
@@ -69,6 +73,8 @@ void BossKingStateChange::Update(const std::weak_ptr<GameCamera> camera, const s
 		}
 		else
 		{
+			//SE
+			coll->CharacterOnceSE("Thunder");
 			//•Ïg
 			coll->TransformSecond();
 			//—§‚¿ã‚ª‚é

@@ -17,6 +17,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/Sound/SoundManager.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../Attack/AreaOfEffectAttack.h"
 #include "../../../../../General/Effect/EffekseerManager.h"
@@ -42,6 +43,8 @@ BossKingStateImpact::BossKingStateImpact(std::weak_ptr<Actor> owner, const std::
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
+	//VC
+	RandAttackVC();
 }
 
 BossKingStateImpact::~BossKingStateImpact()
@@ -88,6 +91,8 @@ void BossKingStateImpact::Update(const std::weak_ptr<GameCamera> camera, const s
 	//攻撃発生フレーム
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("Blast");
 		CreateAttack(actorManager);
 	}
 	//アニメーション終了後

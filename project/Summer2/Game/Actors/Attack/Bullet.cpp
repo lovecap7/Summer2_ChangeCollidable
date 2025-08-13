@@ -13,6 +13,8 @@
 Bullet::Bullet(std::weak_ptr<Actor> owner):
 	SphereAttackBase(owner)
 {
+	//SE
+	SoundManager::GetInstance().PlayOnceSE("Shot");
 }
 
 void Bullet::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)

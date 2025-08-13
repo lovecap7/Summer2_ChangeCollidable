@@ -32,4 +32,6 @@ private:
 	bool m_isChangeDance;
 	//Œˆ’è
 	bool m_isDecided;
+	//ƒTƒEƒ“ƒh
+	void InitSound()override;
 };

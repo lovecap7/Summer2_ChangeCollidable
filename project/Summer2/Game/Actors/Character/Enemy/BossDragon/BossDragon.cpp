@@ -2,6 +2,7 @@
 #include "BossDragonStateBase.h"
 #include "BossDragonStateIdle.h"
 #include <memory>
+#include <cassert>
 #include "../../../ActorManager.h"
 #include "../../../Stage/BossArea.h"
 #include "../../Player/Player.h"
@@ -67,12 +68,13 @@ void BossDragon::Init()
 	AllSetting(CollisionState::Normal, Priority::High, GameTag::Enemy, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
+	//サウンド
+	InitSound();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<BossDragon>(shared_from_this());
 	m_state = std::make_shared<BossDragonStateIdle>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-
 	//敵関連のUIの準備
 	m_hpUI = UIManager::GetInstance().CreateBossUI(thisPointer);
 	m_hpUI.lock()->SetIsDraw(false);
@@ -192,6 +194,18 @@ void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std:
 
 void BossDragon::End()
 {
-	Collidable::End();
+	EndSound();
 	m_model->End();
+	Collidable::End();
+}
+void BossDragon::InitSound()
+{
+	//VC
+	m_soundHandles["Attack"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossDragon/Attack.mp3");
+	m_soundHandles["Damage"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossDragon/Damage.mp3");
+	m_soundHandles["Dead"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossDragon/Dead.mp3");
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_soundHandles) {
+		assert(value >= 0);
+	}
 }

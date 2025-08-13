@@ -214,10 +214,7 @@ void Player::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 void Player::End()
 {
 	m_model->End();
-	//削除
-	for (const auto& [key, value] : m_soundHandles) {
-		DeleteSoundMem(value);
-	}
+	EndSound();
 	Collidable::End();
 }
 
@@ -250,21 +247,6 @@ bool Player::IsFinishClearAnim()
 	}
 	//勝利状態の時にアニメーションが終了したらtrue
 	return m_model->IsFinishAnim();
-}
-
-std::weak_ptr<SE>  Player::PlayerOnceSE(std::string name)
-{
-	return SoundManager::GetInstance().PlayOnceSE(m_soundHandles.at(name));
-}
-
-std::weak_ptr<SE>  Player::PlayerLoopSE(std::string name)
-{
-	return SoundManager::GetInstance().PlayLoopSE(m_soundHandles.at(name));
-}
-
-std::weak_ptr<Voice> Player::PlayerVC(std::string name)
-{
-	return SoundManager::GetInstance().PlayVC(m_soundHandles.at(name));
 }
 
 void Player::TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos)

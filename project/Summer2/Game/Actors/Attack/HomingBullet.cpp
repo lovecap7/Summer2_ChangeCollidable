@@ -21,6 +21,8 @@ HomingBullet::HomingBullet(std::weak_ptr<Actor> owner):
 	m_speed(0.0f),
 	m_trackingRate(0.0f)
 {
+	//SE
+	SoundManager::GetInstance().PlayOnceSE("Shot");
 }
 
 void HomingBullet::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)

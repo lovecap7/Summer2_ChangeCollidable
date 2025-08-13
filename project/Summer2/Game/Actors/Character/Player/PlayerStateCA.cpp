@@ -69,7 +69,7 @@ PlayerStateCA::PlayerStateCA(std::weak_ptr<Actor> player, const std::weak_ptr<Ac
 		m_slashEff = EffekseerManager::GetInstance().CreateEffect("SlashtTraject1Eff", m_owner.lock()->GetPos());
 	}
 	//SE
-	coll->PlayerOnceSE("CA");
+	coll->CharacterOnceSE("CA");
 	//VC
 	RandAttackVC();
 }

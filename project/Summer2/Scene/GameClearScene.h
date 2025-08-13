@@ -6,6 +6,7 @@
 #include "../General/CSVDataLoader.h"
 class SceneController;
 class ResultScoreUI;
+class SE;
 class GameClearScene :
     public SceneBase
 {
@@ -45,5 +46,7 @@ private:
     std::vector<ResultScoreUIData> m_scoreUiData;
     //ÉXÉRÉAUI
 	std::vector<std::weak_ptr<ResultScoreUI>> m_scoreUIList;
+    //â¡éZSE
+    std::weak_ptr<SE> m_addScoreSE;
 };
 

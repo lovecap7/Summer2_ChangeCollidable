@@ -4,6 +4,7 @@
 #include "../../../ActorManager.h"
 #include "../../Player/Player.h"
 #include <memory>
+#include <cassert>
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
@@ -62,13 +63,13 @@ void PurpleDinosaur::Init()
 	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false,true);
 	//Physicsに登録
 	Collidable::Init();
-
+	//サウンド
+	InitSound();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<PurpleDinosaur>(shared_from_this());
 	m_state = std::make_shared<PurpleDinosaurStateIdle>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-
 	//敵関連のUIの準備
 	UIManager::GetInstance().CreateEnemyUI(thisPointer);
 }
@@ -159,7 +160,19 @@ void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager, const 
 
 void PurpleDinosaur::End()
 {
-	Collidable::End();
+	EndSound();
 	m_model->End();
+	Collidable::End();
 }
 
+void PurpleDinosaur::InitSound()
+{
+	//VC
+	m_soundHandles["Attack"] = LoadSoundMem(L"Data/Sound/VC/Enemy/PurpleDinosaur/Attack.mp3");
+	m_soundHandles["Damage"] = LoadSoundMem(L"Data/Sound/VC/Enemy/PurpleDinosaur/Damage.mp3");
+	m_soundHandles["Dead"] = LoadSoundMem(L"Data/Sound/VC/Enemy/PurpleDinosaur/Dead.mp3");
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_soundHandles) {
+		assert(value >= 0);
+	}
+}

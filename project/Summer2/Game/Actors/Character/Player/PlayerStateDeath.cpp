@@ -27,7 +27,7 @@ PlayerStateDeath::PlayerStateDeath(std::weak_ptr<Actor> player) :
 	//–³“G
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 	//VC
-	coll->PlayerVC("Dead");
+	coll->CharacterVC("Dead");
 }
 
 PlayerStateDeath::~PlayerStateDeath()

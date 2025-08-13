@@ -30,6 +30,8 @@ PlayerStateWin::PlayerStateWin(std::weak_ptr<Actor> player) :
 	coll->SetCollState(CollisionState::Normal);
 	//–³“G
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//VC
+	coll->CharacterVC("Result");
 }
 
 PlayerStateWin::~PlayerStateWin()

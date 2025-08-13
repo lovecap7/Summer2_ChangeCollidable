@@ -101,13 +101,13 @@ void PlayerStateHit::RandDamageVC(std::shared_ptr<Player> coll)
 	switch (MyMath::GetRand(1, 3))
 	{
 	case 1:
-		coll->PlayerVC("Damage1");
+		coll->CharacterVC("Damage1");
 		break;
 	case 2:
-		coll->PlayerVC("Damage2");
+		coll->CharacterVC("Damage2");
 		break;
 	case 3:
-		coll->PlayerVC("Damage3");
+		coll->CharacterVC("Damage3");
 		break;
 	default:
 		break;

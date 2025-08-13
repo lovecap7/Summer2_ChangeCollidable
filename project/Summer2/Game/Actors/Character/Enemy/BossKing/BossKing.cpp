@@ -1,6 +1,7 @@
 #include "BossKing.h"
 #include "BossKingStateStart.h"
 #include <memory>
+#include <cassert>
 #include "../../../ActorManager.h"
 #include "../../../Stage/BossArea.h"
 #include "../../Player/Player.h"
@@ -71,12 +72,13 @@ void BossKing::Init()
 	AllSetting(CollisionState::Normal, Priority::High, GameTag::Enemy, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
+	//サウンド
+	InitSound();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<BossKing>(shared_from_this());
 	m_state = std::make_shared<BossKingStateStart>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-
 	//敵関連のUIの準備
 	m_hpUI = UIManager::GetInstance().CreateBossUI(thisPointer);
 	m_hpUI.lock()->SetIsDraw(false);
@@ -195,8 +197,9 @@ void BossKing::Dead(const std::weak_ptr<ActorManager> actorManager, const std::w
 
 void BossKing::End()
 {
-	Collidable::End();
+	EndSound();
 	m_model->End();
+	Collidable::End();
 }
 
 
@@ -220,4 +223,27 @@ void BossKing::FullRecovery()
 {
 	//全回復
 	m_hitPoints->Revival();
+}
+
+void BossKing::InitSound()
+{
+	//SE
+	m_soundHandles["MagicCircle"] = LoadSoundMem(L"Data/Sound/SE/Enemy/BossKing/MagicCircle.mp3");
+	m_soundHandles["Thunder"] = LoadSoundMem(L"Data/Sound/SE/Enemy/BossKing/Thunder.mp3");
+	m_soundHandles["Charge"] = LoadSoundMem(L"Data/Sound/SE/Enemy/BossKing/Charge.mp3");
+	//VC
+	m_soundHandles["Attack1"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Attack1.wav");
+	m_soundHandles["Attack2"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Attack2.wav");
+	m_soundHandles["Attack3"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Attack3.wav");
+	m_soundHandles["Attack4"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Attack4.wav");
+	m_soundHandles["Attack5"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Attack5.wav");
+	m_soundHandles["Change"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Change.wav");
+	m_soundHandles["Damage"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Damage.wav");
+	m_soundHandles["Dead"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Dead.wav");
+	m_soundHandles["Start"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Start.wav");
+	m_soundHandles["Ult"] = LoadSoundMem(L"Data/Sound/VC/Enemy/BossKing/Ult.wav");
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_soundHandles) {
+		assert(value >= 0);
+	}
 }

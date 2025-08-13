@@ -41,6 +41,8 @@ BossDragonStateBreathAttack::BossDragonStateBreathAttack(std::weak_ptr<Actor> ow
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//‘ŠŽè‚Ì‚Ù‚¤‚ðŒü‚­
 	coll->LookAtTarget();
+	//VC
+	coll->CharacterVC("Attack");
 }
 
 BossDragonStateBreathAttack::~BossDragonStateBreathAttack()

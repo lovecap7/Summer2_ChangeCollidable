@@ -103,7 +103,7 @@ void PlayerStateNA::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
 		//SE
-		coll->PlayerOnceSE("NA");
+		coll->CharacterOnceSE("NA");
 		//UŒ‚ì¬
 		CreateAttack(m_attackData.radius, m_attackData.damege, m_attackData.keepFrame, 
 			m_attackData.knockBackPower, m_attackData.attackWeight, actorManager);

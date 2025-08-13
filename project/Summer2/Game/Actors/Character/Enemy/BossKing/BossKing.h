@@ -1,5 +1,7 @@
 #pragma once
 #include "../EnemyBase.h"
+#include <map>
+#include <string>
 class ActorManager;
 class Input;
 class GameCamera;
@@ -53,6 +55,7 @@ private:
 	bool m_isActive;
 	//変身モデル
 	int m_transHandle;
-private:
+	//サウンド初期化
+	void InitSound() override;
 };
 

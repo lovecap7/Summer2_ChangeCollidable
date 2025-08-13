@@ -53,6 +53,9 @@ void SelectStagePlayer::Update(Vector3 cameraPos, Vector3 targetPos)
 	auto& input = Input::GetInstance();
 	if (input.IsTrigger("A") && !m_isDecided)
 	{
+		//ƒJƒƒ‰•ûŒü‚ðŒü‚©‚¹‚é
+		Vector3 dir = (cameraPos - m_rb->m_pos);
+		m_model->SetDir(dir.XZ());
 		//Œˆ’è
 		m_model->SetAnim(kDecideAnim, false);
 		m_isDecided = true;
@@ -106,4 +109,8 @@ void SelectStagePlayer::End()
 {
 	//ƒ‚ƒfƒ‹‚ÌI—¹ˆ—
 	m_model->End();
+}
+
+void SelectStagePlayer::InitSound()
+{
 }

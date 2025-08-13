@@ -26,6 +26,8 @@ PurpleDinosaurStateHit::PurpleDinosaurStateHit(std::weak_ptr<Actor> owner):
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//‚â‚ç‚ê
 	coll->GetModel()->SetAnim(kAnim, false);
+	//VC
+	coll->CharacterVC("Damage");
 }
 
 PurpleDinosaurStateHit::~PurpleDinosaurStateHit()

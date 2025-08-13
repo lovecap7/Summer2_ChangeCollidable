@@ -50,6 +50,8 @@ BossKingStateBlastAttack::BossKingStateBlastAttack(std::weak_ptr<Actor> owner, c
 	{
 		m_blastMagicEff = EffekseerManager::GetInstance().CreateEffect("BlastMagicEff", player.lock()->GetPos());
 	}
+	//VC
+	RandAttackVC();
 }
 
 BossKingStateBlastAttack::~BossKingStateBlastAttack()

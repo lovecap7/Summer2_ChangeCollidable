@@ -54,6 +54,8 @@ BossKingStateBeam::BossKingStateBeam(std::weak_ptr<Actor> owner, bool isTransSec
 	coll->LookAtTarget();
 	//チャージエフェクト
 	m_beamChargeEff = EffekseerManager::GetInstance().CreateEffect("BossKingBeamChargeEff", m_owner.lock()->GetPos());
+	//VC
+	RandAttackVC();
 }
 
 BossKingStateBeam::~BossKingStateBeam()

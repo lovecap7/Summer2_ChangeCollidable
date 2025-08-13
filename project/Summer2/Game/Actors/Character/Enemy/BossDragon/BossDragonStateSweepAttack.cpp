@@ -50,6 +50,8 @@ BossDragonStateSweepAttack::BossDragonStateSweepAttack(std::weak_ptr<Actor> owne
 	coll->LookAtTarget();
 	//‰ñ“]—Ê
 	m_attackRotaAngle = -(360.0f + kStartRotaAngle * m_attackData.startFrame) / static_cast<float>(m_attackData.keepFrame);
+	//VC
+	coll->CharacterVC("Attack");
 }
 
 BossDragonStateSweepAttack::~BossDragonStateSweepAttack()

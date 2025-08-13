@@ -28,4 +28,5 @@ public:
 	//I—¹ˆ—
 	void End()override;
 private:
+	void InitSound()override;
 };

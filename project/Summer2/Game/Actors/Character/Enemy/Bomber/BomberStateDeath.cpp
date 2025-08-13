@@ -27,6 +27,8 @@ BomberStateDeath::BomberStateDeath(std::weak_ptr<Actor> owner) :
 	coll->GetModel()->SetAnim(kAnim, false);
 	//–³“G
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
+	//VC
+	coll->CharacterVC("Dead");
 }
 
 BomberStateDeath::~BomberStateDeath()

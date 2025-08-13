@@ -34,6 +34,8 @@ BossMuscleStateDeath::BossMuscleStateDeath(std::weak_ptr<Actor> owner) :
 	coll->GetHitPoints().lock()->SetIsNoDamege(true);
 	//BGM‚ðŽ~‚ß‚é
 	SoundManager::GetInstance().StopBGM();
+	//VC
+	coll->CharacterVC("Dead");
 }
 
 BossMuscleStateDeath::~BossMuscleStateDeath()

@@ -97,10 +97,10 @@ void PlayerStateRolling::RandRollingVC(std::shared_ptr<Player> coll)
 {
 	if (MyMath::IsRand())
 	{
-		coll->PlayerVC("Rolling1");
+		coll->CharacterVC("Rolling1");
 	}
 	else
 	{
-		coll->PlayerVC("Rolling2");
+		coll->CharacterVC("Rolling2");
 	}
 }

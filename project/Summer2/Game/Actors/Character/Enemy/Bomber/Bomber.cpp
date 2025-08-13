@@ -5,6 +5,7 @@
 #include "../../../ActorManager.h"
 #include "../../Player/Player.h"
 #include <memory>
+#include <cassert>
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
@@ -63,13 +64,13 @@ void Bomber::Init()
 	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
-
+	//サウンド
+	InitSound();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<Bomber>(shared_from_this());
 	m_state = std::make_shared<BomberStateIdle>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-
 	//敵関連のUIの準備
 	UIManager::GetInstance().CreateEnemyUI(thisPointer);
 }
@@ -166,7 +167,19 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 
 void Bomber::End()
 {
-	Collidable::End();
+	EndSound();
 	m_model->End();
+	Collidable::End();
 }
 
+void Bomber::InitSound()
+{
+	//VC
+	m_soundHandles["Attack"] = LoadSoundMem(L"Data/Sound/VC/Enemy/Bomber/Attack.mp3");
+	m_soundHandles["Damage"] = LoadSoundMem(L"Data/Sound/VC/Enemy/Bomber/Damage.mp3");
+	m_soundHandles["Dead"] = LoadSoundMem(L"Data/Sound/VC/Enemy/Bomber/Dead.mp3");
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_soundHandles) {
+		assert(value >= 0);
+	}
+}

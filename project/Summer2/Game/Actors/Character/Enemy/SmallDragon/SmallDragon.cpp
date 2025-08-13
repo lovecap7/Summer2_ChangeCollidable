@@ -3,6 +3,7 @@
 #include "SmallDragonStateIdle.h"
 #include "../../CharacterStateBase.h"
 #include <memory>
+#include <cassert>
 #include "../../../ActorManager.h"
 #include "../../Player/Player.h"
 #include "../../../../../General/Model.h"
@@ -63,13 +64,13 @@ void SmallDragon::Init()
 	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Enemy, false, false,true);
 	//Physicsに登録
 	Collidable::Init();
-
+	//サウンド
+	InitSound();
 	//待機状態にする(最初はプレイヤー内で状態を初期化するがそのあとは各状態で遷移する
 	auto thisPointer = std::dynamic_pointer_cast<SmallDragon>(shared_from_this());
 	m_state = std::make_shared<SmallDragonStateIdle>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-
 	//敵関連のUIの準備
 	UIManager::GetInstance().CreateEnemyUI(thisPointer);
 }
@@ -161,7 +162,19 @@ void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std
 
 void SmallDragon::End()
 {
-	Collidable::End();
+	EndSound();
 	m_model->End();
+	Collidable::End();
 }
 
+void SmallDragon::InitSound()
+{
+	//VC
+	m_soundHandles["Attack"] = LoadSoundMem(L"Data/Sound/VC/Enemy/SmallDragon/Attack.mp3");
+	m_soundHandles["Damage"] = LoadSoundMem(L"Data/Sound/VC/Enemy/SmallDragon/Damage.mp3");
+	m_soundHandles["Dead"] = LoadSoundMem(L"Data/Sound/VC/Enemy/SmallDragon/Dead.mp3");
+	//ロードに成功したかチェック
+	for (const auto& [key, value] : m_soundHandles) {
+		assert(value >= 0);
+	}
+}

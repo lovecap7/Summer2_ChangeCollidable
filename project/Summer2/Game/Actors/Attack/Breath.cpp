@@ -12,6 +12,8 @@
 Breath::Breath(std::weak_ptr<Actor> owner) :
 	SphereAttackBase(owner)
 {
+	//SE
+	SoundManager::GetInstance().PlayOnceSE("Shot");
 }
 
 void Breath::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)

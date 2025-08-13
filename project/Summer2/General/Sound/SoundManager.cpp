@@ -10,6 +10,8 @@ namespace
 {
 	//デフォルトのサウンドの倍率
 	constexpr int kDefaultVolume = 127;
+	//補正倍率
+	constexpr float kCorrectionRate = 1.2f;
 }
 
 void SoundManager::Entry(std::shared_ptr<SoundBase> sound)
@@ -33,9 +35,9 @@ void SoundManager::Exit(std::shared_ptr<SoundBase> sound)
 void SoundManager::Init()
 {
 	//音量の設定
-	m_seVolume = kDefaultVolume;
+	m_seVolume = kDefaultVolume * kCorrectionRate;
 	m_bgmVolume = kDefaultVolume;
-	m_voiceVolume = kDefaultVolume;
+	m_voiceVolume = kDefaultVolume * kCorrectionRate;
 	m_masterVolume = kDefaultVolume;
 	//音のハンドルロード
 	//BGM
@@ -53,6 +55,11 @@ void SoundManager::Init()
 	m_soundHandles["Select"] = LoadSoundMem(L"Data/Sound/SE/Select.mp3");
 	m_soundHandles["Cancel"] = LoadSoundMem(L"Data/Sound/SE/Cancel.mp3");
 	m_soundHandles["GetItem"] = LoadSoundMem(L"Data/Sound/SE/GetItem.wav");
+	m_soundHandles["Wind"] = LoadSoundMem(L"Data/Sound/SE/Wind.mp3");
+	m_soundHandles["Wave"] = LoadSoundMem(L"Data/Sound/SE/Wave.mp3");
+	m_soundHandles["Shot"] = LoadSoundMem(L"Data/Sound/SE/Shot.mp3");
+	m_soundHandles["Blast"] = LoadSoundMem(L"Data/Sound/SE/Blast.mp3");
+	m_soundHandles["AddScore"] = LoadSoundMem(L"Data/Sound/SE/AddScore.mp3");
 	//ヒット
 	m_soundHandles["SlashHit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit1.mp3");
 	m_soundHandles["SlashHit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit2.mp3");

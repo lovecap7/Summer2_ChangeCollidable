@@ -42,6 +42,8 @@ BossMuscleStateJumpAttack::BossMuscleStateJumpAttack(std::weak_ptr<Actor> owner,
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//‘ŠŽè‚Ì‚Ù‚¤‚ðŒü‚­
 	coll->LookAtTarget();
+	//VC
+	coll->CharacterVC("Attack");
 }
 
 BossMuscleStateJumpAttack::~BossMuscleStateJumpAttack()

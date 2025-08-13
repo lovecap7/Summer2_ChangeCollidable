@@ -39,6 +39,8 @@ BossKingStateDeath::BossKingStateDeath(std::weak_ptr<Actor> owner) :
 	EffekseerManager::GetInstance().Reset();
 	//‚‚³’²®
 	coll->GetModel()->SetModelHeightAdjust(kModelHeightAdjust);
+	//VC
+	coll->CharacterVC("Dead");
 }
 
 BossKingStateDeath::~BossKingStateDeath()

@@ -26,6 +26,8 @@ BossDragonStateHit::BossDragonStateHit(std::weak_ptr<Actor> owner) :
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	//‚â‚ç‚ê
 	coll->GetModel()->SetAnim(kAnim, false);
+	//VC
+	coll->CharacterVC("Damage");
 }
 
 BossDragonStateHit::~BossDragonStateHit()

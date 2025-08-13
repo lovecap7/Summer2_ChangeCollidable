@@ -51,3 +51,9 @@ void TitlePlayer::End()
 	//ƒ‚ƒfƒ‹‚ÌI—¹ˆ—
 	m_model->End();
 }
+
+void TitlePlayer::InitSound()
+{
+}
+
+

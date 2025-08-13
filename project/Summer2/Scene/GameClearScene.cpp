@@ -8,6 +8,7 @@
 #include "../General/Sound/SoundManager.h"
 #include "../Game/GameRule/Score.h"
 #include "../General/Fader.h"
+#include "../General/Sound/SE.h"
 #include "../Game/UI/UIManager.h"
 #include "../Game/UI/Result/ResultUI.h"
 #include "../Game/UI/Result/ResultScoreUI.h"
@@ -29,6 +30,10 @@ GameClearScene::GameClearScene(SceneController& controller, Stage::StageIndex in
 {
 	//勝利BGM
 	SoundManager::GetInstance().PlayBGM("ResultBGM");
+	//加算SE
+	m_addScoreSE = SoundManager::GetInstance().PlayLoopSE("AddScore");
+	//止める
+	m_addScoreSE.lock()->Stop();
 }
 
 GameClearScene::~GameClearScene()
@@ -65,6 +70,8 @@ void GameClearScene::End()
 {
 	//Physicsを開始
 	Physics::GetInstance().StartUpdate();
+	//SE削除
+	if(!m_addScoreSE.expired())m_addScoreSE.lock()->Delete();
 }
 
 void GameClearScene::Restart()
@@ -76,6 +83,8 @@ void GameClearScene::AppearUpdate()
 	++m_countFrame;
 	if (m_countFrame > kAppearInterval)
 	{
+		//止める
+		m_addScoreSE.lock()->Play();
 		//リザルトUI
 		InitResult1UI();
 		m_countFrame = kAppearInterval;
@@ -87,21 +96,25 @@ void GameClearScene::AppearUpdate()
 void GameClearScene::Result1Update()
 {
 	auto& input = Input::GetInstance();
-	//Aボタンで次へ
-	if (input.IsTrigger("A"))
+	bool isAllMax = true;
+	for (auto& scoreUI : m_scoreUIList)
 	{
-		bool isAllMax = true;
-		for(auto & scoreUI : m_scoreUIList)
+		if (!scoreUI.lock()->IsViewScoreMax())
 		{
-			if(!scoreUI.lock()->IsViewScoreMax())
-			{
-				isAllMax = false;
-				break;
-			}
+			isAllMax = false;
+			break;
 		}
-		//全てのスコアUIが最大値になったら
-		if (isAllMax)
+	}
+	//全てのスコアUIが最大値になったら
+	if (isAllMax)
+	{
+		//止める
+		m_addScoreSE.lock()->Stop();
+		//Aボタンで次へ
+		if (input.IsTrigger("A"))
 		{
+			//止める
+			m_addScoreSE.lock()->Play();
 			//ここまで来たら次の状態へ
 			//ランキングUI
 			InitResult2UI();
@@ -115,20 +128,22 @@ void GameClearScene::Result1Update()
 void GameClearScene::Result2Update()
 {
 	auto& input = Input::GetInstance();
-	//Aボタンで次へ
-	if (input.IsTrigger("A"))
+	bool isAllMax = true;
+	for (auto& scoreUI : m_scoreUIList)
 	{
-		bool isAllMax = true;
-		for (auto& scoreUI : m_scoreUIList)
+		if (!scoreUI.lock()->IsViewScoreMax())
 		{
-			if (!scoreUI.lock()->IsViewScoreMax())
-			{
-				isAllMax = false;
-				break;
-			}
+			isAllMax = false;
+			break;
 		}
-		//全てのスコアUIが最大値になったら
-		if (isAllMax)
+	}
+	//全てのスコアUIが最大値になったら
+	if (isAllMax)
+	{
+		//止める
+		m_addScoreSE.lock()->Stop();
+		//Aボタンで次へ
+		if (input.IsTrigger("A"))
 		{
 			auto& fader = Fader::GetInstance();
 			//だんだん暗く

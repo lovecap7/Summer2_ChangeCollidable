@@ -19,13 +19,13 @@ void PlayerStateBase::RandAttackVC()
 	switch (MyMath::GetRand(1,3))
 	{
 	case 1:
-		player->PlayerVC("Attack1");
+		player->CharacterVC("Attack1");
 		break;
 	case 2:
-		player->PlayerVC("Attack2");
+		player->CharacterVC("Attack2");
 		break;
 	case 3:
-		player->PlayerVC("Attack3");
+		player->CharacterVC("Attack3");
 		break;
 	default:
 		break;

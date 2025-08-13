@@ -28,6 +28,8 @@ BossKingStateHit::BossKingStateHit(std::weak_ptr<Actor> owner, bool isTransformS
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
 	//‚â‚ç‚ê
 	coll->GetModel()->SetAnim(kAnim, false);
+	//VC
+	coll->CharacterVC("Damage");
 }
 
 BossKingStateHit::~BossKingStateHit()

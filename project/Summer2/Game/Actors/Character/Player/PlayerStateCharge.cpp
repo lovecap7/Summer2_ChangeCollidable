@@ -56,8 +56,8 @@ PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player, const std::wea
 	//1段階目
 	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA1Name);
 	//SE
-	coll->PlayerOnceSE("CARankUp");
-	m_chargeSE = coll->PlayerLoopSE("CACharge");
+	coll->CharacterOnceSE("CARankUp");
+	m_chargeSE = coll->CharacterLoopSE("CACharge");
 }
 
 PlayerStateCharge::~PlayerStateCharge()
@@ -129,7 +129,7 @@ void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std
 		if (m_chargeFrame == m_chargeLevel2Frame)
 		{
 			//SE
-			coll->PlayerOnceSE("CARankUp");
+			coll->CharacterOnceSE("CARankUp");
 			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA2Name);
 			//段階ごとにエフェクトを変更
 			m_levelEff.lock()->Delete();
@@ -139,7 +139,7 @@ void PlayerStateCharge::Update(const std::weak_ptr<GameCamera> camera, const std
 		else if(m_chargeFrame == m_chargeLevel3Frame)
 		{
 			//SE
-			coll->PlayerOnceSE("CARankMax");
+			coll->CharacterOnceSE("CARankMax");
 			m_attackData = actorManager.lock()->GetAttackData(kPlayerName, kCA3Name);
 			//段階ごとにエフェクトを変更
 			m_levelEff.lock()->Delete();

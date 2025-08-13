@@ -36,6 +36,7 @@ public:
 	//ターゲットのデータ
 	TargetData GetTargetData() const { return m_targetData; };
 private:
-
+	//サウンド
+	void InitSound()override;
 };
 

@@ -61,9 +61,9 @@ PlayerStateUltimate::PlayerStateUltimate(std::weak_ptr<Actor> player, const std:
 	//ƒ‚ƒfƒ‹‚Ìù‰ñ‘¬“x
 	model->SetRotSpeed(kModelRotateSpeed);
 	//SE
-	coll->PlayerOnceSE("UltCharge");
+	coll->CharacterOnceSE("UltCharge");
 	//VC
-	coll->PlayerVC("Ult");
+	coll->CharacterVC("Ult");
 }
 
 
@@ -115,8 +115,8 @@ void PlayerStateUltimate::Update(const std::weak_ptr<GameCamera> camera, const s
 	if (m_animCountFrame == m_attackData.startFrame)
 	{
 		//SE
-		coll->PlayerOnceSE("UltLaser");
-		coll->PlayerOnceSE("UltShot");
+		coll->CharacterOnceSE("UltLaser");
+		coll->CharacterOnceSE("UltShot");
 		//UŒ‚ì¬
 		CreateAttack(actorManager);
 	}

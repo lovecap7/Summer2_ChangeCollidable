@@ -15,6 +15,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/Sound/SoundManager.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 #include "../../../ActorManager.h"
 #include "../../../Attack/WaveAttack.h"
@@ -42,6 +43,8 @@ BossKingStateMagicWave::BossKingStateMagicWave(std::weak_ptr<Actor> owner, const
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//相手のほうを向く
 	coll->LookAtTarget();
+	//VC
+	RandAttackVC();
 }
 
 BossKingStateMagicWave::~BossKingStateMagicWave()
@@ -97,6 +100,8 @@ void BossKingStateMagicWave::Update(const std::weak_ptr<GameCamera> camera, cons
 	//攻撃発生フレーム
 	if (m_attackCountFrame == m_attackData.startFrame)
 	{
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("Wave");
 		auto model = coll->GetModel();
 		//右手と左手から出す
 		CreateAttack(actorManager, MV1GetFramePosition(model->GetModelHandle(), kRightHandIndex));

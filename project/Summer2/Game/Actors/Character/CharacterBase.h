@@ -1,9 +1,13 @@
 #pragma once
 #include "../Actor.h"
 #include <memory>
+#include <map>
+#include <string>
 class CharacterStateBase;
 class HitPoints;
 class AttackPoints;
+class SE;
+class Voice;
 class CharacterBase abstract:
     public Actor
 {
@@ -30,6 +34,10 @@ public:
 	};
 	//ターゲットを見る
 	void LookAtTarget();
+	//サウンド
+	std::weak_ptr<SE>  CharacterOnceSE(std::string name);
+	std::weak_ptr<SE>  CharacterLoopSE(std::string name);
+	std::weak_ptr<Voice>  CharacterVC(std::string name);
 protected:
     //キャラクターの状態
     std::shared_ptr<CharacterStateBase> m_state;
@@ -41,5 +49,11 @@ protected:
 	TargetData m_targetData;
 	//ターゲットの索敵
 	virtual void TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos);
+	//サウンド
+	std::map<std::string, int> m_soundHandles;
+	//サウンド初期化
+	virtual void InitSound() abstract;
+	//サウンド終了処理
+	virtual void EndSound();
 };
 
