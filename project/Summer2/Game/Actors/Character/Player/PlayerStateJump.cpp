@@ -42,6 +42,8 @@ PlayerStateJump::PlayerStateJump(std::weak_ptr<Actor> player):
 	coll->SetIsFloor(false);
 	//—Í‚ð—^‚¦‚é
 	coll->GetRb()->SetVecY(kJumpPower);
+	//SE
+	coll->CharacterOnceSE("Jump");
 }
 
 PlayerStateJump::~PlayerStateJump()

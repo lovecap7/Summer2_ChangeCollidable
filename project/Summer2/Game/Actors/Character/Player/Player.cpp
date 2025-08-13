@@ -340,6 +340,7 @@ void Player::InitSound()
 	m_soundHandles["Rolling1"] = LoadSoundMem(L"Data/Sound/VC/Player/Rolling1.wav");
 	m_soundHandles["Rolling2"] = LoadSoundMem(L"Data/Sound/VC/Player/Rolling2.wav");
 	m_soundHandles["Start"] = LoadSoundMem(L"Data/Sound/VC/Player/Start.mp3");
+	m_soundHandles["Jump"] = LoadSoundMem(L"Data/Sound/VC/Player/Jump.mp3");
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_soundHandles) {
 		assert(value >= 0);
