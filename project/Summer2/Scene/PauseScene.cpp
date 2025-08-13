@@ -8,6 +8,8 @@
 namespace {
 	constexpr int kAppearInterval = 20;
 	constexpr int kFrameMargin = 10;//ゲーム画面からポーズ画面までの幅
+	//メニュー数
+	constexpr int kMenuIndexNum = 4;
 }
 
 
@@ -15,7 +17,8 @@ PauseScene::PauseScene(SceneController& controller):
 	SceneBase(controller),
 	m_update(&PauseScene::AppearUpdate),
 	m_draw(&PauseScene::ShiftingDraw),
-	m_countFrame(0)
+	m_countFrame(0),
+	m_menuSelectIndex(1)
 {
 }
 
@@ -66,9 +69,25 @@ void PauseScene::NormalUpdate()
 	//Pボタンでポーズ解除
 	if (input.IsTrigger("Pause")) 
 	{
-		m_update = &PauseScene::DisappearUpdate;
-		m_draw = &PauseScene::ShiftingDraw;
-		m_countFrame = kAppearInterval;
+		//ゲームに戻る
+		RetrunGame();
+		return;
+	}
+	//選択
+	if (input.IsRepeate("Up"))m_menuSelectIndex--;
+	if (input.IsRepeate("Down"))m_menuSelectIndex--;
+	MathSub::ClampInt(m_menuSelectIndex, 1, kMenuIndexNum);
+	if (input.IsTrigger("Ok"))
+	{
+		switch (m_menuSelectIndex)
+		{
+		case 1:
+			//ゲームに戻る
+			RetrunGame();
+			break;
+		default:
+			break;
+		}
 		return;
 	}
 }
@@ -139,4 +158,11 @@ void PauseScene::ShiftingDraw()
 		0xffffff,//カラー
 		false,//塗り潰さない
 		3.0f);//ちょっと太目の線
+}
+void PauseScene::RetrunGame()
+{
+	m_update = &PauseScene::DisappearUpdate;
+	m_draw = &PauseScene::ShiftingDraw;
+	m_countFrame = kAppearInterval;
+	return;
 }

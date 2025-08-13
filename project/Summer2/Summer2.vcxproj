@@ -210,6 +210,7 @@
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneController.cpp" />
     <ClCompile Include="Scene\SelectStageScene.cpp" />
+    <ClCompile Include="Scene\SoundOptionScene.cpp" />
     <ClCompile Include="Scene\StageScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Shader\MyDraw.cpp" />
@@ -409,6 +410,7 @@
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneController.h" />
     <ClInclude Include="Scene\SelectStageScene.h" />
+    <ClInclude Include="Scene\SoundOptionScene.h" />
     <ClInclude Include="Scene\StageScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="Shader\MyDraw.h" />

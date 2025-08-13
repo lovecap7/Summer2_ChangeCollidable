@@ -29,7 +29,11 @@ private:
     void NormalDraw();
     //途中描画
     void ShiftingDraw();
+    //ゲームに戻る
+    void RetrunGame();
 private:
     int m_countFrame;
+    //メニューセレクト
+    int m_menuSelectIndex;
 };
 

@@ -816,6 +816,9 @@
     <ClCompile Include="General\LoadingManager.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\SoundOptionScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1408,6 +1411,9 @@
     </ClInclude>
     <ClInclude Include="General\LoadingManager.h">
       <Filter>ヘッダー ファイル\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SoundOptionScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
