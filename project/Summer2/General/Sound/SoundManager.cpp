@@ -60,12 +60,14 @@ void SoundManager::Init()
 	m_soundHandles["Shot"] = LoadSoundMem(L"Data/Sound/SE/Shot.mp3");
 	m_soundHandles["Blast"] = LoadSoundMem(L"Data/Sound/SE/Blast.mp3");
 	m_soundHandles["AddScore"] = LoadSoundMem(L"Data/Sound/SE/AddScore.mp3");
+	m_soundHandles["BossBlast"] = LoadSoundMem(L"Data/Sound/SE/BossBlast.mp3");
 	//ヒット
 	m_soundHandles["SlashHit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit1.mp3");
 	m_soundHandles["SlashHit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/SlashHit2.mp3");
 	m_soundHandles["UltHit"] = LoadSoundMem(L"Data/Sound/SE/Hit/UltHit.mp3");
 	m_soundHandles["Hit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit1.mp3");
 	m_soundHandles["Hit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit2.mp3");
+	m_soundHandles["LastHit"] = LoadSoundMem(L"Data/Sound/SE/Hit/LastHit.mp3");
 
 
 	//ロードに成功したかチェック

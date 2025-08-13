@@ -15,6 +15,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../../General/Sound/SoundManager.h"
 #include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 #include "../../../Character/CharacterStateBase.h"
@@ -192,6 +193,8 @@ void BossMuscle::Dead(const std::weak_ptr<ActorManager> actorManager, const std:
 	score.lock()->AddKillOrItemScore(ScoreDataName::kBossMuscle);
 	//死亡エフェクト
 	EffekseerManager::GetInstance().CreateEffect("BossDeathEff", m_rb->m_pos);
+	//爆発SE
+	SoundManager::GetInstance().PlayOnceSE("BossBlast");
 }
 
 void BossMuscle::End()

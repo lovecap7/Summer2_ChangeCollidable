@@ -16,6 +16,7 @@
 #include "../../../../../General/game.h"
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
+#include "../../../../../General/Sound/SoundManager.h"
 #include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 #include "../../../../UI/UIManager.h"
@@ -163,6 +164,8 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 	}
 	//死亡エフェクト
 	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
+	//爆発SE
+	SoundManager::GetInstance().PlayOnceSE("Blast");
 }
 
 void Bomber::End()

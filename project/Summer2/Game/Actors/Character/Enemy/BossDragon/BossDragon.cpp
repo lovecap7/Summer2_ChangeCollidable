@@ -17,6 +17,7 @@
 #include "../../../../../General/HitPoints.h"
 #include "../../../../../General/AttackPoints.h"
 #include "../../../../../General/Effect/EffekseerManager.h"
+#include "../../../../../General/Sound/SoundManager.h"
 #include "../../../../GameRule/Score.h"
 #include "../../../Character/CharacterStateBase.h"
 #include "../../../../UI/UIManager.h"
@@ -190,6 +191,8 @@ void BossDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std:
 	score.lock()->AddKillOrItemScore(ScoreDataName::kBossDragon);
 	//死亡エフェクト
 	EffekseerManager::GetInstance().CreateEffect("BossDeathEff", m_rb->m_pos);
+	//爆発SE
+	SoundManager::GetInstance().PlayOnceSE("BossBlast");
 }
 
 void BossDragon::End()

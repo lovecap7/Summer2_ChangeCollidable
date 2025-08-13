@@ -11,6 +11,7 @@
 #include "../../Actors/Character/Enemy/EnemyBase.h"
 #include "../../Actors/ActorManager.h"
 #include "../../../General/Collision/Physics.h"
+#include "../../../General/Sound/SoundManager.h"
 #include <DxLib.h>
 
 namespace
@@ -44,6 +45,7 @@ GameCameraStateBossDeath::GameCameraStateBossDeath(std::weak_ptr<GameCamera> cam
 	actorManager.lock()->DelayUpdate(kHitStopFrame);
 	owner->SetCameraShake(ShakePower::Highest, kShakeFrame);
 	Physics::GetInstance().DelayUpdate(60);
+	SoundManager::GetInstance().PlayOnceSE("LastHit");
 }
 
 void GameCameraStateBossDeath::Init()
