@@ -148,8 +148,14 @@ void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<
 	if (input.IsPress("BossArea"))
 	{
 		auto bossPos = actorManager.lock()->GetBoss().lock()->GetPos();
-		m_rb->m_pos.y = bossPos.y + 1000.0f;
+		m_rb->m_pos.y = bossPos.y + 100.0f;
 		m_rb->m_pos.x = bossPos.x;
+		m_rb->m_vec = Vector3::Zero();
+	}
+	//‘Ì—Í‚ð0‚É
+	if (input.IsPress("PlayerDead"))
+	{
+		m_hitPoints->Damage(999999);
 	}
 #endif
 }

@@ -78,7 +78,7 @@ void PauseScene::NormalUpdate()
 {
 	auto& input = Input::GetInstance();
 	//Pボタンでポーズ解除
-	if (input.IsTrigger("Pause")) 
+	if (input.IsTrigger("Pause") || input.IsTrigger("B"))
 	{
 		InitDisappear();
 		m_menuSelectIndex = MenuIndex::RetrunGame;
@@ -86,7 +86,7 @@ void PauseScene::NormalUpdate()
 	}
 	//選択
 	MenuSelect(input);
-	if (input.IsTrigger("Ok"))
+	if (input.IsTrigger("A"))
 	{
 		InitDisappear();
 		return;

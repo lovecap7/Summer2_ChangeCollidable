@@ -1,4 +1,5 @@
 #include "GameoverScene.h"
+#include "SelectStageScene.h"
 #include "StageScene.h"
 #include "../General/Input.h"
 #include "SceneController.h"
@@ -6,16 +7,24 @@
 #include "../General/game.h"
 #include "../General/Collision/Physics.h"
 #include "../General/Fader.h"
+#include "../Game/UI/UIManager.h"
+#include "../Game/UI/MenuUI.h"
 
 namespace {
 	constexpr int kAppearInterval = 20;
+	constexpr int kFrameMargin = 10;//ゲーム画面からポーズ画面までの幅
+	//各メニューの位置
+	constexpr float kGameoverY = 100;
+	constexpr float kContinueY = 300;
+	constexpr float kSelectStageY = 500;
 }
 
 GameoverScene::GameoverScene(SceneController& controller):
 	SceneBase(controller),
 	m_update(&GameoverScene::AppearUpdate),
 	m_draw(&GameoverScene::NormalDraw),
-	m_countFrame(0)
+	m_countFrame(0),
+	m_menuSelectIndex(MenuIndex::Continue)
 {
 }
 
@@ -53,24 +62,33 @@ void GameoverScene::AppearUpdate()
 	++m_countFrame;
 	if (m_countFrame > kAppearInterval)
 	{
+		//UIの準備
+		InitUI();
 		m_countFrame = kAppearInterval;
 		m_update = &GameoverScene::NormalUpdate;
 		return;
 	}
 }
-
 void GameoverScene::NormalUpdate()
 {
 	auto& input = Input::GetInstance();
 	//Aボタンで次へ
 	if (input.IsTrigger("A")) 
 	{
+		//UI削除
+		for (auto& menuUI : m_menuUIs)
+		{
+			menuUI.second.lock()->Delete();
+		}
+		m_gameoverUI.lock()->Delete();
 		//だんだん暗く
 		auto& fader = Fader::GetInstance();
 		fader.FadeOut();
 		m_update = &GameoverScene::DisappearUpdate;
 		return;
 	}
+	//メニューセレクト
+	MenuSelect(input);
 }
 
 void GameoverScene::DisappearUpdate()
@@ -79,9 +97,19 @@ void GameoverScene::DisappearUpdate()
 	//暗くなったら
 	if (fader.IsFinishFadeOut())
 	{
-		//自分の下になってるシーンを初期化
-		m_controller.RestartBaseScene();
-		m_controller.PopScene();//自分は消える
+		switch (m_menuSelectIndex)
+		{
+		case MenuIndex::Continue:
+			//最初から
+			Continue();
+			break;
+		case MenuIndex::SelectStage:
+			//ステージセレクト
+			SelectStage();
+			break;
+		default:
+			break;
+		}
 		return;
 	}
 }
@@ -95,4 +123,53 @@ void GameoverScene::NormalDraw()
 		0xff5555,//カラー
 		true);//塗り潰す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+void GameoverScene::InitUI()
+{
+	auto& uiManager = UIManager::GetInstance();
+	auto gameoverUI = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kGameoverY }, uiManager.GetImageHandle("Gameover"));
+	gameoverUI->Init();
+	m_gameoverUI = gameoverUI;
+	auto continueUI = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kContinueY }, uiManager.GetImageHandle("Continue"));
+	auto selectStageUI = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kSelectStageY }, uiManager.GetImageHandle("SelectStage"));
+	m_menuUIs[MenuIndex::Continue] = continueUI;
+	m_menuUIs[MenuIndex::SelectStage] = selectStageUI;
+	//登録
+	for (auto& menuUI : m_menuUIs)
+	{
+		menuUI.second.lock()->Init();
+	}
+}
+
+void GameoverScene::MenuSelect(Input& input)
+{
+	int menuIndex = static_cast<int>(m_menuSelectIndex);
+	//選ぶ
+	if (input.IsRepeate("Up"))--menuIndex;
+	if (input.IsRepeate("Down"))++menuIndex;
+	menuIndex = MathSub::ClampInt(menuIndex, static_cast<int>(MenuIndex::Continue), static_cast<int>(MenuIndex::SelectStage));
+	m_menuSelectIndex = static_cast<MenuIndex>(menuIndex);
+	//選んだものを拡大
+	for (auto& menuUI : m_menuUIs)
+	{
+		menuUI.second.lock()->SetIsSelect(false);
+	}
+	m_menuUIs[m_menuSelectIndex].lock()->SetIsSelect(true);
+}
+
+void GameoverScene::Continue()
+{
+	//自分の下になってるシーンを初期化
+	m_controller.RestartBaseScene();
+	m_controller.PopScene();//自分は消える
+	return;
+}
+void GameoverScene::SelectStage()
+{
+	//セレクトシーンへ
+	m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller));
+	//自分を消す
+	m_controller.PopScene();
+	return;
 }

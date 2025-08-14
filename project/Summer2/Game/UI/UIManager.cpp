@@ -157,6 +157,8 @@ void UIManager::LoadHandle()
 	m_imageHandles["Timer"] = { LoadGraph(L"Data/UI/Number_Stone.png") };
 	//ƒƒjƒ…[
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
+	m_imageHandles["Gameover"] = { LoadGraph(L"Data/UI/Menu/Gameover.png") };
+	m_imageHandles["Continue"] = { LoadGraph(L"Data/UI/Menu/Continue.png") };
 	m_imageHandles["ReturnGame"] = { LoadGraph(L"Data/UI/Menu/ReturnGame.png") };
 	m_imageHandles["RestartGame"] = { LoadGraph(L"Data/UI/Menu/RestartGame.png") };
 	m_imageHandles["Option"] = { LoadGraph(L"Data/UI/Menu/Option.png") };

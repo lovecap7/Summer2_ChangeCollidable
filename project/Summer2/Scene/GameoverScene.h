@@ -1,6 +1,10 @@
 #pragma once
 #include "SceneBase.h"
+#include <memory>
+#include <map>
 class SceneController;
+class MenuUI;
+class Input;
 class GameoverScene :
     public SceneBase
 {
@@ -27,7 +31,25 @@ private:
     void DisappearUpdate();
     //通常描画
     void NormalDraw();
+    //UI初期化
+    void InitUI();
+    //メニューセレクト
+    void MenuSelect(Input& input);
+    //再スタート
+    void Continue();
+    //ステージセレクトへ
+    void SelectStage();
 private:
     int m_countFrame;
+    enum class MenuIndex : int
+    {
+        Continue = 1,
+        SelectStage = 2
+    };
+    //メニューセレクト
+    MenuIndex m_menuSelectIndex;
+    //各メニューUI
+    std::weak_ptr<MenuUI> m_gameoverUI;
+    std::map<MenuIndex, std::weak_ptr<MenuUI>> m_menuUIs;
 };
 
