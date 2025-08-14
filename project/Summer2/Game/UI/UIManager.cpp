@@ -155,6 +155,12 @@ void UIManager::LoadHandle()
 	//画像ハンドル
 	m_imageHandles["Score"] = { LoadGraph(L"Data/UI/Number.png") };
 	m_imageHandles["Timer"] = { LoadGraph(L"Data/UI/Number_Stone.png") };
+	//メニュー
+	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
+	m_imageHandles["ReturnGame"] = { LoadGraph(L"Data/UI/Menu/ReturnGame.png") };
+	m_imageHandles["RestartGame"] = { LoadGraph(L"Data/UI/Menu/RestartGame.png") };
+	m_imageHandles["Option"] = { LoadGraph(L"Data/UI/Menu/Option.png") };
+	m_imageHandles["SelectStage"] = { LoadGraph(L"Data/UI/Menu/SelectStage.png") };
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_imageHandles) {
 		assert(value >= 0);

@@ -819,6 +819,9 @@
     <ClCompile Include="Scene\SoundOptionScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\MenuUI.cpp">
+      <Filter>ソース ファイル\Game\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1414,6 +1417,9 @@
     </ClInclude>
     <ClInclude Include="Scene\SoundOptionScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\MenuUI.h">
+      <Filter>ヘッダー ファイル\Game\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

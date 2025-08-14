@@ -149,6 +149,7 @@
     <ClCompile Include="Game\UI\EnemyUI\EnemyHPUI.cpp" />
     <ClCompile Include="Game\UI\EnemyUI\EnemyUIBase.cpp" />
     <ClCompile Include="Game\UI\GameScoreUI.cpp" />
+    <ClCompile Include="Game\UI\MenuUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerHPUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUIBase.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUltGageUI.cpp" />
@@ -346,6 +347,7 @@
     <ClInclude Include="Game\UI\EnemyUI\EnemyHPUI.h" />
     <ClInclude Include="Game\UI\EnemyUI\EnemyUIBase.h" />
     <ClInclude Include="Game\UI\GameScoreUI.h" />
+    <ClInclude Include="Game\UI\MenuUI.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerHPUI.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUIBase.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUltGageUI.h" />

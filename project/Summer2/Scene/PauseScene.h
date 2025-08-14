@@ -1,6 +1,10 @@
 #pragma once
 #include "SceneBase.h"
+#include <memory>
+#include <map>
 class SceneController;
+class MenuUI;
+class Input;
 class PauseScene :
     public SceneBase
 {
@@ -31,9 +35,28 @@ private:
     void ShiftingDraw();
     //ゲームに戻る
     void RetrunGame();
+    //ゲームを再スタート
+    void RestartGame();
+    //セレクトシーンへ
+    void SelectStage();
 private:
     int m_countFrame;
+    enum class MenuIndex : int 
+    {
+        RetrunGame  = 1,
+        RestartGame = 2,
+        Option      = 3,
+        SelectStage = 4
+    };
     //メニューセレクト
-    int m_menuSelectIndex;
+    MenuIndex m_menuSelectIndex;
+    //各メニューUI
+    std::weak_ptr<MenuUI> m_pauseUI;
+    std::map<MenuIndex,std::weak_ptr<MenuUI>> m_menuUIs;
+    //初期化
+    void InitDisappear();
+    void InitUI();
+    //メニュー選択
+    void MenuSelect(Input& input);
 };
 

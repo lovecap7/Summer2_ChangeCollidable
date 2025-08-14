@@ -1,15 +1,22 @@
 #include "PauseScene.h"
+#include "SelectStageScene.h"
 #include "../General/Input.h"
 #include "SceneController.h"
 #include<DxLib.h>
 #include "../General/game.h"
 #include "../General/Collision/Physics.h"
+#include "../Game/UI/UIManager.h"
+#include "../Game/UI/MenuUI.h"
 
 namespace {
 	constexpr int kAppearInterval = 20;
 	constexpr int kFrameMargin = 10;//ゲーム画面からポーズ画面までの幅
-	//メニュー数
-	constexpr int kMenuIndexNum = 4;
+	//各メニューの位置
+	constexpr float kPauseY = 100;
+	constexpr float kRetrunGameY = 250;
+	constexpr float kRestartGameY = 370;
+	constexpr float kOptionGameY = 490;
+	constexpr float kSelectStageY = 610;
 }
 
 
@@ -18,7 +25,7 @@ PauseScene::PauseScene(SceneController& controller):
 	m_update(&PauseScene::AppearUpdate),
 	m_draw(&PauseScene::ShiftingDraw),
 	m_countFrame(0),
-	m_menuSelectIndex(1)
+	m_menuSelectIndex(MenuIndex::RetrunGame)
 {
 }
 
@@ -57,11 +64,15 @@ void PauseScene::AppearUpdate()
 	++m_countFrame;
 	if (m_countFrame > kAppearInterval) 
 	{
+		//UI準備
+		InitUI();
 		m_update = &PauseScene::NormalUpdate;
 		m_draw = &PauseScene::NormalDraw;
 		return;
 	}
 }
+
+
 
 void PauseScene::NormalUpdate()
 {
@@ -69,27 +80,18 @@ void PauseScene::NormalUpdate()
 	//Pボタンでポーズ解除
 	if (input.IsTrigger("Pause")) 
 	{
-		//ゲームに戻る
-		RetrunGame();
+		InitDisappear();
+		m_menuSelectIndex = MenuIndex::RetrunGame;
 		return;
 	}
 	//選択
-	if (input.IsRepeate("Up"))m_menuSelectIndex--;
-	if (input.IsRepeate("Down"))m_menuSelectIndex--;
-	MathSub::ClampInt(m_menuSelectIndex, 1, kMenuIndexNum);
+	MenuSelect(input);
 	if (input.IsTrigger("Ok"))
 	{
-		switch (m_menuSelectIndex)
-		{
-		case 1:
-			//ゲームに戻る
-			RetrunGame();
-			break;
-		default:
-			break;
-		}
+		InitDisappear();
 		return;
 	}
+
 }
 
 void PauseScene::DisappearUpdate()
@@ -97,7 +99,24 @@ void PauseScene::DisappearUpdate()
 	--m_countFrame;
 	if (m_countFrame < 0) 
 	{
-		m_controller.PopScene();
+		switch (m_menuSelectIndex)
+		{
+		case MenuIndex::RetrunGame:
+			//ゲームに戻る
+			RetrunGame();
+			break;
+		case MenuIndex::RestartGame:
+			//ゲームを再スタート
+			RestartGame();
+		case MenuIndex::Option:
+			break;
+		case MenuIndex::SelectStage:
+			//セレクトシーン
+			SelectStage();
+			break;
+		default:
+			break;
+		}
 		return;
 	}
 }
@@ -161,8 +180,71 @@ void PauseScene::ShiftingDraw()
 }
 void PauseScene::RetrunGame()
 {
+	m_controller.PopScene();
+	return;
+}
+
+void PauseScene::RestartGame()
+{
+	//下のシーンをリスタートする
+	m_controller.RestartBaseScene();
+	//自分を消す
+	m_controller.PopScene();
+	return;
+}
+
+void PauseScene::SelectStage()
+{
+	//セレクトシーンへ
+	m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller));
+	//自分を消す
+	m_controller.PopScene();
+	return;
+}
+void PauseScene::InitDisappear()
+{
+	for (auto& menuUI : m_menuUIs)
+	{
+		menuUI.second.lock()->Delete();
+	}
+	m_pauseUI.lock()->Delete();
+	//ゲームに戻る
 	m_update = &PauseScene::DisappearUpdate;
 	m_draw = &PauseScene::ShiftingDraw;
 	m_countFrame = kAppearInterval;
-	return;
+}
+void PauseScene::InitUI()
+{
+	auto& uiManager = UIManager::GetInstance();
+	auto pause = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kPauseY }, uiManager.GetImageHandle("Pause"));
+	pause->Init();
+	m_pauseUI = pause;
+	auto returnGame = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kRetrunGameY }, uiManager.GetImageHandle("ReturnGame"));
+	auto restartGame = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kRestartGameY }, uiManager.GetImageHandle("RestartGame"));
+	auto option = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kOptionGameY }, uiManager.GetImageHandle("Option"));
+	auto selectStage = std::make_shared<MenuUI>(Vector2{ Game::kScreenCenterX,kSelectStageY }, uiManager.GetImageHandle("SelectStage"));
+	m_menuUIs[MenuIndex::RetrunGame] = returnGame;
+	m_menuUIs[MenuIndex::RestartGame] = restartGame;
+	m_menuUIs[MenuIndex::Option] = option;
+	m_menuUIs[MenuIndex::SelectStage] = selectStage;
+	//登録
+	for (auto& menuUI : m_menuUIs)
+	{
+		menuUI.second.lock()->Init();
+	}
+}
+void PauseScene::MenuSelect(Input& input)
+{
+	int menuIndex = static_cast<int>(m_menuSelectIndex);
+	//選ぶ
+	if (input.IsRepeate("Up"))--menuIndex;
+	if (input.IsRepeate("Down"))++menuIndex;
+	menuIndex = MathSub::ClampInt(menuIndex, static_cast<int>(MenuIndex::RetrunGame), static_cast<int>(MenuIndex::SelectStage));
+	m_menuSelectIndex = static_cast<MenuIndex>(menuIndex);
+	//選んだものを拡大
+	for (auto& menuUI : m_menuUIs)
+	{
+		menuUI.second.lock()->SetIsSelect(false);
+	}
+	m_menuUIs[m_menuSelectIndex].lock()->SetIsSelect(true);
 }
