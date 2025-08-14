@@ -213,9 +213,9 @@ SaveDatas CSVDataLoader::LoadSaveDataCSV()
 	for (auto data : valuesDatas)
 	{		
 		//クリアしたステージのロード
-		saveDatas.stage1Clear = data[0] == "1";
-		saveDatas.stage2Clear = data[1] == "2";
-		saveDatas.stage3Clear = data[2] == "3";
+		saveDatas.stage1Clear = (data[0] == "1");
+		saveDatas.stage2Clear = (data[1] == "1");
+		saveDatas.stage3Clear = (data[2] == "1");
 		//総プレイ時間
 		saveDatas.totalPlayTime = std::stoi(data[3]);
 	}
