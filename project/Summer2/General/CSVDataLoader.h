@@ -57,6 +57,11 @@ public:
     /// </summary>
     /// <returns></returns>
     SaveDatas LoadSaveDataCSV();
+    /// <summary>
+    /// ‰¹—Ê‚Ì“Ç‚ÝŽæ‚è
+    /// </summary>
+    /// <returns></returns>
+    VolumeData LoadVolumeDataCSV();
 private:
     const std::vector<std::vector<std::string>> GetStringList(const char* fileName,int elementNum);
     const std::vector<std::vector<std::wstring>> GetWStringList(const char* fileName,int elementNum);

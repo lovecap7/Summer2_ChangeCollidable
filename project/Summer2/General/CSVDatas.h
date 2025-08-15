@@ -16,6 +16,8 @@ namespace
     const std::string kResutlScoreDataPath = "Data/CSV/ResutlScoreData.csv";
     //セーブデータ
     const std::string kSaveDataPath = "Data/CSV/SaveData/SaveData.csv";
+    //音量
+    const std::string kVolumeDataPath = "Data/CSV/VolumeData.csv";
 }
 
 
@@ -73,3 +75,11 @@ struct SaveDatas
     //プレイ時間
     unsigned int totalPlayTime;
 };
+//音量
+struct VolumeData
+{
+    int masterVolume;
+    int bgmVolume;
+    int seVolume;
+    int voiceVolume;
+}

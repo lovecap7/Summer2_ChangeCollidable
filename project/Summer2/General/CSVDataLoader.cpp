@@ -16,6 +16,8 @@ namespace
 	constexpr int kUIDataElementNum = 3;
 	//セーブデータの要素数
 	constexpr int kSaveDataElementNum = 4;
+	//音量の要素数
+	constexpr int kVolumeDataElementNum = 4;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
 	constexpr float kUnityToDXPosition = 100.0f;
 }
@@ -220,6 +222,24 @@ SaveDatas CSVDataLoader::LoadSaveDataCSV()
 		saveDatas.totalPlayTime = std::stoi(data[3]);
 	}
 	return saveDatas;
+}
+
+VolumeData CSVDataLoader::LoadVolumeDataCSV()
+{
+	//データを保存する変数
+	VolumeData volumeDatas;
+	//データをすべて読み込む
+	auto valuesDatas = GetStringList(kVolumeDataPath.c_str(), kVolumeDataElementNum);
+	//データを格納してく
+	for (auto data : valuesDatas)
+	{
+		//音量セット
+		volumeDatas.masterVolume	= stoi(data[0]);
+		volumeDatas.bgmVolume		= stoi(data[1]);
+		volumeDatas.seVolume		= stoi(data[2]);
+		volumeDatas.voiceVolume		= stoi(data[3]);
+	}
+	return volumeDatas;
 }
 
 //データをすべて読み込む
