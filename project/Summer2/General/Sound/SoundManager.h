@@ -57,10 +57,19 @@ public:
 	//全ての再生を止める
 	void AllStop();
 	//音量
+	int GetSEVolumeC()	 const;
+	int GetBGMVolumeC()	 const;
+	int GetVoiceVolumeC() const;
+	int GetMasterVolume()const;
+	//セッター
+	void SetSEVolume(int volume);
+	void SetBGMVolume(int volume);
+	void SetVoiceVolume(int volume);
+	void SetMasterVolume(int volume);
+	//音量調整用
 	int GetSEVolume()	 const { return m_seVolume; };
 	int GetBGMVolume()	 const { return m_bgmVolume; };
 	int GetVoiceVolume() const { return m_voiceVolume; };
-	int GetMasterVolume()const { return m_masterVolume; };
 private:
 	//SEの音量
 	int m_seVolume;

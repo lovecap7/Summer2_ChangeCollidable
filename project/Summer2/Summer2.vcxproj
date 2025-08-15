@@ -150,6 +150,8 @@
     <ClCompile Include="Game\UI\EnemyUI\EnemyUIBase.cpp" />
     <ClCompile Include="Game\UI\GameScoreUI.cpp" />
     <ClCompile Include="Game\UI\MenuUI.cpp" />
+    <ClCompile Include="Game\UI\Option\ScreenModeUI.cpp" />
+    <ClCompile Include="Game\UI\Option\VolumeUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerHPUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUIBase.cpp" />
     <ClCompile Include="Game\UI\PlayerUI\PlayerUltGageUI.cpp" />
@@ -159,7 +161,6 @@
     <ClCompile Include="Game\UI\ScoreUIBase.cpp" />
     <ClCompile Include="Game\UI\Select\SelectStageBackUI.cpp" />
     <ClCompile Include="Game\UI\TimerUI.cpp" />
-    <ClCompile Include="Game\UI\Title\TitleSelectMenuUI.cpp" />
     <ClCompile Include="Game\UI\Title\TitleUI.cpp" />
     <ClCompile Include="Game\UI\TutorialUI.cpp" />
     <ClCompile Include="Game\UI\UIBase.cpp" />
@@ -207,11 +208,11 @@
     <ClCompile Include="Scene\DebugScene.cpp" />
     <ClCompile Include="Scene\GameClearScene.cpp" />
     <ClCompile Include="Scene\GameoverScene.cpp" />
+    <ClCompile Include="Scene\OptionScene.cpp" />
     <ClCompile Include="Scene\PauseScene.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneController.cpp" />
     <ClCompile Include="Scene\SelectStageScene.cpp" />
-    <ClCompile Include="Scene\SoundOptionScene.cpp" />
     <ClCompile Include="Scene\StageScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Shader\MyDraw.cpp" />
@@ -348,6 +349,8 @@
     <ClInclude Include="Game\UI\EnemyUI\EnemyUIBase.h" />
     <ClInclude Include="Game\UI\GameScoreUI.h" />
     <ClInclude Include="Game\UI\MenuUI.h" />
+    <ClInclude Include="Game\UI\Option\ScreenModeUI.h" />
+    <ClInclude Include="Game\UI\Option\VolumeUI.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerHPUI.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUIBase.h" />
     <ClInclude Include="Game\UI\PlayerUI\PlayerUltGageUI.h" />
@@ -357,7 +360,6 @@
     <ClInclude Include="Game\UI\ScoreUIBase.h" />
     <ClInclude Include="Game\UI\Select\SelectStageBackUI.h" />
     <ClInclude Include="Game\UI\TimerUI.h" />
-    <ClInclude Include="Game\UI\Title\TitleSelectMenuUI.h" />
     <ClInclude Include="Game\UI\Title\TitleUI.h" />
     <ClInclude Include="Game\UI\TutorialUI.h" />
     <ClInclude Include="Game\UI\UIBase.h" />
@@ -408,11 +410,11 @@
     <ClInclude Include="Scene\DebugScene.h" />
     <ClInclude Include="Scene\GameClearScene.h" />
     <ClInclude Include="Scene\GameoverScene.h" />
+    <ClInclude Include="Scene\OptionScene.h" />
     <ClInclude Include="Scene\PauseScene.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneController.h" />
     <ClInclude Include="Scene\SelectStageScene.h" />
-    <ClInclude Include="Scene\SoundOptionScene.h" />
     <ClInclude Include="Scene\StageScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="Shader\MyDraw.h" />

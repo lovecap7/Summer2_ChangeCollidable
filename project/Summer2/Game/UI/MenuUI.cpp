@@ -14,7 +14,7 @@ namespace
 }
 
 MenuUI::MenuUI(Vector2 pos, int handle) :
-	UIBase(),
+	UIBase(true),
 	m_pos(pos),
 	m_handle(handle),
 	m_isSelect(false),

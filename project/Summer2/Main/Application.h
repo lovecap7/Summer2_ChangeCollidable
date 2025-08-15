@@ -41,7 +41,14 @@ public:
 
 	//アプリケーションを終了させる
 	void FinishApplication() { m_isFinishApplication = true; };
+	//Window切り替え
+	void SetWindowMode(bool isWindow);
+	bool IsWindowMode() { return m_isWindow; };
 private:
 	//アプリケーションの終了
 	bool m_isFinishApplication;
+	//ウィンドウモードにする
+	bool m_isWindow = true;
+	//スクリーンモードを切り替える際の処理
+	void ChangeScreenMode();
 };

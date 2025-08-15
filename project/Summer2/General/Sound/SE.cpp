@@ -11,5 +11,5 @@ SE::~SE()
 }
 void SE::Update()
 {
-	SetVolume(SoundManager::GetInstance().GetSEVolume());
+	SetVolume(SoundManager::GetInstance().GetSEVolumeC());
 }

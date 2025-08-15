@@ -11,5 +11,5 @@ Voice::~Voice()
 }
 void Voice::Update()
 {
-	SetVolume(SoundManager::GetInstance().GetVoiceVolume());
+	SetVolume(SoundManager::GetInstance().GetVoiceVolumeC());
 }

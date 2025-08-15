@@ -12,7 +12,7 @@ BGM::~BGM()
 }
 void BGM::Update()
 {
-	SetVolume(SoundManager::GetInstance().GetBGMVolume());
+	SetVolume(SoundManager::GetInstance().GetBGMVolumeC());
 }
 
 void BGM::ChangeBGM(int handle)

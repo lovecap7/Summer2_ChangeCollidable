@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "OptionScene.h"
 #include <Dxlib.h>
 #include  "../General/Input.h"
 #include "SceneController.h"
@@ -13,7 +14,7 @@
 #include "../General/Fader.h"
 #include "../General/Effect/EffekseerManager.h"
 #include "../Game/UI/Title/TitleUI.h"
-#include "../Game/UI/Title/TitleSelectMenuUI.h"
+#include "../Game/UI/MenuUI.h"
 #include "../General/Sound/SoundManager.h"
 #include "../General/StringUtil.h"
 #include "../Main/Application.h"
@@ -308,10 +309,10 @@ void TitleScene::SelectMenu(Input& input)
 	for (auto& menuUI : m_menuUIs)
 	{
 		//一度リセット
-		menuUI.lock()->SetIsSelect(false);
+		menuUI.second.lock()->SetIsSelect(false);
 	}
 	//選ばれている項目のみtrue
-	m_menuUIs[static_cast<int>(m_menuIndex)].lock()->SetIsSelect(true);
+	m_menuUIs[m_menuIndex].lock()->SetIsSelect(true);
 	auto& fader = Fader::GetInstance();
 	//決定した時インデックスから処理を分岐
 	if (input.IsTrigger("A") && m_titleUI.lock()->IsAppered() && !fader.IsFadeNow())
@@ -357,6 +358,8 @@ void TitleScene::NewGame()
 
 void TitleScene::Option()
 {
+	m_controller.PushScene(std::make_shared<OptionScene>(m_controller));
+	return;
 }
 
 void TitleScene::FinishGame()
@@ -406,16 +409,35 @@ void TitleScene::UpdateCommon()
 
 void TitleScene::InitUIs(std::shared_ptr<CSVDataLoader>& csvLoader)
 {
+	auto& uiManager = UIManager::GetInstance();
 	auto titleUI = std::make_shared<TitleUI>();
 	titleUI->Init();
 	m_titleUI = titleUI;
 	//メニューUI
 	auto menuData = csvLoader->LoadUIDataCSV("Data/CSV/TitleMenuUITransformData.csv");
-	for (int i = 0;i < m_menuUIs.size();++i)
+	for (int i = 0;i < menuData.size();++i)
 	{
-		auto menuUI = std::make_shared<TitleSelectMenuUI>(menuData[i].pos, menuData[i].text);
+		int handle = -1;
+		switch (static_cast<MenuIndex>(i))
+		{
+		case MenuIndex::Continue:
+			handle = uiManager.GetImageHandle("ContinueT");
+			break;
+		case MenuIndex::NewGame:
+			handle = uiManager.GetImageHandle("NewGame");
+			break;
+		case MenuIndex::Option:
+			handle = uiManager.GetImageHandle("Option");
+			break;
+		case MenuIndex::FinishGame:
+			handle = uiManager.GetImageHandle("FinishGame");
+			break;
+		default:
+			break;
+		}
+		auto menuUI = std::make_shared<MenuUI>(menuData[i].pos, handle);
 		menuUI->Init();
-		m_menuUIs[i] = menuUI;
+		m_menuUIs[static_cast<MenuIndex>(i)] = menuUI;
 	}
 	InitTitle();
 }
@@ -425,7 +447,7 @@ void TitleScene::InitTitle()
 	//メニューUIの非表示
 	for (auto& menuUI : m_menuUIs)
 	{
-		menuUI.lock()->SetIsDraw(false);
+		menuUI.second.lock()->SetIsDraw(false);
 	}
 	//タイトルを表示とリセット
 	m_titleUI.lock()->SetIsDraw(true);
@@ -439,7 +461,7 @@ void TitleScene::InitSelectMenu()
 	//メニューUIの表示とリセット
 	for (auto& menuUI : m_menuUIs)
 	{
-		menuUI.lock()->SetIsDraw(true);
+		menuUI.second.lock()->SetIsDraw(true);
 	}
 	//タイトルを非表示
 	m_titleUI.lock()->SetIsDraw(false);

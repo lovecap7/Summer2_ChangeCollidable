@@ -232,6 +232,12 @@
     <Filter Include="ソース ファイル\General\Sound">
       <UniqueIdentifier>{3ce98cb5-e4a3-48a9-9ded-94699aa6c68b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\UI\Option">
+      <UniqueIdentifier>{c3575e34-f90d-42e4-b3e2-896ed687711c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\UI\Option">
+      <UniqueIdentifier>{fb5c16c8-5400-4372-bb23-9bfcc8b645d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Application.cpp">
@@ -753,9 +759,6 @@
     <ClCompile Include="General\Sound\Voice.cpp">
       <Filter>ソース ファイル\General\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\Title\TitleSelectMenuUI.cpp">
-      <Filter>ソース ファイル\Game\UI\TitleUI</Filter>
-    </ClCompile>
     <ClCompile Include="SaveData\SaveDataManager.cpp">
       <Filter>ソース ファイル\SaveData</Filter>
     </ClCompile>
@@ -816,11 +819,17 @@
     <ClCompile Include="General\LoadingManager.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\SoundOptionScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Game\UI\MenuUI.cpp">
       <Filter>ソース ファイル\Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\OptionScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\Option\ScreenModeUI.cpp">
+      <Filter>ソース ファイル\Game\UI\Option</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\Option\VolumeUI.cpp">
+      <Filter>ソース ファイル\Game\UI\Option</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1349,9 +1358,6 @@
     <ClInclude Include="General\Sound\Voice.h">
       <Filter>ヘッダー ファイル\General\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\Title\TitleSelectMenuUI.h">
-      <Filter>ヘッダー ファイル\Game\UI\Title</Filter>
-    </ClInclude>
     <ClInclude Include="SaveData\SaveDataManager.h">
       <Filter>ヘッダー ファイル\SaveData</Filter>
     </ClInclude>
@@ -1415,11 +1421,17 @@
     <ClInclude Include="General\LoadingManager.h">
       <Filter>ヘッダー ファイル\General</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\SoundOptionScene.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Game\UI\MenuUI.h">
       <Filter>ヘッダー ファイル\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\OptionScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\Option\ScreenModeUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\Option\VolumeUI.h">
+      <Filter>ヘッダー ファイル\Game\UI\Option</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

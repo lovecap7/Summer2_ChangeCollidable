@@ -3,11 +3,16 @@
 #include "BGM.h"
 #include "SE.h"
 #include "Voice.h"
+#include "../Math/MyMath.h"
 #include <DxLib.h>
 #include <cassert>
 
 namespace
 {
+	//最小
+	constexpr int kMinVolume = 0;
+	//最大
+	constexpr int kMaxVolume = 255;
 	//デフォルトのサウンドの倍率
 	constexpr int kDefaultVolume = 127;
 	//補正倍率
@@ -77,6 +82,10 @@ void SoundManager::Init()
 }
 void SoundManager::Update()
 {
+	if (m_bgm)
+	{
+		m_bgm->Update();
+	}
 	for (auto& sound : m_sounds)
 	{
 		sound->Update();
@@ -201,6 +210,46 @@ void SoundManager::AllStop()
 	{
 		m_bgm->Stop();
 	}
+}
+
+int SoundManager::GetSEVolumeC() const
+{
+	return MathSub::ClampInt(m_seVolume, kMinVolume, m_masterVolume);
+}
+
+int SoundManager::GetBGMVolumeC() const
+{
+	return MathSub::ClampInt(m_bgmVolume, kMinVolume, m_masterVolume);
+}
+
+int SoundManager::GetVoiceVolumeC() const
+{
+	return MathSub::ClampInt(m_voiceVolume, kMinVolume, m_masterVolume);
+}
+
+int SoundManager::GetMasterVolume() const
+{
+	return m_masterVolume;
+}
+
+void SoundManager::SetSEVolume(int volume)
+{
+	m_seVolume = MathSub::ClampInt(volume, kMinVolume, kMaxVolume);
+}
+
+void SoundManager::SetBGMVolume(int volume)
+{
+	m_bgmVolume = MathSub::ClampInt(volume, kMinVolume, kMaxVolume);
+}
+
+void SoundManager::SetVoiceVolume(int volume)
+{
+	m_voiceVolume = MathSub::ClampInt(volume, kMinVolume, kMaxVolume);
+}
+
+void SoundManager::SetMasterVolume(int volume)
+{
+	m_masterVolume = MathSub::ClampInt(volume, kMinVolume, kMaxVolume);
 }
 
 //消滅フラグをチェックして削除

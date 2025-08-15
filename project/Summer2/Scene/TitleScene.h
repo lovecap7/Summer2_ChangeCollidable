@@ -2,7 +2,6 @@
 #include "SceneBase.h"
 #include <memory>
 #include <vector>
-#include <array>
 #include <map>
 #include <string>
 class Input;
@@ -10,23 +9,15 @@ class TitleCamera;
 class SceneController;
 class Model;
 class TitleUI;
-class TitleSelectMenuUI;
 class TitlePlayer;
 class Actor;
 class CSVDataLoader;
+class MenuUI;
 
 namespace
 {
     constexpr int kMenuNum = 4;
 }
-
-enum class MenuIndex : int
-{
-    Continue    = 0,
-    NewGame     = 1,
-    Option      = 2,
-    FinishGame  = 3
-};
 
 class TitleScene :
     public SceneBase
@@ -65,10 +56,17 @@ private:
     int m_shadowMapHandle;
     //ライトハンドル
     int m_lightHandle;
+    enum class MenuIndex : int
+    {
+        Continue = 0,
+        NewGame = 1,
+        Option = 2,
+        FinishGame = 3
+    };
     //タイトルUI
     std::weak_ptr<TitleUI> m_titleUI;
     //メニューUI
-    std::array<std::weak_ptr<TitleSelectMenuUI>, kMenuNum> m_menuUIs;
+    std::map<MenuIndex,std::weak_ptr<MenuUI>> m_menuUIs;
     //メニューインデックス
     MenuIndex m_menuIndex;
     //決定
