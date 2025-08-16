@@ -14,12 +14,12 @@ UIBase::~UIBase()
 
 void UIBase::Init()
 {
-	//Physics‚É“o˜^
+	//UIManager‚É“o˜^
 	UIManager::GetInstance().Entry(shared_from_this());
 }
 
 void UIBase::End()
 {
-	//Physics‚©‚ç“o˜^‰ğœ
+	//UIManager‚©‚ç“o˜^‰ğœ
 	UIManager::GetInstance().Exit(shared_from_this());
 }

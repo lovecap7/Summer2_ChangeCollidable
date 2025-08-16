@@ -11,6 +11,7 @@ public:
     void Update()override;
     void Draw() const override;
     void SetIsSelect(bool isSelect) { m_isSelect = isSelect; };
+    bool IsSelect() const{ return m_isSelect; };
 private:
     //Ž©•ª‚ÌˆÊ’u
     Vector2 m_pos;

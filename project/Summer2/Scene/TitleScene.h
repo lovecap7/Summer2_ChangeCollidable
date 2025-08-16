@@ -13,6 +13,8 @@ class TitlePlayer;
 class Actor;
 class CSVDataLoader;
 class MenuUI;
+class SaveDataUI;
+class DialogUI;
 
 namespace
 {
@@ -67,6 +69,10 @@ private:
     std::weak_ptr<TitleUI> m_titleUI;
     //メニューUI
     std::map<MenuIndex,std::weak_ptr<MenuUI>> m_menuUIs;
+    //セーブデータUI
+    std::weak_ptr<SaveDataUI> m_saveDataUI;
+    //ダイヤログ
+    std::weak_ptr<DialogUI> m_dialogUI;
     //メニューインデックス
     MenuIndex m_menuIndex;
     //決定
@@ -79,17 +85,23 @@ private:
     void UpdateTitle(Input& input);
     //セレクト画面
     void UpdateSelectMenu(Input& input);
+    //ダイアログ
+    void UpdateDialog(Input& input);
 private:
     //メニューセレクト処理
     void SelectMenu(Input& input);
     //続きから
+    void InitContinue();
     void Continue();
     //初めから
+    void InitNewGame();
     void NewGame();
     //設定
     void Option();
     //ゲーム終了
+    void InitFinishGame();
     void FinishGame();
+private:
     //ライトの初期化
     void InitLight();
     //シャドウマップの初期化

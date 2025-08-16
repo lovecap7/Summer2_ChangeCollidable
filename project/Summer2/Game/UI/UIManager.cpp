@@ -157,6 +157,10 @@ void UIManager::LoadHandle()
 	m_imageHandles["Timer"] = { LoadGraph(L"Data/UI/Number_Stone.png") };
 	m_imageHandles["WindowMode"] = { LoadGraph(L"Data/UI/Option/WindowMode.png") };
 	m_imageHandles["FullScreenMode"] = { LoadGraph(L"Data/UI/Option/FullScreenMode.png") };
+	m_imageHandles["SaveDataBack"] = { LoadGraph(L"Data/UI/SaveDataBack.png") };
+	m_imageHandles["Dialog"] = { LoadGraph(L"Data/UI/Dialog.png") };
+	m_imageHandles["Yes"] = { LoadGraph(L"Data/UI/Yes.png") };
+	m_imageHandles["No"] = { LoadGraph(L"Data/UI/No.png") };
 	//ÉÅÉjÉÖÅ[
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
 	m_imageHandles["Gameover"] = { LoadGraph(L"Data/UI/Menu/Gameover.png") };

@@ -144,6 +144,7 @@
     <ClCompile Include="Game\GameRule\Score.cpp" />
     <ClCompile Include="Game\GameRule\Timer.cpp" />
     <ClCompile Include="Game\TutorialDirecter.cpp" />
+    <ClCompile Include="Game\UI\DialogUI.cpp" />
     <ClCompile Include="Game\UI\DissolveUIBase.cpp" />
     <ClCompile Include="Game\UI\EnemyUI\BossHPUI.cpp" />
     <ClCompile Include="Game\UI\EnemyUI\EnemyHPUI.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Game\UI\Result\ResultRankingScore.cpp" />
     <ClCompile Include="Game\UI\Result\ResultScoreUI.cpp" />
     <ClCompile Include="Game\UI\Result\ResultUI.cpp" />
+    <ClCompile Include="Game\UI\SaveDataUI.cpp" />
     <ClCompile Include="Game\UI\ScoreUIBase.cpp" />
     <ClCompile Include="Game\UI\Select\SelectStageBackUI.cpp" />
     <ClCompile Include="Game\UI\TimerUI.cpp" />
@@ -343,6 +345,7 @@
     <ClInclude Include="Game\GameRule\Score.h" />
     <ClInclude Include="Game\GameRule\Timer.h" />
     <ClInclude Include="Game\TutorialDirecter.h" />
+    <ClInclude Include="Game\UI\DialogUI.h" />
     <ClInclude Include="Game\UI\DissolveUIBase.h" />
     <ClInclude Include="Game\UI\EnemyUI\BossHPUI.h" />
     <ClInclude Include="Game\UI\EnemyUI\EnemyHPUI.h" />
@@ -357,6 +360,7 @@
     <ClInclude Include="Game\UI\Result\ResultRankingScore.h" />
     <ClInclude Include="Game\UI\Result\ResultScoreUI.h" />
     <ClInclude Include="Game\UI\Result\ResultUI.h" />
+    <ClInclude Include="Game\UI\SaveDataUI.h" />
     <ClInclude Include="Game\UI\ScoreUIBase.h" />
     <ClInclude Include="Game\UI\Select\SelectStageBackUI.h" />
     <ClInclude Include="Game\UI\TimerUI.h" />

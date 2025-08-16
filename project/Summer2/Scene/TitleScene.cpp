@@ -15,6 +15,8 @@
 #include "../General/Effect/EffekseerManager.h"
 #include "../Game/UI/Title/TitleUI.h"
 #include "../Game/UI/MenuUI.h"
+#include "../Game/UI/SaveDataUI.h"
+#include "../Game/UI/DialogUI.h"
 #include "../General/Sound/SoundManager.h"
 #include "../General/StringUtil.h"
 #include "../Main/Application.h"
@@ -70,6 +72,8 @@ void TitleScene::Init()
 	LoadStage(csvLoader);
 	//UI
 	InitUIs(csvLoader);
+	//タイトル画面の初期化
+	InitTitle();
 	//エフェクト
 	EffekseerManager::GetInstance().CreateTrackActorEffect("FieldEff", m_player);
 	//カメラの初期化
@@ -268,13 +272,6 @@ void TitleScene::UpdateTitle(Input& input)
 void TitleScene::UpdateSelectMenu(Input& input)
 {
 	auto& fader = Fader::GetInstance();
-	//真っ暗になったら
-	if (fader.IsFinishFadeOut())
-	{
-		//次のシーンへ
-		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
-		return;
-	}
 	//戻るボタンをおしたら
 	if (input.IsTrigger("B") && m_titleUI.lock()->IsAppered() && !fader.IsFadeNow())
 	{
@@ -289,6 +286,65 @@ void TitleScene::UpdateSelectMenu(Input& input)
 	//上下にステックを動かしてメニューの項目を選択する
 	SelectMenu(input);
 
+}
+
+void TitleScene::UpdateDialog(Input& input)
+{
+	auto& fader = Fader::GetInstance();
+	//真っ暗になったら
+	if (fader.IsFinishFadeOut())
+	{
+		//次のシーンへ
+		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
+		return;
+	}
+	if (!fader.IsFadeNow())
+	{
+		if (input.IsTrigger("Left"))m_dialogUI.lock()->SelectYes();
+		if (input.IsTrigger("Right"))m_dialogUI.lock()->SelectNo();
+		//決定した時インデックスから処理を分岐
+		if (input.IsTrigger("A"))
+		{
+			//"はい"を選んだ場合
+			if (m_dialogUI.lock()->IsYes())
+			{
+				//決定SE
+				SoundManager::GetInstance().PlayOnceSE("Decide");
+				switch (m_menuIndex)
+				{
+				case MenuIndex::Continue:
+					Continue();
+					break;
+				case MenuIndex::NewGame:
+					NewGame();
+					break;
+				case MenuIndex::FinishGame:
+					FinishGame();
+					break;
+				}
+				return;
+			}
+			//"いいえ"を選んだ場合
+			else
+			{
+				InitSelectMenu();
+				//キャンセルSE
+				SoundManager::GetInstance().PlayOnceSE("Cancel");
+				m_update = &TitleScene::UpdateSelectMenu;
+				return;
+			}
+		}
+		if (input.IsTrigger("B"))
+		{
+			InitSelectMenu();
+			//キャンセルSE
+			SoundManager::GetInstance().PlayOnceSE("Cancel");
+			m_update = &TitleScene::UpdateSelectMenu;
+			return;
+		}
+	}
+	//共通の更新処理
+	UpdateCommon();
 }
 
 void TitleScene::SelectMenu(Input& input)
@@ -322,20 +378,30 @@ void TitleScene::SelectMenu(Input& input)
 		switch (m_menuIndex)
 		{
 		case MenuIndex::Continue:
-			Continue();
+			InitContinue();
 			break;
 		case MenuIndex::NewGame:
-			NewGame();
+			InitNewGame();
 			break;
 		case MenuIndex::Option:
 			Option();
+			return;
 			break;
 		case MenuIndex::FinishGame:
-			FinishGame();
+			InitFinishGame();
 			break;
 		}
+		m_update = &TitleScene::UpdateDialog;
 		return;
 	}
+}
+
+void TitleScene::InitContinue()
+{
+	//ダイアログを出す
+	m_dialogUI.lock()->SetIsDraw(true);
+	m_dialogUI.lock()->SetText(L"続きから始めますか?");
+	m_dialogUI.lock()->SelectYes();
 }
 
 void TitleScene::Continue()
@@ -344,6 +410,14 @@ void TitleScene::Continue()
 	//だんだん暗く
 	fader.FadeOut(kFadeOutSpeed);
 	m_isDecide = true;
+}
+
+void TitleScene::InitNewGame()
+{
+	//ダイアログを出す
+	m_dialogUI.lock()->SetIsDraw(true);
+	m_dialogUI.lock()->SetText(L"データを削除して最初から始めますか?");
+	m_dialogUI.lock()->SelectYes();
 }
 
 void TitleScene::NewGame()
@@ -360,6 +434,14 @@ void TitleScene::Option()
 {
 	m_controller.PushScene(std::make_shared<OptionScene>(m_controller));
 	return;
+}
+
+void TitleScene::InitFinishGame()
+{
+	//ダイアログを出す
+	m_dialogUI.lock()->SetIsDraw(true);
+	m_dialogUI.lock()->SetText(L"ゲームを終了しますか?");
+	m_dialogUI.lock()->SelectYes();
 }
 
 void TitleScene::FinishGame()
@@ -439,7 +521,14 @@ void TitleScene::InitUIs(std::shared_ptr<CSVDataLoader>& csvLoader)
 		menuUI->Init();
 		m_menuUIs[static_cast<MenuIndex>(i)] = menuUI;
 	}
-	InitTitle();
+	//セーブデータ
+	auto saveDataUI = std::make_shared<SaveDataUI>();
+	saveDataUI->Init();
+	m_saveDataUI = saveDataUI;
+	//ダイアログ
+	auto dialogUI = std::make_shared<DialogUI>();
+	dialogUI->Init();
+	m_dialogUI = dialogUI;
 }
 
 void TitleScene::InitTitle()
@@ -452,6 +541,10 @@ void TitleScene::InitTitle()
 	//タイトルを表示とリセット
 	m_titleUI.lock()->SetIsDraw(true);
 	m_titleUI.lock()->Reset();
+	//セーブデータを非表示
+	m_saveDataUI.lock()->SetIsDraw(false);
+	//ダイアログを非表示
+	m_dialogUI.lock()->SetIsDraw(false);
 	//次の状態に
 	m_update = &TitleScene::UpdateTitle;
 }
@@ -465,6 +558,10 @@ void TitleScene::InitSelectMenu()
 	}
 	//タイトルを非表示
 	m_titleUI.lock()->SetIsDraw(false);
+	//セーブデータを表示
+	m_saveDataUI.lock()->SetIsDraw(true);
+	//ダイアログを非表示
+	m_dialogUI.lock()->SetIsDraw(false);
 	//次の状態に
 	m_update = &TitleScene::UpdateSelectMenu;
 }

@@ -831,6 +831,12 @@
     <ClCompile Include="Game\UI\Option\VolumeUI.cpp">
       <Filter>ソース ファイル\Game\UI\Option</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\SaveDataUI.cpp">
+      <Filter>ソース ファイル\Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\DialogUI.cpp">
+      <Filter>ソース ファイル\Game\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1432,6 +1438,12 @@
     </ClInclude>
     <ClInclude Include="Game\UI\Option\VolumeUI.h">
       <Filter>ヘッダー ファイル\Game\UI\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\SaveDataUI.h">
+      <Filter>ヘッダー ファイル\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\DialogUI.h">
+      <Filter>ヘッダー ファイル\Game\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
