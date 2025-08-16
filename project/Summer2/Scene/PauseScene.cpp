@@ -1,5 +1,6 @@
 #include "PauseScene.h"
 #include "SelectStageScene.h"
+#include "OptionScene.h"
 #include "../General/Input.h"
 #include "SceneController.h"
 #include<DxLib.h>
@@ -88,6 +89,17 @@ void PauseScene::NormalUpdate()
 	MenuSelect(input);
 	if (input.IsTrigger("A"))
 	{
+		//設定を選んだとき
+		if (m_menuSelectIndex == MenuIndex::Option)
+		{
+			//オプション
+			Option();
+			//通常状態に戻す
+			m_update = &PauseScene::NormalUpdate;
+			m_draw = &PauseScene::NormalDraw;
+			return;
+		}
+
 		InitDisappear();
 		return;
 	}
@@ -108,7 +120,6 @@ void PauseScene::DisappearUpdate()
 		case MenuIndex::RestartGame:
 			//ゲームを再スタート
 			RestartGame();
-		case MenuIndex::Option:
 			break;
 		case MenuIndex::SelectStage:
 			//セレクトシーン
@@ -190,6 +201,13 @@ void PauseScene::RestartGame()
 	m_controller.RestartBaseScene();
 	//自分を消す
 	m_controller.PopScene();
+	return;
+}
+
+void PauseScene::Option()
+{
+	//オプション
+	m_controller.PushScene(std::make_shared<OptionScene>(m_controller));
 	return;
 }
 

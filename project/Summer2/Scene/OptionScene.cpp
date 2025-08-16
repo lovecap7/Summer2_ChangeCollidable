@@ -13,6 +13,11 @@ namespace
 {
 	//音量調整のリピートフレーム
 	constexpr int kRepeateFrame = 2;
+	//座標Y
+	constexpr int kMasterPosY	= 300;
+	constexpr int kBGMPosY		= 400;
+	constexpr int kSEPosY		= 500;
+	constexpr int kVoicePosY	= 600;
 }
 
 OptionScene::OptionScene(SceneController& controller):
@@ -32,19 +37,19 @@ void OptionScene::Init()
 	screenModeUI->Init();
 	m_screenModeUI = screenModeUI;
 	//マスター
-	auto masterUI = std::make_shared<VolumeUI>(300);
+	auto masterUI = std::make_shared<VolumeUI>(kMasterPosY);
 	masterUI->Init();
 	m_masterUI = masterUI;
 	//BGM
-	auto bgmUI = std::make_shared<VolumeUI>(400);
+	auto bgmUI = std::make_shared<VolumeUI>(kBGMPosY);
 	bgmUI->Init();
 	m_bgmUI = bgmUI;
 	//SE
-	auto seUI = std::make_shared<VolumeUI>(500);
+	auto seUI = std::make_shared<VolumeUI>(kSEPosY);
 	seUI->Init();
 	m_seUI = seUI;
 	//Voice
-	auto voiceUI = std::make_shared<VolumeUI>(600);
+	auto voiceUI = std::make_shared<VolumeUI>(kVoicePosY);
 	voiceUI->Init();
 	m_voiceUI = voiceUI;
 	//音量セット
@@ -104,6 +109,7 @@ void OptionScene::End()
 	if(!m_bgmUI.expired()) m_bgmUI.lock()->Delete();
 	if(!m_seUI.expired()) m_seUI.lock()->Delete();
 	if(!m_voiceUI.expired()) m_voiceUI.lock()->Delete();
+	SoundManager::GetInstance().SaveVolume();
 }
 
 void OptionScene::Restart()

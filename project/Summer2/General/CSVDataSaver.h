@@ -21,5 +21,9 @@ public:
 	/// ゲームの進捗度などを記録
 	/// </summary>
 	void SaveDataToCSV(SaveDatas saveDatas);
+	/// <summary>
+	/// 音量を保存
+	/// </summary>
+	void SaveVolumeDataToCSV(VolumeData volumeDatas);
 };
 

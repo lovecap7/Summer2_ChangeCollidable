@@ -4,6 +4,8 @@
 #include "SE.h"
 #include "Voice.h"
 #include "../Math/MyMath.h"
+#include "../CSVDataLoader.h"
+#include "../CSVDataSaver.h"
 #include <DxLib.h>
 #include <cassert>
 
@@ -39,11 +41,14 @@ void SoundManager::Exit(std::shared_ptr<SoundBase> sound)
 
 void SoundManager::Init()
 {
+	//CSVから保存した音量を取得
+	auto csvLoader = std::make_shared<CSVDataLoader>();
+	auto volumeData = csvLoader->LoadVolumeDataCSV();
 	//音量の設定
-	m_seVolume = kDefaultVolume * kCorrectionRate;
-	m_bgmVolume = kDefaultVolume;
-	m_voiceVolume = kDefaultVolume * kCorrectionRate;
-	m_masterVolume = kDefaultVolume;
+	m_seVolume = volumeData.seVolume * kCorrectionRate;
+	m_bgmVolume = volumeData.bgmVolume;
+	m_voiceVolume = volumeData.voiceVolume * kCorrectionRate;
+	m_masterVolume = volumeData.masterVolume;
 	//音のハンドルロード
 	//BGM
 	m_soundHandles["TitleBGM"] = LoadSoundMem(L"Data/Sound/BGM/Title.mp3");
@@ -106,7 +111,21 @@ void SoundManager::End()
 	m_sounds.clear();
 	m_soundHandles.clear();
 	InitSoundMem();
+	SaveVolume();
 }
+
+void SoundManager::SaveVolume()
+{
+	//音量保存
+	auto csvLoader = std::make_shared<CSVDataSaver>();
+	VolumeData volumeData;
+	volumeData.seVolume = m_seVolume / kCorrectionRate;
+	volumeData.bgmVolume = m_bgmVolume;
+	volumeData.voiceVolume = m_voiceVolume / kCorrectionRate;
+	volumeData.masterVolume = m_masterVolume;
+	csvLoader->SaveVolumeDataToCSV(volumeData);
+}
+
 
 void SoundManager::PlayBGM(std::string name)
 {

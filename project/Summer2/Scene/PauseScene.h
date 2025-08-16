@@ -37,6 +37,8 @@ private:
     void RetrunGame();
     //ゲームを再スタート
     void RestartGame();
+    //オプション
+    void Option();
     //セレクトシーンへ
     void SelectStage();
 private:

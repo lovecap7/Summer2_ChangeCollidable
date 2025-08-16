@@ -82,4 +82,4 @@ struct VolumeData
     int bgmVolume;
     int seVolume;
     int voiceVolume;
-}
+};

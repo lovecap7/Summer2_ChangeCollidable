@@ -39,6 +39,8 @@ public:
 	void Update();
 	//I—¹
 	void End();
+	//•Û‘¶
+	void SaveVolume();
 	//BGMÄ¶
 	void PlayBGM(std::string name);
 	//BGM’â~

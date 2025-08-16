@@ -60,3 +60,25 @@ void CSVDataSaver::SaveDataToCSV(SaveDatas saveDatas)
     //閉じる
     file.close();
 }
+
+void CSVDataSaver::SaveVolumeDataToCSV(VolumeData volumeDatas)
+{
+    //ファイルを開く(ない場合は作成される)
+    std::ofstream file(kVolumeDataPath);
+    //ファイルが読み込めなかったら
+    if (!file)
+    {
+        assert("ファイルの読み込みに失敗");
+    }
+
+    //ヘッダーを書き込む
+    file << "マスター,BGM,SE,Voice\n";
+
+    //データ書き込み
+    file << static_cast<int>(volumeDatas.masterVolume) << ","       //マスターボリューム
+        << static_cast<int>(volumeDatas.bgmVolume) << ","           //BGMボリューム
+        << static_cast<int>(volumeDatas.seVolume) << ","            //SEボリューム
+        << static_cast<int>(volumeDatas.voiceVolume) << std::endl;  //Voiceボリューム
+    //閉じる
+    file.close();
+}
