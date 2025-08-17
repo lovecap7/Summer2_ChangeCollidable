@@ -2,7 +2,9 @@
 #include "../General/CSVDataLoader.h"
 #include "../General/CSVDataSaver.h"
 #include "../Game/GameRule/Score.h"
-
+#include <ctime>
+#include <sstream>
+#include <iomanip>
 void SaveDataManager::Init()
 {
 	//スコア
@@ -15,7 +17,8 @@ void SaveDataManager::Init()
 
 void SaveDataManager::Update()
 {
-
+	//プレイ時間を加算
+	++m_totalPlayTime;
 }
 
 void SaveDataManager::End()
@@ -31,6 +34,7 @@ void SaveDataManager::Load()
 	m_isClearStage[Stage::StageIndex::Stage2] = saveDatas.stage2Clear;
 	m_isClearStage[Stage::StageIndex::Stage3] = saveDatas.stage3Clear;
 	m_totalPlayTime							  = saveDatas.totalPlayTime;
+	m_lastSaveTime								  = saveDatas.nowTime;
 }
 
 void SaveDataManager::Save()
@@ -41,6 +45,7 @@ void SaveDataManager::Save()
 	saveDatas.stage2Clear = m_isClearStage[Stage::StageIndex::Stage2];
 	saveDatas.stage3Clear = m_isClearStage[Stage::StageIndex::Stage3];
 	saveDatas.totalPlayTime = m_totalPlayTime;
+	saveDatas.nowTime = GetNowTimeAndDate();
 	//CSVに書き込む
 	auto csvSaver = std::make_shared<CSVDataSaver>();
 	csvSaver->SaveDataToCSV(saveDatas);
@@ -52,7 +57,8 @@ void SaveDataManager::NewGame()
 	m_isClearStage[Stage::StageIndex::Stage1] = false;
 	m_isClearStage[Stage::StageIndex::Stage2] = false;
 	m_isClearStage[Stage::StageIndex::Stage3] = false;
-	m_totalPlayTime = 0;
+	m_totalPlayTime							  = 0;
+	m_lastSaveTime								  = GetNowTimeAndDate();
 	//CSVに書き込む
 	Save();
 }
@@ -72,4 +78,18 @@ void SaveDataManager::SaveClearStage(Stage::StageIndex stageIndex)
 bool SaveDataManager::IsClearStage(Stage::StageIndex stageIndex)
 {
 	return m_isClearStage[stageIndex];
+}
+
+std::wstring SaveDataManager::GetNowTimeAndDate()
+{
+	// 現在時刻を取得
+	std::time_t t = std::time(nullptr);
+	std::tm tm;
+	localtime_s(&tm, &t);
+
+	//wstringに変換(例: 2025-08-17 12:34:56)
+	std::wostringstream woss;
+	woss << std::put_time(&tm, L"%Y-%m-%d %H:%M:%S");
+	std::wstring nowTime = woss.str();
+	return nowTime;
 }

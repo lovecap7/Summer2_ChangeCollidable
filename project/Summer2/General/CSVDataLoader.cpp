@@ -15,7 +15,7 @@ namespace
 	//UIデータ数
 	constexpr int kUIDataElementNum = 3;
 	//セーブデータの要素数
-	constexpr int kSaveDataElementNum = 4;
+	constexpr int kSaveDataElementNum = 5;
 	//音量の要素数
 	constexpr int kVolumeDataElementNum = 4;
 	//Unityの座標に掛けることでDXライブラリでもUnityと同じ大きさになる
@@ -210,16 +210,18 @@ SaveDatas CSVDataLoader::LoadSaveDataCSV()
 	//データを保存する変数
 	SaveDatas saveDatas;
 	//データをすべて読み込む
-	auto valuesDatas = GetStringList(kSaveDataPath.c_str(), kSaveDataElementNum);
+	auto valuesDatas = GetWStringList(kSaveDataPath.c_str(), kSaveDataElementNum);
 	//データを格納してく
 	for (auto data : valuesDatas)
 	{		
 		//クリアしたステージのロード
-		saveDatas.stage1Clear = (data[0] == "1");
-		saveDatas.stage2Clear = (data[1] == "1");
-		saveDatas.stage3Clear = (data[2] == "1");
+		saveDatas.stage1Clear = (data[0] == L"1");
+		saveDatas.stage2Clear = (data[1] == L"1");
+		saveDatas.stage3Clear = (data[2] == L"1");
 		//総プレイ時間
 		saveDatas.totalPlayTime = std::stoi(data[3]);
+		//日付と時間
+		saveDatas.nowTime = data[4];
 	}
 	return saveDatas;
 }

@@ -44,9 +44,11 @@ public:
 	//そのステージをクリアしたのか
 	bool IsClearStage(Stage::StageIndex stageIndex);
 	//総プレイ時間
-	unsigned int TotalPlayTime()const { return m_totalPlayTime; };
+	unsigned int GetTotalPlayTime()const { return m_totalPlayTime; };
 	//スコア
 	std::weak_ptr<Score> GetScore() { return m_score; };
+	//日付と時間
+	std::wstring GetLastSaveTimeAndDate() { return m_lastSaveTime; };
 private:
 	//3ステージ文の初回クリア記録を持つ(ステージの進捗度に使う)
 	std::map<Stage::StageIndex, bool>m_isClearStage;
@@ -54,5 +56,10 @@ private:
 	unsigned int m_totalPlayTime;
 	//スコア
 	std::shared_ptr<Score> m_score;
+	//日付と時間
+	std::wstring m_lastSaveTime;
+private:
+	//日付と時間
+	std::wstring GetNowTimeAndDate();
 };
 

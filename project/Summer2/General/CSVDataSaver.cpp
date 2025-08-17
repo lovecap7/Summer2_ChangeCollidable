@@ -1,4 +1,5 @@
 #include "CSVDataSaver.h"
+#include "StringUtil.h"
 #include <iostream>
 #include <fstream>
 #include <list>
@@ -50,13 +51,15 @@ void CSVDataSaver::SaveDataToCSV(SaveDatas saveDatas)
     }
 
     //ヘッダーを書き込む
-    file << "ステージ1のクリア,ステージ2のクリア,ステージ3のクリア,総プレイ時間\n";
+    file << "ステージ1のクリア,ステージ2のクリア,ステージ3のクリア,総プレイ時間,日付と時間\n";
 
     //データ書き込み
     file << static_cast<int>(saveDatas.stage1Clear) << ","//ステージ1のクリア
          << static_cast<int>(saveDatas.stage2Clear) << ","//ステージ2のクリア
          << static_cast<int>(saveDatas.stage3Clear) << ","//ステージ3のクリア
-         << saveDatas.totalPlayTime << std::endl;
+         << saveDatas.totalPlayTime                 << ","//総プレイ時間  
+         << StringUtil::WstringToString(saveDatas.nowTime)//日付と時間
+         << std::endl;
     //閉じる
     file.close();
 }

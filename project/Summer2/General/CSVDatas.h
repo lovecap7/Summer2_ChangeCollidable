@@ -74,6 +74,8 @@ struct SaveDatas
     bool stage3Clear;
     //ƒvƒŒƒCŠÔ
     unsigned int totalPlayTime;
+    //“ú•t‚ÆŠÔ
+    std::wstring nowTime;
 };
 //‰¹—Ê
 struct VolumeData
