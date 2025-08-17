@@ -16,6 +16,10 @@ namespace
 	constexpr int kTextClearStage3PosY = Game::kScreenCenterY - 12;
 	constexpr int kTextPlayTimePosY = Game::kScreenCenterY + 30;
 	constexpr int kTextLastSaveTimeAndDatePosY = Game::kScreenCenterY + 70;
+	//分
+	constexpr int kMinutes = 3600;
+	//時
+	constexpr int kHourss = 60;
 }
 
 SaveDataUI::SaveDataUI():
@@ -45,8 +49,8 @@ void SaveDataUI::Draw() const
 
 	//トータルプレイ時間
 	auto totalTime = SaveDataManager::GetInstance().GetTotalPlayTime();
-	auto minutes = totalTime / 360;
-	auto hours = minutes / 60;
+	auto minutes = totalTime / kMinutes;
+	auto hours	 = minutes	 / kHourss;
 	std::wstring timeText = L"総プレイ時間 : " + std::to_wstring(hours) + L"時間" + std::to_wstring(minutes) + L"分";
 	DrawStringToHandle(kTextBasePosX, kTextPlayTimePosY, timeText.c_str(), 0x000000, m_textHandle);
 	//日付と時間

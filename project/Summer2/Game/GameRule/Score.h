@@ -29,6 +29,8 @@ public:
 	void AddHPScore(std::weak_ptr<HitPoints> hp);
 	//スコアを保存
 	void SaveHighScore();
+	//全てのステージのスコアデータを削除
+	void NewGame();
 private:
 	//ランキングの並びが正しいかチェック
 	void CheckRankingIntegrity();

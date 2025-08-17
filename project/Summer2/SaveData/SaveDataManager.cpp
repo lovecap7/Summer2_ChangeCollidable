@@ -58,7 +58,9 @@ void SaveDataManager::NewGame()
 	m_isClearStage[Stage::StageIndex::Stage2] = false;
 	m_isClearStage[Stage::StageIndex::Stage3] = false;
 	m_totalPlayTime							  = 0;
-	m_lastSaveTime								  = GetNowTimeAndDate();
+	m_lastSaveTime							  = GetNowTimeAndDate();
+	//ƒXƒRƒA‚àíœ
+	m_score->NewGame();
 	//CSV‚É‘‚«‚Ş
 	Save();
 }

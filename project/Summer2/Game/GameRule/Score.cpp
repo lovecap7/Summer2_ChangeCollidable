@@ -116,6 +116,16 @@ void Score::SaveHighScore()
 	auto saver = std::make_shared<CSVDataSaver>();
 	saver->SaveScoreDataToCSV(shared_from_this());
 }
+void Score::NewGame()
+{
+	for (int i = 0; i < m_highScore.size(); ++i)
+	{
+		m_highScore[i][0] = 0;
+		m_highScore[i][1] = 0;
+		m_highScore[i][2] = 0;
+	}
+	SaveHighScore();
+}
 
 void Score::CheckRankingIntegrity()
 {

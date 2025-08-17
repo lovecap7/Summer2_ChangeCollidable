@@ -63,8 +63,8 @@ void GameManager::Init(Stage::StageIndex index)
 	UIManager::GetInstance().CreateGameScoreUI(saveDataManager.GetScore());
 	UIManager::GetInstance().CreateTimerUI(m_timer);
 
-	//ステージ1ならチュートリアル
-	if (index == Stage::StageIndex::Stage1)
+	//ステージ1ならチュートリアル(かつ未クリアなら)
+	if (index == Stage::StageIndex::Stage1 && !saveDataManager.IsClearStage(Stage::StageIndex::Stage1))
 	{
 		m_tutorialDirecter = std::make_shared<TutorialDirecter>();
 	}
