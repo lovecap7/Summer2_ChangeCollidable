@@ -68,9 +68,17 @@ void OptionScene::Update()
 	if (input.IsTrigger("Up"))--optionIndex;
 	if (input.IsTrigger("Down"))++optionIndex;
 	optionIndex = MathSub::ClampInt(optionIndex, static_cast<int>(OptionIndex::ScreenMode), static_cast<int>(OptionIndex::VoiceVolume));
+	//項目が変わったら
+	if (m_optionIndex != static_cast<OptionIndex>(optionIndex))
+	{
+		//セレクトSE
+		SoundManager::GetInstance().PlayOnceSE("Select");
+	}
 	m_optionIndex = static_cast<OptionIndex>(optionIndex);
 	if (input.IsTrigger("B"))
 	{
+		//キャンセルSE
+		SoundManager::GetInstance().PlayOnceSE("Cancel");
 		m_controller.PopScene();
 		return;
 	}

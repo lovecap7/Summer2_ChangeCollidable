@@ -10,7 +10,7 @@ namespace
 	//通常サイズ
 	constexpr float kNormalSize = 1.0f;
 	//選択している間のサイズ
-	constexpr float kSelectSize = 1.2f;
+	constexpr float kSelectSize = 1.1f;
 }
 
 MenuUI::MenuUI(Vector2 pos, int handle) :

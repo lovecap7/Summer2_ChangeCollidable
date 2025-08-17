@@ -10,12 +10,12 @@ namespace
 	constexpr int kTextBackPosX = Game::kScreenCenterX + 300;
 	constexpr int kTextBackPosY = Game::kScreenCenterY;
 	//時間位置
-	constexpr int kTextBasePosX = Game::kScreenCenterX + 50;
-	constexpr int kTextClearStage1PosY = Game::kScreenCenterY - 96;
-	constexpr int kTextClearStage2PosY = Game::kScreenCenterY - 54;
-	constexpr int kTextClearStage3PosY = Game::kScreenCenterY - 12;
-	constexpr int kTextPlayTimePosY = Game::kScreenCenterY + 30;
-	constexpr int kTextLastSaveTimeAndDatePosY = Game::kScreenCenterY + 70;
+	constexpr int kTextBasePosX = Game::kScreenCenterX;
+	constexpr int kTextClearStage1PosY = Game::kScreenCenterY - 81;
+	constexpr int kTextClearStage2PosY = Game::kScreenCenterY - 39;
+	constexpr int kTextClearStage3PosY = Game::kScreenCenterY + 3;
+	constexpr int kTextPlayTimePosY = Game::kScreenCenterY + 43;
+	constexpr int kTextLastSaveTimeAndDatePosY = Game::kScreenCenterY + 85;
 	//分
 	constexpr int kMinutes = 3600;
 	//時
@@ -53,14 +53,15 @@ void SaveDataUI::Draw() const
 	auto hours	 = minutes	 / kHourss;
 	std::wstring timeText = L"総プレイ時間 : " + std::to_wstring(hours) + L"時間" + std::to_wstring(minutes) + L"分";
 	DrawStringToHandle(kTextBasePosX, kTextPlayTimePosY, timeText.c_str(), 0x000000, m_textHandle);
+	auto lastSaveText = L"前回のプレイ : " + SaveDataManager::GetInstance().GetLastSaveTimeAndDate();
 	//日付と時間
-	DrawStringToHandle(kTextBasePosX, kTextLastSaveTimeAndDatePosY, SaveDataManager::GetInstance().GetLastSaveTimeAndDate().c_str(), 0x000000, m_textHandle);
+	DrawStringToHandle(kTextBasePosX, kTextLastSaveTimeAndDatePosY, lastSaveText.c_str(), 0x000000, m_textHandle);
 }
 
 void SaveDataUI::DrawClearStage(Vector2 pos, Stage::StageIndex stageIndex) const
 {
 	auto isClear = SaveDataManager::GetInstance().IsClearStage(stageIndex);
-	std::wstring stageClearText = L"Stage" + std::to_wstring(static_cast<int>(stageIndex) + 1);
+	std::wstring stageClearText = L"ステージ" + std::to_wstring(static_cast<int>(stageIndex) + 1);
 	if (isClear)
 	{
 		stageClearText += L" : クリア";

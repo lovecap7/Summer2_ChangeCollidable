@@ -9,6 +9,8 @@ class EnemyBase;
 class Score;
 class Timer;
 class BossHPUI;
+class GameScoreUI;
+class TimerUI;
 class UIManager final
 {
 private:
@@ -48,9 +50,9 @@ public:
 	//敵UI
 	void CreateEnemyUI(const std::weak_ptr<EnemyBase> enemy);
 	//スコア
-	void CreateGameScoreUI(const std::weak_ptr<Score> score);
+	std::weak_ptr<GameScoreUI> CreateGameScoreUI(const std::weak_ptr<Score> score);
 	//タイマー
-	void CreateTimerUI(const std::weak_ptr<Timer> timer);
+	std::weak_ptr<TimerUI> CreateTimerUI(const std::weak_ptr<Timer> timer);
 	//画像ハンドル取得
 	int GetImageHandle(const std::string& name)const;
 	//テキストハンドル取得

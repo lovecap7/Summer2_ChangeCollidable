@@ -118,14 +118,18 @@ void UIManager::CreateEnemyUI(const std::weak_ptr<EnemyBase> enemy)
 	Entry(std::make_shared<EnemyHPUI>(enemy));
 }
 
-void UIManager::CreateGameScoreUI(const std::weak_ptr<Score> score)
+std::weak_ptr<GameScoreUI> UIManager::CreateGameScoreUI(const std::weak_ptr<Score> score)
 {
-	Entry(std::make_shared<GameScoreUI>(score));
+	auto gameScoreUI = std::make_shared<GameScoreUI>(score);
+	Entry(gameScoreUI);
+	return gameScoreUI;
 }
 
-void UIManager::CreateTimerUI(const std::weak_ptr<Timer> timer)
+std::weak_ptr<TimerUI> UIManager::CreateTimerUI(const std::weak_ptr<Timer> timer)
 {
-	Entry(std::make_shared<TimerUI>(timer));
+	auto timerUI = std::make_shared<TimerUI>(timer);
+	Entry(timerUI);
+	return timerUI;
 }
 
 int UIManager::GetImageHandle(const std::string& name) const

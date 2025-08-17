@@ -197,10 +197,16 @@ void SelectStageScene::Restart()
 
 void SelectStageScene::SelectStageIndex(Input& input)
 {
+	auto lastIndex = m_stageIndex;
 	//解放されてるステージまでしか選べない
 	if (input.IsTrigger("Left"))--m_stageIndex;
 	if (input.IsTrigger("Right"))++m_stageIndex;
 	m_stageIndex = MathSub::ClampInt(m_stageIndex, static_cast<int>(Stage::StageIndex::Stage1), static_cast<int>(m_unlockStageIndex));
+	if (m_stageIndex != lastIndex)
+	{
+		//セレクトSE
+		SoundManager::GetInstance().PlayOnceSE("Select");
+	}
 }
 
 void SelectStageScene::ChangeBack()

@@ -46,6 +46,7 @@ ScoreUIBase::~ScoreUIBase()
 
 void ScoreUIBase::Draw() const
 {
+	if (!m_isDraw)return;
 	for (int i = 0;i < kDigitNum;++i)
 	{
 		//Ø‚èŽæ‚è‚ðŒvŽZ‚·‚é

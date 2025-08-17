@@ -123,6 +123,8 @@ void GameManager::Update()
 		//プレイヤーが死亡した際の処理
 		else if (m_actorManager->GetPlayer().expired() && !m_isGameover)
 		{
+			//UIマネージャーのリセット
+			UIManager::GetInstance().Reset();
 			//ゲームオーバー
 			m_isGameover = true;
 		}
@@ -217,6 +219,10 @@ void GameManager::Restart(Stage::StageIndex index)
 	//フラグリセット
 	m_isGameover = false;
 	m_isGameClear = false;
+	auto& saveDataManager = SaveDataManager::GetInstance();
+	//UI作成
+	UIManager::GetInstance().CreateGameScoreUI(saveDataManager.GetScore());
+	UIManager::GetInstance().CreateTimerUI(m_timer);
 }
 
 void GameManager::InitLight()

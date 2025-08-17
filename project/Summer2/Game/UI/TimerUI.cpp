@@ -48,6 +48,7 @@ void TimerUI::Update()
 void TimerUI::Draw() const
 {
 	if (m_timer.expired())return;
+	if (!m_isDraw)return;
 	auto time = m_timer.lock();
 	int minSec = time->GetMillisecond();
 	int sec = time->GetSeconds();
