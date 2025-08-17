@@ -25,7 +25,7 @@ bool Application::Init()
 	m_isFinishApplication = false;
 
 	//ゲームタイトル
-	SetWindowText(L"Spinning Knight");
+	SetWindowText(L"BRAVE BLADE");
 	//ゲームアイコン
 	//SetWindowIconID(IDI_ICON1);
 
