@@ -42,7 +42,7 @@ namespace
 	//索敵の基準方向を決める際のモデルの向きと入力の向きの割合
 	constexpr float kTargetSearchDirRate = 0.1f;
 	//視野角
-	constexpr float kSearchAngle = (120.0f * MyMath::DEG_2_RAD) / 2.0f;
+	constexpr float kSearchAngle = (60.0f * MyMath::DEG_2_RAD);
 	//ダッシュ持続状態解除
 	constexpr int kCancelRunFrame = 5;
 	//落下したと判定するY座標

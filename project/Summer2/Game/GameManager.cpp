@@ -34,7 +34,8 @@ namespace
 
 GameManager::GameManager():
 	m_isGameover(false),
-	m_isGameClear(false)
+	m_isGameClear(false),
+	m_shadowMapHandle(-1)
 {
 	//ƒJƒƒ‰‚Ì‰Šú‰»
 	m_camera = std::make_shared<GameCamera>();
