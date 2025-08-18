@@ -59,9 +59,9 @@ BossMuscleStateBeam::BossMuscleStateBeam(std::weak_ptr<Actor> owner, bool isAngr
 
 BossMuscleStateBeam::~BossMuscleStateBeam()
 {
-	auto coolTime = kAttackCoolTime;
+	int coolTime = kAttackCoolTime;
 	//怒り状態ならクールタイムを短くする
-	if (m_isAngry)coolTime *= 0.5f;
+	if (m_isAngry)coolTime /= 2;
 	//攻撃のクールタイム
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	coll->SetAttackCoolTime(coolTime);

@@ -28,7 +28,7 @@ public:
 	virtual Vector3 GetKnockBackVec(Position3 other);
 
 	//Ç‹Ç∆ÇﬂÇƒê›íË
-	void AttackSetting(int damage,int keepFrame,int knockBackPower, Battle::AttackWeight aw, int hitStopFrame, ShakePower sp);
+	void AttackSetting(int damage,int keepFrame, float knockBackPower, Battle::AttackWeight aw, int hitStopFrame, ShakePower sp);
 	//É_ÉÅÅ[ÉW
 	int GetDamage();
 	void SetDamage(int damage) { m_damage = damage; };

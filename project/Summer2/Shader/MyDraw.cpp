@@ -20,26 +20,26 @@ void MyDrawUtils::DrawRotaGraph(Vector2 pos, float scale, float angle, int handl
 
 	//並べ方はZの字になるように
 	//頂点情報(左上)
-	vertices[0].pos.x = pos.x - w * 0.5 * scale;
-	vertices[0].pos.y = pos.y - h * 0.5 * scale;
+	vertices[0].pos.x = pos.x - w * 0.5f * scale;
+	vertices[0].pos.y = pos.y - h * 0.5f * scale;
 	vertices[0].u = 0.0f;
 	vertices[0].v = 0.0f;
 
 	//頂点情報(右上)
-	vertices[1].pos.x = pos.x + w * 0.5 * scale;
-	vertices[1].pos.y = pos.y - h * 0.5 * scale;
+	vertices[1].pos.x = pos.x + w * 0.5f * scale;
+	vertices[1].pos.y = pos.y - h * 0.5f * scale;
 	vertices[1].u = 1.0f;
 	vertices[1].v = 0.0f;
 
 	//頂点情報(左下)
-	vertices[2].pos.x = pos.x - w * 0.5 * scale;
-	vertices[2].pos.y = pos.y + h * 0.5 * scale;
+	vertices[2].pos.x = pos.x - w * 0.5f * scale;
+	vertices[2].pos.y = pos.y + h * 0.5f * scale;
 	vertices[2].u = 0.0f;
 	vertices[2].v = 1.0f;
 
 	//頂点情報(右下)
-	vertices[3].pos.x = pos.x + w * 0.5 * scale;
-	vertices[3].pos.y = pos.y + h * 0.5 * scale;
+	vertices[3].pos.x = pos.x + w * 0.5f * scale;
+	vertices[3].pos.y = pos.y + h * 0.5f * scale;
 	vertices[3].u = 1.0f;
 	vertices[3].v = 1.0f;
 
@@ -69,7 +69,7 @@ void MyDrawUtils::DrawRotaGraph(Vector2 pos, float scale, float angle, int handl
 	SetDrawAlphaTest(DX_CMP_GREATER, 0);
 	SetUseAlphaTestFlag(true);
 	//シェーダを適用して描画
-	DxLib::DrawPrimitive2DToShader(vertices.data(), vertices.size(),
+	DxLib::DrawPrimitive2DToShader(vertices.data(), static_cast<int>(vertices.size()),
 		DX_PRIMTYPE_TRIANGLESTRIP);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	//シェーダを解除
@@ -149,7 +149,7 @@ void MyDrawUtils::DrawGraph(Vector2 pos, int handle, int psH, std::list<int> tex
 	SetUseAlphaTestFlag(true);
 
 	//描画
-	DrawPrimitive2DToShader(vertices.data(), vertices.size(), DX_PRIMTYPE_TRIANGLESTRIP);
+	DrawPrimitive2DToShader(vertices.data(), static_cast<int>(vertices.size()), DX_PRIMTYPE_TRIANGLESTRIP);
 	//描画後の処理
 	SetUsePixelShader(-1);
 	DxLib::SetUseTextureToShader(0, -1);

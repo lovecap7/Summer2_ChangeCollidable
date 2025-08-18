@@ -56,7 +56,7 @@ void Fader::Update()
 //•`‰æ
 void Fader::Draw()const
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_countFrame);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(m_countFrame));
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
 }

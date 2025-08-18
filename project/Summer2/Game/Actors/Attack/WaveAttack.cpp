@@ -4,6 +4,7 @@
 #include <DxLib.h>
 #include "../../../General/Effect/EffekseerManager.h"
 #include "../../../General/Sound/SoundManager.h"
+#include "../../../General/Math/MyMath.h"
 WaveAttack::WaveAttack(std::weak_ptr<Actor> owner):
 	TorusAttackBase(owner),
 	m_waveSpeed(0.0f)
@@ -30,7 +31,7 @@ void WaveAttack::Draw() const
 	for(int i = 0; i < 20; ++i)
 	{
 		float angleDeg = i * (360.0f / 20.0f);
-		float angleRad = DX_PI * angleDeg / 180.0f;
+		float angleRad = MyMath::PI_F * angleDeg / 180.0f;
 		// XZ•½–Ê‚Ì‰~Žüã‚É”z’u
 		float x = cosf(angleRad) * coll->GetRange();
 		float z = sinf(angleRad) * coll->GetRange();

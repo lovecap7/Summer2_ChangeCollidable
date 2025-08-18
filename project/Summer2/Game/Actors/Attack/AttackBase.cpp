@@ -12,8 +12,8 @@
 AttackBase::AttackBase(Shape shape, std::weak_ptr<Actor> owner) :
 	Actor(shape),
 	m_owner(owner),
-	m_damage(0.0f),
-	m_keepFrame(0.0f),
+	m_damage(0),
+	m_keepFrame(0),
 	m_knockBackPower(0.0f),
 	m_attackWeight(Battle::AttackWeight::Light),
 	m_hitStopFrame(0),
@@ -130,7 +130,7 @@ Vector3 AttackBase::GetKnockBackVec(Position3 other)
 	return knockBackVec;
 }
 
-void AttackBase::AttackSetting(int damage, int keepFrame, int knockBackPower, Battle::AttackWeight aw, int hitStopFrame, ShakePower sp)
+void AttackBase::AttackSetting(int damage, int keepFrame, float knockBackPower, Battle::AttackWeight aw, int hitStopFrame, ShakePower sp)
 {
 	m_damage = damage;
 	m_keepFrame = keepFrame;
@@ -142,7 +142,7 @@ void AttackBase::AttackSetting(int damage, int keepFrame, int knockBackPower, Ba
 
 int AttackBase::GetDamage()
 {
-	float damage = m_damage;
+	float damage = static_cast<float>(m_damage);
 	if (!m_owner.expired())
 	{
 		//É_ÉÅÅ[ÉWî{ó¶ÇÇ©ÇØÇÈ
@@ -153,7 +153,7 @@ int AttackBase::GetDamage()
 			damage *= std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints().lock()->GetDamageRate();
 		}
 	}
-	return damage;
+	return static_cast<int>(damage);
 }
 
 Battle::AttackWeight AttackBase::GetAttackWeight()
