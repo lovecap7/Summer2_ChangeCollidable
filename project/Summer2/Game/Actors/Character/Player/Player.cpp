@@ -38,11 +38,11 @@ namespace
 	//•KŽE‹ZƒQ[ƒW‚ÌÅ‘å’l
 	constexpr int kMaxUltGage = 100;
 	//õ“G‹——£
-	constexpr float kSearchDistance = 200.0f;
+	constexpr float kSearchDistance = 500.0f;
 	//õ“G‚ÌŠî€•ûŒü‚ðŒˆ‚ß‚éÛ‚Ìƒ‚ƒfƒ‹‚ÌŒü‚«‚Æ“ü—Í‚ÌŒü‚«‚ÌŠ„‡
-	constexpr float kTargetSearchDirRate = 0.1f;
+	constexpr float kTargetSearchDirRate = 0.2f;
 	//Ž‹–ìŠp
-	constexpr float kSearchAngle = (60.0f * MyMath::DEG_2_RAD);
+	constexpr float kSearchAngle = (250.0f * MyMath::DEG_2_RAD);
 	//ƒ_ƒbƒVƒ…Ž‘±ó‘Ô‰ðœ
 	constexpr int kCancelRunFrame = 5;
 	//—Ž‰º‚µ‚½‚Æ”»’è‚·‚éYÀ•W
@@ -187,8 +187,14 @@ void Player::Draw() const
 	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
 	//•`‰æ
 	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff00ff);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff00ff);
+	//ƒ^[ƒQƒbƒg‚Æ‚Ì‹——£
+	if (m_targetData.isHitTarget)
+	{
+		printf("ƒ^[ƒQƒbƒg‚Æ‚Ì‹——£ : %f\n", m_targetData.targetDis);
+		DrawLine3D(m_rb->m_pos.ToDxLibVector(), m_targetData.targetPos.ToDxLibVector(), 0x0000ff);
+	}
 #endif
 	m_model->Draw();
 }
@@ -269,7 +275,7 @@ void Player::TargetSearch(float searchDistance, float searchAngle, Vector3 targe
 		//“ü—Í‚Æ‚ÌŠÔ‚ÌƒxƒNƒgƒ‹‚©‚çõ“G
 		dir = Vector2::Lerp(m_model->GetDir().XZ(), m_stickVec, kTargetSearchDirRate);
 	}
-	if (dir.Magnitude() <= searchDistance)
+	if (toTarget.Magnitude() <= searchDistance)
 	{
 		//Ž‹–ìŠp“à‚Éƒ^[ƒQƒbƒg‚ª‚¢‚é‚©
 		auto angle = abs(Vector2::GetRad(m_model->GetDir().XZ(), dir));
@@ -278,7 +284,7 @@ void Player::TargetSearch(float searchDistance, float searchAngle, Vector3 targe
 			m_targetData.isHitTarget = true;
 			m_targetData.targetPos = targetPos;
 			m_targetData.targetDirXZ = dir.XZ().Normalize();
-			m_targetData.targetDis = dir.Magnitude();
+			m_targetData.targetDis = toTarget.Magnitude();
 		}
 	}
 }

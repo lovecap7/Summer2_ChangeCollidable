@@ -39,6 +39,10 @@ namespace
 	constexpr int kMaxComboNum = 4;
 	//攻撃が強くなる段階数
 	constexpr int kHighAttackComboNum = 3;
+	//前進をする距離
+	constexpr float kAttackMoveDistance = 100.0f;
+	//全身を緩和する割合
+	constexpr float kNearDistanceAttackMoveRate = 0.1f;
 }
 
 PlayerStateNA::PlayerStateNA(std::weak_ptr<Actor> player, const std::weak_ptr<ActorManager> actorManager) :
@@ -159,7 +163,17 @@ void PlayerStateNA::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	//移動フレーム中は前に進む
 	if (m_attackCountFrame <= m_attackData.moveFrame)
 	{
-		AttackMove(m_attackData.moveSpeed);
+		//速度
+		float speed = m_attackData.moveSpeed;
+		//ターゲット
+		CharacterBase::TargetData targetData = coll->GetTargetData();
+		//ターゲットが近いときは全身速度を落とす
+		if (targetData.targetDis <= kAttackMoveDistance && targetData.isHitTarget)
+		{
+			speed *= kNearDistanceAttackMoveRate;
+		}
+		//前進
+		AttackMove(speed);
 	}
 	else
 	{
