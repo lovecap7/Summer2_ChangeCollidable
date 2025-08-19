@@ -58,10 +58,10 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 		ChangeState(std::make_shared<GameCameraStateBossDeath>(m_camera, actorManager));
 		return;
 	}
-	auto player = actorManager.lock()->GetPlayer();
-	auto camera = m_camera.lock();
 	//プレイヤーが消滅した場合更新終了
-	if (player.expired())return;
+	if (actorManager.lock()->GetPlayer().expired())return;
+	auto player = actorManager.lock()->GetPlayer().lock();
+	auto camera = m_camera.lock();
 	//イベントエリアにプレイヤーが入ったなら
 	if (!camera->GetEventArea().expired())
 	{
@@ -87,7 +87,7 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 		}
 	}
 	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
-	auto playerPos = player.lock()->GetRb()->GetPos();
+	auto playerPos = player->GetRb()->GetPos();
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();
 	Vector3 nextPos = camera->GetPos();
