@@ -1,4 +1,4 @@
-Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ,GropeTag
+Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ,GroupTag
 Block_Grass,0,-9.3,0,0,0,0,5000,1000,2000,Untagged
 Block_Grass,14.13,0.73,4.43,0,0,0,100,100,100,Untagged
 Block_Grass,23.93,0.73,0.68,0,0,0,100,100,100,Untagged
@@ -93,11 +93,11 @@ Tree,-5.48,0.5,-11.08,0,0,0,1,1,1,Untagged
 Tree,37.93,0.5,-10.62,0,0,0,1,1,1,Untagged
 Tree,40.72001,0.5,-7.400001,0,0,0,1,1,1,Untagged
 Tree,52.10001,0.5,-7.400001,0,0,0,1,1,1,Untagged
-Tree,61.8,0.5,-7.400001,0,0,0,1,1,1,Untagged
-Tree,71.32001,0.5,-7.400001,0,0,0,1,1,1,Untagged
-Tree,81.84,0.5,-7.400001,0,0,0,1,1,1,Untagged
+Tree,58.57,0.5,-7.75,0,0,0,1,1,1,Untagged
+Tree,66.34,0.5,-11.37,0,0,0,1,1,1,Untagged
+Tree,79.79,0.5,-12.12,0,0,0,1,1,1,Untagged
 Tree,98.8,0.5,-7.400001,0,0,0,1,1,1,Untagged
-Tree,108.77,1.8,-7.400001,0,0,0,1,1,1,Untagged
+Tree,102.85,-0.92,-7.400001,0,0,0,1,1,1,Untagged
 Tree,120.35,-0.23,-7.400001,0,0,0,1,1,1,Untagged
 Tree,132.93,-0.23,-7.400001,0,0,0,1,1,1,Untagged
 Tree,145.68,-0.23,-7.400001,0,0,0,1,1,1,Untagged

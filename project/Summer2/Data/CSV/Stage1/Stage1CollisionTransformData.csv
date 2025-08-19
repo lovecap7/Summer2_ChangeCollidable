@@ -1,4 +1,4 @@
-Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ,GropeTag
+Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ,GroupTag
 Plane,0,0.5,0,0,0,0,10,1,5,Untagged
 Plane,47.75,1.21,0,0,0,0,0.45,1,5,Untagged
 Plane,43.42,0.77,0,0,0,10,0.45,1,5,Untagged

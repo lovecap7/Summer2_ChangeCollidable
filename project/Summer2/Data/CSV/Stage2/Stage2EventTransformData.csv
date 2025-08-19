@@ -1,4 +1,4 @@
-Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ,GropeTag
+Name,PosX,PosY,PosZ,RotX,RotY,RotZ,ScaleX,ScaleY,ScaleZ,GroupTag
 AllKillAreaS,24.5,0.5,-24.6,90,90,0,10,1,5,Untagged
 AllKillAreaE,80.3,0.5,12.5,90,270,0,10,1,5,Untagged
 ZMoveAreaS,96.3,0.5,-41.2,90,90,0,10,1,5,Untagged
