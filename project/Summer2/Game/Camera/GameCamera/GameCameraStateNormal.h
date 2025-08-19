@@ -10,5 +10,8 @@ public:
 	void Init()override;
 	//状態に応じた更新処理
 	void Update(const std::weak_ptr<ActorManager> actorManager) override;
+private:
+	//移動フレーム
+	int m_moveFrame;
 };
 

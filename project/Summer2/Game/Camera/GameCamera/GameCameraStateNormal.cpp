@@ -86,7 +86,7 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 			}
 		}
 	}
-	//プレイヤーがカメラの特定の範囲外に出ようとした際に移動
+	//移動
 	auto playerPos = player->GetRb()->GetPos();
 	//位置の更新
 	Vector3 oldPos = camera->GetPos();

@@ -59,3 +59,19 @@ float MathSub::Max(float a, float b)
     }
     return max;
 }
+
+float MathSub::Sign(float num)
+{
+    if (num == 0.0f)
+    {
+        return 0.0f;
+    }
+    else if (num > 0.0f)
+    {
+        return 1.0f;
+    }
+    else
+    {
+        return -1.0f;
+    }
+}

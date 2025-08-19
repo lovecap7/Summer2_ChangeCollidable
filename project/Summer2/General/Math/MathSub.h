@@ -36,11 +36,18 @@ public:
     static float Min(float a, float b);
 
     /// <summary>
-   /// Å‘å’l‚ğ•Ô‚·
-   /// </summary>
-   /// <param name="a"></param>
-   /// <param name="b"></param>
-   /// <returns></returns>
+    /// Å‘å’l‚ğ•Ô‚·
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
     static float Max(float a, float b);
+
+    /// <summary>
+    /// ’l‚Ì•„†‚ğæ“¾
+    /// </summary>
+    /// <param name="num"></param>
+    /// <returns></returns>
+    static float Sign(float num);
 };
 
