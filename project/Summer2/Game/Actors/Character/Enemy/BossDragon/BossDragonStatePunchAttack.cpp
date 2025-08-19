@@ -50,6 +50,8 @@ BossDragonStatePunchAttack::~BossDragonStatePunchAttack()
 	auto coll = std::dynamic_pointer_cast<BossDragon>(m_owner.lock());
 	coll->SetAttackCoolTime(kAttackCoolTime);
 	if (!m_attack.expired())m_attack.lock()->Delete();
+	//ƒOƒ‹[ƒv‚ÉŠ‘®‚µ‚Ä‚¢‚é‚È‚çUŒ‚Œ ‚ðÁ‚·
+	if (coll->IsInGroup())coll->SetCanAttack(false);
 }
 
 void BossDragonStatePunchAttack::Init()

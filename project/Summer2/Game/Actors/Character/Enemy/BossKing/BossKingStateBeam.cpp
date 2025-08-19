@@ -78,6 +78,8 @@ BossKingStateBeam::~BossKingStateBeam()
 	{
 		m_beam.lock()->Delete();
 	}
+	//ƒOƒ‹[ƒv‚ÉŠ‘®‚µ‚Ä‚¢‚é‚È‚çUŒ‚Œ ‚ðÁ‚·
+	if (coll->IsInGroup())coll->SetCanAttack(false);
 }
 
 void BossKingStateBeam::Init()

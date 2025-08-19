@@ -36,6 +36,8 @@ GameCameraStateBossArea::GameCameraStateBossArea(std::weak_ptr<GameCamera> camer
 	GameCameraStateBase(camera),
 	m_angle(kCameraAngleX)
 {
+	//カメラがあるかチェック
+	if (m_camera.expired())return;
 	auto owner = m_camera.lock();
 	//見てる位置
 	owner->SetViewPos(owner->GetPos() + owner->GetDir());
@@ -53,7 +55,7 @@ void GameCameraStateBossArea::Init()
 
 void GameCameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	auto boss = actorManager.lock()->GetBoss();
+	
 	//ボスが死亡した場合
 	if (actorManager.lock()->IsBossDead())
 	{
@@ -77,6 +79,9 @@ void GameCameraStateBossArea::Update(const std::weak_ptr<ActorManager> actorMana
 	auto endPos = area->GetEventEndPos();
 	//プレイヤーの座標
 	auto playerPos = player.lock()->GetPos();
+	auto boss = actorManager.lock()->GetBoss();
+	//ボスがいないなら
+	if (boss.expired())return;
 	//間の位置
 	Vector3 center = (boss.lock()->GetPos() + playerPos) / 2.0f;
 	//プレイヤーとボスの距離

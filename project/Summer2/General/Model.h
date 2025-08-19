@@ -20,8 +20,9 @@ public:
 	void SetScale(VECTOR pos);
 	void SetRot(VECTOR rot);
 	void SetDir(Vector2 vec);
-	void SetDiffuseColor(float r, float g, float b, float a);
-	void SetDiffuseColor(COLOR_F color);
+	void SetColor(float r, float g, float b, float a);
+	void SetColor(COLOR_F color);
+	void ResetColor();
 	//モデル変更
 	void SetModel(int modelHandle);
 	//ゲッター
@@ -79,7 +80,7 @@ private:
 	//攻撃を喰らった時にもとの状態に戻るのを数えるフレーム
 	int m_hitCountFrame;
 	//攻撃を喰らった時に赤色から元に戻す処理に使う
-	COLOR_F m_diffColor;
+	COLOR_F m_color;
 	//攻撃を食らった時に少し大きくするので差を覚えておく
 	Vector3 m_beforeScaleDif;
 	Vector3 m_beforeScale;

@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <string>
 #include "../../General/Math/MyMath.h"
 #include "../../General/Collision/Collidable.h"
 
@@ -24,6 +25,12 @@ protected:
 	bool m_isSetId;
 	//モデル
 	std::shared_ptr<Model> m_model;
+	//グループ
+	std::string m_groupTag;
+	//攻撃権
+	bool m_canAttack;
+	//グループに所属しているか
+	bool m_isInGroup;
 public:
 	Actor(Shape shape);
 	virtual ~Actor() {};
@@ -82,5 +89,13 @@ public:
 	Vector3 GetNextPos() const;
 	//モデルクラス
 	std::shared_ptr<Model> GetModel() const { return m_model; };
+	//グループ
+	std::string GetGroupTag()const { return m_groupTag; };
+	void SetGroupTag(std::string& tag);
+	//グループに所属しているか
+	bool IsInGroup()const { return m_isInGroup; };
+	//攻撃権
+	bool CanAttack()const { return m_canAttack; };
+	void SetCanAttack(bool canAttack) { m_canAttack = canAttack; };
 };
 

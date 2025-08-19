@@ -32,7 +32,7 @@ SelectStageScene::SelectStageScene(SceneController& controller):
 	//CSVデータローダー
 	auto csvLodader = std::make_shared<CSVDataLoader>();
 	//CSVから座標データを読み込む
-	auto tData = csvLodader->LoadTransformDataCSV("Data/CSV/SelectStageTransformData.csv");
+	auto tData = csvLodader->LoadActorDataCSV("Data/CSV/SelectStageTransformData.csv");
 	//ステージの位置
 	for (auto& data : tData)
 	{

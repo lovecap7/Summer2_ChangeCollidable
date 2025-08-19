@@ -54,6 +54,8 @@ BossMuscleStateJumpAttack::~BossMuscleStateJumpAttack()
 	//攻撃のクールタイム
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	coll->SetAttackCoolTime(coolTime);
+	//グループに所属しているなら攻撃権を消す
+	if (coll->IsInGroup())coll->SetCanAttack(false);
 }
 
 void BossMuscleStateJumpAttack::Init()

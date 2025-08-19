@@ -54,6 +54,8 @@ BossMuscleStateSwingAttack::~BossMuscleStateSwingAttack()
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	coll->SetAttackCoolTime(coolTime);
 	if (!m_attack.expired())m_attack.lock()->Delete();
+	//ƒOƒ‹[ƒv‚ÉŠ‘®‚µ‚Ä‚¢‚é‚È‚çUŒ‚Œ ‚ðÁ‚·
+	if (coll->IsInGroup())coll->SetCanAttack(false);
 }
 
 void BossMuscleStateSwingAttack::Init()

@@ -22,11 +22,12 @@ namespace
 
 
 //オブジェクトの情報を格納する構造体
-struct ObjectData {
+struct ActorData {
     std::string name;      //オブジェクト名
     VECTOR      pos;       //位置
     VECTOR      rot;       //回転（ラジアン）
     VECTOR      scale;     //スケール
+    std::string gropeTag;  //グループタグ
 };
 //オブジェクトの情報を格納する構造体
 struct AttackData {

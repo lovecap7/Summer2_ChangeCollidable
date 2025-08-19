@@ -59,6 +59,8 @@ BossKingStateRapidFire::~BossKingStateRapidFire()
 	//攻撃のクールタイム
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
 	coll->SetAttackCoolTime(kAttackCoolTime);
+	//グループに所属しているなら攻撃権を消す
+	if (coll->IsInGroup())coll->SetCanAttack(false);
 }
 
 void BossKingStateRapidFire::Init()

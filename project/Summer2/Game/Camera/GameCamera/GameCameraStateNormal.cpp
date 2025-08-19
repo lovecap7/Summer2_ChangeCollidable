@@ -32,6 +32,8 @@ namespace
 GameCameraStateNormal::GameCameraStateNormal(std::weak_ptr<GameCamera> camera):
 	GameCameraStateBase(camera)
 {
+	//カメラがあるかチェック
+	if (m_camera.expired())return;
 	auto owner = m_camera.lock();
 	//カメラの角度
 	owner->SetDir(Matrix4x4::RotateXMat4x4(kCameraAngleX) *
@@ -50,7 +52,6 @@ void GameCameraStateNormal::Init()
 
 void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManager)
 {
-	auto boss = actorManager.lock()->GetBoss();
 	//ボスが死亡した場合
 	if (actorManager.lock()->IsBossDead())
 	{

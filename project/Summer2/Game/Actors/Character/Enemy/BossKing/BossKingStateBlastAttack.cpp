@@ -65,6 +65,8 @@ BossKingStateBlastAttack::~BossKingStateBlastAttack()
 	{
 		m_blastMagicEff.lock()->Delete();
 	}
+	//ƒOƒ‹[ƒv‚ÉŠ‘®‚µ‚Ä‚¢‚é‚È‚çUŒ‚Œ ‚ðÁ‚·
+	if (coll->IsInGroup())coll->SetCanAttack(false);
 }
 
 void BossKingStateBlastAttack::Init()

@@ -9,17 +9,21 @@ namespace
 {
 	//プレイヤーとの距離が遠いときに当たり判定を停止する距離
 	const float kStopCollisionDistance = 5000.0f;
+	//最初のクールタイム
+	constexpr int kAttackCoolTime = 100;
 }
 
 EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
 	CharacterBase(shape),
-	m_attackCoolTime(0),
+	m_attackCoolTime(kAttackCoolTime),
 	m_enemyGrade(grade)
 {
 }
 
 void EnemyBase::UpdateAttackCoolTime()
 {
+	//攻撃できないなら
+	if (!m_canAttack)return;
 	m_attackCoolTime--;
 	if (m_attackCoolTime < 0)
 	{

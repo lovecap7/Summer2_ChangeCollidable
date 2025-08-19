@@ -31,6 +31,8 @@ namespace
 GameCameraStateStart::GameCameraStateStart(std::weak_ptr<GameCamera> camera) :
 	GameCameraStateBase(camera)
 {
+	//カメラがあるかチェック
+	if (m_camera.expired())return;
 	auto owner = m_camera.lock();
 	//カメラの角度
 	owner->SetDir(Matrix4x4::RotateXMat4x4(kCameraAngleX) *
@@ -52,6 +54,8 @@ void GameCameraStateStart::Init()
 void GameCameraStateStart::Update(const std::weak_ptr<ActorManager> actorManager)
 {
 	auto player = actorManager.lock()->GetPlayer();
+	//カメラがあるかチェック
+	if (m_camera.expired())return;
 	auto camera = m_camera.lock();
 	//プレイヤーが消滅した場合更新終了
 	if (player.expired())return;

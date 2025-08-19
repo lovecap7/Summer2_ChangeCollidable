@@ -109,27 +109,28 @@ void PurpleDinosaur::OnCollide(const std::shared_ptr<Collidable> other)
 void PurpleDinosaur::Draw() const
 {
 #if _DEBUG
-	DrawCapsule3D(
-		m_rb->GetPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
-		16,
-		0xff0000,
-		0xff0000,
-		false
-	);
-	//’Tõ”ÍˆÍ
-	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
-	//Œ©‚Ä‚é•ûŒü
-	auto forward = m_model->GetDir();
-	forward = forward * kSearchDistance;
-	//Ž‹–ìŠp
-	auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	//•`‰æ
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
+	//DrawCapsule3D(
+	//	m_rb->GetPos().ToDxLibVector(),
+	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
+	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
+	//	16,
+	//	0xff0000,
+	//	0xff0000,
+	//	false
+	//);
+	////’Tõ”ÍˆÍ
+	//DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
+	////Œ©‚Ä‚é•ûŒü
+	//auto forward = m_model->GetDir();
+	//forward = forward * kSearchDistance;
+	////Ž‹–ìŠp
+	//auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	//auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	////•`‰æ
+	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
+	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
+	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
+
 #endif
 	m_model->Draw();
 }

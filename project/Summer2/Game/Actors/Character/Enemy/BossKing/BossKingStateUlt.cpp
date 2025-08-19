@@ -68,9 +68,12 @@ BossKingStateUlt::BossKingStateUlt(std::weak_ptr<Actor> owner, const std::weak_p
 	coll->CharacterOnceSE("MagicCircle");
 }
 BossKingStateUlt::~BossKingStateUlt()
-{//攻撃のクールタイム
+{
+	//攻撃のクールタイム
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
 	coll->SetAttackCoolTime(kAttackCoolTime);
+	//グループに所属しているなら攻撃権を消す
+	if (coll->IsInGroup())coll->SetCanAttack(false);
 }
 
 void BossKingStateUlt::Init()

@@ -6,7 +6,10 @@ Actor::Actor(Shape shape):
 	Collidable(shape),
 	m_isDelete(false),
 	m_id(0),
-	m_isSetId(false)
+	m_isSetId(false),
+	m_groupTag{ "Untagged" },
+	m_canAttack(true),
+	m_isInGroup(false)
 {
 }
 
@@ -26,4 +29,14 @@ Vector3 Actor::GetPos() const
 Vector3 Actor::GetNextPos() const
 {
 	return m_rb->GetNextPos();
+}
+
+void Actor::SetGroupTag(std::string& tag)
+{
+	m_groupTag = tag;
+	//ƒOƒ‹[ƒv‚ÉŠ‘®‚µ‚Ä‚¢‚é‚©
+	if (m_groupTag != "Untagged")
+	{
+		m_isInGroup = true;
+	}
 }

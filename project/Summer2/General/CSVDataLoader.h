@@ -16,7 +16,7 @@ public:
     /// </summary>
     /// <param name="fileName">csv</param>
     /// <returns></returns>
-    std::vector<ObjectData> LoadTransformDataCSV(const char* fileName);
+    std::vector<ActorData> LoadActorDataCSV(const char* fileName);
 
     /// <summary>
     /// UŒ‚ƒf[ƒ^‚Ì“Ç‚İæ‚è

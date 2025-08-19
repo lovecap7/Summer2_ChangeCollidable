@@ -38,6 +38,8 @@ GameCameraStateClear::GameCameraStateClear(std::weak_ptr<GameCamera> camera, con
 	GameCameraStateBase(camera),
 	m_rotaFrame(kClearRotaFrame)
 {
+	//カメラがあるかチェック
+	if (m_camera.expired())return;
 	auto owner = m_camera.lock();
 	auto player = actorManager.lock()->GetPlayer();
 	auto playerPos = player.lock()->GetNextPos();

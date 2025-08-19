@@ -167,34 +167,34 @@ void Player::OnCollide(const std::shared_ptr<Collidable> other)
 void Player::Draw() const
 {
 #if _DEBUG
-	//Õ“Ë”»’è
-	DrawCapsule3D(
-		m_rb->m_pos.ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
-		16,
-		0xff0000,
-		0xff0000,
-		false//’n–Ê‚É‚¢‚é‚Æ“h‚è‚Â‚Ô‚³‚ê‚é
-	);
-	//’Tõ”ÍˆÍ
-	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
-	//Œ©‚Ä‚é•ûŒü
-	auto forward = m_model->GetDir();
-	forward = forward * kSearchDistance;
-	//Ž‹–ìŠp
-	auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	//•`‰æ
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff00ff);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff00ff);
-	//ƒ^[ƒQƒbƒg‚Æ‚Ì‹——£
-	if (m_targetData.isHitTarget)
-	{
-		printf("ƒ^[ƒQƒbƒg‚Æ‚Ì‹——£ : %f\n", m_targetData.targetDis);
-		DrawLine3D(m_rb->m_pos.ToDxLibVector(), m_targetData.targetPos.ToDxLibVector(), 0x0000ff);
-	}
+	////Õ“Ë”»’è
+	//DrawCapsule3D(
+	//	m_rb->m_pos.ToDxLibVector(),
+	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
+	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
+	//	16,
+	//	0xff0000,
+	//	0xff0000,
+	//	false//’n–Ê‚É‚¢‚é‚Æ“h‚è‚Â‚Ô‚³‚ê‚é
+	//);
+	////’Tõ”ÍˆÍ
+	//DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
+	////Œ©‚Ä‚é•ûŒü
+	//auto forward = m_model->GetDir();
+	//forward = forward * kSearchDistance;
+	////Ž‹–ìŠp
+	//auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	//auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	////•`‰æ
+	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
+	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff00ff);
+	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff00ff);
+	////ƒ^[ƒQƒbƒg‚Æ‚Ì‹——£
+	//if (m_targetData.isHitTarget)
+	//{
+	//	printf("ƒ^[ƒQƒbƒg‚Æ‚Ì‹——£ : %f\n", m_targetData.targetDis);
+	//	DrawLine3D(m_rb->m_pos.ToDxLibVector(), m_targetData.targetPos.ToDxLibVector(), 0x0000ff);
+	//}
 #endif
 	m_model->Draw();
 }

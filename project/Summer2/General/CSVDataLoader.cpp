@@ -4,8 +4,8 @@
 #include "StringUtil.h"
 namespace
 {
-	//名前、座標XYZ、回転XYZ、大きさXYZ　で合計10
-	constexpr int kTransformElementNum = 10;
+	//名前、座標XYZ、回転XYZ、大きさXYZ グループタグ　で合計11
+	constexpr int kTransformElementNum = 11;
 	//攻撃のデータ数
 	constexpr int kAttackDataElementNum = 16;
 	//スコアデータの数
@@ -30,10 +30,10 @@ CSVDataLoader::~CSVDataLoader()
 {
 }
 
-std::vector<ObjectData> CSVDataLoader::LoadTransformDataCSV(const char* fileName)
+std::vector<ActorData> CSVDataLoader::LoadActorDataCSV(const char* fileName)
 {
 	//データを格納する配列
-	std::vector<ObjectData> objects;
+	std::vector<ActorData> objects;
 
 	//データをすべて読み込む
 	auto valuesDatas = GetStringList(fileName, kTransformElementNum);
@@ -41,7 +41,7 @@ std::vector<ObjectData> CSVDataLoader::LoadTransformDataCSV(const char* fileName
 	for(auto values: valuesDatas)
 	{
 		//構造体にデータを入れていく
-		ObjectData objData;
+		ActorData objData;
 		
 		//名前
 		objData.name = values[0];
@@ -57,6 +57,8 @@ std::vector<ObjectData> CSVDataLoader::LoadTransformDataCSV(const char* fileName
 		objData.scale.x = std::stof(values[7]);	
 		objData.scale.y = std::stof(values[8]);
 		objData.scale.z = std::stof(values[9]);
+		//グループ
+		objData.gropeTag = values[10];
 
 		//配列に追加
 		objects.emplace_back(objData);

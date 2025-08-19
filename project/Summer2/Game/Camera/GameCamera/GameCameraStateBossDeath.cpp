@@ -37,6 +37,8 @@ namespace
 GameCameraStateBossDeath::GameCameraStateBossDeath(std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) :
 	GameCameraStateBase(camera)
 {
+	//カメラがあるかチェック
+	if (m_camera.expired())return;
 	auto owner = m_camera.lock();
 	auto boss = actorManager.lock()->GetBoss().lock();
 	//位置更新
@@ -63,10 +65,7 @@ void GameCameraStateBossDeath::Update(const std::weak_ptr<ActorManager> actorMan
 		return;
 	}
 	//ボスが存在しない場合は何もしない
-	if (actorManager.lock()->GetBoss().expired())
-	{
-		return;
-	}
+	if (actorManager.lock()->GetBoss().expired())return;
 	auto boss = actorManager.lock()->GetBoss().lock();
 	//死んでいないなら
 	if (!boss->GetHitPoints().lock()->IsDead())
@@ -74,6 +73,8 @@ void GameCameraStateBossDeath::Update(const std::weak_ptr<ActorManager> actorMan
 		ChangeState(std::make_shared<GameCameraStateBossArea>(m_camera));
 		return;
 	}
+	//カメラがあるかチェック
+	if (m_camera.expired())return;
 	auto camera = m_camera.lock();
 	//位置更新
 	DxLib::SetCameraPositionAndTarget_UpVecY(camera->GetPos().ToDxLibVector(), boss->GetPos().ToDxLibVector());

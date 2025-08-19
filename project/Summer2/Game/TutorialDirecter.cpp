@@ -9,7 +9,7 @@ TutorialDirecter::TutorialDirecter()
 {
 	//チュートリアル表示位置
 	auto csvLoder = std::make_shared<CSVDataLoader>();
-	auto data = csvLoder->LoadTransformDataCSV("Data/CSV/TutorialTransformData.csv");
+	auto data = csvLoder->LoadActorDataCSV("Data/CSV/TutorialTransformData.csv");
 	for (auto posData : data)
 	{
 		m_tutorialPosX.emplace_back(posData.pos.x);

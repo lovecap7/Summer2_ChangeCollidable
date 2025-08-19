@@ -166,7 +166,7 @@ void TitleScene::LoadHandle()
 }
 void TitleScene::LoadStage(std::shared_ptr<CSVDataLoader> csvLoader)
 {
-	auto datas = csvLoader->LoadTransformDataCSV("Data/CSV/TitleTransformData.csv");
+	auto datas = csvLoader->LoadActorDataCSV("Data/CSV/TitleTransformData.csv");
 	//名前からオブジェクトを配置していく
 	for (auto& data : datas)
 	{

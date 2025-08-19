@@ -28,7 +28,7 @@ Model::Model(int modelHandle, VECTOR pos) :
 	m_pos(pos),
 	m_scale{ 1.0f,1.0f,1.0f },
 	m_hitCountFrame(0),
-	m_diffColor{ 1.0f,1.0f ,1.0f ,1.0f },
+	m_color{ 1.0f,1.0f ,1.0f ,1.0f },
 	m_beforeScale(m_scale),
 	m_beforeScaleDif{},
 	m_modelHeightAdjust(0.0f)
@@ -49,7 +49,7 @@ Model::Model(int modelHandle, VECTOR pos, Vector3 forward) :
 	m_pos(),
 	m_scale{ 1.0f,1.0f,1.0f },
 	m_hitCountFrame(0),
-	m_diffColor{ 1.0f,1.0f ,1.0f ,1.0f },
+	m_color{ 1.0f,1.0f ,1.0f ,1.0f },
 	m_beforeScale(m_scale),
 	m_beforeScaleDif{},
 	m_beforeSetDir{ forward.XZ() },
@@ -93,9 +93,9 @@ void Model::Update()
 	{
 		--m_hitCountFrame;
 		//もとに戻してく(色)
-		m_diffColor.g += 1.0f / kHitFrame;
-		m_diffColor.b += 1.0f / kHitFrame;
-		SetDiffuseColor(m_diffColor);
+		m_color.g += 1.0f / kHitFrame;
+		m_color.b += 1.0f / kHitFrame;
+		SetColor(m_color);
 		//大きさ
 		m_scale -= m_beforeScaleDif / kHitFrame;
 	}
@@ -170,17 +170,37 @@ void Model::SetDir(Vector2 vec)
 	m_nextForward = dir.XZ();
 }
 
-void Model::SetDiffuseColor(float r, float g, float b, float a)
+void Model::SetColor(float r, float g, float b, float a)
 {
 	COLOR_F color = { r, g, b, a };
-	m_diffColor = color;
-	DxLib::MV1SetDifColorScale(m_modelHandle, m_diffColor);
+	m_color = color;
+	m_color.r = MathSub::ClampFloat(m_color.r, 0.0f, 1.0f);
+	m_color.g = MathSub::ClampFloat(m_color.g, 0.0f, 1.0f);
+	m_color.b = MathSub::ClampFloat(m_color.b, 0.0f, 1.0f);
+	m_color.a = MathSub::ClampFloat(m_color.a, 0.0f, 1.0f);
+	DxLib::MV1SetDifColorScale(m_modelHandle, m_color);
+	DxLib::MV1SetSpcColorScale(m_modelHandle, m_color);
+	DxLib::MV1SetAmbColorScale(m_modelHandle, m_color);
 }
 
-void Model::SetDiffuseColor(COLOR_F color)
+void Model::SetColor(COLOR_F color)
 {
-	m_diffColor = color;
-	DxLib::MV1SetDifColorScale(m_modelHandle, m_diffColor);
+	m_color.r = MathSub::ClampFloat(m_color.r, 0.0f, 1.0f);
+	m_color.g = MathSub::ClampFloat(m_color.g, 0.0f, 1.0f);
+	m_color.b = MathSub::ClampFloat(m_color.b, 0.0f, 1.0f);
+	m_color.a = MathSub::ClampFloat(m_color.a, 0.0f, 1.0f);
+	m_color = color;
+	DxLib::MV1SetDifColorScale(m_modelHandle, m_color);
+	DxLib::MV1SetSpcColorScale(m_modelHandle, m_color);
+	DxLib::MV1SetAmbColorScale(m_modelHandle, m_color);
+}
+
+void Model::ResetColor()
+{
+	m_color = { 1,1,1,1 };
+	DxLib::MV1SetDifColorScale(m_modelHandle, m_color);
+	DxLib::MV1SetSpcColorScale(m_modelHandle, m_color);
+	DxLib::MV1SetAmbColorScale(m_modelHandle, m_color);
 }
 
 void Model::SetModel(int modelHandle)
@@ -203,7 +223,7 @@ Vector3 Model::GetDir()
 void Model::ModelHit()
 {
 	//赤に
-	SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
+	SetColor(1.0f, 0.0f, 0.0f, 1.0f);
 	//フレームをセット
 	m_hitCountFrame = kHitFrame;
 	//少し大きくする

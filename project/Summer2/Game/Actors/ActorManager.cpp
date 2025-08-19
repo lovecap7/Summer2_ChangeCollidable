@@ -1,4 +1,5 @@
 #include "ActorManager.h"
+#include "GroupManager.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Math/MyMath.h"
 #include "../UI/UIManager.h"
@@ -6,6 +7,7 @@
 #include "../../General/Collision/Physics.h"
 #include "../../General/HitPoints.h"
 #include "../../General/Effect/EffekseerManager.h"
+#include "../../General/StringUtil.h"
 #include <DxLib.h>
 #include <cassert>
 //配置データ
@@ -63,7 +65,11 @@ ActorManager::ActorManager(std::weak_ptr<GameCamera> camera):
 	m_delayFrame(0),
 	m_bossDisappearFrame(0)
 {
+	//CSV
 	m_csvLoader = std::unique_ptr<CSVDataLoader>();
+	//グループマネージャー
+	m_groupManager = std::make_shared<GroupManager>();
+	m_groupManager->Init();
 	//ハンドルロード
 	LoadHandle();
 	//攻撃の情報を作成
@@ -87,6 +93,12 @@ void ActorManager::Entry(std::shared_ptr<Actor> actor)
 	m_actorId++;
 	//アクターを追加
 	m_actors.emplace_back(actor);
+	//グループタグがあるなら
+	if (actor->GetGroupTag() != "Untagged")
+	{
+		//登録
+		m_groupManager->Entry(actor);
+	}
 }
 
 void ActorManager::Exit(std::shared_ptr<Actor> actor)
@@ -94,6 +106,8 @@ void ActorManager::Exit(std::shared_ptr<Actor> actor)
 	//登録されていないならしない
 	auto it = std::find(m_actors.begin(), m_actors.end(), actor);
 	if (it == m_actors.end())return;
+	//グループに登録されている場合は解除
+	m_groupManager->Exit(actor);
 	actor->End();
 	m_actors.erase(it);
 }
@@ -116,6 +130,8 @@ void ActorManager::Update(const std::weak_ptr<Score> score)
 	if (!m_isUpdate || m_delayFrame > 0)return;
 	//新規アクターの追加
 	CheckNextAddActors();
+	//グループ処理
+	m_groupManager->Update();
 	//アクターの更新
 	for (auto& actor : m_actors)
 	{
@@ -160,12 +176,29 @@ void ActorManager::Draw() const
 	//アクターの描画
 	for (auto& actor : m_actors)
 	{
+#if _DEBUG
+		//攻撃が可能かどうかのデバッグ表示
+		if (actor->GetGameTag() == GameTag::Enemy)
+		{
+			//攻撃の権利を持っているなら
+			if (actor->CanAttack())
+			{
+				std::dynamic_pointer_cast<EnemyBase>(actor)->GetModel()->SetColor(1, 1, 1, 1);
+			}
+			else
+			{
+				std::dynamic_pointer_cast<EnemyBase>(actor)->GetModel()->SetColor(0, 0, 0, 1);
+			}
+		}
+#endif
 		actor->Draw();
 	}
 }
 
 void ActorManager::End()
 {
+	//グループ削除
+	m_groupManager->End();
 	//メモリを解放
 	AllDeleteActors();
 	//ハンドルをすべて削除
@@ -174,6 +207,10 @@ void ActorManager::End()
 
 void ActorManager::Restart()
 {
+	//グループ削除
+	m_groupManager->End();
+	//初期化
+	m_groupManager->Init();
 	//メモリを解放
 	AllDeleteActors();
 	//再配置
@@ -511,7 +548,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	default:
 		break;
 	}
-	auto characterData = m_csvLoader->LoadTransformDataCSV(charaPath.c_str());
+	auto characterData = m_csvLoader->LoadActorDataCSV(charaPath.c_str());
 	//名前からオブジェクトを配置していく
 	for (auto& charaData : characterData)
 	{
@@ -527,12 +564,14 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto smallDragon = CreateCharacter(CharacterType::SmallDragon, charaData.pos).lock();
 			smallDragon->GetModel()->SetScale(charaData.scale);
 			smallDragon->GetModel()->SetRot(charaData.rot);
+			smallDragon->SetGroupTag(charaData.gropeTag);
 		}
 		else if (charaData.name == "BossDragon")
 		{
 			auto bossDragon = CreateCharacter(CharacterType::BossDragon, charaData.pos).lock();
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
+			bossDragon->SetGroupTag(charaData.gropeTag);
 			m_boss = std::dynamic_pointer_cast<BossDragon>(bossDragon);
 		}
 		else if (charaData.name == "BossMuscle")
@@ -540,6 +579,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto bossMuscle = CreateCharacter(CharacterType::BossMuscle, charaData.pos).lock();
 			bossMuscle->GetModel()->SetScale(charaData.scale);
 			bossMuscle->GetModel()->SetRot(charaData.rot);
+			bossMuscle->SetGroupTag(charaData.gropeTag);
 			m_boss = std::dynamic_pointer_cast<BossMuscle>(bossMuscle);
 
 		}
@@ -548,25 +588,27 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto bossKing = CreateCharacter(CharacterType::BossKing, charaData.pos).lock();
 			bossKing->GetModel()->SetScale(charaData.scale);
 			bossKing->GetModel()->SetRot(charaData.rot);
+			bossKing->SetGroupTag(charaData.gropeTag);
 			m_boss = std::dynamic_pointer_cast<BossKing>(bossKing);
-
 		}
 		else if (charaData.name == "Bomber")
 		{
 			auto bomber = CreateCharacter(CharacterType::Bomber, charaData.pos).lock();
 			bomber->GetModel()->SetScale(charaData.scale);
 			bomber->GetModel()->SetRot(charaData.rot);
+			bomber->SetGroupTag(charaData.gropeTag);
 		}
 		else if (charaData.name == "PurpleDinosaur")
 		{
 			auto purpleDinosaur = CreateCharacter(CharacterType::PurpleDinosaur, charaData.pos).lock();
 			purpleDinosaur->GetModel()->SetScale(charaData.scale);
 			purpleDinosaur->GetModel()->SetRot(charaData.rot);
+			purpleDinosaur->SetGroupTag(charaData.gropeTag);
 		}
 	}
 	//描画用
 	//配置データを取得
-	auto stageDrawData = m_csvLoader->LoadTransformDataCSV(drawPath.c_str());
+	auto stageDrawData = m_csvLoader->LoadActorDataCSV(drawPath.c_str());
 	//名前からオブジェクトを配置していく
 	for (auto& stageData : stageDrawData)
 	{
@@ -639,7 +681,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	}
 	//当たり判定用
 	//配置データを取得
-	auto stageCollData = m_csvLoader->LoadTransformDataCSV(collPath.c_str());
+	auto stageCollData = m_csvLoader->LoadActorDataCSV(collPath.c_str());
 	//名前からコリジョンを配置していく
 	for (auto& stageData : stageCollData)
 	{
@@ -663,7 +705,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 		}
 	}
 	//イベント部屋を作成
-	auto eventAreaData = m_csvLoader->LoadTransformDataCSV(eventAreaPath.c_str());
+	auto eventAreaData = m_csvLoader->LoadActorDataCSV(eventAreaPath.c_str());
 	std::list<std::shared_ptr<StageObjectCollision>> allKillAreaParts;
 	std::list<std::shared_ptr<StageObjectCollision>> zCaneraMoveAreaParts;
 	std::list<std::shared_ptr<StageObjectCollision>> bossAreaParts;
