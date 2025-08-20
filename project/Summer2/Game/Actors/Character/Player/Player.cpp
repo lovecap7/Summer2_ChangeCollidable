@@ -33,8 +33,6 @@ namespace
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,150.0f,0.0f };	//カプセルの上端
 	constexpr float kCapsuleRadius = 20.0f;					//カプセルの半径
-	//体力
-	constexpr int kHp = 1000; 
 	//必殺技ゲージの最大値
 	constexpr int kMaxUltGage = 100;
 	//索敵距離
@@ -69,7 +67,7 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	//必殺技ゲージ
 	m_ultGage = std::make_shared<UltGage>(kMaxUltGage);
 	//体力ステータス
-	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Light);
+	m_hitPoints = std::make_shared<HitPoints>();
 	//攻撃ステータス
 	m_attackPoints = std::make_shared<AttackPoints>();
 }

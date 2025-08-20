@@ -6,13 +6,14 @@ class AttackBase;
 class HitPoints
 {
 public:
-	HitPoints(int hp, Battle::Armor armor);
+	HitPoints();
 	~HitPoints();
 	//更新処理
 	void Update();
 	//初期化処理
 	void ResetHitFlags();
 	//体力
+	void SetHp(int hp);
 	int GetHp() { return m_hp; };
 	int GetMaxHp() { return m_maxHp; };
 	//回復
@@ -56,9 +57,9 @@ private:
 	struct Defense
 	{
 		//アーマー
-		Battle::Armor armor;
+		Battle::Armor armor = Battle::Armor::Light;
 		//ダメージカット率
-		float damageCutRate;
+		float damageCutRate = 1.0f;
 	};
 	Defense m_defence;
 	Defense m_initDefence;	//バフ終了後の初期化用の値

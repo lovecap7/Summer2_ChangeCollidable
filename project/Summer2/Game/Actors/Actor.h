@@ -8,6 +8,8 @@ class ActorManager;
 class GameCamera;
 class Collidable;
 class Score;
+class HitPoints;
+class AttackPoints;
 class Model;
 /// <summary>
 /// ゲーム中に配置可能な物体の基底クラス
@@ -46,6 +48,10 @@ protected:
 	bool m_isInGroup;
 	//ターゲットの情報
 	TargetData m_targetData;
+	//体力
+	std::shared_ptr<HitPoints> m_hitPoints;
+	//攻撃のステータス
+	std::shared_ptr<AttackPoints> m_attackPoints;
 public:
 	Actor(Shape shape);
 	virtual ~Actor() {};
@@ -118,5 +124,11 @@ public:
 	void LookAtTarget();
 	//ターゲットを発見できたか
 	bool IsSearch()const { return m_targetData.isHitTarget; };
+	//体力のステータス
+	std::weak_ptr<HitPoints> GetHitPoints() const { return m_hitPoints; };
+	//攻撃のステータス
+	std::weak_ptr<AttackPoints> GetAttackPoints() const { return m_attackPoints; };
+	//攻撃を受けたときの処理
+	virtual void OnHitFromAttack(const std::shared_ptr<Collidable> other);
 };
 

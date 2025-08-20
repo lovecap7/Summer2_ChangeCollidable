@@ -4,8 +4,8 @@
 #include "StringUtil.h"
 namespace
 {
-	//名前、座標XYZ、回転XYZ、大きさXYZ グループタグ　で合計11
-	constexpr int kTransformElementNum = 11;
+	//アクターのデータ数
+	constexpr int kActorDataElementNum = 15;
 	//攻撃のデータ数
 	constexpr int kAttackDataElementNum = 16;
 	//スコアデータの数
@@ -36,7 +36,7 @@ std::vector<ActorData> CSVDataLoader::LoadActorDataCSV(const char* fileName)
 	std::vector<ActorData> objects;
 
 	//データをすべて読み込む
-	auto valuesDatas = GetStringList(fileName, kTransformElementNum);
+	auto valuesDatas = GetStringList(fileName, kActorDataElementNum);
 
 	for(auto values: valuesDatas)
 	{
@@ -59,6 +59,14 @@ std::vector<ActorData> CSVDataLoader::LoadActorDataCSV(const char* fileName)
 		objData.scale.z = std::stof(values[9]);
 		//グループ
 		objData.gropeTag = values[10];
+		//体力
+		objData.hp = std::stoi(values[11]);
+		//アーマー
+		objData.armor = static_cast<Battle::Armor>(std::stoi(values[12]));
+		//攻撃力
+		objData.attackPower = std::stoi(values[13]);
+		//速度
+		objData.speed = std::stof(values[14]);
 
 		//配列に追加
 		objects.emplace_back(objData);

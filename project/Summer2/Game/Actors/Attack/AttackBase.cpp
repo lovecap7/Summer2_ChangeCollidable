@@ -145,13 +145,13 @@ int AttackBase::GetDamage()
 	float damage = static_cast<float>(m_damage);
 	if (!m_owner.expired())
 	{
-		//ƒ_ƒ[ƒW”{—¦‚ð‚©‚¯‚é
 		auto owner = m_owner.lock();
-		if (owner->GetGameTag() == GameTag::Player ||
-			owner->GetGameTag() == GameTag::Enemy)
-		{
-			damage *= std::dynamic_pointer_cast<CharacterBase>(owner)->GetAttackPoints().lock()->GetDamageRate();
-		}
+		if(owner->GetAttackPoints().expired())return static_cast<int>(damage);
+		std::shared_ptr<AttackPoints> attackPoints = owner->GetAttackPoints().lock();
+		//UŒ‚—Í
+		damage += attackPoints->GetAttackPower();
+		//ƒ_ƒ[ƒW”{—¦‚ð‚©‚¯‚é
+		damage *= attackPoints->GetDamageRate();
 	}
 	return static_cast<int>(damage);
 }

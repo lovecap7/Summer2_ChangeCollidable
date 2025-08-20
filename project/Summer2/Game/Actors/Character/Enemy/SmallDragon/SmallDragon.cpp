@@ -26,8 +26,6 @@ namespace
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
-	//体力
-	constexpr int kHp = 500;
 	//プレイヤーを発見する距離
 	constexpr float kSearchDistance = 900.0f;
 	//プレイヤーを発見する視野角
@@ -50,7 +48,7 @@ SmallDragon::SmallDragon(int modelHandle, Vector3 pos) :
 	//リジッドボディの初期化
 	m_rb->SetPos(pos);
 	//体力ステータス
-	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Light);
+	m_hitPoints = std::make_shared<HitPoints>();
 	//攻撃ステータス
 	m_attackPoints = std::make_shared<AttackPoints>();
 }

@@ -6,6 +6,7 @@
 #include "../GameRule/Score.h"
 #include "../../General/Collision/Physics.h"
 #include "../../General/HitPoints.h"
+#include "../../General/AttackPoints.h"
 #include "../../General/Effect/EffekseerManager.h"
 #include "../../General/StringUtil.h"
 #include <DxLib.h>
@@ -557,6 +558,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto player = CreateCharacter(CharacterType::Player, charaData.pos).lock();
 			player->GetModel()->SetScale(charaData.scale);
 			player->GetModel()->SetRot(charaData.rot);
+			if (!player->GetHitPoints().expired())
+			{
+				player->GetHitPoints().lock()->SetHp(charaData.hp);
+				player->GetHitPoints().lock()->SetArmor(charaData.armor);
+			}
+			if (!player->GetAttackPoints().expired())
+			{
+				player->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+			}
 			m_player = std::dynamic_pointer_cast<Player>(player);
 		}
 		else if (charaData.name == "SmallDragon")
@@ -564,6 +574,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto smallDragon = CreateCharacter(CharacterType::SmallDragon, charaData.pos).lock();
 			smallDragon->GetModel()->SetScale(charaData.scale);
 			smallDragon->GetModel()->SetRot(charaData.rot);
+			if (!smallDragon->GetHitPoints().expired())
+			{
+				smallDragon->GetHitPoints().lock()->SetHp(charaData.hp);
+				smallDragon->GetHitPoints().lock()->SetArmor(charaData.armor);
+			}
+			if (!smallDragon->GetAttackPoints().expired())
+			{
+				smallDragon->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+			}
 			smallDragon->SetGroupTag(charaData.gropeTag);
 		}
 		else if (charaData.name == "BossDragon")
@@ -571,6 +590,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto bossDragon = CreateCharacter(CharacterType::BossDragon, charaData.pos).lock();
 			bossDragon->GetModel()->SetScale(charaData.scale);
 			bossDragon->GetModel()->SetRot(charaData.rot);
+			if (!bossDragon->GetHitPoints().expired())
+			{
+				bossDragon->GetHitPoints().lock()->SetHp(charaData.hp);
+				bossDragon->GetHitPoints().lock()->SetArmor(charaData.armor);
+			}
+			if (!bossDragon->GetAttackPoints().expired())
+			{
+				bossDragon->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+			}
 			bossDragon->SetGroupTag(charaData.gropeTag);
 			m_boss = std::dynamic_pointer_cast<BossDragon>(bossDragon);
 		}
@@ -579,6 +607,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto bossMuscle = CreateCharacter(CharacterType::BossMuscle, charaData.pos).lock();
 			bossMuscle->GetModel()->SetScale(charaData.scale);
 			bossMuscle->GetModel()->SetRot(charaData.rot);
+			if (!bossMuscle->GetHitPoints().expired())
+			{
+				bossMuscle->GetHitPoints().lock()->SetHp(charaData.hp);
+				bossMuscle->GetHitPoints().lock()->SetArmor(charaData.armor);
+			}
+			if (!bossMuscle->GetAttackPoints().expired())
+			{
+				bossMuscle->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+			}
 			bossMuscle->SetGroupTag(charaData.gropeTag);
 			m_boss = std::dynamic_pointer_cast<BossMuscle>(bossMuscle);
 
@@ -588,6 +625,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto bossKing = CreateCharacter(CharacterType::BossKing, charaData.pos).lock();
 			bossKing->GetModel()->SetScale(charaData.scale);
 			bossKing->GetModel()->SetRot(charaData.rot);
+			if (!bossKing->GetHitPoints().expired())
+			{
+				bossKing->GetHitPoints().lock()->SetHp(charaData.hp);
+				bossKing->GetHitPoints().lock()->SetArmor(charaData.armor);
+			}
+			if (!bossKing->GetAttackPoints().expired())
+			{
+				bossKing->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+			}
 			bossKing->SetGroupTag(charaData.gropeTag);
 			m_boss = std::dynamic_pointer_cast<BossKing>(bossKing);
 		}
@@ -596,6 +642,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto bomber = CreateCharacter(CharacterType::Bomber, charaData.pos).lock();
 			bomber->GetModel()->SetScale(charaData.scale);
 			bomber->GetModel()->SetRot(charaData.rot);
+			if (!bomber->GetHitPoints().expired())
+			{
+				bomber->GetHitPoints().lock()->SetHp(charaData.hp);
+				bomber->GetHitPoints().lock()->SetArmor(charaData.armor);
+			}
+			if (!bomber->GetAttackPoints().expired())
+			{
+				bomber->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+			}
 			bomber->SetGroupTag(charaData.gropeTag);
 		}
 		else if (charaData.name == "PurpleDinosaur")
@@ -603,6 +658,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			auto purpleDinosaur = CreateCharacter(CharacterType::PurpleDinosaur, charaData.pos).lock();
 			purpleDinosaur->GetModel()->SetScale(charaData.scale);
 			purpleDinosaur->GetModel()->SetRot(charaData.rot);
+			if (!purpleDinosaur->GetHitPoints().expired())
+			{
+				purpleDinosaur->GetHitPoints().lock()->SetHp(charaData.hp);
+				purpleDinosaur->GetHitPoints().lock()->SetArmor(charaData.armor);
+			}
+			if (!purpleDinosaur->GetAttackPoints().expired())
+			{
+				purpleDinosaur->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+			}
 			purpleDinosaur->SetGroupTag(charaData.gropeTag);
 		}
 	}

@@ -32,8 +32,6 @@ namespace
 	constexpr float kSearchDistance = 2000.0f;
 	//プレイヤーを発見する視野角
 	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
-	//体力
-	constexpr int kHp = 5000;
 	//モデルの旋回速度
 	constexpr int kModelRotateSpeed = 30;
 }
@@ -54,7 +52,7 @@ BossDragon::BossDragon(int modelHandle, Vector3 pos):
 	//リジッドボディの初期化
 	m_rb->SetPos(pos);
 	//体力ステータス
-	m_hitPoints = std::make_shared<HitPoints>(kHp, Battle::Armor::Heavy);
+	m_hitPoints = std::make_shared<HitPoints>();
 	//攻撃ステータス
 	m_attackPoints = std::make_shared<AttackPoints>();
 }

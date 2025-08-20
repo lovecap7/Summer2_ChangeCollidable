@@ -6,6 +6,9 @@ public:
 	AttackPoints();
 	~AttackPoints();
 	void Update();
+	//UŒ‚—Í
+	void SetAttackPower(int ap) { m_attack.attackPower = m_initAttack.attackPower = ap; };
+	int GetAttackPower()const { return m_attack.attackPower; };
 	//ƒ_ƒ[ƒW”{—¦
 	void SetDamageRate(float rate) { m_attack.damageRate = m_initAttack.damageRate = rate;};
 	float GetDamageRate() {return m_attack.damageRate; };
@@ -17,10 +20,12 @@ public:
 private:
 	struct Attack
 	{
+		//UŒ‚—Í
+		int attackPower = 0;
 		//ƒ_ƒ[ƒW”{—¦
-		float damageRate;
+		float damageRate = 1.0f;
 		//UŒ‚‚Ìd‚³‚ÌÅ’á’l
-		Battle::AttackWeight lowestAttackWeight;
+		Battle::AttackWeight lowestAttackWeight = Battle::AttackWeight::Light;
 	};
 	Attack m_attack;
 	Attack m_initAttack;
