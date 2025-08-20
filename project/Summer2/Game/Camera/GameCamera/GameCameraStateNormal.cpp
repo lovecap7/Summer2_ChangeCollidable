@@ -22,15 +22,27 @@ namespace
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//カメラ角度
 	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
-	//lerpの割合
-	constexpr float kLerpRate = 0.07f;
 	//ターゲットから少し離れるためのオフセット
 	constexpr float kOffsetCameraPosY = 800.0f;
 	constexpr float kCameraPosZ = -900.0f;
+	//カメラをずらす距離の上限
+	constexpr float kSlideMax = 200.0f;
+	constexpr float kSlideMin = -200.0f;
+	//カメラのスライド速度率
+	constexpr float kSlideSpeedRate = 0.4f;
+	//移動開始フレーム
+	constexpr int kMoveStartFrame = 60;
+	//画面中央に戻す処理を行うのにかかるフレーム
+	constexpr int kMoveEndFrame = 120;
+	//中央に戻すlerp率
+	constexpr float kSlideCenterRate = 0.05f;
 }
 
 GameCameraStateNormal::GameCameraStateNormal(std::weak_ptr<GameCamera> camera):
-	GameCameraStateBase(camera)
+	GameCameraStateBase(camera),
+	m_cameraSlide(0.0f),
+	m_moveStartFrame(0),
+	m_moveEndFrame(0)
 {
 	//カメラがあるかチェック
 	if (m_camera.expired())return;
@@ -93,9 +105,44 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 	Vector3 nextPos = camera->GetPos();
 	nextPos.z = kCameraPosZ;
 	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
-	nextPos.x = playerPos.x;
-	//次の座標
-	nextPos = Vector3::Lerp(oldPos, nextPos, kLerpRate);
+
+	////変更箇所////
+	//移動しているなら
+	if (player->GetRb()->GetVec().x != 0.0f && player->GetCollState() == CollisionState::Move)
+	{
+		//移動しているフレームの加算
+		++m_moveStartFrame;
+		m_moveStartFrame = MathSub::ClampInt(m_moveStartFrame, 0, kMoveStartFrame);
+		//一定フレーム移動しているならスライド開始
+		if (m_moveStartFrame >= kMoveStartFrame)
+		{
+			//カメラをプレイヤーの移動量の半分くらいの大きさで移動
+			m_cameraSlide += player->GetRb()->GetVec().x * kSlideSpeedRate;
+		}
+		//移動しているので移動していないフレームはカウントしない
+		m_moveEndFrame = 0;
+	}
+	//移動していない
+	else
+	{
+		//移動をしていないフレームを数える
+		m_moveEndFrame++;
+		m_moveEndFrame = MathSub::ClampInt(m_moveEndFrame, 0, kMoveEndFrame);
+		//移動していないフレームが一定フレーム経過したら
+		if (m_moveEndFrame >= kMoveEndFrame)
+		{
+			//画面中央に戻す
+			m_cameraSlide = MathSub::Lerp(m_cameraSlide, 0.0f, kSlideCenterRate);
+			//移動していないので
+			m_moveStartFrame = 0;
+		}
+	}
+	//////////////
+	//範囲内に収める(下限 ~ 上限の間)
+	m_cameraSlide = MathSub::ClampFloat(m_cameraSlide, kSlideMin, kSlideMax);
+	//プレイヤーのX座標からm_cameraSlideだけ動かす
+	nextPos.x = playerPos.x + m_cameraSlide;
+
 	//見ている向き
 	Vector3 dir = camera->GetDir();
 	//見てる位置

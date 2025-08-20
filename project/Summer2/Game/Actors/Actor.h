@@ -16,6 +16,19 @@ class Model;
 class Actor abstract :
 	public Collidable
 {
+public:
+	//ターゲットに関するデータ構造体
+	struct TargetData
+	{
+		//ターゲットを発見
+		bool isHitTarget = false;
+		//ターゲットの座標
+		Position3 targetPos = Vector3::Zero();
+		//ターゲットへの向き
+		Vector3 targetDirXZ = Vector3::Zero();
+		//ターゲットとの距離
+		float targetDis = 0.0f;
+	};
 protected:
 	//消滅
 	bool m_isDelete;
@@ -31,6 +44,8 @@ protected:
 	bool m_canAttack;
 	//グループに所属しているか
 	bool m_isInGroup;
+	//ターゲットの情報
+	TargetData m_targetData;
 public:
 	Actor(Shape shape);
 	virtual ~Actor() {};
@@ -97,5 +112,11 @@ public:
 	//攻撃権
 	bool CanAttack()const { return m_canAttack; };
 	void SetCanAttack(bool canAttack) { m_canAttack = canAttack; };
+	//ターゲットの索敵
+	virtual void TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos);
+	//ターゲットを見る
+	void LookAtTarget();
+	//ターゲットを発見できたか
+	bool IsSearch()const { return m_targetData.isHitTarget; };
 };
 

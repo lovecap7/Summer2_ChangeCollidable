@@ -11,7 +11,11 @@ public:
 	//状態に応じた更新処理
 	void Update(const std::weak_ptr<ActorManager> actorManager) override;
 private:
-	//移動フレーム
-	int m_moveFrame;
+	//カメラを中心(ターゲット)からスライドさせる
+	float m_cameraSlide;
+	//スライド開始フレーム
+	int m_moveStartFrame;
+	//スライド終了フレーム
+	int m_moveEndFrame;
 };
 

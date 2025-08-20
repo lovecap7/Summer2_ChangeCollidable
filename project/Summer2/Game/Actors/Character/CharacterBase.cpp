@@ -6,8 +6,7 @@
 #include "../../../General/Sound/SoundManager.h"
 
 CharacterBase::CharacterBase(Shape shape) :
-	Actor(shape),
-	m_targetData{}
+	Actor(shape)
 {
 }
 
@@ -29,32 +28,6 @@ void CharacterBase::OnHitFromAttack(const std::shared_ptr<Collidable> other)
 		m_hitPoints->SetIsHitReaction(true);				//反応する
 		m_rb->AddVec(attack->GetKnockBackVec(m_rb->m_pos));	//ノックバック
 	}
-}
-
-
-void CharacterBase::TargetSearch(float searchDistance, float searchAngle, Vector3 targetPos)
-{
-	//リセット
-	m_targetData.isHitTarget = false;
-	//距離を確認
-	auto dir = targetPos.XZ() - m_rb->GetPos().XZ();
-	if (dir.Magnitude() <= searchDistance)
-	{
-		//視野角内にターゲットがいるか
-		auto angle = abs(Vector2::GetRad(m_model->GetDir().XZ(), dir));
-		if (angle <= (searchAngle / 2.0f))
-		{
-			m_targetData.isHitTarget = true;
-			m_targetData.targetPos = targetPos;
-			m_targetData.targetDirXZ = dir.XZ().Normalize();
-			m_targetData.targetDis = dir.Magnitude();
-		}
-	}
-}
-
-void CharacterBase::LookAtTarget()
-{
-	m_model->SetDir(m_targetData.targetDirXZ.XZ());
 }
 
 

@@ -73,6 +73,20 @@ void GroupManager::Update()
 	//登録されたグループ名から各グループを見る
 	for (auto& groupName : m_groupNames)
 	{
+		//もしもグループ内で誰もターゲットを発見していない場合は
+		//回す必要はないので処理をしない
+		bool isGroupSearch = false;
+		for (auto& actor : m_groupActors[groupName])
+		{
+			//発見できているなら
+			if (actor->IsSearch())
+			{
+				isGroupSearch = true;
+				break;
+			}
+		}
+		if (!isGroupSearch)continue;
+
 		//攻撃権を次に回すかどうか
 		bool isTurnCanAttack = false;
 		//回せたか
@@ -84,12 +98,25 @@ void GroupManager::Update()
 			//足元に球体を出して色からどのグループに所属しているかわかるようにする
 			DrawSphere3D(actor->GetPos().ToDxLibVector(), 40.0f, 16, m_groupColor[groupName], m_groupColor[groupName], true);
 #endif
+			//アクターのID
+			int actorId = actor->GetID();
+			//攻撃権を持つアクターのID
+			int canAttackId = m_canAttackActorID[groupName];
+			//攻撃権があるか
+			bool canAttack = actor->CanAttack();
 
+			//もしもプレイヤーを発見できていない敵キャラクターに攻撃権が移った場合
+			//そのキャラが攻撃権を保持し続けるので発見してない場合は譲る
+			if (actorId == canAttackId && canAttack && !actor->IsSearch())
+			{
+				//攻撃権がなくなる
+				actor->SetCanAttack(false);
+			}
 			//回さない
 			if (!isTurnCanAttack)
 			{
 				//IDから攻撃権所有者かつ攻撃権がなくなっているなら
-				if (actor->GetID() == m_canAttackActorID[groupName] && !actor->CanAttack())
+				if (actorId == canAttackId && !canAttack)
 				{
 					//次のアクターに渡す
 					isTurnCanAttack = true;

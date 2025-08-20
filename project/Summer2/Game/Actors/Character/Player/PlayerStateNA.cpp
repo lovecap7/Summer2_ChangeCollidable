@@ -262,7 +262,7 @@ void PlayerStateNA::InitAttackData(const std::weak_ptr<ActorManager> actorManage
 	m_attackData = actorManager.lock()->GetAttackData(kPlayerName, attackName);
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	//’ÊíUŒ‚
-	coll->SetCollState(CollisionState::Move);
+	coll->SetCollState(CollisionState::Normal);
 	//UŒ‚
 	coll->GetModel()->SetAnim(m_attackData.anim.c_str(), false, m_attackData.animSpeed);
 	//‰ÁZƒQ[ƒW‚Ì—\–ñ

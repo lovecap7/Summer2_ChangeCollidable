@@ -1,4 +1,11 @@
 #include "Rigidbody.h"
+#include "Math/Vector2.h"
+
+namespace
+{
+	//0‚É‹ß‚¢’l
+	constexpr float kEpsilon = 0.0001f;
+}
 
 Rigidbody::Rigidbody():
 	m_pos(),
@@ -33,4 +40,10 @@ void Rigidbody::SpeedDown(float decRate)
 	//Œ¸‘¬
 	m_vec.x *= decRate;
 	m_vec.z *= decRate;
+	//‚Ù‚Ú0‚È‚ç
+	if (m_vec.XZ().Magnitude() <= kEpsilon)
+	{
+		m_vec.x = 0.0f;
+		m_vec.z = 0.0f;
+	}
 }

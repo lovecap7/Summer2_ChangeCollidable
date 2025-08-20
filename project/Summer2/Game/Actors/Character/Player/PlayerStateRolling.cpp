@@ -35,7 +35,7 @@ PlayerStateRolling::PlayerStateRolling(std::weak_ptr<Actor> player) :
 	//‰ñ”ğó‘Ô
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	coll->GetModel()->SetAnim(kAnim, false, kAnimSpeed);
-	coll->SetCollState(CollisionState::Move);
+	coll->SetCollState(CollisionState::Normal);
 	//Œü‚«‚ÌXV
 	coll->GetModel()->SetDir(coll->GetPlayerStickVec());
 	//–³“G

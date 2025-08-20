@@ -40,6 +40,7 @@ public:
 	std::shared_ptr<ColliderBase> GetColl() const { return m_collisionData; }
 	//コリジョンの状態を設定
 	void SetCollState(CollisionState collState) { m_collState = collState; }
+	CollisionState GetCollState()const { return m_collState; };
 
 	//入力中の方向キー(プレイヤーのモデルの向きに対応したベクトル)
 	Vector2 GetPlayerStickVec() { return m_stickVec; };
