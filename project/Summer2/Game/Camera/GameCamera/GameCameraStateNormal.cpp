@@ -125,7 +125,7 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 	else
 	{
 		//移動をしていないフレームを数える
-		m_moveEndFrame++;
+		++m_moveEndFrame;
 		m_moveEndFrame = MathSub::ClampInt(m_moveEndFrame, 0, kMoveEndFrame);
 		//移動していないフレームが一定フレーム経過したら
 		if (m_moveEndFrame >= kMoveEndFrame)
