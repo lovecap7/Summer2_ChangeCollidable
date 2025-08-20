@@ -18,6 +18,10 @@ EventAreaBase::~EventAreaBase()
 {
 }
 
+void EventAreaBase::Init()
+{
+}
+
 void EventAreaBase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	if (actorManager.lock()->GetPlayer().expired())return;

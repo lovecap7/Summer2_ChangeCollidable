@@ -16,6 +16,19 @@ AllKillArea::~AllKillArea()
 {
 }
 
+void AllKillArea::Init()
+{
+	//範囲内の敵をlistに入れる
+	CheckAreaEnemies();
+	//範囲内の敵をすべて非アクティブ化
+	for (auto& enemy : m_areaEnemies)
+	{
+		if (enemy.expired())continue;
+		enemy.lock()->SetActive(false);
+	}
+}
+
+
 void AllKillArea::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	(this->*m_update)(camera,actorManager);
@@ -48,7 +61,24 @@ void AllKillArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std:
 	m_end.lock()->Delete();
 }
 
-void AllKillArea::InitEvent(const std::weak_ptr<GameCamera>& camera)
+void AllKillArea::InitEvent(const std::weak_ptr<GameCamera> camera)
+{
+	//範囲内の敵をすべてアクティブ化
+	for (auto& enemy : m_areaEnemies)
+	{
+		if (enemy.expired())continue;
+		enemy.lock()->SetActive(true);
+	}
+	//壁は閉ざす
+	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(false);
+	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(false);
+	//イベント開始情報をカメラに設定
+	camera.lock()->SetEventArea(std::dynamic_pointer_cast<AllKillArea>(shared_from_this()));
+	//更新処理の状態変更
+	m_update = &AllKillArea::EventUpdate;
+}
+
+void AllKillArea::CheckAreaEnemies()
 {
 	auto startPos = m_start.lock()->GetPos();
 	auto endPos = m_end.lock()->GetPos();
@@ -64,11 +94,4 @@ void AllKillArea::InitEvent(const std::weak_ptr<GameCamera>& camera)
 			m_areaEnemies.emplace_back(std::dynamic_pointer_cast<EnemyBase>(coll.lock()));
 		}
 	}
-	//壁は閉ざす
-	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(false);
-	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(false);
-	//イベント開始情報をカメラに設定
-	camera.lock()->SetEventArea(std::dynamic_pointer_cast<AllKillArea>(shared_from_this()));
-	//更新処理の状態変更
-	m_update = &AllKillArea::EventUpdate;
 }

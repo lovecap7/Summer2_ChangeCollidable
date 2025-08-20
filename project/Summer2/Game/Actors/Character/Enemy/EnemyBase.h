@@ -25,12 +25,17 @@ public:
 	void SetAttackCoolTime(int coolTime) { m_attackCoolTime = coolTime; }
 	//敵の階級
 	EnemyGrade GetEnemyGrade()const { return m_enemyGrade; };
+	//行動可能か
+	bool IsActive()const { return m_isActive; };
+	void SetActive(bool isActive);
 protected:
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;
 	//自分の階級
 	EnemyGrade m_enemyGrade;
+	//行動開始
+	bool m_isActive;
 	//プレイヤーとの距離が遠いときに当たり判定を停止する
-	bool IsStopActive(const std::weak_ptr<ActorManager> actorManager);
+	bool IsStopActiveCollision(const std::weak_ptr<ActorManager> actorManager);
 };
 

@@ -11,7 +11,8 @@ class AllKillArea :
 public:
     AllKillArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end);
     virtual ~AllKillArea();
-    virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+    void Init()override;
+    void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
     //状態遷移
     using UpdateFunc_t = void(AllKillArea::*)(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
@@ -21,7 +22,8 @@ private:
     //イベント状態
     void EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
     //初期化
-    void InitEvent(const std::weak_ptr<GameCamera>& camera);
+    void InitEvent(const std::weak_ptr<GameCamera> camera);
+    void CheckAreaEnemies();
     //範囲内の敵のリスト
     std::list<std::weak_ptr<EnemyBase>> m_areaEnemies;
 };

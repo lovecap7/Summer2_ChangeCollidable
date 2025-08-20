@@ -32,6 +32,8 @@ namespace
 	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
 	//モデルの旋回速度
 	constexpr int kModelRotateSpeed = 30;
+	//減速率
+	constexpr float kMoveDeceRate = 0.8f;
 }
 SmallDragon::SmallDragon(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule,EnemyGrade::Normal)
@@ -77,7 +79,16 @@ void SmallDragon::Init()
 void SmallDragon::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//プレイヤーから遠いなら処理をしない
-	if (IsStopActive(actorManager))return;
+	if (IsStopActiveCollision(actorManager))return;
+	//アクティブ状態じゃないなら
+	if (!m_isActive)
+	{
+		//減速
+		m_rb->SpeedDown(kMoveDeceRate);
+		//アニメーションの更新
+		m_model->Update();
+		return;
+	}
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
 	//ターゲットを発見できたかをチェック

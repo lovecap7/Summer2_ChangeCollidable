@@ -51,8 +51,6 @@ public:
 private:
 	//体力バー
 	std::weak_ptr<BossHPUI> m_hpUI;
-	//行動開始
-	bool m_isActive;
 	//変身モデル
 	int m_transHandle;
 	//サウンド初期化

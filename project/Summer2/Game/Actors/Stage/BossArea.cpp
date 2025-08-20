@@ -23,9 +23,18 @@ void BossArea::Update(const std::weak_ptr<GameCamera> camera, const std::weak_pt
 
 void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	if (actorManager.expired())return;
+	auto boss = actorManager.lock()->GetBoss();
+	if (boss.expired())return;
+	//ボスを非アクティブ状態に
+	boss.lock()->SetActive(false);
+	//プレイヤーが入ったかチェック
 	EventAreaBase::Update(camera, actorManager);
+	//入ったなら
 	if (m_isEvent)
 	{
+		//ボスをアクティブ状態に
+		boss.lock()->SetActive(true);
 		InitEvent(actorManager, camera);
 		return;
 	}

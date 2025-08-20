@@ -77,7 +77,14 @@ void Bomber::Init()
 void Bomber::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//プレイヤーから遠いなら処理をしない
-	if (IsStopActive(actorManager))return;
+	if (IsStopActiveCollision(actorManager))return;
+	//アクティブ状態じゃないなら
+	if (!m_isActive)
+	{
+		//アニメーションの更新
+		m_model->Update();
+		return;
+	}
 	//攻撃のクールタイムを減らす
 	UpdateAttackCoolTime();
 	//ターゲットを発見できたかをチェック

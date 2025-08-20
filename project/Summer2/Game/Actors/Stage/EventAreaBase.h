@@ -15,7 +15,7 @@ class EventAreaBase abstract:
 public:
     EventAreaBase(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end, AreaTag area);
     virtual ~EventAreaBase();
-    virtual void Init()override {};
+    virtual void Init()override;
     virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
     virtual void OnCollide(const std::shared_ptr<Collidable> other)override {};
     virtual void Draw()const override {};

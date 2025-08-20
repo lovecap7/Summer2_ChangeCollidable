@@ -3,6 +3,7 @@
 #include "../../../../General/Model.h"
 #include "../../../../General/Collision/Collidable.h"
 #include "../../../../General/Rigidbody.h"
+#include "../../../../General/HitPoints.h"
 #include "../../ActorManager.h"
 
 namespace
@@ -16,9 +17,11 @@ namespace
 EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
 	CharacterBase(shape),
 	m_attackCoolTime(kAttackCoolTime),
-	m_enemyGrade(grade)
+	m_enemyGrade(grade),
+	m_isActive(true)
 {
 }
+
 
 void EnemyBase::UpdateAttackCoolTime()
 {
@@ -31,7 +34,22 @@ void EnemyBase::UpdateAttackCoolTime()
 	}
 }
 
-bool EnemyBase::IsStopActive(const std::weak_ptr<ActorManager> actorManager)
+void EnemyBase::SetActive(bool isActive)
+{
+	m_isActive = isActive;
+	if (!m_isActive)
+	{
+		//ñ≥ìG
+		m_hitPoints->SetIsNoDamege(true);
+	}
+	else
+	{
+		//ñ≥ìGâèú
+		m_hitPoints->SetIsNoDamege(false);
+	}
+}
+
+bool EnemyBase::IsStopActiveCollision(const std::weak_ptr<ActorManager> actorManager)
 {
 	//í‚é~ÇµÇΩÇ©
 	bool isStop = false;

@@ -3,7 +3,6 @@
 #include <memory>
 #include <cassert>
 #include "../../../ActorManager.h"
-#include "../../../Stage/BossArea.h"
 #include "../../Player/Player.h"
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Input.h"
@@ -39,7 +38,6 @@ namespace
 
 BossKing::BossKing(int modelHandle, int transHandle, Vector3 pos):
 	EnemyBase(Shape::Capsule, EnemyGrade::Boss),
-	m_isActive(false),
 	m_transHandle(transHandle)
 {
 	//モデルの初期化
@@ -86,7 +84,7 @@ void BossKing::Init()
 void BossKing::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//プレイヤーから遠いなら処理をしない
-	if (IsStopActive(actorManager))return;
+	if (IsStopActiveCollision(actorManager))return;
 #if _DEBUG
 	//ボスを死亡させる
 	if (Input::GetInstance().IsTrigger("BossDead"))
@@ -95,21 +93,12 @@ void BossKing::Update(const std::weak_ptr<GameCamera> camera, const std::weak_pt
 		m_hitPoints->Damage(999999);
 	}
 #endif
-	//ボス部屋に入った時行動開始
-	m_isActive = actorManager.lock()->GetBossArea().lock()->IsEvent();
 	//アクティブ状態じゃないなら
 	if (!m_isActive)
 	{
 		//アニメーションの更新
 		m_model->Update();
-		//無敵に
-		m_hitPoints->SetIsNoDamege(true);
 		return;
-	}
-	else
-	{
-		//無敵解除
-		m_hitPoints->SetIsNoDamege(false);
 	}
 	//体力の表示をする
 	if (!m_hpUI.expired())
