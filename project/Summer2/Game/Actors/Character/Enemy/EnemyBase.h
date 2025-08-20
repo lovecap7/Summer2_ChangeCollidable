@@ -17,6 +17,8 @@ class EnemyBase abstract :
 public:
     EnemyBase(Shape shape, EnemyGrade grade);
     virtual ~EnemyBase() {};
+	//更新
+	virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 	//攻撃のクールタイムを更新
 	virtual void UpdateAttackCoolTime();
 	//攻撃のクールタイムを取得
@@ -37,5 +39,9 @@ protected:
 	bool m_isActive;
 	//プレイヤーとの距離が遠いときに当たり判定を停止する
 	bool IsStopActiveCollision(const std::weak_ptr<ActorManager> actorManager);
+	//索敵距離
+	float m_searchDistance;
+	//視野角
+	float m_searchAngle;
 };
 

@@ -72,40 +72,10 @@ void Bomber::Init()
 	m_state->ChangeState(m_state);
 	//敵関連のUIの準備
 	UIManager::GetInstance().CreateEnemyUI(thisPointer);
-}
-
-void Bomber::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
-{
-	//プレイヤーから遠いなら処理をしない
-	if (IsStopActiveCollision(actorManager))return;
-	//アクティブ状態じゃないなら
-	if (!m_isActive)
-	{
-		//アニメーションの更新
-		m_model->Update();
-		return;
-	}
-	//攻撃のクールタイムを減らす
-	UpdateAttackCoolTime();
-	//ターゲットを発見できたかをチェック
-	auto target = actorManager.lock()->GetPlayer();
-	if (!target.expired())
-	{
-		TargetSearch(kSearchDistance, kSearchAngle, target.lock()->GetPos());
-	}
-	//状態に合わせた更新
-	m_state->Update(camera, actorManager);
-	//状態が変わったかをチェック
-	if (m_state != m_state->GetNextState())
-	{
-		//状態を変化する
-		m_state = m_state->GetNextState();
-		m_state->Init();
-	}
-	//アニメーションの更新
-	m_model->Update();
-	//体力クラスのフラグリセット
-	m_hitPoints->ResetHitFlags();
+	//索敵距離
+	m_searchDistance = kSearchDistance;
+	//視野角
+	m_searchAngle = kSearchAngle;
 }
 
 void Bomber::OnCollide(const std::shared_ptr<Collidable> other)

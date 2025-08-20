@@ -1,4 +1,5 @@
 #include "EnemyBase.h"
+#include "../CharacterStateBase.h"
 #include "../Player/Player.h"
 #include "../../../../General/Model.h"
 #include "../../../../General/Collision/Collidable.h"
@@ -12,16 +13,55 @@ namespace
 	const float kStopCollisionDistance = 5000.0f;
 	//最初のクールタイム
 	constexpr int kAttackCoolTime = 100;
+	//減速率
+	constexpr float kMoveDeceRate = 0.8f;
 }
 
 EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
 	CharacterBase(shape),
 	m_attackCoolTime(kAttackCoolTime),
 	m_enemyGrade(grade),
-	m_isActive(true)
+	m_isActive(true),
+	m_searchDistance(0.0f),
+	m_searchAngle(0.0f)
 {
 }
 
+void EnemyBase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
+{
+	//プレイヤーから遠いなら処理をしない
+	if (IsStopActiveCollision(actorManager))return;
+	//アクティブ状態じゃないなら
+	if (!m_isActive)
+	{
+		//減速
+		m_rb->SpeedDown(kMoveDeceRate);
+		//アニメーションの更新
+		m_model->Update();
+		return;
+	}
+	//攻撃のクールタイムを減らす
+	UpdateAttackCoolTime();
+	//ターゲットを発見できたかをチェック
+	auto target = actorManager.lock()->GetPlayer();
+	if (!target.expired())
+	{
+		TargetSearch(m_searchDistance, m_searchAngle, target.lock()->GetPos());
+	}
+	//状態に合わせた更新
+	m_state->Update(camera, actorManager);
+	//状態が変わったかをチェック
+	if (m_state != m_state->GetNextState())
+	{
+		//状態を変化する
+		m_state = m_state->GetNextState();
+		m_state->Init();
+	}
+	//アニメーションの更新
+	m_model->Update();
+	//体力クラスのフラグリセット
+	m_hitPoints->ResetHitFlags();
+}
 
 void EnemyBase::UpdateAttackCoolTime()
 {
