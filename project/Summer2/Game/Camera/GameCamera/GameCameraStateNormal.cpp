@@ -106,7 +106,6 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 	nextPos.z = kCameraPosZ;
 	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
 
-	////変更箇所////
 	//移動しているなら
 	if (player->GetRb()->GetVec().x != 0.0f && player->GetCollState() == CollisionState::Move)
 	{
@@ -137,7 +136,6 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 			m_moveStartFrame = 0;
 		}
 	}
-	//////////////
 	//範囲内に収める(下限 ~ 上限の間)
 	m_cameraSlide = MathSub::ClampFloat(m_cameraSlide, kSlideMin, kSlideMax);
 	//プレイヤーのX座標からm_cameraSlideだけ動かす
