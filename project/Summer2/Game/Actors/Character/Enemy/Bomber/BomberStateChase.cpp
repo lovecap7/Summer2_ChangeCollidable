@@ -75,7 +75,7 @@ void BomberStateChase::Update(const std::weak_ptr<GameCamera> camera, const std:
 		if (targetData.targetDis <= kAttackDistance)
 		{
 			//攻撃のクールタイムが0なら
-			if (coll->GetAttackCoolTime() <= 0)
+			if (coll->GetAttackCoolTime() <= 0 && coll->CanAttack())
 			{
 				//攻撃状態にする
 				ChangeState(std::make_shared<BomberStateAttack>(m_owner, actorManager));

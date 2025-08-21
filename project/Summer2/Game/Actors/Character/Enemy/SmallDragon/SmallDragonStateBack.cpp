@@ -71,7 +71,7 @@ void SmallDragonStateBack::Update(const std::weak_ptr<GameCamera> camera, const 
 			//‰º‚ª‚é
 			coll->GetRb()->SetMoveVec(targetData.targetDirXZ * -kBackSpeed);
 		}
-		else
+		else 
 		{
 			//‘Ò‹@
 			ChangeState(std::make_shared<SmallDragonStateIdle>(m_owner));

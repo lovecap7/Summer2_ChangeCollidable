@@ -3,6 +3,7 @@
 #include "PurpleDinosaurStateChase.h"
 #include "PurpleDinosaurStateAttack.h"
 #include "PurpleDinosaurStateHit.h"
+#include "PurpleDinosaurStateSearch.h"
 #include "PurpleDinosaur.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/Collision/ColliderBase.h"
@@ -71,7 +72,7 @@ void PurpleDinosaurStateIdle::Update(const std::weak_ptr<GameCamera> camera, con
 		if (targetData.targetDis <= kAttackDistance)
 		{
 			//çUåÇÇÃÉNÅ[ÉãÉ^ÉCÉÄÇ™0Ç»ÇÁ
-			if (coll->GetAttackCoolTime() <= 0)
+			if (coll->GetAttackCoolTime() <= 0 && coll->CanAttack())
 			{
 				//çUåÇèÛë‘Ç…Ç∑ÇÈ
 				ChangeState(std::make_shared<PurpleDinosaurStateAttack>(m_owner,actorManager));
@@ -85,6 +86,12 @@ void PurpleDinosaurStateIdle::Update(const std::weak_ptr<GameCamera> camera, con
 			ChangeState(std::make_shared<PurpleDinosaurStateChase>(m_owner));
 			return;
 		}
+	}
+	else
+	{
+		//çıìGèÛë‘Ç…Ç∑ÇÈ
+		ChangeState(std::make_shared<PurpleDinosaurStateSearch>(m_owner));
+		return;
 	}
 	//å∏ë¨
 	coll->GetRb()->SpeedDown(kMoveDeceRate);

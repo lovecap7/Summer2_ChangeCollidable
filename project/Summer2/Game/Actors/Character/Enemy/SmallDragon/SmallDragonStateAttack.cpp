@@ -85,7 +85,6 @@ void SmallDragonStateAttack::Update(const std::weak_ptr<GameCamera> camera, cons
 		ChangeState(std::make_shared<SmallDragonStateIdle>(m_owner));
 		return;
 	}
-	
 	//Œ¸‘¬
 	coll->GetRb()->SpeedDown(kMoveDeceRate);
 }

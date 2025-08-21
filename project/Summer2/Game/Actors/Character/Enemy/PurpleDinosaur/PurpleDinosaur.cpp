@@ -19,6 +19,7 @@
 #include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 #include "../../../../UI/UIManager.h"
+#include "../../../SearchPlace.h"
 
 namespace
 {
@@ -26,9 +27,9 @@ namespace
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
 	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 900.0f;
+	constexpr float kSearchDistance = 500.0f;
 	//プレイヤーを発見する視野角
-	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
+	constexpr float kSearchAngle = 100.0f * MyMath::DEG_2_RAD;
 	//モデルの旋回速度
 	constexpr int kModelRotateSpeed = 15;
 }
@@ -75,6 +76,8 @@ void PurpleDinosaur::Init()
 	m_searchDistance = kSearchDistance;
 	//視野角
 	m_searchAngle = kSearchAngle;
+	//索敵場所
+	m_searchPlace = std::make_shared<SearchPlace>(thisPointer, 300.0f);
 }
 
 void PurpleDinosaur::OnCollide(const std::shared_ptr<Collidable> other)
@@ -93,19 +96,22 @@ void PurpleDinosaur::Draw() const
 	//	0xff0000,
 	//	false
 	//);
-	////探索範囲
-	//DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
-	////見てる方向
-	//auto forward = m_model->GetDir();
-	//forward = forward * kSearchDistance;
-	////視野角
-	//auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	//auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	////描画
-	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
-	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
-	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
-
+	//探索範囲
+	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
+	//見てる方向
+	auto forward = m_model->GetDir();
+	forward = forward * kSearchDistance;
+	//視野角
+	auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
+	//描画
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
+	if (m_searchPlace)
+	{
+		m_searchPlace->Draw();
+	}
 #endif
 	m_model->Draw();
 }
@@ -127,7 +133,7 @@ void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager, const 
 	score.lock()->AddKillOrItemScore(ScoreDataName::kPurpleDinosaur);
 	//アイテムをランダムで落とす
 	auto actorM = actorManager.lock();
-	if (GetRand(1))
+	if (MyMath::IsRand())
 	{
 		actorM->CreateItem(ItemType::Heart, m_rb->GetPos());
 	}

@@ -199,7 +199,6 @@ void Player::Draw() const
 
 void Player::Complete()
 {
-	//今後はチェックポイントを実装してそこに復活するように
 	//落下した際の処理
 	if (m_rb->m_pos.y < kStageFallY)
 	{

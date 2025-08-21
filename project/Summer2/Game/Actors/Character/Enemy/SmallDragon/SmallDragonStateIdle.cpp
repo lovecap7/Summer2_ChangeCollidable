@@ -69,7 +69,7 @@ void SmallDragonStateIdle::Update(const std::weak_ptr<GameCamera> camera, const 
 		//プレイヤーを見る
 		coll->LookAtTarget();
 		//攻撃のクールタイムが0なら
-		if (coll->GetAttackCoolTime() <= 0)
+		if (coll->GetAttackCoolTime() <= 0 && coll->CanAttack())
 		{
 			//攻撃
 			ChangeState(std::make_shared<SmallDragonStateAttack>(m_owner,actorManager));

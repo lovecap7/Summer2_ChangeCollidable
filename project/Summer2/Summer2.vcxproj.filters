@@ -840,6 +840,12 @@
     <ClCompile Include="Game\Actors\GroupManager.cpp">
       <Filter>ソース ファイル\Game\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateSearch.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\PurpleDinosaur</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actors\SearchPlace.cpp">
+      <Filter>ソース ファイル\Game\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1450,6 +1456,12 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\GroupManager.h">
       <Filter>ヘッダー ファイル\Game\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\SearchPlace.h">
+      <Filter>ヘッダー ファイル\Game\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateSearch.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\PurpleDinosaur</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

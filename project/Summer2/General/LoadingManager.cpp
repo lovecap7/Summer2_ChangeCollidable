@@ -1,5 +1,6 @@
 #include "LoadingManager.h"
 #include "game.h"
+#include "Math/MyMath.h"
 #include <DxLib.h>
 
 namespace

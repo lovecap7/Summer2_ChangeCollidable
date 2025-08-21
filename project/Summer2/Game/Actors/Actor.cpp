@@ -3,6 +3,7 @@
 #include "Character/Enemy/EnemyBase.h"
 #include "../../General/HitPoints.h"
 #include "Attack/AttackBase.h"
+#include "SearchPlace.h"
 
 Actor::Actor(Shape shape):
 	Collidable(shape),

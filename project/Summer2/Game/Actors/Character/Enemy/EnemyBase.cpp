@@ -5,6 +5,7 @@
 #include "../../../../General/Collision/Collidable.h"
 #include "../../../../General/Rigidbody.h"
 #include "../../../../General/HitPoints.h"
+#include "../../../../General/Input.h"
 #include "../../ActorManager.h"
 
 namespace
@@ -12,9 +13,11 @@ namespace
 	//プレイヤーとの距離が遠いときに当たり判定を停止する距離
 	const float kStopCollisionDistance = 5000.0f;
 	//最初のクールタイム
-	constexpr int kAttackCoolTime = 100;
+	constexpr int kAttackCoolTime = 60;
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
+	//落下したと判定するY座標
+	constexpr float kStageFallY = -500.0f;
 }
 
 EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
@@ -29,8 +32,24 @@ EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
 
 void EnemyBase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//落下した際の処理
+	if (m_rb->m_pos.y < kStageFallY)
+	{
+		m_isDelete = true;
+	}
 	//プレイヤーから遠いなら処理をしない
 	if (IsStopActiveCollision(actorManager))return;
+#if _DEBUG
+	if (m_enemyGrade == EnemyGrade::Boss)
+	{
+		//ボスを死亡させる
+		if (Input::GetInstance().IsTrigger("BossDead"))
+		{
+			m_hitPoints->SetIsNoDamege(false);
+			m_hitPoints->Damage(999999);
+		}
+	}
+#endif
 	//アクティブ状態じゃないなら
 	if (!m_isActive)
 	{
@@ -66,7 +85,15 @@ void EnemyBase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_p
 void EnemyBase::UpdateAttackCoolTime()
 {
 	//攻撃できないなら
-	if (!m_canAttack)return;
+	if (!m_canAttack)
+	{
+		//攻撃権が与えられた瞬間にすぐに攻撃されると困るので
+		if (m_attackCoolTime < kAttackCoolTime)
+		{
+			m_attackCoolTime = kAttackCoolTime;
+		}
+		return;
+	}
 	m_attackCoolTime--;
 	if (m_attackCoolTime < 0)
 	{

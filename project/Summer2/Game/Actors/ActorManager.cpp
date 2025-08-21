@@ -1,5 +1,6 @@
 #include "ActorManager.h"
 #include "GroupManager.h"
+#include "SearchPlace.h"
 #include "../../General/Rigidbody.h"
 #include "../../General/Math/MyMath.h"
 #include "../UI/UIManager.h"
@@ -226,36 +227,52 @@ void ActorManager::AddNextActor(std::shared_ptr<Actor> actor)
 	m_nextAddActors.emplace_back(actor);
 }
 
-std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(CharacterType ch, Vector3 pos)
+std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(ActorData charaData)
 {
 	//キャラクターを作成
 	std::shared_ptr<CharacterBase> chara;
-	switch (ch)
+	if (charaData.name == "Player")
 	{
-	case CharacterType::Player:
-		//プレイヤー作成
-		chara = std::make_shared<Player>(MV1DuplicateModel(m_handles["Player"]), pos);
-		break;
-	case CharacterType::PurpleDinosaur:
-		chara = std::make_shared<PurpleDinosaur>(MV1DuplicateModel(m_handles["PurpleDinosaur"]), pos);
-		break;
-	case CharacterType::SmallDragon:
-		chara = std::make_shared<SmallDragon>(MV1DuplicateModel(m_handles["SmallDragon"]), pos);
-		break;
-	case CharacterType::Bomber:
-		chara = std::make_shared<Bomber>(MV1DuplicateModel(m_handles["Bomber"]), pos);
-		break;
-	case CharacterType::BossDragon:
-		chara = std::make_shared<BossDragon>(MV1DuplicateModel(m_handles["BossDragon"]), pos);
-		break;
-	case CharacterType::BossMuscle:
-		chara = std::make_shared<BossMuscle>(MV1DuplicateModel(m_handles["BossMuscle"]), pos);
-		break;
-	case CharacterType::BossKing:
-		chara = std::make_shared<BossKing>(MV1DuplicateModel(m_handles["BossKing"]), MV1DuplicateModel(m_handles["BossKing2"]), pos);
-		break;
-	default:
-		break;
+		chara = std::make_shared<Player>(MV1DuplicateModel(m_handles[charaData.name]), charaData.pos);
+		//プレイヤーの参照
+		m_player = std::dynamic_pointer_cast<Player>(chara);
+	}
+	else if (charaData.name == "PurpleDinosaur")
+	{
+		chara = std::make_shared<PurpleDinosaur>(MV1DuplicateModel(m_handles[charaData.name]), charaData.pos);
+	}
+	else if (charaData.name == "SmallDragon")
+	{
+		chara = std::make_shared<SmallDragon>(MV1DuplicateModel(m_handles[charaData.name]), charaData.pos);
+	}
+	else if (charaData.name == "Bomber")
+	{
+		chara = std::make_shared<Bomber>(MV1DuplicateModel(m_handles[charaData.name]), charaData.pos);
+	}
+	else if (charaData.name == "BossDragon")
+	{
+		chara = std::make_shared<BossDragon>(MV1DuplicateModel(m_handles[charaData.name]), charaData.pos);
+		m_boss = std::dynamic_pointer_cast<EnemyBase>(chara);
+	}
+	else if (charaData.name == "BossMuscle")
+	{
+		chara = std::make_shared<BossMuscle>(MV1DuplicateModel(m_handles[charaData.name]), charaData.pos);
+		m_boss = std::dynamic_pointer_cast<EnemyBase>(chara);
+	}
+	else if (charaData.name == "BossKing")
+	{
+		chara = std::make_shared<BossKing>(MV1DuplicateModel(m_handles[charaData.name]), MV1DuplicateModel(m_handles["BossKing2"]), charaData.pos);
+		m_boss = std::dynamic_pointer_cast<EnemyBase>(chara);
+	}
+	//各項目設定
+	if (chara)
+	{
+		chara->GetModel()->SetScale(charaData.scale);
+		chara->GetModel()->SetRot(charaData.rot);
+		chara->GetHitPoints().lock()->SetHp(charaData.hp);
+		chara->GetHitPoints().lock()->SetArmor(charaData.armor);
+		chara->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
+		chara->SetGroupTag(charaData.gropeTag);
 	}
 	//キャラクターを入れる
 	AddNextActor(chara);
@@ -330,6 +347,7 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 	AddNextActor(item);
 	return item;
 }
+
 
 void ActorManager::AllDeleteNormalEnemy()
 {
@@ -553,122 +571,7 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 	//名前からオブジェクトを配置していく
 	for (auto& charaData : characterData)
 	{
-		if (charaData.name == "Player")
-		{
-			auto player = CreateCharacter(CharacterType::Player, charaData.pos).lock();
-			player->GetModel()->SetScale(charaData.scale);
-			player->GetModel()->SetRot(charaData.rot);
-			if (!player->GetHitPoints().expired())
-			{
-				player->GetHitPoints().lock()->SetHp(charaData.hp);
-				player->GetHitPoints().lock()->SetArmor(charaData.armor);
-			}
-			if (!player->GetAttackPoints().expired())
-			{
-				player->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-			}
-			m_player = std::dynamic_pointer_cast<Player>(player);
-		}
-		else if (charaData.name == "SmallDragon")
-		{
-			auto smallDragon = CreateCharacter(CharacterType::SmallDragon, charaData.pos).lock();
-			smallDragon->GetModel()->SetScale(charaData.scale);
-			smallDragon->GetModel()->SetRot(charaData.rot);
-			if (!smallDragon->GetHitPoints().expired())
-			{
-				smallDragon->GetHitPoints().lock()->SetHp(charaData.hp);
-				smallDragon->GetHitPoints().lock()->SetArmor(charaData.armor);
-			}
-			if (!smallDragon->GetAttackPoints().expired())
-			{
-				smallDragon->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-			}
-			smallDragon->SetGroupTag(charaData.gropeTag);
-		}
-		else if (charaData.name == "BossDragon")
-		{
-			auto bossDragon = CreateCharacter(CharacterType::BossDragon, charaData.pos).lock();
-			bossDragon->GetModel()->SetScale(charaData.scale);
-			bossDragon->GetModel()->SetRot(charaData.rot);
-			if (!bossDragon->GetHitPoints().expired())
-			{
-				bossDragon->GetHitPoints().lock()->SetHp(charaData.hp);
-				bossDragon->GetHitPoints().lock()->SetArmor(charaData.armor);
-			}
-			if (!bossDragon->GetAttackPoints().expired())
-			{
-				bossDragon->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-			}
-			bossDragon->SetGroupTag(charaData.gropeTag);
-			m_boss = std::dynamic_pointer_cast<BossDragon>(bossDragon);
-		}
-		else if (charaData.name == "BossMuscle")
-		{
-			auto bossMuscle = CreateCharacter(CharacterType::BossMuscle, charaData.pos).lock();
-			bossMuscle->GetModel()->SetScale(charaData.scale);
-			bossMuscle->GetModel()->SetRot(charaData.rot);
-			if (!bossMuscle->GetHitPoints().expired())
-			{
-				bossMuscle->GetHitPoints().lock()->SetHp(charaData.hp);
-				bossMuscle->GetHitPoints().lock()->SetArmor(charaData.armor);
-			}
-			if (!bossMuscle->GetAttackPoints().expired())
-			{
-				bossMuscle->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-			}
-			bossMuscle->SetGroupTag(charaData.gropeTag);
-			m_boss = std::dynamic_pointer_cast<BossMuscle>(bossMuscle);
-
-		}
-		else if (charaData.name == "BossKing")
-		{
-			auto bossKing = CreateCharacter(CharacterType::BossKing, charaData.pos).lock();
-			bossKing->GetModel()->SetScale(charaData.scale);
-			bossKing->GetModel()->SetRot(charaData.rot);
-			if (!bossKing->GetHitPoints().expired())
-			{
-				bossKing->GetHitPoints().lock()->SetHp(charaData.hp);
-				bossKing->GetHitPoints().lock()->SetArmor(charaData.armor);
-			}
-			if (!bossKing->GetAttackPoints().expired())
-			{
-				bossKing->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-			}
-			bossKing->SetGroupTag(charaData.gropeTag);
-			m_boss = std::dynamic_pointer_cast<BossKing>(bossKing);
-		}
-		else if (charaData.name == "Bomber")
-		{
-			auto bomber = CreateCharacter(CharacterType::Bomber, charaData.pos).lock();
-			bomber->GetModel()->SetScale(charaData.scale);
-			bomber->GetModel()->SetRot(charaData.rot);
-			if (!bomber->GetHitPoints().expired())
-			{
-				bomber->GetHitPoints().lock()->SetHp(charaData.hp);
-				bomber->GetHitPoints().lock()->SetArmor(charaData.armor);
-			}
-			if (!bomber->GetAttackPoints().expired())
-			{
-				bomber->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-			}
-			bomber->SetGroupTag(charaData.gropeTag);
-		}
-		else if (charaData.name == "PurpleDinosaur")
-		{
-			auto purpleDinosaur = CreateCharacter(CharacterType::PurpleDinosaur, charaData.pos).lock();
-			purpleDinosaur->GetModel()->SetScale(charaData.scale);
-			purpleDinosaur->GetModel()->SetRot(charaData.rot);
-			if (!purpleDinosaur->GetHitPoints().expired())
-			{
-				purpleDinosaur->GetHitPoints().lock()->SetHp(charaData.hp);
-				purpleDinosaur->GetHitPoints().lock()->SetArmor(charaData.armor);
-			}
-			if (!purpleDinosaur->GetAttackPoints().expired())
-			{
-				purpleDinosaur->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-			}
-			purpleDinosaur->SetGroupTag(charaData.gropeTag);
-		}
+		CreateCharacter(charaData);
 	}
 	//描画用
 	//配置データを取得

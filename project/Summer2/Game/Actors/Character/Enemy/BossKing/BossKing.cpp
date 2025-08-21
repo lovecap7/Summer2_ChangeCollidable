@@ -76,60 +76,10 @@ void BossKing::Init()
 	m_state = std::make_shared<BossKingStateStart>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-	//敵関連のUIの準備
-	m_hpUI = UIManager::GetInstance().CreateBossUI(thisPointer);
-	m_hpUI.lock()->SetIsDraw(false);
-}
-
-void BossKing::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
-{
-	//プレイヤーから遠いなら処理をしない
-	if (IsStopActiveCollision(actorManager))return;
-#if _DEBUG
-	//ボスを死亡させる
-	if (Input::GetInstance().IsTrigger("BossDead"))
-	{
-		m_hitPoints->SetIsNoDamege(false);
-		m_hitPoints->Damage(999999);
-	}
-#endif
-	//アクティブ状態じゃないなら
-	if (!m_isActive)
-	{
-		//アニメーションの更新
-		m_model->Update();
-		return;
-	}
-	//体力の表示をする
-	if (!m_hpUI.expired())
-	{
-		auto hpUI = m_hpUI.lock();
-		if (!hpUI->IsDraw())
-		{
-			hpUI->SetIsDraw(true);
-		}
-	}
-	//攻撃のクールタイムを減らす
-	UpdateAttackCoolTime();
-	//ターゲットを発見できたかをチェック
-	auto target = actorManager.lock()->GetPlayer();
-	if (!target.expired())
-	{
-		TargetSearch(kSearchDistance, kSearchAngle, target.lock()->GetPos());
-	}
-	//状態に合わせた更新
-	m_state->Update(camera, actorManager);
-	//状態が変わったかをチェック
-	if (m_state != m_state->GetNextState())
-	{
-		//状態を変化する
-		m_state = m_state->GetNextState();
-		m_state->Init();
-	}
-	//アニメーションの更新
-	m_model->Update();
-	//体力クラスのフラグリセット
-	m_hitPoints->ResetHitFlags();
+	//索敵距離
+	m_searchDistance = kSearchDistance;
+	//視野角
+	m_searchAngle = kSearchAngle;
 }
 
 void BossKing::OnCollide(const std::shared_ptr<Collidable> other)

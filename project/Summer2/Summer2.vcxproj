@@ -88,6 +88,7 @@
     <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateDeath.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateIdle.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateSearch.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragon.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateAttack.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateBack.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="Game\Actors\Item\Heart.cpp" />
     <ClCompile Include="Game\Actors\Item\ItemBase.cpp" />
     <ClCompile Include="Game\Actors\Item\UltGageUp.cpp" />
+    <ClCompile Include="Game\Actors\SearchPlace.cpp" />
     <ClCompile Include="Game\Actors\Stage\BossArea.cpp" />
     <ClCompile Include="Game\Actors\Stage\AllKillArea.cpp" />
     <ClCompile Include="Game\Actors\Stage\EventAreaBase.cpp" />
@@ -290,6 +292,7 @@
     <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateDeath.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateIdle.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateSearch.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragon.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateAttack.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateBack.h" />
@@ -323,6 +326,7 @@
     <ClInclude Include="Game\Actors\Item\Heart.h" />
     <ClInclude Include="Game\Actors\Item\ItemBase.h" />
     <ClInclude Include="Game\Actors\Item\UltGageUp.h" />
+    <ClInclude Include="Game\Actors\SearchPlace.h" />
     <ClInclude Include="Game\Actors\Stage\BossArea.h" />
     <ClInclude Include="Game\Actors\Stage\AllKillArea.h" />
     <ClInclude Include="Game\Actors\Stage\EventAreaBase.h" />

@@ -10,6 +10,7 @@ class Collidable;
 class Score;
 class HitPoints;
 class AttackPoints;
+class SearchPlace;
 class Model;
 /// <summary>
 /// ゲーム中に配置可能な物体の基底クラス
@@ -52,6 +53,8 @@ protected:
 	std::shared_ptr<HitPoints> m_hitPoints;
 	//攻撃のステータス
 	std::shared_ptr<AttackPoints> m_attackPoints;
+	//索敵場所
+	std::shared_ptr<SearchPlace> m_searchPlace;
 public:
 	Actor(Shape shape);
 	virtual ~Actor() {};
@@ -130,5 +133,7 @@ public:
 	std::weak_ptr<AttackPoints> GetAttackPoints() const { return m_attackPoints; };
 	//攻撃を受けたときの処理
 	virtual void OnHitFromAttack(const std::shared_ptr<Collidable> other);
+	//索敵場所の参照
+	std::weak_ptr<SearchPlace> GetSearchPlace() { return m_searchPlace; };
 };
 

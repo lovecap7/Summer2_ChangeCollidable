@@ -19,6 +19,9 @@ BossMuscleStateBase::~BossMuscleStateBase()
 
 void BossMuscleStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorManager)
 {
+	if (m_owner.expired())return;			//Š—LÒ‚ª‚¢‚È‚¢‚È‚ç
+	if (!m_owner.lock()->CanAttack())return;//UŒ‚Œ ‚ª‚È‚¢‚È‚ç
+
 	//‹——£‚ğŒ©‚ÄUŒ‚‚ğŒˆ‚ß‚é
 	auto coll = std::dynamic_pointer_cast<BossMuscle>(m_owner.lock());
 	auto targetData = coll->GetTargetData();

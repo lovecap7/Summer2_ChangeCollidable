@@ -51,6 +51,7 @@ class UIManager;
 class Score;
 class CSVDataLoader;
 class GroupManager;
+class SearchPlace;
 class CharacterBase;
 class ActorManager : public std::enable_shared_from_this<ActorManager>
 {
@@ -76,7 +77,7 @@ public:
 	//追加予定のアクターを追加
 	void AddNextActor(std::shared_ptr<Actor> actor);
 	//キャラクターを作成
-	std::weak_ptr<CharacterBase> CreateCharacter(CharacterType ch, Vector3 pos);
+	std::weak_ptr<CharacterBase> CreateCharacter(ActorData charaData);
 	//攻撃を作成して参照を返す
 	std::weak_ptr<AttackBase> CreateAttack(AttackType at, std::weak_ptr<Actor> owner);
 	//アイテムの追加

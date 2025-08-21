@@ -127,7 +127,7 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 	score.lock()->AddKillOrItemScore(ScoreDataName::kBomber);
 	//アイテムをランダムで落とす
 	auto actorM = actorManager.lock();
-	if (GetRand(1))
+	if (MyMath::IsRand())
 	{
 		//必殺ゲージアップ
 		actorM->CreateItem(ItemType::UltGageUp, m_rb->GetPos());

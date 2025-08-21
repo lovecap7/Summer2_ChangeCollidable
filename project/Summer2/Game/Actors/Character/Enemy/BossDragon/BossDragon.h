@@ -7,7 +7,6 @@ class EnemyManager;
 class AttackManager;
 class ActorManager;
 class CharacterStateBase;
-class BossHPUI;
 class BossDragon :
 	public EnemyBase
 {
@@ -16,8 +15,6 @@ public:
 	~BossDragon();
 	//初期化処理
 	void Init()override;
-	//更新処理
-	void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 	//衝突イベント
 	void OnCollide(const std::shared_ptr<Collidable> other)override;
 	//描画
@@ -37,8 +34,6 @@ public:
 	//ターゲットのデータ
 	TargetData GetTargetData() const { return m_targetData; };
 private:
-	//体力バー
-	std::weak_ptr<BossHPUI> m_hpUI;
 	//サウンド
 	void InitSound()override;
 };

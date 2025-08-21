@@ -104,7 +104,6 @@ void GroupManager::Update()
 			int canAttackId = m_canAttackActorID[groupName];
 			//UŒ‚Œ ‚ª‚ ‚é‚©
 			bool canAttack = actor->CanAttack();
-
 			//‚à‚µ‚àƒvƒŒƒCƒ„[‚ð”­Œ©‚Å‚«‚Ä‚¢‚È‚¢“GƒLƒƒƒ‰ƒNƒ^[‚ÉUŒ‚Œ ‚ªˆÚ‚Á‚½ê‡
 			//‚»‚ÌƒLƒƒƒ‰‚ªUŒ‚Œ ‚ð•ÛŽ‚µ‘±‚¯‚é‚Ì‚Å”­Œ©‚µ‚Ä‚È‚¢ê‡‚Í÷‚é
 			if (actorId == canAttackId && canAttack && !actor->IsSearch())

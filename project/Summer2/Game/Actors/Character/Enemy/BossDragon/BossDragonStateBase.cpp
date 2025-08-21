@@ -15,6 +15,9 @@ BossDragonStateBase::~BossDragonStateBase()
 
 void BossDragonStateBase::ThinkAttack(const std::weak_ptr<ActorManager> actorManager)
 {
+	if (m_owner.expired())return;			//Š—LÒ‚ª‚¢‚È‚¢‚È‚ç
+	if (!m_owner.lock()->CanAttack())return;//UŒ‚Œ ‚ª‚È‚¢‚È‚ç
+
 	//ƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
 	auto rand = MyMath::GetRand(0, 2);
 

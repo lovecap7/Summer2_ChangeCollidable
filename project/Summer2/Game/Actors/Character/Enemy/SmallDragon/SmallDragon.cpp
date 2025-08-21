@@ -130,7 +130,7 @@ void SmallDragon::Dead(const std::weak_ptr<ActorManager> actorManager, const std
 	score.lock()->AddKillOrItemScore(ScoreDataName::kSmallDragon);
 	//アイテムをランダムで落とす
 	auto actorM = actorManager.lock();
-	if (GetRand(1))
+	if (MyMath::IsRand())
 	{
 		actorM->CreateItem(ItemType::AttackUp, m_rb->GetPos());
 	}

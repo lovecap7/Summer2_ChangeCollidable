@@ -75,7 +75,7 @@ void PurpleDinosaurStateChase::Update(const std::weak_ptr<GameCamera> camera, co
 		if (targetData.targetDis <= kAttackDistance)
 		{
 			//攻撃のクールタイムが0なら
-			if (coll->GetAttackCoolTime() <= 0)
+			if (coll->GetAttackCoolTime() <= 0 && coll->CanAttack())
 			{
 				//攻撃状態にする
 				ChangeState(std::make_shared<PurpleDinosaurStateAttack>(m_owner, actorManager));

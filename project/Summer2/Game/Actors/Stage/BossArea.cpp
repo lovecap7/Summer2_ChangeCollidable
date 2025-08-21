@@ -3,6 +3,7 @@
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../Character/Enemy/EnemyBase.h"
+#include "../../UI/UIManager.h"
 #include "../../../General/Collision/Physics.h"
 #include "../../../General/Sound/SoundManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
@@ -35,6 +36,8 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const st
 	{
 		//ボスをアクティブ状態に
 		boss.lock()->SetActive(true);
+		//ボスのUIの準備
+		UIManager::GetInstance().CreateBossUI(boss.lock());
 		InitEvent(actorManager, camera);
 		return;
 	}
