@@ -35,12 +35,8 @@ namespace
 	constexpr float kCapsuleRadius = 20.0f;					//カプセルの半径
 	//必殺技ゲージの最大値
 	constexpr int kMaxUltGage = 100;
-	//索敵距離
-	constexpr float kSearchDistance = 500.0f;
 	//索敵の基準方向を決める際のモデルの向きと入力の向きの割合
 	constexpr float kTargetSearchDirRate = 0.2f;
-	//視野角
-	constexpr float kSearchAngle = (250.0f * MyMath::DEG_2_RAD);
 	//ダッシュ持続状態解除
 	constexpr int kCancelRunFrame = 5;
 	//落下したと判定するY座標
@@ -115,7 +111,7 @@ void Player::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<
 	auto target = actorManager.lock()->GetNearestEnemy();
 	if (!target.expired())
 	{
-		TargetSearch(kSearchDistance, kSearchAngle, target.lock()->GetPos());
+		TargetSearch(m_searchDistance, m_viewingAngle, target.lock()->GetPos());
 	}
 	//走りを継続するか
 	CheckRunKeep();

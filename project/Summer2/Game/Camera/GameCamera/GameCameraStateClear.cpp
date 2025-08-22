@@ -22,7 +22,7 @@ namespace
 	constexpr float kOffsetClearStartCameraPosY = 50.0f;
 	constexpr float kOffsetClearStartCameraPosZ = -500.0f;
 	//回転終了後のアップ
-	constexpr float kOffsetClearEndCameraPosY = 150.0f;
+	constexpr float kOffsetClearEndCameraPosY = 130.0f;
 	constexpr float kOffsetClearEndCameraPosZ = -200.0f;
 	//クリア時のターゲットへの注視点オフセット
 	constexpr float kOffsetClearStartViewPosY = 100.0f;

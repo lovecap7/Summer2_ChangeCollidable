@@ -1,5 +1,4 @@
 #include "MyDraw.h"
-#include<DxLib.h>
 #include<array>
 
 void MyDrawUtils::DrawRotaGraph(Vector2 pos, float scale, float angle, int handle, int psH, std::list<int> texH, int alpha, int vsH)
@@ -164,4 +163,23 @@ void MyDrawUtils::DrawGraph(Vector2 pos, int handle, int psH, std::list<int> tex
 	}
 	MV1SetUseOrigShader(false);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+void MyDrawUtils::Draw3DCircle(Vector3 pos, float radius, int segmentCount, unsigned int color)
+{
+	float angleStep = MyMath::TwoPI_F / segmentCount;
+
+	for (int i = 0; i < segmentCount; ++i) {
+		float angle1 = angleStep * i;
+		float angle2 = angleStep * (i + 1);
+
+		float x1 = pos.x + cosf(angle1) * radius;
+		float z1 = pos.z + sinf(angle1) * radius;
+
+		float x2 = pos.x + cosf(angle2) * radius;
+		float z2 = pos.z + sinf(angle2) * radius;
+
+		// YÀ•W‚ÍŒÅ’èiXZ•½–Êã‚Ì‰~j
+		DrawLine3D(VECTOR{ x1, pos.y, z1 }, VECTOR{ x2, pos.y, z2 }, color);
+	}
 }

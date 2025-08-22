@@ -2,6 +2,7 @@
 #include "../../General/Collision/SphereCollider.h"
 #include "../../General/Rigidbody.h"
 #include "Actor.h"
+#include "../../Shader/MyDraw.h"
 #include <DxLib.h>
 
 SearchPlace::SearchPlace(Vector3 pos, float rang) :
@@ -16,7 +17,7 @@ SearchPlace::~SearchPlace()
 
 void SearchPlace::Draw() const
 {
-	DrawSphere3D(m_pos.ToDxLibVector(), m_rang, 16, 0xffffff, 0xffffff, false);
+	MyDrawUtils::Draw3DCircle(m_pos, m_rang,36,0xff0000);
 }
 
 bool SearchPlace::IsInSearchPlace(Vector3 targetPos) const

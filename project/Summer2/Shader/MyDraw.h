@@ -1,6 +1,7 @@
 #pragma once
 #include "../General/Math/MyMath.h"
 #include <list>
+#include <DxLib.h>
 namespace MyDrawUtils
 {
 	/// <summary>
@@ -25,4 +26,13 @@ namespace MyDrawUtils
 	/// <param name="texH">テクスチャ</param>
 	/// <param name="psH">ピクセルシェーダ</param>
 	void DrawGraph(Vector2 pos, int handle, int psH,std::list<int> texH = {});
+
+	/// <summary>
+	/// 円
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <param name="radius"></param>
+	/// <param name="segmentCount"></param>
+	/// <param name="color"></param>
+	void Draw3DCircle(Vector3 pos, float radius, int segmentCount = 36, unsigned int color = GetColor(255, 255, 255));
 }

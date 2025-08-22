@@ -8,6 +8,7 @@
 #include "../../../../General/Input.h"
 #include "../../ActorManager.h"
 #include "../../SearchPlace.h"
+#include "../../../../Shader/MyDraw.h"
 
 namespace
 {
@@ -110,6 +111,8 @@ void EnemyBase::Draw() const
 	//	false
 	//);
 	// 
+	//À•W
+	auto pos = m_rb->m_pos;
 	//Ž‹–ìŠp
 	float viewingAngle = m_viewingAngle;
 	//õ“G‹——£
@@ -123,7 +126,7 @@ void EnemyBase::Draw() const
 		searchDistance *= kWarningDistanceRate;
 	}
 	//õ“G”ÍˆÍ
-	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), searchDistance, 4, 0x0000ff, 0x0000ff, false);
+	MyDrawUtils::Draw3DCircle(pos, searchDistance, 36, 0x0000ff);
 	//Œ©‚Ä‚é•ûŒü
 	auto forward = m_model->GetDir();
 	forward = forward * searchDistance;
@@ -131,9 +134,9 @@ void EnemyBase::Draw() const
 	auto viewDir1 = Quaternion::AngleAxis(viewingAngle / 2.0f, Vector3::Up()) * forward;
 	auto viewDir2 = Quaternion::AngleAxis(-viewingAngle / 2.0f, Vector3::Up()) * forward;
 	//•`‰æ
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
+	DrawLine3D(pos.ToDxLibVector(), (pos + forward).ToDxLibVector(), 0xff0000);
+	DrawLine3D(pos.ToDxLibVector(), (pos + viewDir1).ToDxLibVector(), 0xff0000);
+	DrawLine3D(pos.ToDxLibVector(), (pos + viewDir2).ToDxLibVector(), 0xff0000);
 	if (m_searchPlace)
 	{
 		m_searchPlace->Draw();
