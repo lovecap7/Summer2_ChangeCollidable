@@ -96,7 +96,7 @@ void PurpleDinosaur::Dead(const std::weak_ptr<ActorManager> actorManager, const 
 	auto actorM = actorManager.lock();
 	if (MyMath::IsRand())
 	{
-		actorM->CreateItem(ItemType::Heart, m_rb->GetPos());
+		actorM->CreateRandItem(m_rb->GetPos());
 	}
 	//死亡エフェクト
 	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);

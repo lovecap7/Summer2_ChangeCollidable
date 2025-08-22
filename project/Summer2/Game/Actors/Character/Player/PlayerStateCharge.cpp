@@ -29,8 +29,6 @@ namespace
 	const char* kAnim = "Player|Charge";//チャージ
 	//減速率
 	constexpr float kMoveDeceRate = 0.8f;
-	//左足のインデックス
-	constexpr int kLeftLegIndex = 64;
 	//硬直
 	constexpr int kStopFrame = 30;
 }
@@ -40,7 +38,6 @@ PlayerStateCharge::PlayerStateCharge(std::weak_ptr<Actor> player, const std::wea
 	m_chargeFrame(0)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
-	//回避状態
 	coll->SetCollState(CollisionState::Normal);
 	//チャージ
 	coll->GetModel()->SetAnim(kAnim, true);

@@ -26,7 +26,7 @@ namespace
 {
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
-	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
+	constexpr float kCapsuleRadius = 60.0f; //カプセルの半径
 }
 
 BossDragon::BossDragon(int modelHandle, Vector3 pos):

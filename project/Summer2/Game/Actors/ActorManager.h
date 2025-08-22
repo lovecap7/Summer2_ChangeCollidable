@@ -23,10 +23,10 @@ enum class CharacterType : int
 enum class ItemType : int
 {
 	Heart			= 0,
-	Bomb			= 1,
-	UltGageUp		= 2,
-	AttackUp		= 3,
-	DefenseUp		= 4,
+	UltGageUp		= 1,
+	AttackUp		= 2,
+	DefenseUp		= 3,
+	Bomb			= 4,
 };
 //攻撃の種類
 enum class AttackType : int
@@ -82,6 +82,8 @@ public:
 	std::weak_ptr<AttackBase> CreateAttack(AttackType at, std::weak_ptr<Actor> owner);
 	//アイテムの追加
 	std::weak_ptr<ItemBase> CreateItem(ItemType it, Vector3 pos);
+	//ランダムでアイテム追加
+	void CreateRandItem(Vector3 pos);
 	//雑魚敵をすべて削除
 	void AllDeleteNormalEnemy();
 	//攻撃をすべて削除

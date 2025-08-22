@@ -58,6 +58,8 @@ namespace
 	constexpr int kBossDisappearFrameMax = 60;
 	//エリアを構成するパーツの数
 	constexpr int kAreaPartsNum = 2;
+	//アイテム生成確立
+	constexpr int kCreateItemRandRate = 10;
 }
 
 ActorManager::ActorManager(std::weak_ptr<GameCamera> camera):
@@ -323,9 +325,6 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 	case ItemType::Heart:
 		item = std::make_shared<Heart>(MV1DuplicateModel(m_handles["Heart"]), pos);
 		break;
-	case ItemType::Bomb:
-		item = std::make_shared<Bomb>(MV1DuplicateModel(m_handles["Bomb"]), pos);
-		break;
 	case ItemType::UltGageUp:
 		item = std::make_shared<UltGageUp>(MV1DuplicateModel(m_handles["UltGageUp"]), pos);
 		break;
@@ -335,12 +334,26 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 	case ItemType::DefenseUp:
 		item = std::make_shared<DefenseUp>(MV1DuplicateModel(m_handles["DefenseUp"]), pos);
 		break;
+	case ItemType::Bomb:
+		item = std::make_shared<Bomb>(MV1DuplicateModel(m_handles["Bomb"]), pos);
+		break;
 	default:
+		item = std::make_shared<Heart>(MV1DuplicateModel(m_handles["Heart"]), pos);
 		break;
 	}
 	//アイテムを入れる
 	AddNextActor(item);
 	return item;
+}
+
+void ActorManager::CreateRandItem(Vector3 pos)
+{
+	//1/kCreateItemRandRateの確率でアイテムを生成
+	if (MyMath::GetRand(1, kCreateItemRandRate))
+	{
+		ItemType itemIndex = static_cast<ItemType>(MyMath::GetRand(static_cast<int>(ItemType::Heart), static_cast<int>(ItemType::DefenseUp)));
+		CreateItem(itemIndex, pos);
+	}
 }
 
 

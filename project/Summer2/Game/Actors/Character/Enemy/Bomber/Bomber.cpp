@@ -95,13 +95,7 @@ void Bomber::Dead(const std::weak_ptr<ActorManager> actorManager, const std::wea
 	auto actorM = actorManager.lock();
 	if (MyMath::IsRand())
 	{
-		//必殺ゲージアップ
-		actorM->CreateItem(ItemType::UltGageUp, m_rb->GetPos());
-	}
-	else
-	{
-		//防御バフ
-		actorM->CreateItem(ItemType::DefenseUp, m_rb->GetPos());
+		actorM->CreateRandItem(m_rb->GetPos());
 	}
 	//死亡エフェクト
 	EffekseerManager::GetInstance().CreateEffect("DeathEff", m_rb->m_pos);
