@@ -19,6 +19,8 @@ public:
     virtual ~EnemyBase() {};
 	//更新
 	virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
+	//描画
+	void Draw() const override;
 	//攻撃のクールタイムを更新
 	virtual void UpdateAttackCoolTime();
 	//攻撃のクールタイムを取得
@@ -30,6 +32,9 @@ public:
 	//行動可能か
 	bool IsActive()const { return m_isActive; };
 	void SetActive(bool isActive);
+	//警戒
+	bool IsWarning()const { return m_isWarning; };
+	void SetIsWarning(bool isWarning) { m_isWarning = isWarning; };
 protected:
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;
@@ -39,9 +44,7 @@ protected:
 	bool m_isActive;
 	//プレイヤーとの距離が遠いときに当たり判定を停止する
 	bool IsStopActiveCollision(const std::weak_ptr<ActorManager> actorManager);
-	//索敵距離
-	float m_searchDistance;
-	//視野角
-	float m_searchAngle;
+	//警戒している
+	bool m_isWarning;
 };
 

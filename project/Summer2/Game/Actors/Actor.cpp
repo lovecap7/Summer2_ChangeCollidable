@@ -89,3 +89,25 @@ void Actor::OnHitFromAttack(const std::shared_ptr<Collidable> other)
 		m_rb->AddVec(attack->GetKnockBackVec(m_rb->m_pos));	//ノックバック
 	}
 }
+
+//探索場所があるかをチェックする関数
+bool Actor::IsHaveSearchPlace() const
+{
+	//実態があるか
+	if (m_searchPlace)
+	{
+		//範囲があるならtrue
+		return m_searchPlace->GetRang() > 0.0f;
+	}
+	//ここまで来たら
+	return false;
+}
+
+void Actor::SetSearchPlaceRang(float rang)
+{
+	//nullチェック
+	if (m_searchPlace)
+	{
+		m_searchPlace->SetRang(rang);
+	}
+}

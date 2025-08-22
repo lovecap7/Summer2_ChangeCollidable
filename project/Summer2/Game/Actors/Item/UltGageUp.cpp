@@ -18,7 +18,7 @@ namespace
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
-	constexpr float kCollRadius = 80.0f;
+	constexpr float kCollRadius = 60.0f;
 	//回転量
 	constexpr float kRotaAngle = 2.0f;
 	//最初の当たらないフレーム

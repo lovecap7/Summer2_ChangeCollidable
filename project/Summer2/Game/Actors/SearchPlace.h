@@ -2,20 +2,21 @@
 #include <memory>
 #include "../../General/Math/MyMath.h"
 //アクターが索敵場所の中にいるかチェックする
-class Actor;
 class SearchPlace 
 {
 public:
-	SearchPlace(std::weak_ptr<Actor> target,float rang);
+	SearchPlace(Vector3 pos,float rang);
 	~SearchPlace();
 	//デバッグ用
 	void Draw()const;
 	//範囲内にいるか
-	bool IsInSearchPlace()const;
+	bool IsInSearchPlace(Vector3 targetPos)const;
+	//座標
 	Vector3 GetPos()const { return m_pos; };
+	//範囲
+	void SetRang(float rang) { m_rang = rang; };
+	float GetRang() const{ return m_rang; };
 private:
-	//チェックするアクター
-	std::weak_ptr<Actor> m_target;
 	//範囲
 	float m_rang;
 	//座標

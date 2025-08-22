@@ -53,7 +53,7 @@ protected:
 	std::shared_ptr<HitPoints> m_hitPoints;
 	//UŒ‚‚ÌƒXƒe[ƒ^ƒX
 	std::shared_ptr<AttackPoints> m_attackPoints;
-	//õ“GêŠ
+	//’TõêŠ
 	std::shared_ptr<SearchPlace> m_searchPlace;
 public:
 	Actor(Shape shape);
@@ -133,7 +133,11 @@ public:
 	std::weak_ptr<AttackPoints> GetAttackPoints() const { return m_attackPoints; };
 	//UŒ‚‚ğó‚¯‚½‚Æ‚«‚Ìˆ—
 	virtual void OnHitFromAttack(const std::shared_ptr<Collidable> other);
-	//õ“GêŠ‚ÌQÆ
+	//’TõêŠ‚ÌQÆ
 	std::weak_ptr<SearchPlace> GetSearchPlace() { return m_searchPlace; };
+	//’TõêŠ‚ª‚ ‚é‚©
+	bool IsHaveSearchPlace()const;
+	//’Tõ”ÍˆÍ
+	void SetSearchPlaceRang(float rang);
 };
 

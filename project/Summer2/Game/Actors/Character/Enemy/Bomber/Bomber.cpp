@@ -20,37 +20,35 @@
 #include "../../../../../General/Effect/EffekseerManager.h"
 #include "../../../../GameRule/Score.h"
 #include "../../../../UI/UIManager.h"
+#include "../../../SearchPlace.h"
 
 namespace
 {
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
-	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 900.0f;
-	//プレイヤーを発見する視野角
-	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
-	//モデルの旋回速度
-	constexpr int kModelRotateSpeed = 30;
 }
 Bomber::Bomber(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule, EnemyGrade::Normal)
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
-	m_model->SetRotSpeed(kModelRotateSpeed);
 	//衝突判定
 	Vector3 endPos = pos;
 	endPos += kCapsuleHeight; //カプセルの上端
 	auto cap = std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData);
 	cap->SetRadius(kCapsuleRadius);
 	cap->SetEndPos(endPos);
+	//モデルの高さ調整(半径分だけモデルが浮いてるので)
+	m_model->SetModelHeightAdjust(-kCapsuleRadius);
 	//リジッドボディの初期化
 	m_rb->SetPos(pos);
 	//体力ステータス
 	m_hitPoints = std::make_shared<HitPoints>();
 	//攻撃ステータス
 	m_attackPoints = std::make_shared<AttackPoints>();
+	//索敵場所
+	m_searchPlace = std::make_shared<SearchPlace>(GetPos(), 0.0f);
 }
 
 Bomber::~Bomber()
@@ -72,42 +70,10 @@ void Bomber::Init()
 	m_state->ChangeState(m_state);
 	//敵関連のUIの準備
 	UIManager::GetInstance().CreateEnemyUI(thisPointer);
-	//索敵距離
-	m_searchDistance = kSearchDistance;
-	//視野角
-	m_searchAngle = kSearchAngle;
 }
 
 void Bomber::OnCollide(const std::shared_ptr<Collidable> other)
 {
-}
-
-void Bomber::Draw() const
-{
-#if _DEBUG
-	//DrawCapsule3D(
-	//	m_rb->m_pos.ToDxLibVector(),
-	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
-	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
-	//	16,
-	//	0xff0000,
-	//	0xff0000,
-	//	false
-	//);
-	////探索範囲
-	//DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
-	////見てる方向
-	//auto forward = m_model->GetDir();
-	//forward = forward * kSearchDistance;
-	////視野角
-	//auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	//auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	////描画
-	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
-	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
-	//DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
-#endif
-	m_model->Draw();
 }
 
 void Bomber::Complete()

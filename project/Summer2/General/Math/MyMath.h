@@ -9,7 +9,11 @@
 namespace MyMath
 {
 	constexpr double PI = 3.14159265358979323846;
+	constexpr double TwoPI = 3.14159265358979323846 * 2.0;
 	constexpr float PI_F = 3.14159265358979323846f;
+	constexpr float TwoPI_F = 3.14159265358979323846f * 2.0f;
+
+
 	// 度数法を弧度法に変更
 	constexpr float DEG_2_RAD = PI_F / 180.0f;
 	// 弧度法を度数法に変更

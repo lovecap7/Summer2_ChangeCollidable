@@ -23,15 +23,19 @@ namespace
 
 //オブジェクトの情報を格納する構造体
 struct ActorData {
-    std::string     name;       //オブジェクト名
-    VECTOR          pos;        //位置
-    VECTOR          rot;        //回転（ラジアン）
-    VECTOR          scale;      //スケール
-    std::string     gropeTag;   //グループタグ
-    int             hp;         //体力
-    Battle::Armor   armor;      //アーマー
-    int             attackPower;//攻撃力
-    float           speed;      //速度
+    std::string     name;               //オブジェクト名
+    VECTOR          pos;                //位置
+    VECTOR          rot;                //回転（ラジアン）
+    VECTOR          scale;              //スケール
+    std::string     gropeTag;           //グループタグ
+    int             hp;                 //体力
+    Battle::Armor   armor;              //アーマー
+    int             attackPower;        //攻撃力
+    float           speed;              //速度
+    float           searchPlaceRang;    //探索範囲
+    float           viewingAngle;       //視野角
+    float           searchDistance;     //索敵距離
+    float           modelRotateSpeed;   //モデル旋回速度
 };
 //オブジェクトの情報を格納する構造体
 struct AttackData {

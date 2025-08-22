@@ -105,6 +105,8 @@ void GameCameraStateNormal::Update(const std::weak_ptr<ActorManager> actorManage
 	Vector3 nextPos = camera->GetPos();
 	nextPos.z = kCameraPosZ;
 	nextPos.y = playerPos.y + kOffsetCameraPosY;//プレイヤーのY座標より高い位置
+	//滑らかに
+	nextPos = Vector3::Lerp(oldPos, nextPos, 0.05f);
 
 	//移動しているなら
 	if (player->GetRb()->GetVec().x != 0.0f && player->GetCollState() == CollisionState::Move)

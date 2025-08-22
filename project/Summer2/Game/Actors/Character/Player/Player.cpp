@@ -64,6 +64,8 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	cap->SetRadius(kCapsuleRadius);
 	//モデル
 	m_model = std::make_shared<Model>(modelHandle, firstPos.ToDxLibVector());
+	//モデルの高さ調整(半径分だけモデルが浮いてるので)
+	m_model->SetModelHeightAdjust(-kCapsuleRadius);
 	//必殺技ゲージ
 	m_ultGage = std::make_shared<UltGage>(kMaxUltGage);
 	//体力ステータス

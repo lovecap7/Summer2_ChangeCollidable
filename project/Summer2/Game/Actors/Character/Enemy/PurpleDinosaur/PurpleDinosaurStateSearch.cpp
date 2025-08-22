@@ -43,6 +43,8 @@ PurpleDinosaurStateSearch::PurpleDinosaurStateSearch(std::weak_ptr<Actor> owner)
 	coll->GetRb()->SetMoveVec(m_moveVec);
 	//ƒ‚ƒfƒ‹‚ÌŒü‚«
 	coll->GetModel()->SetDir(m_moveVec.XZ());
+	//Œx‰ú‚Í‚µ‚Ä‚¢‚È‚¢
+	coll->SetIsWarning(false);
 }
 
 PurpleDinosaurStateSearch::~PurpleDinosaurStateSearch()
@@ -82,7 +84,7 @@ void PurpleDinosaurStateSearch::Update(const std::weak_ptr<GameCamera> camera, c
 	if (!coll->GetSearchPlace().expired())
 	{
 		std::shared_ptr<SearchPlace> searchPlace = coll->GetSearchPlace().lock();
-		if (!searchPlace->IsInSearchPlace())
+		if (!searchPlace->IsInSearchPlace(coll->GetPos()))
 		{
 			//”ÍˆÍ“à‚ÉŒü‚©‚Á‚Ä“®‚­
 			m_moveVec = searchPlace->GetPos() - coll->GetPos();

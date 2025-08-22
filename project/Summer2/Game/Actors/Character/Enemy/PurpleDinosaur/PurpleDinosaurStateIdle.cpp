@@ -24,10 +24,13 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーションの名前
 	const char* kAnim = "CharacterArmature|Idle";//待機
+	//警戒フレーム(ターゲットを見失っても一定フレーム経過するまでは警戒)
+	constexpr int kWarningFrame = 120;
 }
 
 PurpleDinosaurStateIdle::PurpleDinosaurStateIdle(std::weak_ptr<Actor> owner):
-	PurpleDinosaurStateBase(owner)
+	PurpleDinosaurStateBase(owner),
+	m_warningFrame(kWarningFrame)
 {
 	//待機状態
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
@@ -68,6 +71,10 @@ void PurpleDinosaurStateIdle::Update(const std::weak_ptr<GameCamera> camera, con
 	{
 		//プレイヤーを見る
 		coll->LookAtTarget();
+		//警戒
+		m_warningFrame = kWarningFrame;
+		coll->SetIsWarning(true);
+
 		//攻撃の距離
 		if (targetData.targetDis <= kAttackDistance)
 		{
@@ -87,11 +94,16 @@ void PurpleDinosaurStateIdle::Update(const std::weak_ptr<GameCamera> camera, con
 			return;
 		}
 	}
-	else
+	//探索場所があるなら
+	else if (coll->IsHaveSearchPlace())
 	{
-		//索敵状態にする
-		ChangeState(std::make_shared<PurpleDinosaurStateSearch>(m_owner));
-		return;
+		--m_warningFrame;
+		if (m_warningFrame <= 0)
+		{
+			//索敵状態にする
+			ChangeState(std::make_shared<PurpleDinosaurStateSearch>(m_owner));
+			return;
+		}
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);

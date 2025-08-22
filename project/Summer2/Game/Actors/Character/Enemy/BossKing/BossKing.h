@@ -19,8 +19,6 @@ public:
 	void Init()override;
 	//衝突イベント
 	void OnCollide(const std::shared_ptr<Collidable> other)override;
-	//描画
-	void Draw()const override;
 	//更新処理の確定
 	void Complete() override;
 	//死亡処理

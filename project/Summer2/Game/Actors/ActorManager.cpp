@@ -267,12 +267,7 @@ std::weak_ptr<CharacterBase> ActorManager::CreateCharacter(ActorData charaData)
 	//各項目設定
 	if (chara)
 	{
-		chara->GetModel()->SetScale(charaData.scale);
-		chara->GetModel()->SetRot(charaData.rot);
-		chara->GetHitPoints().lock()->SetHp(charaData.hp);
-		chara->GetHitPoints().lock()->SetArmor(charaData.armor);
-		chara->GetAttackPoints().lock()->SetAttackPower(charaData.attackPower);
-		chara->SetGroupTag(charaData.gropeTag);
+		chara->SetCharaData(charaData);
 	}
 	//キャラクターを入れる
 	AddNextActor(chara);

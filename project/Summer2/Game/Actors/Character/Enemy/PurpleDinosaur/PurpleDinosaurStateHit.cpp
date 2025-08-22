@@ -24,10 +24,13 @@ PurpleDinosaurStateHit::PurpleDinosaurStateHit(std::weak_ptr<Actor> owner):
 	PurpleDinosaurStateBase(owner)
 {
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	auto model = coll->GetModel();
 	//‚â‚ç‚ê
-	coll->GetModel()->SetAnim(kAnim, false);
+	model->SetAnim(kAnim, false);
 	//VC
 	coll->CharacterVC("Damage");
+	//Œx‰ú
+	coll->SetIsWarning(true);
 }
 
 PurpleDinosaurStateHit::~PurpleDinosaurStateHit()

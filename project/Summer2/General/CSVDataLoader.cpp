@@ -5,7 +5,7 @@
 namespace
 {
 	//アクターのデータ数
-	constexpr int kActorDataElementNum = 15;
+	constexpr int kActorDataElementNum = 19;
 	//攻撃のデータ数
 	constexpr int kAttackDataElementNum = 16;
 	//スコアデータの数
@@ -67,6 +67,14 @@ std::vector<ActorData> CSVDataLoader::LoadActorDataCSV(const char* fileName)
 		objData.attackPower = std::stoi(values[13]);
 		//速度
 		objData.speed = std::stof(values[14]);
+		//探索範囲
+		objData.searchPlaceRang = std::stof(values[15]);
+		//視野角
+		objData.viewingAngle = std::stof(values[16]) * MyMath::DEG_2_RAD;
+		//索敵距離
+		objData.searchDistance = std::stof(values[17]);
+		//モデルの旋回速度
+		objData.modelRotateSpeed = std::stof(values[18]);
 
 		//配列に追加
 		objects.emplace_back(objData);

@@ -4,12 +4,10 @@
 #include "Actor.h"
 #include <DxLib.h>
 
-SearchPlace::SearchPlace(std::weak_ptr<Actor> actor, float rang) :
-	m_target(actor),
+SearchPlace::SearchPlace(Vector3 pos, float rang) :
+	m_pos(pos),
 	m_rang(rang)
 {
-	if (m_target.expired())return;
-	m_pos = m_target.lock()->GetPos();
 }
 
 SearchPlace::~SearchPlace()
@@ -21,12 +19,10 @@ void SearchPlace::Draw() const
 	DrawSphere3D(m_pos.ToDxLibVector(), m_rang, 16, 0xffffff, 0xffffff, false);
 }
 
-bool SearchPlace::IsInSearchPlace() const
+bool SearchPlace::IsInSearchPlace(Vector3 targetPos) const
 {
-	//‹ó‚È‚ç
-	if (m_target.expired())return false;
 	//”ÍˆÍ“à‚É‚¢‚é‚©
-	float dist = Vector3(m_target.lock()->GetPos() - m_pos).Magnitude();
+	float dist = Vector3(targetPos - m_pos).Magnitude();
 	if (dist <= m_rang)
 	{
 		return true;

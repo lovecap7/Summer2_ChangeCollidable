@@ -7,6 +7,7 @@
 #include "../../../../General/HitPoints.h"
 #include "../../../../General/Input.h"
 #include "../../ActorManager.h"
+#include "../../SearchPlace.h"
 
 namespace
 {
@@ -18,6 +19,8 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//—‰º‚µ‚½‚Æ”»’è‚·‚éYÀ•W
 	constexpr float kStageFallY = -500.0f;
+	//Œx‰ú‚µ‚Ä‚¢‚é‚Ìõ“G‹——£‚Ì”{—¦
+	constexpr float kWarningDistanceRate = 1.4f;
 }
 
 EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
@@ -25,8 +28,7 @@ EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
 	m_attackCoolTime(kAttackCoolTime),
 	m_enemyGrade(grade),
 	m_isActive(true),
-	m_searchDistance(0.0f),
-	m_searchAngle(0.0f)
+	m_isWarning(false)
 {
 }
 
@@ -65,7 +67,20 @@ void EnemyBase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_p
 	auto target = actorManager.lock()->GetPlayer();
 	if (!target.expired())
 	{
-		TargetSearch(m_searchDistance, m_searchAngle, target.lock()->GetPos());
+		//‹–ìŠp
+		float viewingAngle	 = m_viewingAngle;
+		//õ“G‹——£
+		float searchDistance = m_searchDistance;
+		//Œx‰úó‘Ô‚È‚ç
+		if (m_isWarning)
+		{
+			//‘S•ûˆÊ
+			viewingAngle = MyMath::TwoPI_F;
+			//õ“G‹——£‚ª’·‚­‚È‚é
+			searchDistance *= kWarningDistanceRate;
+		}
+		//”ÍˆÍ‚Æ‹–ìŠp‚©‚çƒ^[ƒQƒbƒg’T‚·
+		TargetSearch(searchDistance, viewingAngle, target.lock()->GetPos());
 	}
 	//ó‘Ô‚É‡‚í‚¹‚½XV
 	m_state->Update(camera, actorManager);
@@ -80,6 +95,51 @@ void EnemyBase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_p
 	m_model->Update();
 	//‘Ì—ÍƒNƒ‰ƒX‚Ìƒtƒ‰ƒOƒŠƒZƒbƒg
 	m_hitPoints->ResetHitFlags();
+}
+
+void EnemyBase::Draw() const
+{
+#if _DEBUG
+	//DrawCapsule3D(
+	//	m_rb->GetPos().ToDxLibVector(),
+	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
+	//	std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
+	//	16,
+	//	0xff0000,
+	//	0xff0000,
+	//	false
+	//);
+	// 
+	//‹–ìŠp
+	float viewingAngle = m_viewingAngle;
+	//õ“G‹——£
+	float searchDistance = m_searchDistance;
+	//Œx‰úó‘Ô‚È‚ç
+	if (m_isWarning)
+	{
+		//‘S•ûˆÊ
+		viewingAngle = MyMath::TwoPI_F;
+		//õ“G‹——£‚ª’·‚­‚È‚é
+		searchDistance *= kWarningDistanceRate;
+	}
+	//õ“G”ÍˆÍ
+	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), searchDistance, 4, 0x0000ff, 0x0000ff, false);
+	//Œ©‚Ä‚é•ûŒü
+	auto forward = m_model->GetDir();
+	forward = forward * searchDistance;
+	//‹–ìŠp
+	auto viewDir1 = Quaternion::AngleAxis(viewingAngle / 2.0f, Vector3::Up()) * forward;
+	auto viewDir2 = Quaternion::AngleAxis(-viewingAngle / 2.0f, Vector3::Up()) * forward;
+	//•`‰æ
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
+	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
+	if (m_searchPlace)
+	{
+		m_searchPlace->Draw();
+	}
+#endif
+	m_model->Draw();
 }
 
 void EnemyBase::UpdateAttackCoolTime()

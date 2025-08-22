@@ -26,12 +26,6 @@ namespace
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,150.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 80.0f; //カプセルの半径
-	//プレイヤーを発見する距離
-	constexpr float kSearchDistance = 10000.0f;
-	//プレイヤーを発見する視野角
-	constexpr float kSearchAngle = 360.0f * MyMath::DEG_2_RAD;
-	//モデルの旋回速度
-	constexpr int kModelRotateSpeed = 30;
 	//モデルの高さ調整
 	constexpr float kModelHeightAdjust = -70.0f;
 }
@@ -41,7 +35,6 @@ BossMuscle::BossMuscle(int modelHandle, Vector3 pos) :
 {
 	//モデルの初期化
 	m_model = std::make_unique<Model>(modelHandle, pos.ToDxLibVector());
-	m_model->SetRotSpeed(kModelRotateSpeed);
 	//衝突判定
 	Vector3 endPos = pos;
 	endPos += kCapsuleHeight; //カプセルの上端
@@ -75,42 +68,10 @@ void BossMuscle::Init()
 	m_state = std::make_shared<BossMuscleStateIdle>(thisPointer,false);
 	//状態を変化する
 	m_state->ChangeState(m_state);
-	//索敵距離
-	m_searchDistance = kSearchDistance;
-	//視野角
-	m_searchAngle = kSearchAngle;
 }
 
 void BossMuscle::OnCollide(const std::shared_ptr<Collidable> other)
 {
-}
-
-void BossMuscle::Draw() const
-{
-#if _DEBUG
-	DrawCapsule3D(
-		m_rb->GetPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetEndPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<CapsuleCollider>(m_collisionData)->GetRadius(),
-		16,
-		0xff0000,
-		0xff0000,
-		false
-	);
-	//探索範囲
-	DrawSphere3D(m_rb->m_pos.ToDxLibVector(), kSearchDistance, 4, 0x0000ff, 0x0000ff, false);
-	//見てる方向
-	auto forward = m_model->GetDir();
-	forward = forward * kSearchDistance;
-	//視野角
-	auto viewDir1 = Quaternion::AngleAxis(kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	auto viewDir2 = Quaternion::AngleAxis(-kSearchAngle / 2.0f, Vector3::Up()) * forward;
-	//描画
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + forward).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir1).ToDxLibVector(), 0xff0000);
-	DrawLine3D(m_rb->m_pos.ToDxLibVector(), (m_rb->m_pos + viewDir2).ToDxLibVector(), 0xff0000);
-#endif
-	m_model->Draw();
 }
 
 void BossMuscle::Complete()
