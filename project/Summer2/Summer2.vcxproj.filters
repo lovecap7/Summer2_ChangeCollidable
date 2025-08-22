@@ -846,6 +846,9 @@
     <ClCompile Include="Game\Actors\SearchPlace.cpp">
       <Filter>ソース ファイル\Game\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateSearch.cpp">
+      <Filter>ソース ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Application.h">
@@ -1462,6 +1465,9 @@
     </ClInclude>
     <ClInclude Include="Game\Actors\Character\Enemy\PurpleDinosaur\PurpleDinosaurStateSearch.h">
       <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\PurpleDinosaur</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateSearch.h">
+      <Filter>ヘッダー ファイル\Game\Actors\Character\Enemy\SmallDragon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

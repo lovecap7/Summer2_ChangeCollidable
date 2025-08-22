@@ -12,4 +12,6 @@ public:
     void Init()override;
     void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
 private:
+	//Œx‰úƒtƒŒ[ƒ€
+	int m_warningFrame;
 };

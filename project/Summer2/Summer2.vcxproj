@@ -96,6 +96,7 @@
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateDeath.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateIdle.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateSearch.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\Player.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Player\PlayerStateCA.cpp" />
@@ -300,6 +301,7 @@
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateDeath.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateIdle.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\SmallDragon\SmallDragonStateSearch.h" />
     <ClInclude Include="Game\Actors\Character\Player\Player.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateBase.h" />
     <ClInclude Include="Game\Actors\Character\Player\PlayerStateCA.h" />
