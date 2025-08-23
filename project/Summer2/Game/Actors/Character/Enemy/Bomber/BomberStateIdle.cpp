@@ -3,6 +3,7 @@
 #include "BomberStateChase.h"
 #include "BomberStateDeath.h"
 #include "BomberStateAttack.h"
+#include "BomberStateSearch.h"
 #include "Bomber.h"
 #include "../EnemyBase.h"
 #include "../../../../../General/Collision/ColliderBase.h"
@@ -23,10 +24,13 @@ namespace
 	constexpr float kMoveDeceRate = 0.8f;
 	//アニメーションの名前
 	const char* kAnim = "CharacterArmature|Idle";//待機
+	//警戒フレーム(ターゲットを見失っても一定フレーム経過するまでは警戒)
+	constexpr int kWarningFrame = 120;
 }
 
 BomberStateIdle::BomberStateIdle(std::weak_ptr<Actor> owner) :
-	BomberStateBase(owner)
+	BomberStateBase(owner),
+	m_warningFrame(kWarningFrame)
 {
 	//待機状態
 	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
@@ -67,6 +71,9 @@ void BomberStateIdle::Update(const std::weak_ptr<GameCamera> camera, const std::
 	{
 		//プレイヤーを見る
 		coll->LookAtTarget();
+		//警戒
+		m_warningFrame = kWarningFrame;
+		coll->SetIsWarning(true);
 		//攻撃の距離
 		if (targetData.targetDis <= kAttackDistance)
 		{
@@ -83,6 +90,17 @@ void BomberStateIdle::Update(const std::weak_ptr<GameCamera> camera, const std::
 		{
 			//プレイヤーをに近づく
 			ChangeState(std::make_shared<BomberStateChase>(m_owner));
+			return;
+		}
+	}
+	//探索場所があるなら
+	else if (coll->IsHaveSearchPlace())
+	{
+		--m_warningFrame;
+		if (m_warningFrame <= 0)
+		{
+			//索敵状態にする
+			ChangeState(std::make_shared<BomberStateSearch>(m_owner));
 			return;
 		}
 	}

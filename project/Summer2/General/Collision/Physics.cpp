@@ -1,6 +1,9 @@
 #include "Physics.h"
 #include "CollisionChecker.h"
 #include "FixNextPosition.h"
+#include "SphereCollider.h"
+#include "CapsuleCollider.h"
+#include "PolygonCollider.h"
 #include "../Rigidbody.h"
 #include "../game.h"
 #include <cassert>
@@ -150,6 +153,61 @@ std::list<std::weak_ptr<Collidable>> Physics::GetAreaXCollidable(float startX, f
 		}
 	}
 	return collList;
+}
+
+std::list<std::weak_ptr<Collidable>> Physics::RayCast(const Vector3& startPos, const Vector3& endPos)
+{
+	std::list<std::weak_ptr<Collidable>> collList;
+	for (auto& collidable : m_collidables)
+	{
+		if (collidable->GetGameTag() == GameTag::None)continue;
+		if (collidable->GetGameTag() == GameTag::Attack)continue;
+		if (collidable->m_isTrigger)continue;
+		if (collidable->m_isThrough)continue;
+		auto shape = collidable->GetShape();
+		if (shape == Shape::None)continue;
+		//球が当たっているなら
+		if (shape == Shape::Sphere)
+		{
+			if (HitCheck_Line_Sphere(startPos.ToDxLibVector(), endPos.ToDxLibVector(),
+				collidable->m_rb->m_pos.ToDxLibVector(), std::dynamic_pointer_cast<SphereCollider>(collidable->m_collisionData)->GetRadius()))
+			{
+				collList.emplace_back(collidable);
+			}
+		}
+		//カプセル
+		else if(shape == Shape::Capsule)
+		{
+			auto cap = std::dynamic_pointer_cast<CapsuleCollider>(collidable->m_collisionData);
+			if (HitCheck_Capsule_Capsule(startPos.ToDxLibVector(), endPos.ToDxLibVector(), 0.0f,
+				collidable->m_rb->m_pos.ToDxLibVector(), cap->GetEndPos().ToDxLibVector(), cap->GetRadius()))
+			{
+				collList.emplace_back(collidable);
+			}
+		}
+		//ポリゴン
+		else if(shape == Shape::Polygon)
+		{
+			auto hitData = MV1CollCheck_Line(std::dynamic_pointer_cast<PolygonCollider>(collidable->m_collisionData)->GetModelHandle(), -1,
+				startPos.ToDxLibVector(), endPos.ToDxLibVector());
+			if (hitData.HitFlag)
+			{
+				collList.emplace_back(collidable);
+			}
+		}
+	}
+	return collList;
+}
+
+bool Physics::IsHitRayCast(const Vector3& startPos, const Vector3& endPos)
+{
+	//始点と終点しかないなら当たっていないなら線には何も当たっていない
+	if(RayCast(startPos, endPos).size() <= 2)
+	{
+		return false;
+	}
+	//当たってる
+	return true;
 }
 
 void Physics::Gravity()

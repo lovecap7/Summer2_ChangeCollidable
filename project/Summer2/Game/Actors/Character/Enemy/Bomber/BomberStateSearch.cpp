@@ -1,9 +1,8 @@
-#include "PurpleDinosaurStateSearch.h"
-#include "PurpleDinosaurStateDeath.h"
-#include "PurpleDinosaurStateAttack.h"
-#include "PurpleDinosaurStateIdle.h"
-#include "PurpleDinosaurStateHit.h"
-#include "PurpleDinosaur.h"
+#include "BomberStateSearch.h"
+#include "BomberStateDeath.h"
+#include "BomberStateIdle.h"
+#include "BomberStateHit.h"
+#include "Bomber.h"
 #include "../EnemyBase.h"
 #include "../../../ActorManager.h"
 #include "../../../SearchPlace.h"
@@ -29,12 +28,12 @@ namespace
 	constexpr int kAttackCoolTime = 5;
 }
 
-PurpleDinosaurStateSearch::PurpleDinosaurStateSearch(std::weak_ptr<Actor> owner):
-	PurpleDinosaurStateBase(owner),
+BomberStateSearch::BomberStateSearch(std::weak_ptr<Actor> owner) :
+	BomberStateBase(owner),
 	m_moveFrame(kMoveFrame)
 {
 	if (m_owner.expired())return;
-	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
 	//アニメーション
 	coll->GetModel()->SetAnim(kAnim, true);
 	//状態
@@ -48,30 +47,30 @@ PurpleDinosaurStateSearch::PurpleDinosaurStateSearch(std::weak_ptr<Actor> owner)
 	coll->SetIsWarning(false);
 }
 
-PurpleDinosaurStateSearch::~PurpleDinosaurStateSearch()
+BomberStateSearch::~BomberStateSearch()
 {
 }
 
-void PurpleDinosaurStateSearch::Init()
+void BomberStateSearch::Init()
 {
 	//次の状態を今の状態に更新
 	ChangeState(shared_from_this());
 }
 
-void PurpleDinosaurStateSearch::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
+void BomberStateSearch::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//コライダブル
-	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
+	auto coll = std::dynamic_pointer_cast<Bomber>(m_owner.lock());
 	//死亡
 	if (coll->GetHitPoints().lock()->IsDead())
 	{
-		ChangeState(std::make_shared<PurpleDinosaurStateDeath>(m_owner));
+		ChangeState(std::make_shared<BomberStateDeath>(m_owner));
 		return;
 	}
 	//ヒットリアクション
 	if (coll->GetHitPoints().lock()->IsHitReaction())
 	{
-		ChangeState(std::make_shared<PurpleDinosaurStateHit>(m_owner));
+		ChangeState(std::make_shared<BomberStateHit>(m_owner));
 		return;
 	}
 	//壁に当たったら
@@ -106,7 +105,7 @@ void PurpleDinosaurStateSearch::Update(const std::weak_ptr<GameCamera> camera, c
 		if (!Physics::GetInstance().IsHitRayCast(coll->GetPos(), targetData.targetPos))
 		{
 			//待機状態
-			ChangeState(std::make_shared<PurpleDinosaurStateIdle>(m_owner));
+			ChangeState(std::make_shared<BomberStateIdle>(m_owner));
 			return;
 		}
 	}

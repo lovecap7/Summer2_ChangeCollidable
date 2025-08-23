@@ -14,11 +14,12 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/Collision/Physics.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 namespace
 {
 	//アニメーション
-	const char* kAnim = "CharacterArmature|Walk";
+	const char* kAnim = "CharacterArmature|Fast_Flying";
 	//速度
 	constexpr float kMoveSpeed = 1.0f;
 	//移動フレーム
@@ -99,9 +100,13 @@ void SmallDragonStateSearch::Update(const std::weak_ptr<GameCamera> camera, cons
 	//プレイヤーを見つけた
 	if (targetData.isHitTarget)
 	{
-		//待機状態
-		ChangeState(std::make_shared<SmallDragonStateIdle>(m_owner));
-		return;
+		//遮る物がないなら
+		if (!Physics::GetInstance().IsHitRayCast(coll->GetPos(), targetData.targetPos))
+		{
+			//待機状態
+			ChangeState(std::make_shared<SmallDragonStateIdle>(m_owner));
+			return;
+		}
 	}
 	//移動
 	coll->GetRb()->SetMoveVec(m_moveVec);

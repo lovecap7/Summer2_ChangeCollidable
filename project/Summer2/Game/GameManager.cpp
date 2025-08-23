@@ -21,13 +21,13 @@
 namespace
 {
 	//シャドウマップの描画サイズ
-	constexpr int kShadowMapWidth = 1024 * 2;
-	constexpr int kShadowMapHeight = 1024 * 2;
+	constexpr int kShadowMapWidth = 8192;
+	constexpr int kShadowMapHeight = 8192;
 	//ライトの向き
 	const VECTOR kLightDir = { 0.1f, -1.0f, 0.5f };
 	//const VECTOR kLightDir2 = { 0.5f, 1.0f, 0.0f };
 	//シャドウマップの範囲
-	constexpr float kShadowMapHorizon = 2000.0f;
+	constexpr float kShadowMapHorizon = 5000.0f;
 	constexpr float kShadowMapVerticalMin = -1.0f;
 	constexpr float kShadowMapVerticalMax = 1000.0f;
 }

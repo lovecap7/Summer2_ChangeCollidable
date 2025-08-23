@@ -4,6 +4,7 @@
 #include "../../General/HitPoints.h"
 #include "Attack/AttackBase.h"
 #include "SearchPlace.h"
+#include "../../General/Collision/Physics.h"
 
 Actor::Actor(Shape shape):
 	Collidable(shape),
@@ -50,7 +51,8 @@ void Actor::TargetSearch(float searchDistance, float searchAngle, Vector3 target
 	//リセット
 	m_targetData.isHitTarget = false;
 	//距離を確認
-	auto dir = targetPos.XZ() - m_rb->GetPos().XZ();
+	auto myPos = m_rb->GetPos();
+	auto dir = targetPos.XZ() - myPos.XZ();
 	if (dir.Magnitude() <= searchDistance)
 	{
 		//視野角内にターゲットがいるか

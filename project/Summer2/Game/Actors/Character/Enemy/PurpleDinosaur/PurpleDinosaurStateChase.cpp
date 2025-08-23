@@ -14,6 +14,7 @@
 #include "../../../../../General/Model.h"
 #include "../../../../../General/Animator.h"
 #include "../../../../../General/HitPoints.h"
+#include "../../../../../General/Collision/Physics.h"
 #include "../../../../../Game/Camera/GameCamera/GameCamera.h"
 namespace
 {
@@ -48,6 +49,7 @@ void PurpleDinosaurStateChase::Init()
 
 void PurpleDinosaurStateChase::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	if (m_owner.expired())return;
 	//コライダブル
 	auto coll = std::dynamic_pointer_cast<PurpleDinosaur>(m_owner.lock());
 	//死亡
@@ -85,8 +87,12 @@ void PurpleDinosaurStateChase::Update(const std::weak_ptr<GameCamera> camera, co
 		//射程範囲外なので
 		else
 		{
+			//移動ベクトル
+			Vector3 moveVec = GetNextVecFromRayCast(coll, targetData);
 			//プレイヤーをに近づく
-			coll->GetRb()->SetMoveVec(targetData.targetDirXZ * kChaseSpeed);
+			coll->GetRb()->SetMoveVec(moveVec);
+			//移動方向を見る
+			coll->GetModel()->SetDir(moveVec.XZ());
 			return;
 		}
 	}
@@ -94,3 +100,26 @@ void PurpleDinosaurStateChase::Update(const std::weak_ptr<GameCamera> camera, co
 	ChangeState(std::make_shared<PurpleDinosaurStateIdle>(m_owner));
 	return;
 }
+
+Vector3 PurpleDinosaurStateChase::GetNextVecFromRayCast(std::shared_ptr<Actor> coll, Actor::TargetData& targetData)
+{
+	//移動ベクトル
+	Vector3 moveVec = targetData.targetDirXZ * kChaseSpeed;
+	//レイを飛ばす
+	auto& physics = Physics::GetInstance();
+	//遮る物が合う場合それを避けたい
+	if (physics.IsHitRayCast(coll->GetPos(), targetData.targetPos))
+	{
+		//斜めに移動して移動先からも遮る物がないか確認
+		Vector3 nextMoveVec = Quaternion::AngleAxis(45.0f * MyMath::DEG_2_RAD, Vector3::Up()) * moveVec;
+		auto nextPos = coll->GetPos() + nextMoveVec;
+		//レイを飛ばして当たっていれば
+		if (physics.IsHitRayCast(nextPos, targetData.targetPos))
+		{
+			//逆方向に移動
+			moveVec = Quaternion::AngleAxis(-45.0f * MyMath::DEG_2_RAD, Vector3::Up()) * moveVec;
+		}
+	}
+	return moveVec;
+}
+

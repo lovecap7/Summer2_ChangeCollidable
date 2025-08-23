@@ -28,8 +28,6 @@ PlayerStateStart::PlayerStateStart(std::weak_ptr<Actor> player) :
 	//UI非表示
 	UIManager::GetInstance().StopDraw();
 	UIManager::GetInstance().StopUpdate();
-	//VC
-	coll->CharacterVC("Start");
 }
 
 PlayerStateStart::~PlayerStateStart()
@@ -48,12 +46,18 @@ void PlayerStateStart::Init()
 void PlayerStateStart::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	auto model = coll->GetModel();
 	//モデルのアニメーションが終わったら
-	if (coll->GetModel()->IsFinishAnim())
+	if (model->IsFinishAnim())
 	{
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;
+	}
+	if (model->GetNowAnimFrame() == model->GetTotalAnimFrame() / 2.0f)
+	{
+		//VC
+		coll->CharacterVC("Start");
 	}
 	//だんだん減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);

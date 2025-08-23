@@ -43,6 +43,7 @@
     <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateDeath.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateHit.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateIdle.cpp" />
+    <ClCompile Include="Game\Actors\Character\Enemy\Bomber\BomberStateSearch.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragon.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBase.cpp" />
     <ClCompile Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBreathAttack.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateDeath.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateHit.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateIdle.h" />
+    <ClInclude Include="Game\Actors\Character\Enemy\Bomber\BomberStateSearch.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragon.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBase.h" />
     <ClInclude Include="Game\Actors\Character\Enemy\BossDragon\BossDragonStateBreathAttack.h" />

@@ -49,8 +49,8 @@ void SaveDataUI::Draw() const
 
 	//トータルプレイ時間
 	auto totalTime = SaveDataManager::GetInstance().GetTotalPlayTime();
-	auto minutes = totalTime / kMinutes;
-	auto hours	 = minutes	 / kHourss;
+	auto minutes = (totalTime / kMinutes) % kHourss;
+	auto hours	 = (totalTime / kMinutes) / kHourss;
 	std::wstring timeText = L"総プレイ時間 : " + std::to_wstring(hours) + L"時間" + std::to_wstring(minutes) + L"分";
 	DrawStringToHandle(kTextBasePosX, kTextPlayTimePosY, timeText.c_str(), 0x000000, m_textHandle);
 	auto lastSaveText = L"前回のプレイ : " + SaveDataManager::GetInstance().GetLastSaveTimeAndDate();

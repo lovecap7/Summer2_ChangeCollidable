@@ -30,10 +30,6 @@ BossKingStateStart::BossKingStateStart(std::weak_ptr<Actor> owner) :
 	coll->SetCollState(CollisionState::Normal);
 	//オーラエフェクト
 	EffekseerManager::GetInstance().CreateTrackActorEffect("BossKingStartEff", m_owner);
-	//VC
-	coll->CharacterVC("Start");
-	//SE
-	SoundManager::GetInstance().PlayOnceSE("Wind");
 }
 
 BossKingStateStart::~BossKingStateStart()
@@ -62,8 +58,16 @@ void BossKingStateStart::Update(const std::weak_ptr<GameCamera> camera, const st
 		ChangeState(std::make_shared<BossKingStateIdle>(m_owner,false));
 		return;
 	}
+	//セリフと風
+	if (coll->GetModel()->GetNowAnimFrame() == coll->GetModel()->GetTotalAnimFrame() * 0.25f)
+	{
+		//VC
+		coll->CharacterVC("Start");
+		//SE
+		SoundManager::GetInstance().PlayOnceSE("Wind");
+	}
 	//爆発
-	if (coll->GetModel()->GetNowAnimFrame() == coll->GetModel()->GetTotalAnimFrame() * 0.5f)
+	else if (coll->GetModel()->GetNowAnimFrame() == coll->GetModel()->GetTotalAnimFrame() * 0.5f)
 	{
 		//SE
 		SoundManager::GetInstance().PlayOnceSE("Blast");

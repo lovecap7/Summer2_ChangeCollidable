@@ -29,6 +29,8 @@ SmallDragonStateHit::SmallDragonStateHit(std::weak_ptr<Actor> owner) :
 	coll->GetModel()->SetAnim(kAnim, false);
 	//VC
 	coll->CharacterVC("Damage");
+	//Œx‰ú
+	coll->SetIsWarning(true);
 }
 
 SmallDragonStateHit::~SmallDragonStateHit()

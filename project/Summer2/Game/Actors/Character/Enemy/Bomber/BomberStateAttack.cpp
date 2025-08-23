@@ -99,6 +99,7 @@ void BomberStateAttack::CreateBomb(const std::weak_ptr<ActorManager> actorManage
 	auto model = m_owner.lock()->GetModel();
 	//生成位置
 	VECTOR leftHand = MV1GetFramePosition(model->GetModelHandle(), kLeftHandIndex);//手の指先
+	leftHand = VAdd(leftHand, VScale(model->GetDir().ToDxLibVector(), 20.0f));//少し前に出す
 	auto item = actorManager.lock()->CreateItem(ItemType::Bomb, leftHand).lock();
 	//移動量
 	Vector3 moveVec = model->GetDir();

@@ -18,9 +18,6 @@ namespace
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
 	constexpr float kCollRadius = 50.0f;
-	//最初の当たらないフレーム
-	constexpr int kNoHitFrame = 10;
-
 	//爆発寸前のフレーム
 	constexpr int kBeforeBlastFrame = 60;
 	//モデルの大きさ
@@ -42,7 +39,6 @@ Bomb::Bomb(int modelHandle, Vector3 pos) :
 	m_scaleSpeed(0.0f),
 	m_originalScale(kModelScale)
 {
-	m_noHitFrame = kNoHitFrame;
 	//座標
 	auto firstPos = pos;
 	firstPos.y += kCollRadius;
@@ -61,29 +57,13 @@ Bomb::~Bomb()
 void Bomb::Init()
 {
 	//コライダブルの初期化
-	AllSetting(CollisionState::Normal, Priority::Middle, GameTag::Item, true, false, true);
+	AllSetting(CollisionState::Normal, Priority::Low, GameTag::Item, false, false, true);
 	//Physicsに登録
 	Collidable::Init();
 }
 
 void Bomb::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
-	//床にいるとき
-	if (m_isFloor)
-	{
-		//移動量を初期化
-		m_rb->SetMoveVec(Vector3::Zero());
-	}
-	//当たり判定を無視する
-	if (m_noHitFrame > 0)
-	{
-		--m_noHitFrame;
-	}
-	else
-	{
-		//当たり判定をする
-		m_isThrough = false;
-	}
 	//爆発までのカウント
 	if (m_blastCountFrame > 0)
 	{
@@ -102,30 +82,8 @@ void Bomb::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<Ac
 
 void Bomb::OnCollide(const std::shared_ptr<Collidable> other)
 {
-}
-
-void Bomb::Draw() const
-{
-#if _DEBUG
-	//衝突判定
-	DrawSphere3D(
-		GetPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<SphereCollider>(m_collisionData)->GetRadius(),
-		16,
-		0xff0000,
-		0xff0000,
-		false
-	);
-#endif
-	m_model->Draw();
-}
-
-void Bomb::Complete()
-{
-	//次の座標へ
-	m_rb->m_pos = m_rb->GetNextPos();
-	//モデルの座標更新
-	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
+	//移動量を初期化
+	m_rb->SetVec(Vector3::Zero());
 }
 
 void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
@@ -141,12 +99,6 @@ void Bomb::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_
 	//ダメージ、持続フレーム、ノックバックの大きさ、攻撃の重さ、ヒットストップの長さ、カメラの揺れ
 	blast->AttackSetting(data.damege, data.keepFrame,
 		data.knockBackPower, data.attackWeight, data.hitStopFrame, data.shakePower);
-}
-
-void Bomb::End()
-{
-	Collidable::End();
-	m_model->End();
 }
 
 void Bomb::SetVec(Vector3 vec)

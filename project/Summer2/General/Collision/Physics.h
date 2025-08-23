@@ -49,6 +49,9 @@ public:
 	void DelayUpdate(int frame);
 	//指定された範囲内のCollidableを返す(X座標を見て)
 	std::list<std::weak_ptr<Collidable>> GetAreaXCollidable(float startX,float endX);
+	//レイを飛ばして当たったCollidableを返す
+	std::list<std::weak_ptr<Collidable>> RayCast(const Vector3& startPos, const Vector3& endPos);
+	bool IsHitRayCast(const Vector3& startPos, const Vector3& endPos);
 private:
 	//当たり判定のチェックをするクラス
 	std::shared_ptr<CollisionChecker> m_collChecker;

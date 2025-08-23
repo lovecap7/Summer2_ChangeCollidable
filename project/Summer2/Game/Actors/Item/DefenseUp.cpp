@@ -22,16 +22,11 @@ namespace
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径
 	constexpr float kCollRadius = 80.0f;
-	//回転量
-	constexpr float kRotaAngle = 1.0f;
-	//最初の当たらないフレーム
-	constexpr int kNoHitFrame = 30;
 }
 
 DefenseUp::DefenseUp(int modelHandle, Vector3 pos) :
 	ItemBase(Shape::Sphere)
 {
-	m_noHitFrame = kNoHitFrame;
 	//座標
 	auto firstPos = pos;
 	firstPos.y += kCollRadius;
@@ -47,36 +42,13 @@ DefenseUp::~DefenseUp()
 {
 }
 
-void DefenseUp::Init()
-{
-	//コライダブルの初期化
-	AllSetting(CollisionState::Normal, Priority::Low, GameTag::Item, true, false, true);
-	//Physicsに登録
-	Collidable::Init();
-}
-
-void DefenseUp::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
-{
-	//移動量を初期化
-	m_rb->SetMoveVec(Vector3::Zero());
-	//回る
-	m_model->SetRot(VGet(0.0f, kRotaAngle, 0.0f));
-	if (m_noHitFrame > 0)
-	{
-		--m_noHitFrame;
-	}
-	else
-	{
-		//当たり判定をする
-		m_isThrough = false;
-	}
-	m_model->Update();
-}
 
 void DefenseUp::OnCollide(const std::shared_ptr<Collidable> other)
 {
 	//消滅フラグが立ってるならリターン
 	if (m_isDelete)return;
+	//移動量を初期化
+	m_rb->SetVec(Vector3::Zero());
 	//プレイヤーに当たった時の処理
 	if (other->GetGameTag() == GameTag::Player)
 	{
@@ -94,38 +66,8 @@ void DefenseUp::OnCollide(const std::shared_ptr<Collidable> other)
 	}
 }
 
-void DefenseUp::Draw() const
-{
-#if _DEBUG
-	//衝突判定
-	DrawSphere3D(
-		GetPos().ToDxLibVector(),
-		std::dynamic_pointer_cast<SphereCollider>(m_collisionData)->GetRadius(),
-		16,
-		0xff0000,
-		0xff0000,
-		false
-	);
-#endif
-	m_model->Draw();
-}
-
-void DefenseUp::Complete()
-{
-	//次の座標へ
-	m_rb->m_pos = m_rb->GetNextPos();
-	//モデルの座標更新
-	m_model->SetPos(m_rb->m_pos.ToDxLibVector());
-}
-
 void DefenseUp::Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score)
 {
 	//スコア加算
 	score.lock()->AddKillOrItemScore(ScoreDataName::kDefenseUp);
-}
-
-void DefenseUp::End()
-{
-	Collidable::End();
-	m_model->End();
 }
