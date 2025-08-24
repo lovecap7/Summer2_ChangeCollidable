@@ -85,8 +85,14 @@ void BomberStateChase::Update(const std::weak_ptr<GameCamera> camera, const std:
 		//射程範囲外なので
 		else
 		{
+			//モデル
+			auto model = coll->GetModel();
+			//移動ベクトル
+			Vector3 moveVec = GetNextNomVecFromRayCast(coll, targetData.targetPos, targetData.targetDirXZ, kChaseSpeed);
+			//移動方向を見る
+			model->SetDir(moveVec.XZ());
 			//プレイヤーをに近づく
-			coll->GetRb()->SetMoveVec(targetData.targetDirXZ * kChaseSpeed);
+			coll->GetRb()->SetMoveVec(model->GetDir() * kChaseSpeed);
 			return;
 		}
 	}

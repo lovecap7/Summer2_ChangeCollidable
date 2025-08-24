@@ -26,6 +26,12 @@ namespace
 	constexpr int kMoveFrame = 300;
 	//次の攻撃フレーム
 	constexpr int kAttackCoolTime = 5;
+	//レイキャストの許容値(自分とターゲット)
+	constexpr int kRayCastToleranceNum = 2;
+	//移動前レイキャストの許容値(自分)
+	constexpr int kBeforeMoveToleranceNum = 1;
+	//移動後のレイキャストの許容値
+	constexpr int kAfterMoveToleranceNum = 0;
 }
 SmallDragonStateSearch::SmallDragonStateSearch(std::weak_ptr<Actor> owner):
 	SmallDragonStateBase(owner),
@@ -79,37 +85,40 @@ void SmallDragonStateSearch::Update(const std::weak_ptr<GameCamera> camera, cons
 		//ランダムな方向に移動
 		m_moveVec = Vector3::GetRandVecXZ() * kMoveSpeed;
 	}
+	//ターゲット
+	auto targetData = coll->GetTargetData();
 	//索敵範囲外に出た時
 	if (!coll->GetSearchPlace().expired())
 	{
 		std::shared_ptr<SearchPlace> searchPlace = coll->GetSearchPlace().lock();
+		//範囲外
 		if (!searchPlace->IsInSearchPlace(coll->GetPos()))
 		{
+			//目標地点
+			Vector3 searchPlacePos = searchPlace->GetPos();
 			//範囲内に向かって動く
-			m_moveVec = searchPlace->GetPos() - coll->GetPos();
-			if (m_moveVec.SqMagnitude() > 0.0f)
-			{
-				m_moveVec = m_moveVec.Normalize() * kMoveSpeed;
-			}
+			m_moveVec = searchPlacePos - coll->GetPos();
+			//移動ベクトル(間に障害物がある場合避ける)
+			m_moveVec = GetNextNomVecFromRayCast(coll, searchPlacePos, m_moveVec, kMoveSpeed, kBeforeMoveToleranceNum, kAfterMoveToleranceNum);
 		}
 	}
 	//移動フレーム
 	--m_moveFrame;
-	//ターゲット
-	auto targetData = coll->GetTargetData();
 	//プレイヤーを見つけた
 	if (targetData.isHitTarget)
 	{
 		//遮る物がないなら
-		if (!Physics::GetInstance().IsHitRayCast(coll->GetPos(), targetData.targetPos))
+		if (!Physics::GetInstance().RayCast(coll->GetPos(), targetData.targetPos).size() <= kRayCastToleranceNum)
 		{
 			//待機状態
 			ChangeState(std::make_shared<SmallDragonStateIdle>(m_owner));
 			return;
 		}
 	}
-	//移動
-	coll->GetRb()->SetMoveVec(m_moveVec);
+	//モデル
+	auto model = coll->GetModel();
 	//モデルの向き
-	coll->GetModel()->SetDir(m_moveVec.XZ());
+	model->SetDir(m_moveVec.XZ());
+	//移動
+	coll->GetRb()->SetMoveVec(model->GetDir() * kMoveSpeed);
 }

@@ -199,17 +199,6 @@ std::list<std::weak_ptr<Collidable>> Physics::RayCast(const Vector3& startPos, c
 	return collList;
 }
 
-bool Physics::IsHitRayCast(const Vector3& startPos, const Vector3& endPos)
-{
-	//始点と終点しかないなら当たっていないなら線には何も当たっていない
-	if(RayCast(startPos, endPos).size() <= 2)
-	{
-		return false;
-	}
-	//当たってる
-	return true;
-}
-
 void Physics::Gravity()
 {
 	for (auto& collidable : m_collidables)

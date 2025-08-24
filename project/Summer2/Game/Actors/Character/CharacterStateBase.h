@@ -1,9 +1,17 @@
 #pragma once
 #include <memory>
 #include "../../../General/Math/MyMath.h"
+#include "../Actor.h"
+namespace
+{
+	//レイキャストの許容値(自分とターゲット)
+	constexpr int kRayCastBeforeMoveToleranceNum = 2;
+	//移動後のレイキャストの許容値(ターゲットのみ)
+	constexpr int kRayCastAfterMoveToleranceNum = 1;
+}
+
 class Input;
 class GameCamera;
-class Actor;
 class ActorManager;
 class CharacterStateBase abstract
 {
@@ -26,5 +34,8 @@ private:
 protected:
 	//自分のポインタ
 	std::weak_ptr<Actor> m_owner;
+	//次の移動ベクトルをレイキャストの結果をもとに取得
+	Vector3 GetNextNomVecFromRayCast(std::shared_ptr<Actor> coll, Vector3 targetPos, Vector3 moveDir, float speed, 
+		int beforeMoveToleranceNum = kRayCastBeforeMoveToleranceNum,int afterMoveToleranceNum = kRayCastAfterMoveToleranceNum);
 };
 

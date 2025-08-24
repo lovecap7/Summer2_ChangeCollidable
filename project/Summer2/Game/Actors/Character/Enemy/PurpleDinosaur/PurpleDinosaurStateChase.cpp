@@ -87,39 +87,19 @@ void PurpleDinosaurStateChase::Update(const std::weak_ptr<GameCamera> camera, co
 		//射程範囲外なので
 		else
 		{
+			//モデル
+			auto model = coll->GetModel();
 			//移動ベクトル
-			Vector3 moveVec = GetNextVecFromRayCast(coll, targetData);
-			//プレイヤーをに近づく
-			coll->GetRb()->SetMoveVec(moveVec);
+			Vector3 moveVec = GetNextNomVecFromRayCast(coll, targetData.targetPos, targetData.targetDirXZ, kChaseSpeed);
 			//移動方向を見る
-			coll->GetModel()->SetDir(moveVec.XZ());
+			model->SetDir(moveVec.XZ());
+			//プレイヤーをに近づく
+			coll->GetRb()->SetMoveVec(model->GetDir() * kChaseSpeed);
 			return;
 		}
 	}
 	//待機状態
 	ChangeState(std::make_shared<PurpleDinosaurStateIdle>(m_owner));
 	return;
-}
-
-Vector3 PurpleDinosaurStateChase::GetNextVecFromRayCast(std::shared_ptr<Actor> coll, Actor::TargetData& targetData)
-{
-	//移動ベクトル
-	Vector3 moveVec = targetData.targetDirXZ * kChaseSpeed;
-	//レイを飛ばす
-	auto& physics = Physics::GetInstance();
-	//遮る物が合う場合それを避けたい
-	if (physics.IsHitRayCast(coll->GetPos(), targetData.targetPos))
-	{
-		//斜めに移動して移動先からも遮る物がないか確認
-		Vector3 nextMoveVec = Quaternion::AngleAxis(45.0f * MyMath::DEG_2_RAD, Vector3::Up()) * moveVec;
-		auto nextPos = coll->GetPos() + nextMoveVec;
-		//レイを飛ばして当たっていれば
-		if (physics.IsHitRayCast(nextPos, targetData.targetPos))
-		{
-			//逆方向に移動
-			moveVec = Quaternion::AngleAxis(-45.0f * MyMath::DEG_2_RAD, Vector3::Up()) * moveVec;
-		}
-	}
-	return moveVec;
 }
 
