@@ -79,7 +79,7 @@ void SelectStageScene::Init()
 	m_player->Init();
 	//ステージのフィギュアの初期化
 	m_stageFigures[0]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage1Model.mv1"),m_stagePos[Stage::StageIndex::Stage1]);
-	m_stageFigures[1]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage1Model.mv1"),m_stagePos[Stage::StageIndex::Stage2]);
+	m_stageFigures[1]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage2Model.mv1"),m_stagePos[Stage::StageIndex::Stage2]);
 	m_stageFigures[2]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage3Model.mv1"),m_stagePos[Stage::StageIndex::Stage3]);
 
 	//背景(生成する順番は描画下から)

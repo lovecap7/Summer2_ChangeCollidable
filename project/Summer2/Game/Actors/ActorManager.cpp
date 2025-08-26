@@ -534,17 +534,19 @@ void ActorManager::LoadHandle()
 	m_handles["UltGageUp"]		= { MV1LoadModel(L"Data/Model/Item/UltGageUp.mv1") };
 	m_handles["AttackUp"]		= { MV1LoadModel(L"Data/Model/Item/AttackUp.mv1") };
 	m_handles["DefenseUp"]		= { MV1LoadModel(L"Data/Model/Item/DefenseUp.mv1") };
-	m_handles["Tree"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Tree1.mv1") };
-	m_handles["Grass"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Grass1.mv1") };
-	m_handles["Flower"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Flower1.mv1") };
-	m_handles["Rock1"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Rock1.mv1") };
-	m_handles["Rock2"]		= { MV1LoadModel(L"Data/Model/Stage/Title/Rock2.mv1") };
+	m_handles["Tree"]			= { MV1LoadModel(L"Data/Model/Stage/Title/Tree1.mv1") };
+	m_handles["Grass"]			= { MV1LoadModel(L"Data/Model/Stage/Title/Grass1.mv1") };
+	m_handles["Flower"]			= { MV1LoadModel(L"Data/Model/Stage/Title/Flower1.mv1") };
+	m_handles["Rock1"]			= { MV1LoadModel(L"Data/Model/Stage/Title/Rock1.mv1") };
+	m_handles["Rock2"]			= { MV1LoadModel(L"Data/Model/Stage/Title/Rock2.mv1") };
+	m_handles["Arrow_Side"]		= { MV1LoadModel(L"Data/Model/Stage/Arrow_Side.mv1") };
 
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_handles) {
 		assert(value >= 0);
 	}
 }
+
 void ActorManager::LoadStage(Stage::StageIndex index)
 {
 	//配置データを取得
@@ -651,6 +653,15 @@ void ActorManager::LoadStage(Stage::StageIndex index)
 			stageData.scale = VScale(stageData.scale, 0.01f);
 			std::shared_ptr<StageObjectDraw> obj =
 				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Chair"]), stageData.pos, stageData.scale, stageData.rot);
+			m_nextAddActors.emplace_back(obj);
+		}
+		else if (stageData.name == "Arrow_Side")
+		{
+			//大きさを1/100しないと大きすぎるので
+			stageData.scale = VScale(stageData.scale, 0.01f);
+			stageData.rot.x += 90.0f; //横向きにする
+			std::shared_ptr<StageObjectDraw> obj =
+				std::make_shared<StageObjectDraw>(MV1DuplicateModel(m_handles["Arrow_Side"]), stageData.pos, stageData.scale, stageData.rot);
 			m_nextAddActors.emplace_back(obj);
 		}
 	}
