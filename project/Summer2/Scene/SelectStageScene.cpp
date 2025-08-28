@@ -9,6 +9,8 @@
 #include "../Game/Actors/Character/Player/SelectStagePlayer.h"
 #include "../Game/Camera/SelectStageCamera/SelectStageCamera.h"
 #include "../Game/UI/Select/SelectStageBackUI.h"
+#include "../Game/UI/Select/SelectStageRankingUI.h"
+#include "../Game/UI/UIManager.h"
 #include "../SaveData/SaveDataManager.h"
 #include "StageScene.h"
 #include <memory>
@@ -83,14 +85,18 @@ void SelectStageScene::Init()
 	m_stageFigures[2]->Init(MV1LoadModel(L"Data/Model/Stage/Select/Stage3Model.mv1"),m_stagePos[Stage::StageIndex::Stage3]);
 
 	//背景(生成する順番は描画下から)
-	auto back1 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/TestImage1.png"));
-	auto back2 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/TestImage2.png"));
-	auto back3 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/TestImage3.png"));
+	auto back1 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/Stage1Back.png"));
+	auto back2 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/Stage2Back.png"));
+	auto back3 = std::make_shared<SelectStageBackUI>(LoadGraph(L"Data/UI/Back/Stage3Back.png"));
 	back3->Init();
 	back2->Init();
 	back1->Init();
 	m_stage1Back = back1;
 	m_stage2Back = back2;
+	//ランキング
+	auto rankingUI = std::make_shared<SelectStageRankingUI>(static_cast<Stage::StageIndex>(m_stageIndex));
+	rankingUI->Init();
+	m_stageRankingUI = rankingUI;
 	//BGM
 	SoundManager::GetInstance().PlayBGM("SelectStageBGM");
 }
@@ -189,6 +195,9 @@ void SelectStageScene::End()
 	}
 	//現状のデータをセーブ
 	SaveDataManager::GetInstance().Save();
+	//削除
+	UIManager::GetInstance().Reset();
+
 }
 
 void SelectStageScene::Restart()
@@ -207,6 +216,8 @@ void SelectStageScene::SelectStageIndex(Input& input)
 		//セレクトSE
 		SoundManager::GetInstance().PlayOnceSE("Select");
 	}
+	if (m_stageRankingUI.expired())return;
+	m_stageRankingUI.lock()->SetStageIndex(static_cast<Stage::StageIndex>(m_stageIndex));
 }
 
 void SelectStageScene::ChangeBack()

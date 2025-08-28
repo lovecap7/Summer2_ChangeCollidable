@@ -1,4 +1,5 @@
 #include "ResultRankingScore.h"
+#include "../UIManager.h"
 #include <DxLib.h>
 #include <format>
 
@@ -19,18 +20,18 @@ ResultRankingScore::ResultRankingScore(int scoreValue, Vector2 basePos, const st
 	{
 		m_textColor = 0xff2222; // ê‘êF
 	}
-
+	auto& uiManager = UIManager::GetInstance();
 	if(text == L"1st")
 	{
-		m_rankingHandle = LoadGraph(L"Data/UI/Result/1st.png");
+		m_rankingHandle = uiManager.GetImageHandle("1st");
 	}
 	else if (text == L"2nd")
 	{
-		m_rankingHandle = LoadGraph(L"Data/UI/Result/2nd.png");
+		m_rankingHandle = uiManager.GetImageHandle("2nd");
 	}
 	else if (text == L"3rd")
 	{
-		m_rankingHandle = LoadGraph(L"Data/UI/Result/3rd.png");
+		m_rankingHandle = uiManager.GetImageHandle("3rd");
 	}
 }
 

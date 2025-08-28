@@ -167,6 +167,7 @@
     <ClCompile Include="Game\UI\SaveDataUI.cpp" />
     <ClCompile Include="Game\UI\ScoreUIBase.cpp" />
     <ClCompile Include="Game\UI\Select\SelectStageBackUI.cpp" />
+    <ClCompile Include="Game\UI\Select\SelectStageRankingUI.cpp" />
     <ClCompile Include="Game\UI\TimerUI.cpp" />
     <ClCompile Include="Game\UI\Title\TitleUI.cpp" />
     <ClCompile Include="Game\UI\TutorialUI.cpp" />
@@ -373,6 +374,7 @@
     <ClInclude Include="Game\UI\SaveDataUI.h" />
     <ClInclude Include="Game\UI\ScoreUIBase.h" />
     <ClInclude Include="Game\UI\Select\SelectStageBackUI.h" />
+    <ClInclude Include="Game\UI\Select\SelectStageRankingUI.h" />
     <ClInclude Include="Game\UI\TimerUI.h" />
     <ClInclude Include="Game\UI\Title\TitleUI.h" />
     <ClInclude Include="Game\UI\TutorialUI.h" />

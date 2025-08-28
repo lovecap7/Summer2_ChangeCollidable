@@ -181,6 +181,9 @@ void UIManager::LoadHandle()
 	m_imageHandles["SelectStage"] = { LoadGraph(L"Data/UI/Menu/SelectStage.png") };
 	m_imageHandles["NewGame"] = { LoadGraph(L"Data/UI/Title/NewGame.png") };
 	m_imageHandles["FinishGame"] = { LoadGraph(L"Data/UI/Title/FinishGame.png") };
+	m_imageHandles["1st"] = { LoadGraph(L"Data/UI/Result/1st.png") };
+	m_imageHandles["2nd"] = { LoadGraph(L"Data/UI/Result/2nd.png") };
+	m_imageHandles["3rd"] = { LoadGraph(L"Data/UI/Result/3rd.png") };
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_imageHandles)
 	{

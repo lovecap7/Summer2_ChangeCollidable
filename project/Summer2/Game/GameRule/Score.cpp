@@ -60,7 +60,7 @@ int Score::GetScore()const
 	return m_nowScore;
 }
 
-std::array<int, 3> Score::GetHighScore(Stage::StageIndex index)const
+std::array<int, static_cast<int>(Stage::StageIndex::StageNum)> Score::GetHighScore(Stage::StageIndex index)const
 {
 	return m_highScore[static_cast<int>(index)];
 }
