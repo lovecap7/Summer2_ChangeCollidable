@@ -168,6 +168,7 @@ void UIManager::LoadHandle()
 	m_imageHandles["PlayerHP"] = { LoadGraph(L"Data/UI/Player/PlayerHP.png") };
 	m_imageHandles["PlayerGageFrame"] = { LoadGraph(L"Data/UI/Player/PlayerGageFrame.png") };
 	m_imageHandles["PlayerUltGage"] = { LoadGraph(L"Data/UI/Player/PlayerUltGage.png") };
+	m_imageHandles["PlayerMaxUltGage"] = { LoadGraph(L"Data/UI/Player/PlayerMaxUltGage.png") };
 	m_imageHandles["UltBottun"] = { LoadGraph(L"Data/UI/Player/UltBottun.png") };
 	//ƒƒjƒ…[
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };

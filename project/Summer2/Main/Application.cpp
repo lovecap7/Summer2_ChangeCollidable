@@ -74,6 +74,12 @@ void Application::Run()
 	input.Init();
 	//Physics(衝突処理)
 	auto& physics = Physics::GetInstance();
+	//セーブデータ
+	auto& saveDataManager = SaveDataManager::GetInstance();
+	saveDataManager.Init();
+	//サウンド
+	auto& soundManager = SoundManager::GetInstance();
+	soundManager.Init();
 	//エフェクト
 	auto& effect = EffekseerManager::GetInstance();
 	//UIマネージャー
@@ -82,12 +88,6 @@ void Application::Run()
 	//フェード
 	auto& fader = Fader::GetInstance();
 	fader.Init();
-	//サウンド
-	auto& soundManager = SoundManager::GetInstance();
-	soundManager.Init();
-	//セーブデータ
-	auto& saveDataManager = SaveDataManager::GetInstance();
-	saveDataManager.Init();
 	//シーン
 	SceneController* sceneController = new SceneController();
 	//ローディング初期化
@@ -115,12 +115,12 @@ void Application::Run()
 		if (!isLoading)
 		{
 			input.Update();
+			soundManager.Update();
+			saveDataManager.Update();
 			sceneController->Update();
 			physics.Update();
 			effect.Update();
 			uiManager.Update();
-			soundManager.Update();
-			saveDataManager.Update();
 			fader.Update();
 		}
 		loadingManager.Update();

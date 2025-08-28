@@ -18,6 +18,8 @@ namespace
 	//ゲージボタンの位置
 	constexpr float kBottunPosX = kLeftPosX + kBarWidth;
 	constexpr float kBottunPosY = 160;
+	//ゲージが最大の時の光の倍率
+	constexpr float kMaxUltGageBrightRate = 100.0f;
 }
 
 PlayerUltGageUI::PlayerUltGageUI(std::weak_ptr<Player> player):
@@ -26,6 +28,7 @@ PlayerUltGageUI::PlayerUltGageUI(std::weak_ptr<Player> player):
 	m_viewMaxUltGageValue(0.0f),
 	m_ultGageFrameHandle(UIManager::GetInstance().GetImageHandle("PlayerGageFrame")),
 	m_ultGageHandle(UIManager::GetInstance().GetImageHandle("PlayerUltGage")),
+	m_maxUltGageHandle(UIManager::GetInstance().GetImageHandle("PlayerMaxUltGage")),
 	m_ultBottunHandle(UIManager::GetInstance().GetImageHandle("UltBottun")),
 	m_bottunScale(1.0),
 	m_bottunAngle(0.0f)
@@ -96,6 +99,14 @@ void PlayerUltGageUI::Draw() const
 	//ゲージ
 	DrawRectGraph(kLeftPosX, kLeftPosY, 0, 0,
 		kBarWidth * (m_viewUltGageValue / m_viewMaxUltGageValue), kBarHeight, m_ultGageHandle, true);
+	//ゲージが最大なら光らせる
+	if (m_viewUltGageValue >= m_viewMaxUltGageValue)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ADD, m_bottunAngle * kMaxUltGageBrightRate);
+		DrawRectGraph(kLeftPosX, kLeftPosY, 0, 0,
+			kBarWidth * (m_viewUltGageValue / m_viewMaxUltGageValue), kBarHeight, m_maxUltGageHandle, true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+	}
 	//フレーム
 	DrawGraph(kLeftPosX, kLeftPosY, m_ultGageFrameHandle, true);
 	//ゲージが最大ならボタンを表示

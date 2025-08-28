@@ -7,6 +7,7 @@ SoundBase::SoundBase(int handle, int volume, bool isLoop):
 	m_volume(volume),
 	m_isLoop(isLoop)
 {
+	SetVolume(m_volume);
 }
 
 SoundBase::~SoundBase()
@@ -24,6 +25,7 @@ void SoundBase::End()
 }
 void SoundBase::Play()
 {
+	SetVolume(m_volume);
 	//çƒê∂
 	if (m_isLoop)	
 	{
@@ -34,7 +36,6 @@ void SoundBase::Play()
 	{
 		PlaySoundMem(m_playHandle, DX_PLAYTYPE_BACK, true);
 	}
-	SetVolume(m_volume);
 }
 void SoundBase::Stop()
 {

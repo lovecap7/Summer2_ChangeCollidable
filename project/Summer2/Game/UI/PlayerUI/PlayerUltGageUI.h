@@ -16,6 +16,7 @@ private:
 	float m_viewMaxUltGageValue;	
 	//ゲージのフレームハンドル
 	int m_ultGageHandle;
+	int m_maxUltGageHandle;
 	//ゲージの画像ハンドル
 	int m_ultGageFrameHandle;
 	//ゲージが満タンの時のボタンの画像ハンドル

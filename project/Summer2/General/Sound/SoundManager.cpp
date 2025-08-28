@@ -45,10 +45,10 @@ void SoundManager::Init()
 	auto csvLoader = std::make_shared<CSVDataLoader>();
 	auto volumeData = csvLoader->LoadVolumeDataCSV();
 	//音量の設定
-	m_seVolume = volumeData.seVolume * kCorrectionRate;
-	m_bgmVolume = volumeData.bgmVolume;
-	m_voiceVolume = volumeData.voiceVolume * kCorrectionRate;
-	m_masterVolume = volumeData.masterVolume;
+	SetSEVolume(volumeData.seVolume * kCorrectionRate);
+	SetBGMVolume(volumeData.bgmVolume);
+	SetVoiceVolume(volumeData.voiceVolume * kCorrectionRate);
+	SetMasterVolume(volumeData.masterVolume);
 	//音のハンドルロード
 	//BGM
 	m_soundHandles["TitleBGM"] = LoadSoundMem(L"Data/Sound/BGM/Title.mp3");
@@ -78,8 +78,7 @@ void SoundManager::Init()
 	m_soundHandles["Hit1"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit1.mp3");
 	m_soundHandles["Hit2"] = LoadSoundMem(L"Data/Sound/SE/Hit/Hit2.mp3");
 	m_soundHandles["LastHit"] = LoadSoundMem(L"Data/Sound/SE/Hit/LastHit.mp3");
-
-
+	
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_soundHandles) {
 		assert(value >= 0);
