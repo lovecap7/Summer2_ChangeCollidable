@@ -16,5 +16,9 @@ private:
     float m_viewMaxHp;
     //•`‰æÀ•W
     Vector3 m_pos;
+    //ƒtƒŒ[ƒ€
+	int m_frameHandle;
+    //‘Ì—Í
+	int m_hpHandle;
 };
 

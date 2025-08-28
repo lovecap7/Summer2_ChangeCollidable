@@ -1,4 +1,5 @@
 #include "BossHPUI.h"
+#include "../UIManager.h"
 #include "../../../General/HitPoints.h"
 #include "../../Actors/Character/Enemy/EnemyBase.h"
 #include "../../../General/game.h"
@@ -18,7 +19,9 @@ namespace
 BossHPUI::BossHPUI(std::weak_ptr<EnemyBase> enemy) :
 	EnemyUIBase(enemy),
 	m_viewHp(0.0f),
-	m_viewMaxHp(0.0f)
+	m_viewMaxHp(0.0f),
+	m_frameHandle(UIManager::GetInstance().GetImageHandle("BossHPFrame")),
+	m_hpHandle(UIManager::GetInstance().GetImageHandle("BossHP"))
 {
 	//ìGÇ™è¡Ç¶ÇΩèÍçáÇ±ÇÃUIÇ‡çÌèú
 	if (m_enemy.expired())
@@ -63,5 +66,9 @@ void BossHPUI::Draw() const
 	//ï`âÊÇµÇ»Ç¢Ç»ÇÁreturn
 	if (!m_isDraw)return;
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x555555, true);
-	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0xff5555, true);
+	//ëÃóÕ
+	DrawRectGraph(kLeftPosX, kLeftPosY, 0, 0,
+		kBarWidth * (m_viewHp / m_viewMaxHp), kBarHeight, m_hpHandle, true);
+	//ÉtÉåÅ[ÉÄ
+	DrawGraph(kLeftPosX, kLeftPosY, m_frameHandle, true);
 }

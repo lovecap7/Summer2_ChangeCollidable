@@ -14,5 +14,9 @@ public:
 private:
     float m_viewHp;
     float m_viewMaxHp;
+    //ƒtƒŒ[ƒ€
+	int m_frameHandle;
+	//‘Ì—Í
+	int m_hpHandle;
 };
 

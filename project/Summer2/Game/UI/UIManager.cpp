@@ -170,6 +170,10 @@ void UIManager::LoadHandle()
 	m_imageHandles["PlayerUltGage"] = { LoadGraph(L"Data/UI/Player/PlayerUltGage.png") };
 	m_imageHandles["PlayerMaxUltGage"] = { LoadGraph(L"Data/UI/Player/PlayerMaxUltGage.png") };
 	m_imageHandles["UltBottun"] = { LoadGraph(L"Data/UI/Player/UltBottun.png") };
+	m_imageHandles["EnemyHPFrame"] = { LoadGraph(L"Data/UI/Enemy/EnemyHPFrame.png") };
+	m_imageHandles["EnemyHP"] = { LoadGraph(L"Data/UI/Enemy/EnemyHP.png") };
+	m_imageHandles["BossHPFrame"] = { LoadGraph(L"Data/UI/Enemy/BossHPFrame.png") };
+	m_imageHandles["BossHP"] = { LoadGraph(L"Data/UI/Enemy/BossHP.png") };
 	//ÉÅÉjÉÖÅ[
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
 	m_imageHandles["Gameover"] = { LoadGraph(L"Data/UI/Menu/Gameover.png") };

@@ -1,4 +1,5 @@
 #include "EnemyHPUI.h"
+#include "../UIManager.h"
 #include "../../../General/HitPoints.h"
 #include "../../Actors/Character/Enemy/EnemyBase.h"
 #include <DxLib.h>
@@ -17,7 +18,9 @@ EnemyHPUI::EnemyHPUI(std::weak_ptr<EnemyBase> enemy) :
 	EnemyUIBase(enemy),
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f),
-	m_pos{}
+	m_pos{},
+	m_frameHandle(UIManager::GetInstance().GetImageHandle("EnemyHPFrame")),
+	m_hpHandle(UIManager::GetInstance().GetImageHandle("EnemyHP"))
 {
 	//ìGÇ™è¡Ç¶ÇΩèÍçáÇ±ÇÃUIÇ‡çÌèú
 	if (m_enemy.expired())
@@ -69,5 +72,9 @@ void EnemyHPUI::Draw() const
 	auto pos = ConvWorldPosToScreenPos(m_pos.ToDxLibVector());
 	pos.x -= kShiftLeftPosX;
 	DrawBoxAA(pos.x, pos.y, pos.x + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, pos.y - kBarHeight, 0x555555, true);
-	DrawBoxAA(pos.x, pos.y, pos.x + (m_viewHp / m_viewMaxHp) * kBarWidth, pos.y - kBarHeight, 0xff5555, true);
+	//ëÃóÕ
+	DrawRectGraph(pos.x, pos.y - kBarHeight, 0, 0,
+		kBarWidth * (m_viewHp / m_viewMaxHp), kBarHeight, m_hpHandle, true);
+	//ÉtÉåÅ[ÉÄ
+	DrawGraph(pos.x, pos.y - kBarHeight, m_frameHandle, true);
 }
