@@ -2,6 +2,7 @@
 #include "../../../General/HitPoints.h"
 #include "../../Actors/Character/Player/Player.h"
 #include "../../Actors/ActorManager.h"
+#include "../UIManager.h"
 #include <DxLib.h>
 
 namespace
@@ -16,7 +17,9 @@ namespace
 PlayerHPUI::PlayerHPUI(std::weak_ptr<Player> player) :
 	PlayerUIBase(player),
 	m_viewHp(0.0f),
-	m_viewMaxHp(0.0f)
+	m_viewMaxHp(0.0f),
+	m_hpFrameHandle(UIManager::GetInstance().GetImageHandle("PlayerGageFrame")),
+	m_hpHandle(UIManager::GetInstance().GetImageHandle("PlayerHP"))
 {
 	//プレイヤーが消えた場合このUIも削除
 	if (m_player.expired())
@@ -70,5 +73,9 @@ void PlayerHPUI::Draw() const
 	//描画しないならreturn
 	if (!m_isDraw)return;
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x555555, true);
-	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x55ff55, true);
+	//体力
+	DrawRectGraph(kLeftPosX, kLeftPosY, 0 , 0,
+		kBarWidth * (m_viewHp / m_viewMaxHp), kBarHeight,m_hpHandle, true);
+	//フレーム
+	DrawGraph(kLeftPosX, kLeftPosY, m_hpFrameHandle, true);
 }

@@ -165,6 +165,10 @@ void UIManager::LoadHandle()
 	m_imageHandles["Dialog"] = { LoadGraph(L"Data/UI/Dialog.png") };
 	m_imageHandles["Yes"] = { LoadGraph(L"Data/UI/Yes.png") };
 	m_imageHandles["No"] = { LoadGraph(L"Data/UI/No.png") };
+	m_imageHandles["PlayerHP"] = { LoadGraph(L"Data/UI/Player/PlayerHP.png") };
+	m_imageHandles["PlayerGageFrame"] = { LoadGraph(L"Data/UI/Player/PlayerGageFrame.png") };
+	m_imageHandles["PlayerUltGage"] = { LoadGraph(L"Data/UI/Player/PlayerUltGage.png") };
+	m_imageHandles["UltBottun"] = { LoadGraph(L"Data/UI/Player/UltBottun.png") };
 	//メニュー
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
 	m_imageHandles["Gameover"] = { LoadGraph(L"Data/UI/Menu/Gameover.png") };
@@ -177,7 +181,8 @@ void UIManager::LoadHandle()
 	m_imageHandles["NewGame"] = { LoadGraph(L"Data/UI/Title/NewGame.png") };
 	m_imageHandles["FinishGame"] = { LoadGraph(L"Data/UI/Title/FinishGame.png") };
 	//ロードに成功したかチェック
-	for (auto& [key, value] : m_imageHandles) {
+	for (auto& [key, value] : m_imageHandles)
+	{
 		assert(value >= 0);
 	}
 	//テキストハンドル

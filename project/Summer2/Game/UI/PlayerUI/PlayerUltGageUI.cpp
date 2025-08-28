@@ -1,7 +1,8 @@
-#include "PlayerUltGageUI.h"
+ï»¿#include "PlayerUltGageUI.h"
 #include "../../Actors/Character/Player/UltGage.h"
 #include "../../Actors/Character/Player/Player.h"
 #include "../../Actors/ActorManager.h"
+#include "../UIManager.h"
 #include <DxLib.h>
 namespace
 {
@@ -10,14 +11,26 @@ namespace
 	constexpr float kLeftPosX = 50.0f;
 	constexpr float kLeftPosY = 110.0f;
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
+	//æ‹¡å¤§ç¸®å°ã®é€Ÿåº¦
+	constexpr float kScaleSpeed = 1.0f / 10.0f;
+	//æ‹¡å¤§å€ç‡
+	constexpr float kMaxScaleRate = 0.1f;
+	//ã‚²ãƒ¼ã‚¸ãƒœã‚¿ãƒ³ã®ä½ç½®
+	constexpr float kBottunPosX = kLeftPosX + kBarWidth;
+	constexpr float kBottunPosY = 160;
 }
 
 PlayerUltGageUI::PlayerUltGageUI(std::weak_ptr<Player> player):
 	PlayerUIBase(player),
 	m_viewUltGageValue(0.0f),
-	m_viewMaxUltGageValue(0.0f)
+	m_viewMaxUltGageValue(0.0f),
+	m_ultGageFrameHandle(UIManager::GetInstance().GetImageHandle("PlayerGageFrame")),
+	m_ultGageHandle(UIManager::GetInstance().GetImageHandle("PlayerUltGage")),
+	m_ultBottunHandle(UIManager::GetInstance().GetImageHandle("UltBottun")),
+	m_bottunScale(1.0),
+	m_bottunAngle(0.0f)
 {
-	//ƒvƒŒƒCƒ„[‚ªÁ‚¦‚½ê‡‚±‚ÌUI‚àíœ
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ¶ˆãˆãŸå ´åˆã“ã®UIã‚‚å‰Šé™¤
 	if (m_player.expired())
 	{
 		m_isDelete = true;
@@ -34,14 +47,14 @@ PlayerUltGageUI::~PlayerUltGageUI()
 
 void PlayerUltGageUI::Update()
 {
-	//ƒvƒŒƒCƒ„[‚ªÁ‚¦‚½ê‡‚Í‚±‚ÌUI‚àíœ
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ¶ˆãˆãŸå ´åˆã¯ã“ã®UIã‚‚å‰Šé™¤
 	if (m_player.expired())
 	{
 		m_isDelete = true;
 		return;
 	}
 	auto player = m_player.lock();
-	//ƒvƒŒƒCƒ„[‚ªƒQ[ƒ€ŠJnƒAƒjƒ[ƒVƒ‡ƒ“’†‚©ƒNƒŠƒAƒAƒjƒ[ƒVƒ‡ƒ“’†‚È‚ç•`‰æ‚µ‚È‚¢
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚²ãƒ¼ãƒ é–‹å§‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã‹ã‚¯ãƒªã‚¢ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ãªã‚‰æç”»ã—ãªã„
 	if (player->IsStartAnim() || player->IsClearAnim())
 	{
 		m_isDraw = false;
@@ -51,8 +64,8 @@ void PlayerUltGageUI::Update()
 		m_isDraw = true;
 	}
 	auto ultGage = player->GetUltGage().lock();
-	//XV
-	//‘Ì—Í‚É•Ï“®‚ª‚ ‚Á‚½
+	//æ›´æ–°
+	//ä½“åŠ›ã«å¤‰å‹•ãŒã‚ã£ãŸæ™‚
 	if (m_viewUltGageValue != ultGage->GetUltGageValue())
 	{
 		m_viewUltGageValue = ultGage->GetUltGageValue();
@@ -61,13 +74,34 @@ void PlayerUltGageUI::Update()
 	{
 		m_viewMaxUltGageValue = ultGage->GetMaxUltGageValue();
 	}
+	//ãƒœã‚¿ãƒ³ã®æ‹¡å¤§ç¸®å°
+	if (m_viewUltGageValue >= m_viewMaxUltGageValue)
+	{
+		m_bottunAngle += kScaleSpeed;
+		if (m_bottunAngle > MyMath::TwoPI_F)m_bottunAngle -= MyMath::TwoPI_F;
+		m_bottunScale = 1.0f + kMaxScaleRate * sinf(m_bottunAngle);
+	}
+	else
+	{
+		m_bottunAngle = 0.0f;
+		m_bottunScale = 1.0;
+	}
 }
 
 void PlayerUltGageUI::Draw() const
 {
-	//•`‰æ‚µ‚È‚¢‚È‚çreturn
+	//æç”»ã—ãªã„ãªã‚‰return
 	if (!m_isDraw)return;
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxUltGageValue / m_viewMaxUltGageValue) * kBarWidth, kRightPosY, 0x555555, true);
-	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewUltGageValue / m_viewMaxUltGageValue) * kBarWidth, kRightPosY, 0x5555ff, true);
+	//ã‚²ãƒ¼ã‚¸
+	DrawRectGraph(kLeftPosX, kLeftPosY, 0, 0,
+		kBarWidth * (m_viewUltGageValue / m_viewMaxUltGageValue), kBarHeight, m_ultGageHandle, true);
+	//ãƒ•ãƒ¬ãƒ¼ãƒ 
+	DrawGraph(kLeftPosX, kLeftPosY, m_ultGageFrameHandle, true);
+	//ã‚²ãƒ¼ã‚¸ãŒæœ€å¤§ãªã‚‰ãƒœã‚¿ãƒ³ã‚’è¡¨ç¤º
+	if (m_viewUltGageValue >= m_viewMaxUltGageValue)
+	{
+		DrawRotaGraph(kBottunPosX, kBottunPosY, m_bottunScale, 0.0, m_ultBottunHandle, true);
+	}
 }
 

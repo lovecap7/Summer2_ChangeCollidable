@@ -13,5 +13,15 @@ public:
 private:
 	//ゲージ
 	float m_viewUltGageValue;
-	float m_viewMaxUltGageValue;
+	float m_viewMaxUltGageValue;	
+	//ゲージのフレームハンドル
+	int m_ultGageHandle;
+	//ゲージの画像ハンドル
+	int m_ultGageFrameHandle;
+	//ゲージが満タンの時のボタンの画像ハンドル
+	int m_ultBottunHandle;
+	//ボタンの拡大縮小
+	double m_bottunScale;
+	//拡大縮小に使う角度
+	float m_bottunAngle;
 };
