@@ -66,22 +66,55 @@ void UIManager::BackDraw() const
 {
 	//•`‰æ‚ğ‚·‚é‚©
 	if (!m_isDraw)return;
+	//—Dæ“x’á‚¢‡‚É•`‰æ
 	for (auto& ui : m_uis)
 	{
 		//Œã‚ë•`‰æ‚¶‚á‚È‚¢‚È‚ç
 		if (ui->IsFront())continue;
+		if (ui->GetPriority() != UIBase::Priority::Low)continue;
 		ui->Draw();
 	}
+	for (auto& ui : m_uis)
+	{
+		//Œã‚ë•`‰æ‚¶‚á‚È‚¢‚È‚ç
+		if (ui->IsFront())continue;
+		if (ui->GetPriority() != UIBase::Priority::Middle)continue;
+		ui->Draw();
+	}
+	for (auto& ui : m_uis)
+	{
+		//Œã‚ë•`‰æ‚¶‚á‚È‚¢‚È‚ç
+		if (ui->IsFront())continue;
+		if (ui->GetPriority() != UIBase::Priority::High)continue;
+		ui->Draw();
+	}
+	
 }
 
 void UIManager::FrontDraw() const
 {
 	//•`‰æ‚ğ‚·‚é‚©
 	if (!m_isDraw)return;
+	//—Dæ“x’á‚¢‡‚É•`‰æ
 	for (auto& ui : m_uis)
 	{
 		//‘O•`‰æ‚¶‚á‚È‚¢‚È‚ç
 		if (!ui->IsFront())continue;
+		if (ui->GetPriority() != UIBase::Priority::Low)continue;
+		ui->Draw();
+	}
+	for (auto& ui : m_uis)
+	{
+		//‘O•`‰æ‚¶‚á‚È‚¢‚È‚ç
+		if (!ui->IsFront())continue;
+		if (ui->GetPriority() != UIBase::Priority::Middle)continue;
+		ui->Draw();
+	}
+	for (auto& ui : m_uis)
+	{
+		//‘O•`‰æ‚¶‚á‚È‚¢‚È‚ç
+		if (!ui->IsFront())continue;
+		if (ui->GetPriority() != UIBase::Priority::High)continue;
 		ui->Draw();
 	}
 }
@@ -174,6 +207,7 @@ void UIManager::LoadHandle()
 	m_imageHandles["EnemyHP"] = { LoadGraph(L"Data/UI/Enemy/EnemyHP.png") };
 	m_imageHandles["BossHPFrame"] = { LoadGraph(L"Data/UI/Enemy/BossHPFrame.png") };
 	m_imageHandles["BossHP"] = { LoadGraph(L"Data/UI/Enemy/BossHP.png") };
+	m_imageHandles["TutorialMark"] = { LoadGraph(L"Data/UI/TutorialMark.png") };
 	//ƒƒjƒ…[
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
 	m_imageHandles["Gameover"] = { LoadGraph(L"Data/UI/Menu/Gameover.png") };

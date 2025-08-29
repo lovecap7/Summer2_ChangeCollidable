@@ -15,12 +15,12 @@ namespace
 	//改行の数だけ四角の下の座標を下げてく
 	constexpr int kSpaceDownSize = 16;
 	//”チュートリアル”の表示位置
-	constexpr int kTutorialOffsetPosX = 20;
+	constexpr int kTutorialOffsetPosX = 70;
 	constexpr int kTutorialPosY = kSpaceUpPos + 10;
 	//１行に入る文字列の数
 	constexpr int kOneLineMaxNum = 30;
 	//テキストの座標
-	constexpr int kTextOffsetPosX = 30;
+	constexpr int kTextOffsetPosX = 70;
 	constexpr int kTextPosY = kTutorialPosY + 30;
 	//テキストの表示速度
 	constexpr int kTextViewSpeed = 2;
@@ -29,6 +29,11 @@ namespace
 	constexpr int kNormalInterval = 10 * 60;
 	//透明度
 	constexpr float kAlphaRate = 200;
+	//枠線の太さ
+	constexpr int kFrameThickness = 10;
+	//チュートリアルマークの座標
+	constexpr int kTutorialMarkPosX = 30;
+	constexpr int kTutorialMarkPosY = kSpaceUpPos + 40;
 }
 
 TutorialUI::TutorialUI(const std::wstring& text):
@@ -38,7 +43,8 @@ TutorialUI::TutorialUI(const std::wstring& text):
 	m_text{ text },
 	m_update(&TutorialUI::AppearUpdate),
 	m_posX(Game::kScreenWidth),
-	m_handle(UIManager::GetInstance().GetTextHandle("メイリオ16"))
+	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ16")),
+	m_tutorialMarkUI(UIManager::GetInstance().GetImageHandle("TutorialMark"))
 {
 	m_text = StringUtil::InsertNewLines(m_text, kOneLineMaxNum);
 }
@@ -58,12 +64,15 @@ void TutorialUI::Draw() const
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, kAlphaRate);
 	//改行の数
 	auto lineNum = StringUtil::WStringLineNum(m_text);
+	DrawBox(m_posX - kFrameThickness, kSpaceUpPos - kFrameThickness, kSpaceRightPos, kSpaceDownPos + kSpaceDownSize * lineNum + kFrameThickness, 0xffffff, true);
 	DrawBox(m_posX, kSpaceUpPos, kSpaceRightPos, kSpaceDownPos + kSpaceDownSize * lineNum, 0x444444, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	//テキスト
-	DrawStringToHandle(m_posX + kTutorialOffsetPosX, kTutorialPosY, L"<チュートリアル>", 0xffffff, m_handle);
-	DrawStringToHandle(m_posX + kTextOffsetPosX, kTextPosY, m_text.substr(0, m_chatCount).c_str(), 0xffffff, m_handle);
-	DrawFormatString(0, 10, 0xffff00, L"SIZE : %d", (int)m_text.size());
+	DrawStringToHandle(m_posX + kTutorialOffsetPosX, kTutorialPosY, L"<チュートリアル>", 0xffffff, m_textHandle);
+	DrawStringToHandle(m_posX + kTextOffsetPosX, kTextPosY, m_text.substr(0, m_chatCount).c_str(), 0xffffff, m_textHandle);
+	DrawFormatString(0, 10, 0xffff00, L"SIZE : %d", static_cast<int>(m_text.size()));
+	//チュートリアルマーク
+	DrawRotaGraph(m_posX + kTutorialMarkPosX, kTutorialMarkPosY, 1.0, 0.0, m_tutorialMarkUI, true);
 }
 
 void TutorialUI::AppearUpdate()

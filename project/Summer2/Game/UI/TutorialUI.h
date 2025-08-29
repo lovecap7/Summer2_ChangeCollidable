@@ -34,7 +34,8 @@ private:
     //Á–Å’†ó‘Ô
     void DisappearUpdate();
     //ƒnƒ“ƒhƒ‹
-    int m_handle;
+    int m_textHandle;
+    int m_tutorialMarkUI;
 };
 
 

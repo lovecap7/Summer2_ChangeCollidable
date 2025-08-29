@@ -1,10 +1,11 @@
 #include "UIBase.h"
 #include "UIManager.h"
 
-UIBase::UIBase(bool isFront):
+UIBase::UIBase(bool isFront, Priority priority):
 	m_isDelete(false),
 	m_isDraw(true),
-	m_isFront(isFront)
+	m_isFront(isFront),
+	m_priority(priority)
 {
 }
 

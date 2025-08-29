@@ -5,7 +5,23 @@ class UIBase abstract :
 	public std::enable_shared_from_this<UIBase>
 {
 public:
-	UIBase(bool isFront = true);
+	//—Dæ“x
+	enum class Priority : int
+	{
+		Low = 0,	//’á
+		Middle = 1,	//•’Ê
+		High = 2,	//‚
+	};
+	//—Dæ“xæ“¾
+	Priority GetPriority()const { return m_priority; };
+protected:
+	bool m_isDelete;	//íœ
+	bool m_isDraw;		//•`‰æ‚·‚é‚©
+	//‘O‚É•`‰æ‚·‚é
+	bool m_isFront;
+	Priority m_priority;
+public:
+	UIBase(bool isFront = true, Priority priority = UIBase::Priority::Middle);
 	virtual~UIBase();
 	virtual void Init() ;
 	virtual void Update()abstract;
@@ -18,10 +34,5 @@ public:
 	bool IsDraw()const { return m_isDraw; };
 	//•`‰æ‚ğ‘O‚É‚·‚é
 	bool IsFront()const { return m_isFront; };
-protected:
-	bool m_isDelete;	//íœ
-	bool m_isDraw;		//•`‰æ‚·‚é‚©
-	//‘O‚É•`‰æ‚·‚é
-	bool m_isFront;
 };
 
