@@ -13,6 +13,8 @@ ScreenModeUI::ScreenModeUI(Vector2 pos):
 	m_windowModeHandle = uiManager.GetImageHandle("WindowMode");
 	//フルスクリーン
 	m_fullScreenModeHandle = uiManager.GetImageHandle("FullScreenMode");
+	//背景
+	m_backgroundHandle = uiManager.GetImageHandle("OptionBack");
 }
 
 ScreenModeUI::~ScreenModeUI()
@@ -26,7 +28,7 @@ void ScreenModeUI::Update()
 
 void ScreenModeUI::Draw() const
 {
-	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x555555, true);
+	DrawGraph(0, 0, m_backgroundHandle, true);
 	if (m_isWindowMode)
 	{
 		DrawRotaGraph(m_pos.x, m_pos.y, 1.0, 0.0, m_windowModeHandle, true);

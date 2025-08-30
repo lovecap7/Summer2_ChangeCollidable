@@ -14,6 +14,7 @@ private:
     bool m_isWindowMode;
     int m_windowModeHandle;
     int m_fullScreenModeHandle;
+	int m_backgroundHandle;
 	Vector2 m_pos;
 };
 
