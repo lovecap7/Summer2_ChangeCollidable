@@ -5,6 +5,7 @@ class SceneController;
 class ScreenModeUI;
 class VolumeUI;
 class Input;
+class LeftArrowUI;
 class OptionScene :
     public SceneBase
 {
@@ -28,6 +29,8 @@ private:
     std::weak_ptr<VolumeUI> m_voiceUI;
     //マスター
     std::weak_ptr<VolumeUI> m_masterUI;
+	//オプション選択矢印
+	std::weak_ptr<LeftArrowUI> m_optionArrowUI;
 private:
     enum class OptionIndex : int
     {

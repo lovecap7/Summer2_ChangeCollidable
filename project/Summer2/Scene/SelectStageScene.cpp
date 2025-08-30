@@ -11,6 +11,7 @@
 #include "../Game/UI/Select/SelectStageBackUI.h"
 #include "../Game/UI/Select/SelectStageRankingUI.h"
 #include "../Game/UI/UIManager.h"
+#include "../Game/UI/LeftArrowUI.h"
 #include "../SaveData/SaveDataManager.h"
 #include "StageScene.h"
 #include <memory>
@@ -23,6 +24,9 @@
 namespace
 {
 	constexpr float kFadeSpeed = 2.0f; // フェード速度
+	//矢印UIの位置
+	const Vector2 kLeftArrowPos = Vector2{ 130, 520 };
+	const Vector2 kRightArrowPos = Vector2{ 1150, 520 };
 }
 
 SelectStageScene::SelectStageScene(SceneController& controller):
@@ -97,6 +101,15 @@ void SelectStageScene::Init()
 	auto rankingUI = std::make_shared<SelectStageRankingUI>(static_cast<Stage::StageIndex>(m_stageIndex));
 	rankingUI->Init();
 	m_stageRankingUI = rankingUI;
+	//矢印UI
+	auto leftArrowUI = std::make_shared<LeftArrowUI>(kLeftArrowPos, false);
+	auto rightArrowUI = std::make_shared<LeftArrowUI>(kRightArrowPos, true);
+	leftArrowUI->Init();
+	rightArrowUI->Init();
+	leftArrowUI->SetIsSelect(true);
+	rightArrowUI->SetIsSelect(true);
+	m_leftArrowUI = leftArrowUI;
+	m_rightArrowUI = rightArrowUI;
 	//BGM
 	SoundManager::GetInstance().PlayBGM("SelectStageBGM");
 }
@@ -218,6 +231,30 @@ void SelectStageScene::SelectStageIndex(Input& input)
 	}
 	if (m_stageRankingUI.expired())return;
 	m_stageRankingUI.lock()->SetStageIndex(static_cast<Stage::StageIndex>(m_stageIndex));
+	if (m_leftArrowUI.expired() || m_rightArrowUI.expired())return;
+	//一つもクリアしていないなら矢印は非表示
+	if (static_cast<int>(m_unlockStageIndex) == static_cast<int>(Stage::StageIndex::Stage1))
+	{
+		m_leftArrowUI.lock()->SetIsDraw(false);
+		m_rightArrowUI.lock()->SetIsDraw(false);
+		return;
+	}
+	//ステージの選択できる方向によって矢印の表示を変える
+	if(m_stageIndex == static_cast<int>(Stage::StageIndex::Stage1))
+	{
+		m_leftArrowUI.lock()->SetIsDraw(false);
+		m_rightArrowUI.lock()->SetIsDraw(true);
+	}
+	else if (m_stageIndex == static_cast<int>(m_unlockStageIndex))
+	{
+		m_leftArrowUI.lock()->SetIsDraw(true);
+		m_rightArrowUI.lock()->SetIsDraw(false);
+	}
+	else
+	{
+		m_leftArrowUI.lock()->SetIsDraw(true);
+		m_rightArrowUI.lock()->SetIsDraw(true);
+	}
 }
 
 void SelectStageScene::ChangeBack()

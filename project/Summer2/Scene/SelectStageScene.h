@@ -13,6 +13,7 @@ class SceneController;
 class StageFigure;
 class SelectStageBackUI;
 class SelectStageRankingUI;
+class LeftArrowUI;
 class SelectStageScene :
     public SceneBase
 {
@@ -49,6 +50,9 @@ private:
     std::weak_ptr<SelectStageBackUI> m_stage2Back;
 	//ランキングUI
     std::weak_ptr<SelectStageRankingUI> m_stageRankingUI;
+	//矢印UI
+	std::weak_ptr<LeftArrowUI> m_leftArrowUI;
+	std::weak_ptr<LeftArrowUI> m_rightArrowUI;
     //解放している最終ステージのインデックス
     Stage::StageIndex m_unlockStageIndex;
     //背景を変える

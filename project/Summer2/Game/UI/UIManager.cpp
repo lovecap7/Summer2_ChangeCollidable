@@ -208,6 +208,7 @@ void UIManager::LoadHandle()
 	m_imageHandles["BossHPFrame"] = { LoadGraph(L"Data/UI/Enemy/BossHPFrame.png") };
 	m_imageHandles["BossHP"] = { LoadGraph(L"Data/UI/Enemy/BossHP.png") };
 	m_imageHandles["TutorialMark"] = { LoadGraph(L"Data/UI/TutorialMark.png") };
+	m_imageHandles["LeftArrow"] = { LoadGraph(L"Data/UI/Arrow.png") };
 	//ƒƒjƒ…[
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
 	m_imageHandles["Gameover"] = { LoadGraph(L"Data/UI/Menu/Gameover.png") };

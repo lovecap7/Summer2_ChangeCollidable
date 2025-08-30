@@ -8,6 +8,7 @@
 #include "../Game/UI/UIManager.h"
 #include "../Game/UI/Option/ScreenModeUI.h"
 #include "../Game/UI/Option/VolumeUI.h"
+#include "../Game/UI/LeftArrowUI.h"
 
 namespace
 {
@@ -18,6 +19,8 @@ namespace
 	constexpr int kBGMPosY		= 400;
 	constexpr int kSEPosY		= 500;
 	constexpr int kVoicePosY	= 600;
+	//矢印の座標
+	constexpr int kArrowPosX = 330;
 }
 
 OptionScene::OptionScene(SceneController& controller):
@@ -58,6 +61,12 @@ void OptionScene::Init()
 	m_bgmUI.lock()->SetVolume(soundManager.GetBGMVolume());
 	m_seUI.lock()->SetVolume(soundManager.GetSEVolume());
 	m_voiceUI.lock()->SetVolume(soundManager.GetVoiceVolume());
+	//オプション選択矢印
+	auto optionArrowUI = std::make_shared<LeftArrowUI>(Vector2{ kArrowPosX, 0 }, true);
+	optionArrowUI->Init();
+	optionArrowUI->SetIsSelect(true);
+	optionArrowUI->SetBaseScale(0.5);
+	m_optionArrowUI = optionArrowUI;
 }
 
 void OptionScene::Update()
@@ -75,6 +84,11 @@ void OptionScene::Update()
 		SoundManager::GetInstance().PlayOnceSE("Select");
 	}
 	m_optionIndex = static_cast<OptionIndex>(optionIndex);
+	//矢印UIの位置変更
+	if (!m_optionArrowUI.expired())
+	{
+		m_optionArrowUI.lock()->SetPos(Vector2{ kArrowPosX, static_cast<float>(200 + (optionIndex * 100)) });
+	}
 	if (input.IsTrigger("B"))
 	{
 		//キャンセルSE

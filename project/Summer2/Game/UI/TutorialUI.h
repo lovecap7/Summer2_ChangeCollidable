@@ -22,7 +22,6 @@ private:
     std::wstring m_text;
     //XÀ•W
     int m_posX;
-
 private:
     //ó‘Ô‘JˆÚ
     using UpdateFunc_t = void(TutorialUI::*)();

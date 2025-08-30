@@ -37,7 +37,6 @@ ResultRankingScore::ResultRankingScore(int scoreValue, Vector2 basePos, const st
 
 ResultRankingScore::~ResultRankingScore()
 {
-	DeleteGraph(m_rankingHandle);
 }
 
 void ResultRankingScore::Draw() const

@@ -111,12 +111,11 @@ void Application::Run()
 		//更新
 		//ロード中は更新を止める
 		bool isLoading = loadingManager.IsLoading();
-		
+		soundManager.Update();
+		saveDataManager.Update();
 		if (!isLoading)
 		{
 			input.Update();
-			soundManager.Update();
-			saveDataManager.Update();
 			sceneController->Update();
 			physics.Update();
 			effect.Update();

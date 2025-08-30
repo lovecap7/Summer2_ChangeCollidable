@@ -5,6 +5,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+
 void SaveDataManager::Init()
 {
 	//ÉXÉRÉA
@@ -34,7 +35,7 @@ void SaveDataManager::Load()
 	m_isClearStage[Stage::StageIndex::Stage2] = saveDatas.stage2Clear;
 	m_isClearStage[Stage::StageIndex::Stage3] = saveDatas.stage3Clear;
 	m_totalPlayTime							  = saveDatas.totalPlayTime;
-	m_lastSaveTime								  = saveDatas.nowTime;
+	m_lastSaveTime							  = saveDatas.nowTime;
 }
 
 void SaveDataManager::Save()
