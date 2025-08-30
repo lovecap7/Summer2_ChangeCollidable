@@ -39,6 +39,7 @@ PlayerHPUI::~PlayerHPUI()
 
 void PlayerHPUI::Update()
 {
+	if (!m_isDraw)return;
 	//ƒvƒŒƒCƒ„[‚ªÁ‚¦‚½ê‡‚Í‚±‚ÌUI‚àíœ
 	if (m_player.expired())
 	{

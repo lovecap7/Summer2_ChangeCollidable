@@ -4,12 +4,8 @@
 #include "../../../General/game.h"
 #include <DxLib.h>
 
-namespace
-{
-	constexpr int kDrawPosY = 200;
-}
-
-ScreenModeUI::ScreenModeUI()
+ScreenModeUI::ScreenModeUI(Vector2 pos):
+	m_pos(pos)
 {
 	m_isWindowMode = Application::GetInstance().IsWindowMode();
 	auto& uiManager = UIManager::GetInstance();
@@ -33,10 +29,10 @@ void ScreenModeUI::Draw() const
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x555555, true);
 	if (m_isWindowMode)
 	{
-		DrawRotaGraph(Game::kScreenCenterX, kDrawPosY, 1.0, 0.0, m_windowModeHandle, true);
+		DrawRotaGraph(m_pos.x, m_pos.y, 1.0, 0.0, m_windowModeHandle, true);
 	}
 	else
 	{
-		DrawRotaGraph(Game::kScreenCenterX, kDrawPosY, 1.0, 0.0, m_fullScreenModeHandle, true);
+		DrawRotaGraph(m_pos.x, m_pos.y, 1.0, 0.0, m_fullScreenModeHandle, true);
 	}
 }

@@ -209,6 +209,7 @@ void UIManager::LoadHandle()
 	m_imageHandles["BossHP"] = { LoadGraph(L"Data/UI/Enemy/BossHP.png") };
 	m_imageHandles["TutorialMark"] = { LoadGraph(L"Data/UI/TutorialMark.png") };
 	m_imageHandles["LeftArrow"] = { LoadGraph(L"Data/UI/Arrow.png") };
+	m_imageHandles["SoundBottun"] = { LoadGraph(L"Data/UI/Option/SoundBottun.png") };
 	//メニュー
 	m_imageHandles["Pause"] = { LoadGraph(L"Data/UI/Menu/Pause.png") };
 	m_imageHandles["Gameover"] = { LoadGraph(L"Data/UI/Menu/Gameover.png") };
@@ -242,6 +243,22 @@ void UIManager::LoadHandle()
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_textHandles) {
 		assert(value >= 0);
+	}
+}
+
+void UIManager::AllStopDraw()
+{
+	for (auto& ui : m_uis)
+	{
+		ui->SetIsDraw(false);
+	}
+}
+
+void UIManager::AllStartDraw()
+{
+	for (auto& ui : m_uis)
+	{
+		ui->SetIsDraw(true);
 	}
 }
 

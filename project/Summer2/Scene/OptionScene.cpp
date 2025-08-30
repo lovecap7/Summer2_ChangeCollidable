@@ -15,10 +15,11 @@ namespace
 	//音量調整のリピートフレーム
 	constexpr int kRepeateFrame = 2;
 	//座標Y
-	constexpr int kMasterPosY	= 300;
-	constexpr int kBGMPosY		= 400;
-	constexpr int kSEPosY		= 500;
-	constexpr int kVoicePosY	= 600;
+	constexpr int kScreenModeY	= 130;
+	constexpr int kMasterPosY	= 260;
+	constexpr int kBGMPosY		= 370;
+	constexpr int kSEPosY		= 480;
+	constexpr int kVoicePosY	= 590;
 	//矢印の座標
 	constexpr int kArrowPosX = 330;
 }
@@ -36,23 +37,23 @@ OptionScene::~OptionScene()
 void OptionScene::Init()
 {
 	//スクリーンモードUI
-	auto screenModeUI = std::make_shared<ScreenModeUI>();
+	auto screenModeUI = std::make_shared<ScreenModeUI>(Vector2{ Game::kScreenCenterX,kScreenModeY });
 	screenModeUI->Init();
 	m_screenModeUI = screenModeUI;
 	//マスター
-	auto masterUI = std::make_shared<VolumeUI>(kMasterPosY);
+	auto masterUI = std::make_shared<VolumeUI>(kMasterPosY,L"Master");
 	masterUI->Init();
 	m_masterUI = masterUI;
 	//BGM
-	auto bgmUI = std::make_shared<VolumeUI>(kBGMPosY);
+	auto bgmUI = std::make_shared<VolumeUI>(kBGMPosY,L"BGM");
 	bgmUI->Init();
 	m_bgmUI = bgmUI;
 	//SE
-	auto seUI = std::make_shared<VolumeUI>(kSEPosY);
+	auto seUI = std::make_shared<VolumeUI>(kSEPosY,L"SE");
 	seUI->Init();
 	m_seUI = seUI;
 	//Voice
-	auto voiceUI = std::make_shared<VolumeUI>(kVoicePosY);
+	auto voiceUI = std::make_shared<VolumeUI>(kVoicePosY,L"Voice");
 	voiceUI->Init();
 	m_voiceUI = voiceUI;
 	//音量セット
@@ -84,11 +85,6 @@ void OptionScene::Update()
 		SoundManager::GetInstance().PlayOnceSE("Select");
 	}
 	m_optionIndex = static_cast<OptionIndex>(optionIndex);
-	//矢印UIの位置変更
-	if (!m_optionArrowUI.expired())
-	{
-		m_optionArrowUI.lock()->SetPos(Vector2{ kArrowPosX, static_cast<float>(200 + (optionIndex * 100)) });
-	}
 	if (input.IsTrigger("B"))
 	{
 		//キャンセルSE
@@ -97,6 +93,32 @@ void OptionScene::Update()
 		return;
 	}
 	//選ばれてる項目に対応した処理
+	//矢印UIの位置変更
+	if (!m_optionArrowUI.expired())
+	{
+		Vector2 arrowPos = {};
+		switch (m_optionIndex)
+		{
+		case OptionScene::OptionIndex::ScreenMode:
+			arrowPos = { kArrowPosX, kScreenModeY };
+			break;
+		case OptionScene::OptionIndex::MasterVolume:
+			arrowPos = { kArrowPosX, kMasterPosY };
+			break;
+		case OptionScene::OptionIndex::BGMVolume:
+			arrowPos = { kArrowPosX, kBGMPosY };
+			break;
+		case OptionScene::OptionIndex::SEVolume:
+			arrowPos = { kArrowPosX, kSEPosY };
+			break;
+		case OptionScene::OptionIndex::VoiceVolume:
+			arrowPos = { kArrowPosX, kVoicePosY };
+			break;
+		default:
+			break;
+		}
+		m_optionArrowUI.lock()->SetPos(arrowPos);
+	}
 	switch (m_optionIndex)
 	{
 	case OptionScene::OptionIndex::ScreenMode:
@@ -131,6 +153,7 @@ void OptionScene::End()
 	if(!m_bgmUI.expired()) m_bgmUI.lock()->Delete();
 	if(!m_seUI.expired()) m_seUI.lock()->Delete();
 	if(!m_voiceUI.expired()) m_voiceUI.lock()->Delete();
+	if(!m_optionArrowUI.expired()) m_optionArrowUI.lock()->Delete();
 	SoundManager::GetInstance().SaveVolume();
 }
 

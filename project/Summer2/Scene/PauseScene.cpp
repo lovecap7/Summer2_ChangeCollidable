@@ -36,6 +36,8 @@ PauseScene::~PauseScene()
 
 void PauseScene::Init()
 {
+	//•`‰æ’âŽ~
+	UIManager::GetInstance().AllStopDraw();
 	//Physics‚ðŽ~‚ß‚é
 	Physics::GetInstance().StopUpdate();
 }
@@ -54,6 +56,8 @@ void PauseScene::End()
 {
 	//Physics‚ðŠJŽn
 	Physics::GetInstance().StartUpdate();
+	//•`‰æ’âŽ~
+	UIManager::GetInstance().AllStartDraw();
 }
 
 void PauseScene::Restart()
@@ -72,8 +76,6 @@ void PauseScene::AppearUpdate()
 		return;
 	}
 }
-
-
 
 void PauseScene::NormalUpdate()
 {

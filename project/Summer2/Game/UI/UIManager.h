@@ -69,6 +69,10 @@ public:
 	void StopDraw() { m_isDraw = false; };
 	//•`‰æ‚ð‚·‚é
 	void StartDraw() { m_isDraw = true; };
+	//ŠeŽ©UI‚Ì•`‰æ‚ðŽ~‚ß‚é
+	void AllStopDraw();
+	//ŠeŽ©UI‚Ì•`‰æ‚ð‚·‚é
+	void AllStartDraw();
 private:
 	//UI
 	std::list<std::shared_ptr<UIBase>> m_uis;

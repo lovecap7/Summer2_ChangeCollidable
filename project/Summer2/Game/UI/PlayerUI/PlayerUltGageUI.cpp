@@ -50,6 +50,7 @@ PlayerUltGageUI::~PlayerUltGageUI()
 
 void PlayerUltGageUI::Update()
 {
+	if (!m_isDraw)return;
 	//プレイヤーが消えた場合はこのUIも削除
 	if (m_player.expired())
 	{

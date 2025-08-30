@@ -1,10 +1,11 @@
 #pragma once
 #include "../UIBase.h"
+#include "../../../General/Math/MyMath.h"
 class ScreenModeUI :
     public UIBase
 {
 public:
-    ScreenModeUI();
+    ScreenModeUI(Vector2 pos);
     ~ScreenModeUI();
     void Update()override;
     void Draw() const override;
@@ -13,5 +14,6 @@ private:
     bool m_isWindowMode;
     int m_windowModeHandle;
     int m_fullScreenModeHandle;
+	Vector2 m_pos;
 };
 
