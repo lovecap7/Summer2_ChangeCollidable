@@ -14,7 +14,7 @@ namespace
 	//‹–ìŠp
 	constexpr float kPerspective = 35.0f * MyMath::DEG_2_RAD;
 	//ƒJƒƒ‰Šp“x
-	constexpr float kCameraAngleX = 29.0f * MyMath::DEG_2_RAD;
+	constexpr float kCameraAngleX = 30.0f * MyMath::DEG_2_RAD;
 	//lerp‚ÌŠ„‡
 	constexpr float kLerpRateX = 0.1f;
 	constexpr float kLerpRateY = 0.1f;

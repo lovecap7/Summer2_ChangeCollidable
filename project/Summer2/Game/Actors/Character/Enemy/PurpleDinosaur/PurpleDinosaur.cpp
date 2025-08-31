@@ -26,6 +26,8 @@ namespace
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 40.0f; //カプセルの半径
+	//名前
+	const std::wstring kName = L"イノドン";
 }
 PurpleDinosaur::PurpleDinosaur(int modelHandle, Vector3 pos) :
 	EnemyBase(Shape::Capsule, EnemyGrade::Normal)
@@ -69,6 +71,8 @@ void PurpleDinosaur::Init()
 	m_state->ChangeState(m_state);
 	//敵関連のUIの準備
 	UIManager::GetInstance().CreateEnemyUI(thisPointer);
+	//名前
+	m_name = kName;
 }
 
 void PurpleDinosaur::OnCollide(const std::shared_ptr<Collidable> other)

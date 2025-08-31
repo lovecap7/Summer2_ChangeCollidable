@@ -11,6 +11,9 @@ namespace
 	constexpr float kBarHeight = 20.0f;
 	constexpr float kBarWidth = kShiftLeftPosX * 2.0f;
 	constexpr float kBarOffsetPosY = 150.0f; //敵の頭の上に来るように調整
+	//名前の位置
+	constexpr float kNameOffsetPosY = kBarHeight + 20.0f;
+	constexpr float kNameOffsetPosX = 10.0f;
 }
 
 
@@ -20,7 +23,9 @@ EnemyHPUI::EnemyHPUI(std::weak_ptr<EnemyBase> enemy) :
 	m_viewMaxHp(0.0f),
 	m_pos{},
 	m_frameHandle(UIManager::GetInstance().GetImageHandle("EnemyHPFrame")),
-	m_hpHandle(UIManager::GetInstance().GetImageHandle("EnemyHP"))
+	m_hpHandle(UIManager::GetInstance().GetImageHandle("EnemyHP")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ16")),
+	m_name{}
 {
 	//敵が消えた場合このUIも削除
 	if (m_enemy.expired())
@@ -28,7 +33,8 @@ EnemyHPUI::EnemyHPUI(std::weak_ptr<EnemyBase> enemy) :
 		m_isDelete = true;
 		return;
 	}
-	auto hp = m_enemy.lock()->GetHitPoints().lock();
+	auto owner = m_enemy.lock();
+	auto hp = owner->GetHitPoints().lock();
 	//初期化
 	m_viewHp = hp->GetHp();
 	m_viewMaxHp = hp->GetMaxHp();
@@ -58,6 +64,11 @@ void EnemyHPUI::Update()
 	{
 		m_viewMaxHp = hp->GetMaxHp();
 	}
+	//名前
+	if (m_name != enemy->GetName())
+	{
+		m_name = enemy->GetName();
+	};
 
 	//描画座標を更新
 	m_pos = enemy->GetPos();
@@ -77,4 +88,6 @@ void EnemyHPUI::Draw() const
 		kBarWidth * (m_viewHp / m_viewMaxHp), kBarHeight, m_hpHandle, true);
 	//フレーム
 	DrawGraph(pos.x, pos.y - kBarHeight, m_frameHandle, true);
+	//名前
+	DrawStringToHandle(pos.x + kNameOffsetPosX, pos.y - kNameOffsetPosY, m_name.c_str(), 0x000000, m_textHandle);
 }

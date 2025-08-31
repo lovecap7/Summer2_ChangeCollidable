@@ -7,9 +7,19 @@
 #include "../../../General/Collision/Physics.h"
 #include "../../../General/Sound/SoundManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
+
+namespace
+{
+	//アイテムの生成間隔
+	constexpr int kItemDropInterval = 20 * 60;
+	//アイテムの生成位置
+	constexpr float kItemDropHeight = 2000.0f;
+}
+
 BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
 	EventAreaBase(start,end,AreaTag::Boss),
-	m_update(&BossArea::EntryCheckUpdate)
+	m_update(&BossArea::EntryCheckUpdate),
+	m_itemDropFrame(0)
 {
 }
 
@@ -53,6 +63,32 @@ void BossArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std::we
 		m_isEvent = false;
 		//このエリアも消す
 		m_isDelete = true;
+		return;
+	}
+	//プレイヤーがいない場合は何もしない
+	if (actorManager.lock()->GetPlayer().expired())return;
+	//アイテムを落とすフレームをカウント
+	++m_itemDropFrame;
+	if (m_itemDropFrame >= kItemDropInterval)
+	{
+		m_itemDropFrame = 0;
+		//プレイヤーとボスの間にアイテムを落とす
+		auto player = actorManager.lock()->GetPlayer().lock();
+		auto boss = actorManager.lock()->GetBoss().lock();
+		//プレイヤーからボスへのベクトル
+		Vector3 toBoss = boss->GetPos() - player->GetPos();
+		float distance = toBoss.Magnitude();
+		if(distance > 0.0f)
+		{
+			//正規化
+			toBoss = toBoss.Normalize();
+			//プレイヤーとボスの間の位置
+			Vector3 dropPos = player->GetPos() + (toBoss * MyMath::GetRandF(0.0f,distance));
+			//高いところから落とす
+			dropPos.y += kItemDropHeight;
+			//アイテムを落とす
+			actorManager.lock()->CreateRandItem(dropPos);
+		}
 	}
 }
 

@@ -14,6 +14,9 @@ namespace
 	constexpr float kBarHeight = 50.0f;
 	constexpr float kBarWidth = Game::kScreenWidth - (kLeftPosX * 2.0f);
 	constexpr float kRightPosY = kLeftPosY + kBarHeight;
+	//名前の位置
+	constexpr float kNamePosX = kLeftPosX + 10.0f;
+	constexpr float kNamePosY = kLeftPosY - 35.0f;
 }
 
 BossHPUI::BossHPUI(std::weak_ptr<EnemyBase> enemy) :
@@ -21,7 +24,9 @@ BossHPUI::BossHPUI(std::weak_ptr<EnemyBase> enemy) :
 	m_viewHp(0.0f),
 	m_viewMaxHp(0.0f),
 	m_frameHandle(UIManager::GetInstance().GetImageHandle("BossHPFrame")),
-	m_hpHandle(UIManager::GetInstance().GetImageHandle("BossHP"))
+	m_hpHandle(UIManager::GetInstance().GetImageHandle("BossHP")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ32")),
+	m_name{}
 {
 	//敵が消えた場合このUIも削除
 	if (m_enemy.expired())
@@ -29,10 +34,13 @@ BossHPUI::BossHPUI(std::weak_ptr<EnemyBase> enemy) :
 		m_isDelete = true;
 		return;
 	}
-	auto hp = m_enemy.lock()->GetHitPoints().lock();
+	auto owner = m_enemy.lock();
+	auto hp = owner->GetHitPoints().lock();
 	//初期化
 	m_viewHp = hp->GetHp();
 	m_viewMaxHp = hp->GetMaxHp();
+	//名前
+	m_name = owner->GetName();
 }
 
 BossHPUI::~BossHPUI()
@@ -65,6 +73,8 @@ void BossHPUI::Draw() const
 {
 	//描画しないならreturn
 	if (!m_isDraw)return;
+	//ボスの名前
+	DrawStringToHandle(kNamePosX, kNamePosY, m_name.c_str(), 0xcc0000, m_textHandle);
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x555555, true);
 	//体力
 	DrawRectGraph(kLeftPosX, kLeftPosY, 0, 0,

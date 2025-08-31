@@ -17,7 +17,7 @@ namespace
 	//ダメージカット
 	constexpr float kDamageCutRate = 0.5f;
 	//持続フレーム
-	constexpr int kDamageCutKeepFrame = 60 * 20;//15秒
+	constexpr int kDamageCutKeepFrame = 10 * 60;
 	//ジャンプ力
 	constexpr float kJumpPower = 10.0f;
 	//当たり判定の半径

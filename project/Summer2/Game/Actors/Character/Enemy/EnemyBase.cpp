@@ -29,7 +29,8 @@ EnemyBase::EnemyBase(Shape shape, EnemyGrade grade) :
 	m_attackCoolTime(kAttackCoolTime),
 	m_enemyGrade(grade),
 	m_isActive(true),
-	m_isWarning(false)
+	m_isWarning(false),
+	m_name{}
 {
 }
 

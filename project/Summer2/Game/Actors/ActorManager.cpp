@@ -58,8 +58,10 @@ namespace
 	constexpr int kBossDisappearFrameMax = 60;
 	//エリアを構成するパーツの数
 	constexpr int kAreaPartsNum = 2;
-	//アイテム生成確立
+	//アイテム生成確率
 	constexpr int kCreateItemRandRate = 10;
+	//アイテムの生成上限
+	constexpr int kCreateItemMax = 10;
 }
 
 ActorManager::ActorManager(std::weak_ptr<GameCamera> camera):
@@ -348,6 +350,16 @@ std::weak_ptr<ItemBase> ActorManager::CreateItem(ItemType it, Vector3 pos)
 
 void ActorManager::CreateRandItem(Vector3 pos)
 {
+	//アイテムの数が多すぎた時はこれ以上作らない
+	int itemCount = 0;
+	for(auto& actor : m_actors)
+	{
+		if (actor->GetGameTag() == GameTag::Item)
+		{
+			++itemCount;
+			if (itemCount >= kCreateItemMax)return;
+		}
+	}
 	//1/kCreateItemRandRateの確率でアイテムを生成
 	if (MyMath::GetRand(1, kCreateItemRandRate))
 	{

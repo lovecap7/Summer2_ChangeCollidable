@@ -27,6 +27,8 @@ namespace
 	//当たり判定
 	const Vector3 kCapsuleHeight = { 0.0f,120.0f,0.0f };//カプセルの上端
 	constexpr float kCapsuleRadius = 60.0f; //カプセルの半径
+	//名前
+	const std::wstring kName = L"レンレンドラゴン";
 }
 
 BossDragon::BossDragon(int modelHandle, Vector3 pos):
@@ -65,6 +67,8 @@ void BossDragon::Init()
 	m_state = std::make_shared<BossDragonStateIdle>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
+	//名前
+	m_name = kName;
 }
 void BossDragon::OnCollide(const std::shared_ptr<Collidable> other)
 {

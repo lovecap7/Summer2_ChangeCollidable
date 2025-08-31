@@ -21,5 +21,9 @@ private:
     void EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager);
     //‰Šú‰»
     void InitEvent(const std::weak_ptr<ActorManager>& actorManager, const std::weak_ptr<GameCamera>& camera);
+
+private:
+    //ˆê’èŠÔ‚²‚Æ‚ÉƒAƒCƒeƒ€‚ğ—‚Æ‚·
+	int m_itemDropFrame;
 };
 

@@ -28,6 +28,8 @@ namespace
 	constexpr float kCapsuleRadius = 80.0f; //カプセルの半径
 	//モデルの高さ調整
 	constexpr float kModelHeightAdjust = -70.0f;
+	//名前
+	const std::wstring kName = L"レンキング";
 }
 
 BossKing::BossKing(int modelHandle, int transHandle, Vector3 pos):
@@ -69,6 +71,8 @@ void BossKing::Init()
 	m_state = std::make_shared<BossKingStateStart>(thisPointer);
 	//状態を変化する
 	m_state->ChangeState(m_state);
+	//名前
+	m_name = kName;
 }
 
 void BossKing::OnCollide(const std::shared_ptr<Collidable> other)

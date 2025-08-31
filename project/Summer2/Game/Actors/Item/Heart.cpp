@@ -14,7 +14,7 @@
 namespace
 {
 	//‰ñ•œ—Ê
-	constexpr float kHealValue = 250.0f;
+	constexpr float kHealValue = 400.0f;
 	//ƒWƒƒƒ“ƒv—Í
 	constexpr float kJumpPower = 10.0f;
 	//“–‚½‚è”»’è‚Ì”¼Œa

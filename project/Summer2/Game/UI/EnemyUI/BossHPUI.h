@@ -2,6 +2,7 @@
 #include "EnemyUIBase.h"
 #include "../../../General/Math/MyMath.h"
 #include <memory>
+#include <string>
 class EnemyBase;
 class BossHPUI :
     public EnemyUIBase
@@ -18,5 +19,9 @@ private:
 	int m_frameHandle;
 	//体力
 	int m_hpHandle;
+	//テキスト
+	int m_textHandle;
+    //名前
+	std::wstring m_name;
 };
 

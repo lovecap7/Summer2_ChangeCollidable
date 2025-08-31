@@ -1,6 +1,7 @@
 #pragma once
 #include "../CharacterBase.h"
 #include <memory>
+#include <string>
 #include "../../../../General/Model.h"
 class Player;
 class HitPoints;
@@ -35,6 +36,8 @@ public:
 	//警戒
 	bool IsWarning()const { return m_isWarning; };
 	void SetIsWarning(bool isWarning) { m_isWarning = isWarning; };
+	//名前
+	std::wstring GetName()const { return m_name; };
 protected:
 	//攻撃できるまでのクールタイム
 	int m_attackCoolTime;
@@ -46,5 +49,7 @@ protected:
 	bool IsStopActiveCollision(const std::weak_ptr<ActorManager> actorManager);
 	//警戒している
 	bool m_isWarning;
+	//名前
+	std::wstring m_name;
 };
 
