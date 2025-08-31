@@ -13,7 +13,7 @@
 namespace
 {
 	//プレイヤーとの距離が遠いときに当たり判定を停止する距離
-	const float kStopCollisionDistance = 5000.0f;
+	const float kStopCollisionDistance = 4000.0f;
 	//最初のクールタイム
 	constexpr int kAttackCoolTime = 60;
 	//減速率
