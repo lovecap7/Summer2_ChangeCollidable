@@ -245,7 +245,8 @@ void SelectStageScene::SelectStageIndex(Input& input)
 		m_leftArrowUI.lock()->SetIsDraw(false);
 		m_rightArrowUI.lock()->SetIsDraw(true);
 	}
-	else if (m_stageIndex == static_cast<int>(m_unlockStageIndex))
+	else if (m_stageIndex == static_cast<int>(m_unlockStageIndex) || 
+			 m_stageIndex == static_cast<int>(Stage::StageIndex::Stage3))
 	{
 		m_leftArrowUI.lock()->SetIsDraw(true);
 		m_rightArrowUI.lock()->SetIsDraw(false);
@@ -292,7 +293,7 @@ void SelectStageScene::NowUnlockStage()
 		m_unlockStageIndex = Stage::StageIndex::Stage2;
 	}
 	//ここまで来たら全て解放
-	else if (!saveDatas.IsClearStage(Stage::StageIndex::Stage3))
+	else
 	{
 		//全ステージ解放
 		m_unlockStageIndex = Stage::StageIndex::Stage3;

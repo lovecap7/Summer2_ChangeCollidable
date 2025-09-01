@@ -21,12 +21,13 @@ namespace {
 }
 
 
-PauseScene::PauseScene(SceneController& controller):
+PauseScene::PauseScene(SceneController& controller, Stage::StageIndex index):
 	SceneBase(controller),
 	m_update(&PauseScene::AppearUpdate),
 	m_draw(&PauseScene::ShiftingDraw),
 	m_countFrame(0),
-	m_menuSelectIndex(MenuIndex::RetrunGame)
+	m_menuSelectIndex(MenuIndex::RetrunGame),
+	m_stageIndex(index)
 {
 }
 
@@ -216,7 +217,7 @@ void PauseScene::Option()
 void PauseScene::SelectStage()
 {
 	//セレクトシーンへ
-	m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller));
+	m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller,m_stageIndex));
 	//自分を消す
 	m_controller.PopScene();
 	return;

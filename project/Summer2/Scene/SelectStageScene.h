@@ -18,7 +18,7 @@ class SelectStageScene :
     public SceneBase
 {
 public:
-    SelectStageScene(SceneController& controller, Stage::StageIndex index = Stage::StageIndex::Stage1);
+    SelectStageScene(SceneController& controller, Stage::StageIndex index);
     ~SelectStageScene();
     /// <summary>
     /// ”h¶ƒNƒ‰ƒX‚ÅÀ‘•‚ğÀ‘•

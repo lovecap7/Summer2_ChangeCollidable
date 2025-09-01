@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneBase.h"
+#include "../General/StageIndex.h"
 #include <memory>
 #include <map>
 class SceneController;
@@ -9,7 +10,7 @@ class PauseScene :
     public SceneBase
 {
 public:
-    PauseScene(SceneController& controller);
+    PauseScene(SceneController& controller,Stage::StageIndex index);
     ~PauseScene();
     //派生クラスで実装を実装
     virtual void Init()override;
@@ -60,5 +61,7 @@ private:
     void InitUI();
     //メニュー選択
     void MenuSelect(Input& input);
+    //ステージインデックス
+	Stage::StageIndex m_stageIndex;
 };
 

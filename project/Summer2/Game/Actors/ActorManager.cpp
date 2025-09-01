@@ -205,10 +205,10 @@ void ActorManager::End()
 {
 	//グループ削除
 	m_groupManager->End();
-	//メモリを解放
-	AllDeleteActors();
 	//ハンドルをすべて削除
 	AllDeleteHandles();
+	//メモリを解放
+	AllDeleteActors();
 }
 
 void ActorManager::Restart()
@@ -792,10 +792,10 @@ void ActorManager::AllDeleteActors()
 
 void ActorManager::AllDeleteHandles()
 {
-	for (auto& [key, value] : m_handles) {
-		if (value >= 0)
+	for (auto& handle : m_handles) {
+		if (handle.second >= 0)
 		{
-			auto result = MV1DeleteModel(value);
+			auto result = MV1DeleteModel(handle.second);
 			assert(result == 0);
 		}
 	}

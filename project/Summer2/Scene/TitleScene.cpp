@@ -295,7 +295,7 @@ void TitleScene::UpdateDialog(Input& input)
 	if (fader.IsFinishFadeOut())
 	{
 		//Ÿ‚ÌƒV[ƒ“‚Ö
-		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller));
+		m_controller.ChangeScene(std::make_shared<SelectStageScene>(m_controller,Stage::StageIndex::Stage1));
 		return;
 	}
 	if (!fader.IsFadeNow())

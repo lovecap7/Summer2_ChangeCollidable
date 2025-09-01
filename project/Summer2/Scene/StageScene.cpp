@@ -74,7 +74,7 @@ void StageScene::Update()
 	if (input.IsTrigger("Pause"))
 	{
 		//ポーズ
-		m_controller.PushScene(std::make_shared<PauseScene>(m_controller));
+		m_controller.PushScene(std::make_shared<PauseScene>(m_controller,m_stageIndex));
 		return;
 	}
 	//ゲームの更新
