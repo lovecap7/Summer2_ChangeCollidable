@@ -29,9 +29,9 @@ namespace
 	const Vector2 kRightArrowPos = Vector2{ 1150, 520 };
 }
 
-SelectStageScene::SelectStageScene(SceneController& controller):
+SelectStageScene::SelectStageScene(SceneController& controller, Stage::StageIndex index):
 	SceneBase(controller),
-	m_stageIndex(static_cast<int>(Stage::StageIndex::Stage1)),
+	m_stageIndex(static_cast<int>(index)),
 	m_unlockStageIndex(Stage::StageIndex::Stage1),
 	m_isDecide(false)
 {

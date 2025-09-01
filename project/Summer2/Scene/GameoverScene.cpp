@@ -19,12 +19,13 @@ namespace {
 	constexpr float kSelectStageY = 500;
 }
 
-GameoverScene::GameoverScene(SceneController& controller):
+GameoverScene::GameoverScene(SceneController& controller, Stage::StageIndex index):
 	SceneBase(controller),
 	m_update(&GameoverScene::AppearUpdate),
 	m_draw(&GameoverScene::NormalDraw),
 	m_countFrame(0),
-	m_menuSelectIndex(MenuIndex::Continue)
+	m_menuSelectIndex(MenuIndex::Continue),
+	m_stageIndex(index)
 {
 }
 
@@ -168,7 +169,7 @@ void GameoverScene::Continue()
 void GameoverScene::SelectStage()
 {
 	//セレクトシーンへ
-	m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller));
+	m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller, m_stageIndex));
 	//自分を消す
 	m_controller.PopScene();
 	return;

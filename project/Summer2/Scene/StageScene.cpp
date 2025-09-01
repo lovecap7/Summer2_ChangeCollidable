@@ -88,7 +88,7 @@ void StageScene::Update()
 	//ゲームオーバーしたときの処理
 	else if (m_gameManager->IsGameover())
 	{
-		m_controller.PushScene(std::make_shared<GameoverScene>(m_controller));
+		m_controller.PushScene(std::make_shared<GameoverScene>(m_controller, m_stageIndex));
 		return;
 	}
 }

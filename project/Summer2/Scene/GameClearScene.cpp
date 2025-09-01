@@ -162,7 +162,7 @@ void GameClearScene::DisappearUpdate()
 	if (fader.IsFinishFadeOut())
 	{
 		//©•ª‚Ì‰º‚É‚È‚Á‚Ä‚éƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
-		m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller));
+		m_controller.ChangeBaseScene(std::make_shared<SelectStageScene>(m_controller,m_stageIndex));
 		m_controller.PopScene();//©•ª‚ÍÁ‚¦‚é
 		return;
 	}

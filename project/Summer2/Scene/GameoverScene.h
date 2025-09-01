@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneBase.h"
+#include "../General/StageIndex.h"
 #include <memory>
 #include <map>
 class SceneController;
@@ -9,7 +10,7 @@ class GameoverScene :
     public SceneBase
 {
 public:
-    GameoverScene(SceneController& controller);
+    GameoverScene(SceneController& controller, Stage::StageIndex index);
     ~GameoverScene();
     //派生クラスで実装を実装
     virtual void Init()override;
@@ -51,5 +52,7 @@ private:
     //各メニューUI
     std::weak_ptr<MenuUI> m_gameoverUI;
     std::map<MenuIndex, std::weak_ptr<MenuUI>> m_menuUIs;
+	//ステージの番号
+    Stage::StageIndex m_stageIndex;
 };
 

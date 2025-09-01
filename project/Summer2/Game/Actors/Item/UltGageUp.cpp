@@ -11,6 +11,7 @@
 #include "../ActorManager.h"
 #include "../Character/Player/Player.h"
 #include "../../GameRule/Score.h"
+
 namespace
 {
 	//ÉQÅ[ÉWè„è∏ó 
