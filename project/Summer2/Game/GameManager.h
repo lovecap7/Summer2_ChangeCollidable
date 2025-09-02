@@ -23,6 +23,8 @@ public:
     bool IsGameover() { return m_isGameover; };
     //ゲームクリア
     bool IsGameClear() { return m_isGameClear; };
+	//リザルト
+    bool IsResult() { return m_isResult; };
 private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;
@@ -37,6 +39,8 @@ private:
     bool m_isGameover;
     //ゲームクリアフラグ
     bool m_isGameClear;
+    //リザルトフラグ
+	bool m_isResult;
     //影
     int m_shadowMapHandle;
     //ライトハンドル

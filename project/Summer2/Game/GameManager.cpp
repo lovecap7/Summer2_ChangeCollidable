@@ -35,6 +35,7 @@ namespace
 GameManager::GameManager():
 	m_isGameover(false),
 	m_isGameClear(false),
+	m_isResult(false),
 	m_shadowMapHandle(-1)
 {
 	//カメラの初期化
@@ -108,17 +109,30 @@ void GameManager::Update()
 		//ボスを倒したとき
 		if (m_actorManager->IsBossDead())
 		{
+			//プレイヤー
+			if (m_actorManager->GetPlayer().expired())return;
+			auto player = m_actorManager->GetPlayer().lock();
 			//タイマーを止める
 			m_timer->StopUpdate();
 			//UIの描画を止める
 			UIManager::GetInstance().StopDraw();
-			//プレイヤーの勝利アニメーションが終了したら
-			if (m_actorManager->GetPlayer().lock()->IsFinishClearAnim() && !m_isGameClear)
+			//クリアしていないなら
+			if (!m_isGameClear)input.StopUpdate();//入力を止める
+			else input.StartUpdate();//入力を開始
+			//プレイヤーの勝利アニメーションをしたとき
+			if (player->IsClearAnim())
 			{
-				//タイマーをスコアに加算
-				saveDataManager.GetScore().lock()->AddTimeScore(m_timer->GetTime());
 				//クリア
 				m_isGameClear = true;
+			}
+			//プレイヤーの勝利アニメーションが終了したら
+			if (player->IsFinishClearAnim() && !m_isGameClear)
+			{
+				//タイマーをスコアに加算
+				if (saveDataManager.GetScore().expired())return;
+				saveDataManager.GetScore().lock()->AddTimeScore(m_timer->GetTime());
+				//リザルトへ
+				m_isResult = true;
 			}
 		}
 		//プレイヤーが死亡した際の処理

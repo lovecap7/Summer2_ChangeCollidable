@@ -45,11 +45,16 @@ void PlayerStateStart::Init()
 
 void PlayerStateStart::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//入力を止める
+	auto& input = Input::GetInstance();
+	input.StopUpdate();
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
 	auto model = coll->GetModel();
 	//モデルのアニメーションが終わったら
 	if (model->IsFinishAnim())
 	{
+		//入力を開始
+		input.StartUpdate();
 		//待機
 		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
 		return;

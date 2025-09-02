@@ -71,16 +71,10 @@ void StageScene::Update()
 		return;
 	}
 #endif
-	if (input.IsTrigger("Pause"))
-	{
-		//ポーズ
-		m_controller.PushScene(std::make_shared<PauseScene>(m_controller,m_stageIndex));
-		return;
-	}
 	//ゲームの更新
 	m_gameManager->Update();
 	//ゲームクリアしたときの処理
-	if (m_gameManager->IsGameClear())
+	if (m_gameManager->IsResult() || input.IsTrigger("Pause") && m_gameManager->IsGameClear())
 	{
 		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_stageIndex));
 		return;
@@ -89,6 +83,12 @@ void StageScene::Update()
 	else if (m_gameManager->IsGameover())
 	{
 		m_controller.PushScene(std::make_shared<GameoverScene>(m_controller, m_stageIndex));
+		return;
+	}
+	if (input.IsTrigger("Pause"))
+	{
+		//ポーズ
+		m_controller.PushScene(std::make_shared<PauseScene>(m_controller, m_stageIndex));
 		return;
 	}
 }
