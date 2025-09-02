@@ -7,15 +7,15 @@
 namespace
 {
 	//”wŒiˆÊ’u
-	constexpr int kTextBackPosX = Game::kScreenCenterX + 300;
-	constexpr int kTextBackPosY = Game::kScreenCenterY;
+	constexpr int kTextBackPosX = Game::kScreenCenterX + 250;
+	constexpr int kTextBackPosY = Game::kScreenCenterY - 100;
 	//ŽžŠÔˆÊ’u
-	constexpr int kTextBasePosX = Game::kScreenCenterX;
-	constexpr int kTextClearStage1PosY = Game::kScreenCenterY - 81;
-	constexpr int kTextClearStage2PosY = Game::kScreenCenterY - 39;
-	constexpr int kTextClearStage3PosY = Game::kScreenCenterY + 3;
-	constexpr int kTextPlayTimePosY = Game::kScreenCenterY + 43;
-	constexpr int kTextLastSaveTimeAndDatePosY = Game::kScreenCenterY + 85;
+	constexpr int kTextBasePosX = Game::kScreenCenterX - 30;
+	constexpr int kTextClearStage1PosY = kTextBackPosY - 80;
+	constexpr int kTextClearStage2PosY = kTextBackPosY - 38;
+	constexpr int kTextClearStage3PosY = kTextBackPosY + 2;
+	constexpr int kTextPlayTimePosY = kTextBackPosY + 44;
+	constexpr int kTextLastSaveTimeAndDatePosY = kTextBackPosY + 85;
 	//•ª
 	constexpr int kMinutes = 3600;
 	//Žž

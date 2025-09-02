@@ -398,7 +398,10 @@ void TitleScene::SelectMenu(Input& input)
 
 void TitleScene::InitContinue()
 {
+	//拡大した状態で待機
+
 	//ダイアログを出す
+	if (m_dialogUI.expired())return;
 	m_dialogUI.lock()->SetIsDraw(true);
 	m_dialogUI.lock()->SetText(L"続きから始めますか?");
 	m_dialogUI.lock()->SelectYes();
