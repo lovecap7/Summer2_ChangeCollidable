@@ -10,6 +10,7 @@
 #include  "../General/Sound/SoundManager.h"
 #include  "../SaveData/SaveDataManager.h"
 #include  "../General/LoadingManager.h"
+#include  <cassert>
 
 Application& Application::GetInstance()
 {

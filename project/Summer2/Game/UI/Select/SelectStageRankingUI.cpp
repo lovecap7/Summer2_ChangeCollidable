@@ -13,17 +13,17 @@ namespace
 	constexpr int kRankingTextPosY = 160;
 	//ランキングの座標
 	constexpr int kRankingNumPosX = 200;
-	constexpr int kRankingNumPosY = 230;
+	constexpr int kRankingNumPosY = 240;
 	//スコアの座標
 	constexpr int kScorePosX = 260;
 	constexpr int kScorePosY = 230;
 	//Y軸の間隔
-	constexpr int kIntervalY = 80;
+	constexpr int kIntervalY = 70;
 }
 
 SelectStageRankingUI::SelectStageRankingUI(Stage::StageIndex index):
 	UIBase(),
-	m_textHandle(UIManager::GetInstance().GetTextHandle("MSPゴシック32")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("源直ゴシック32")),
 	m_stageIndex(index)
 {
 	SaveDataManager& saveData = SaveDataManager::GetInstance();
@@ -45,7 +45,7 @@ void SelectStageRankingUI::Update()
 
 void SelectStageRankingUI::Draw() const
 {
-	DrawStringToHandle(kRankingTextPosX, kRankingTextPosY, L"Ranking", 0x000000, m_textHandle);
+	DrawStringToHandle(kRankingTextPosX, kRankingTextPosY, L"Ranking", 0xffff33, m_textHandle);
 	auto& uiManager = UIManager::GetInstance();
 	for(auto i = 0; i < static_cast<int>(Stage::StageIndex::StageNum); ++i)
 	{
@@ -57,7 +57,7 @@ void SelectStageRankingUI::Draw() const
 
 		std::wstring score = std::format(L"{:06}", m_stageScore.at(m_stageIndex)[i]);
 		//テキスト
-		DrawStringToHandle(kScorePosX, kScorePosY + (i * kIntervalY), score.c_str(), 0x000000, m_textHandle);
+		DrawStringToHandle(kScorePosX, kScorePosY + (i * kIntervalY), score.c_str(), 0xffffff, m_textHandle);
 	}
 }
 

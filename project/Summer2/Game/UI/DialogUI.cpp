@@ -6,7 +6,7 @@
 
 namespace
 {
-	constexpr int kTextPosX = Game::kScreenCenterX - 300;
+	constexpr int kTextPosX = Game::kScreenCenterX;
 	constexpr int kTextPosY = Game::kScreenCenterY - 110;
 	//改行文字数
 	constexpr int kLineTextNum = 11;
@@ -17,7 +17,7 @@ DialogUI::DialogUI():
 {
 	auto& uiManager = UIManager::GetInstance();
 	m_backHandle = uiManager.GetImageHandle("Dialog");
-	m_texthandle = uiManager.GetTextHandle("メイリオ48");
+	m_texthandle = uiManager.GetTextHandle("源直ゴシック48");
 }
 
 DialogUI::~DialogUI()
@@ -54,7 +54,16 @@ void DialogUI::Draw() const
 	//背景
 	DrawRotaGraph(Game::kScreenCenterX, Game::kScreenCenterY, 1.0, 0.0, m_backHandle, true);
 	//テキスト
-	DrawStringToHandle(kTextPosX, kTextPosY, m_text.c_str(), 0x000000, m_texthandle);
+	//文字列の長さを取得して中央ぞろえに
+
+	//文字数
+	int len = wcslen(m_text.c_str());
+	int cLen = MathSub::ClampInt(len, 0, kLineTextNum);
+	//文字の大きさ
+	int size =  GetFontSizeToHandle(m_texthandle);
+	//動かす幅
+	int shiftX = (size * cLen) * 0.5f;
+	DrawStringToHandle(kTextPosX - shiftX, kTextPosY, m_text.c_str(), 0xffffff, m_texthandle);
 }
 
 void DialogUI::SetText(const std::wstring& text)

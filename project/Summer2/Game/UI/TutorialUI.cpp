@@ -8,19 +8,19 @@
 namespace
 {
 	//四角の座標
-	constexpr int kSpaceLeftPos = Game::kScreenWidth / 2 + 100;
+	constexpr int kSpaceLeftPos = Game::kScreenCenterX - 100;
 	constexpr int kSpaceUpPos = 60;
 	constexpr int kSpaceRightPos = Game::kScreenWidth;
 	constexpr int kSpaceDownPos = 135;
 	//改行の数だけ四角の下の座標を下げてく
-	constexpr int kSpaceDownSize = 16;
+	constexpr int kSpaceDownSize = 20;
 	//”チュートリアル”の表示位置
-	constexpr int kTutorialOffsetPosX = 70;
+	constexpr int kTutorialOffsetPosX = 50;
 	constexpr int kTutorialPosY = kSpaceUpPos + 10;
 	//１行に入る文字列の数
 	constexpr int kOneLineMaxNum = 30;
 	//テキストの座標
-	constexpr int kTextOffsetPosX = 70;
+	constexpr int kTextOffsetPosX = 50;
 	constexpr int kTextPosY = kTutorialPosY + 30;
 	//テキストの表示速度
 	constexpr int kTextViewSpeed = 2;
@@ -32,7 +32,7 @@ namespace
 	//枠線の太さ
 	constexpr int kFrameThickness = 10;
 	//チュートリアルマークの座標
-	constexpr int kTutorialMarkPosX = 30;
+	constexpr int kTutorialMarkPosX = 20;
 	constexpr int kTutorialMarkPosY = kSpaceUpPos + 40;
 }
 
@@ -43,7 +43,7 @@ TutorialUI::TutorialUI(const std::wstring& text):
 	m_text{ text },
 	m_update(&TutorialUI::AppearUpdate),
 	m_posX(Game::kScreenWidth),
-	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ16")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("源直ゴシック20")),
 	m_tutorialMarkUI(UIManager::GetInstance().GetImageHandle("TutorialMark"))
 {
 	m_text = StringUtil::InsertNewLines(m_text, kOneLineMaxNum);

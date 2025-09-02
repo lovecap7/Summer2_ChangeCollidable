@@ -1,6 +1,5 @@
 #include <DxLib.h>
 #include "Application.h"
-
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -17,7 +16,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	app.Run();
 	app.Terminate();
-
 #if _DEBUG
 	fclose(out); fclose(in); FreeConsole();//コンソール解放
 #endif

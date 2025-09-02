@@ -10,7 +10,7 @@ namespace
 	constexpr int kTextBackPosX = Game::kScreenCenterX + 250;
 	constexpr int kTextBackPosY = Game::kScreenCenterY - 100;
 	//時間位置
-	constexpr int kTextBasePosX = Game::kScreenCenterX - 30;
+	constexpr int kTextBasePosX = Game::kScreenCenterX - 65;
 	constexpr int kTextClearStage1PosY = kTextBackPosY - 80;
 	constexpr int kTextClearStage2PosY = kTextBackPosY - 38;
 	constexpr int kTextClearStage3PosY = kTextBackPosY + 2;
@@ -25,7 +25,7 @@ namespace
 SaveDataUI::SaveDataUI():
 	UIBase(),
 	m_backHandle(UIManager::GetInstance().GetImageHandle("SaveDataBack")),
-	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ32"))
+	m_textHandle(UIManager::GetInstance().GetTextHandle("源直ゴシック32"))
 {
 
 }
@@ -52,10 +52,10 @@ void SaveDataUI::Draw() const
 	auto minutes = (totalTime / kMinutes) % kHourss;
 	auto hours	 = (totalTime / kMinutes) / kHourss;
 	std::wstring timeText = L"総プレイ時間 : " + std::to_wstring(hours) + L"時間" + std::to_wstring(minutes) + L"分";
-	DrawStringToHandle(kTextBasePosX, kTextPlayTimePosY, timeText.c_str(), 0x000000, m_textHandle);
+	DrawStringToHandle(kTextBasePosX, kTextPlayTimePosY, timeText.c_str(), 0xffffff, m_textHandle);
 	auto lastSaveText = L"前回のプレイ : " + SaveDataManager::GetInstance().GetLastSaveTimeAndDate();
 	//日付と時間
-	DrawStringToHandle(kTextBasePosX, kTextLastSaveTimeAndDatePosY, lastSaveText.c_str(), 0x000000, m_textHandle);
+	DrawStringToHandle(kTextBasePosX, kTextLastSaveTimeAndDatePosY, lastSaveText.c_str(), 0xffffff, m_textHandle);
 }
 
 void SaveDataUI::DrawClearStage(Vector2 pos, Stage::StageIndex stageIndex) const
@@ -65,10 +65,12 @@ void SaveDataUI::DrawClearStage(Vector2 pos, Stage::StageIndex stageIndex) const
 	if (isClear)
 	{
 		stageClearText += L" : クリア";
+		DrawStringToHandle(pos.x, pos.y, stageClearText.c_str(), 0xff6666, m_textHandle);
 	}
 	else
 	{
 		stageClearText += L" : 未クリア";
+		DrawStringToHandle(pos.x, pos.y, stageClearText.c_str(), 0xffffff, m_textHandle);
 	}
-	DrawStringToHandle(pos.x, pos.y, stageClearText.c_str(), 0x000000, m_textHandle);
+	
 }

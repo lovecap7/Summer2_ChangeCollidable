@@ -28,6 +28,7 @@ void EventAreaBase::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	auto player = actorManager.lock()->GetPlayer().lock();
 	//座標から範囲に入ったかをチェック
 	auto playerPos = player->GetPos();
+	if (m_start.expired() || m_end.expired())return;
 	auto startPos = m_start.lock()->GetPos();
 	auto endPos = m_end.lock()->GetPos();
 

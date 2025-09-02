@@ -14,6 +14,8 @@ namespace
 	constexpr int kItemDropInterval = 20 * 60;
 	//アイテムの生成位置
 	constexpr float kItemDropHeight = 2000.0f;
+	//アイテム生成範囲
+	constexpr float kItemDropRange = 700.0f;
 }
 
 BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
@@ -72,23 +74,20 @@ void BossArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std::we
 	if (m_itemDropFrame >= kItemDropInterval)
 	{
 		m_itemDropFrame = 0;
-		//プレイヤーとボスの間にアイテムを落とす
-		auto player = actorManager.lock()->GetPlayer().lock();
-		auto boss = actorManager.lock()->GetBoss().lock();
-		//プレイヤーからボスへのベクトル
-		Vector3 toBoss = boss->GetPos() - player->GetPos();
-		float distance = toBoss.Magnitude();
-		if(distance > 0.0f)
-		{
-			//正規化
-			toBoss = toBoss.Normalize();
-			//プレイヤーとボスの間の位置
-			Vector3 dropPos = player->GetPos() + (toBoss * MyMath::GetRandF(0.0f,distance));
-			//高いところから落とす
-			dropPos.y += kItemDropHeight;
-			//アイテムを落とす
-			actorManager.lock()->CreateRandItem(dropPos);
-		}
+		//エリア内にアイテムを落とす
+		if (m_start.expired() || m_end.expired())return;
+		auto startPos = m_start.lock()->GetPos();
+		auto endPos = m_end.lock()->GetPos();
+		//エリア中央当たりから円形の範囲内に落とす
+		Vector3 centerPos = (startPos + endPos) * 0.5f;
+		//範囲内に収まるようにランダムな位置を決定
+		Vector3 dropPos = centerPos;
+		dropPos.x += MyMath::GetRandF(-kItemDropRange, kItemDropRange);
+		dropPos.z += MyMath::GetRandF(-kItemDropRange, kItemDropRange);
+		//高いところから落とす
+		dropPos.y = kItemDropHeight;
+		//アイテムを落とす
+		actorManager.lock()->CreateRandItem(dropPos);
 	}
 }
 

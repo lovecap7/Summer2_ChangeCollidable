@@ -4,7 +4,7 @@
 namespace
 {
 	//スコアのX座標
-	constexpr int kPosX = (Game::kScreenWidth / 2 - 200);
+	constexpr int kPosX = (Game::kScreenCenterX + 200);
 	//スコアのY座標
 	constexpr int kPosY = 30;
 	//大きさ

@@ -48,7 +48,9 @@ TitleScene::TitleScene(SceneController& controller):
 	SceneBase(controller),
 	m_update(&TitleScene::UpdateTitle),
 	m_isDecide(false),
-	m_menuIndex(MenuIndex::Continue)
+	m_menuIndex(MenuIndex::Continue),
+	m_shadowMapHandle(-1),
+	m_lightHandle(-1)
 {
 }
 
@@ -368,6 +370,7 @@ void TitleScene::SelectMenu(Input& input)
 		menuUI.second.lock()->SetIsSelect(false);
 	}
 	//選ばれている項目のみtrue
+	if (m_menuUIs[m_menuIndex].expired())return;
 	m_menuUIs[m_menuIndex].lock()->SetIsSelect(true);
 	auto& fader = Fader::GetInstance();
 	//決定した時インデックスから処理を分岐
@@ -399,7 +402,8 @@ void TitleScene::SelectMenu(Input& input)
 void TitleScene::InitContinue()
 {
 	//拡大した状態で待機
-
+	if (m_menuUIs[m_menuIndex].expired())return;
+	m_menuUIs[m_menuIndex].lock()->SetIsWait(true);
 	//ダイアログを出す
 	if (m_dialogUI.expired())return;
 	m_dialogUI.lock()->SetIsDraw(true);
@@ -417,9 +421,13 @@ void TitleScene::Continue()
 
 void TitleScene::InitNewGame()
 {
+	//拡大した状態で待機
+	if (m_menuUIs[m_menuIndex].expired())return;
+	m_menuUIs[m_menuIndex].lock()->SetIsWait(true);
 	//ダイアログを出す
+	if (m_dialogUI.expired())return;
 	m_dialogUI.lock()->SetIsDraw(true);
-	m_dialogUI.lock()->SetText(L"データを削除して最初から始めますか?");
+	m_dialogUI.lock()->SetText(L"データを削除して\n最初から始めますか?");
 	m_dialogUI.lock()->SelectYes();
 }
 
@@ -441,7 +449,11 @@ void TitleScene::Option()
 
 void TitleScene::InitFinishGame()
 {
+	//拡大した状態で待機
+	if (m_menuUIs[m_menuIndex].expired())return;
+	m_menuUIs[m_menuIndex].lock()->SetIsWait(true);
 	//ダイアログを出す
+	if (m_dialogUI.expired())return;
 	m_dialogUI.lock()->SetIsDraw(true);
 	m_dialogUI.lock()->SetText(L"ゲームを終了しますか?");
 	m_dialogUI.lock()->SelectYes();
@@ -559,11 +571,17 @@ void TitleScene::InitSelectMenu()
 	{
 		menuUI.second.lock()->SetIsDraw(true);
 	}
+	//待機解除
+	if (m_menuUIs[m_menuIndex].expired())return;
+	m_menuUIs[m_menuIndex].lock()->SetIsWait(false);
 	//タイトルを非表示
+	if (m_titleUI.expired())return;
 	m_titleUI.lock()->SetIsDraw(false);
 	//セーブデータを表示
+	if (m_saveDataUI.expired())return;
 	m_saveDataUI.lock()->SetIsDraw(true);
 	//ダイアログを非表示
+	if (m_dialogUI.expired())return;
 	m_dialogUI.lock()->SetIsDraw(false);
 	//次の状態に
 	m_update = &TitleScene::UpdateSelectMenu;

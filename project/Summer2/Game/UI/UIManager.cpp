@@ -13,10 +13,11 @@
 #include "GameScoreUI.h"
 //タイマー
 #include "TimerUI.h"
-
+#include <Windows.h>
 namespace
 {
 	constexpr int kFontSize16 = 16;
+	constexpr int kFontSize20 = 20;
 	constexpr int kFontSize32 = 32;
 	constexpr int kFontSize48 = 48;
 	constexpr int kFontSize64 = 64;
@@ -189,6 +190,16 @@ int UIManager::GetTextHandle(const std::string& name) const
 
 void UIManager::LoadHandle()
 {
+	//フォントの読み込み
+	LPCSTR fontPath = "Font/源直ゴシック EMG 3 - BOLD.ttf";
+	if (AddFontResourceExA(fontPath, FR_PRIVATE, NULL) > 0)
+	{
+	}
+	else
+	{
+		// フォント読込エラー処理
+		assert(0 && "フォント読み込み失敗");
+	}
 	//画像ハンドル
 	m_imageHandles["Score"] = { LoadGraph(L"Data/UI/Number.png") };
 	m_imageHandles["Timer"] = { LoadGraph(L"Data/UI/Number_Stone.png") };
@@ -241,6 +252,10 @@ void UIManager::LoadHandle()
 	m_textHandles["MSPゴシック32"] = { CreateFontToHandle(L"MS PGothic", kFontSize32, 5, DX_FONTTYPE_ANTIALIASING) };
 	m_textHandles["MSPゴシック48"] = { CreateFontToHandle(L"MS PGothic", kFontSize48, 5, DX_FONTTYPE_ANTIALIASING) };
 	m_textHandles["MSPゴシック64"] = { CreateFontToHandle(L"MS PGothic", kFontSize64, 5, DX_FONTTYPE_ANTIALIASING) };
+	m_textHandles["源直ゴシック16"] = { CreateFontToHandle(L"源直ゴシック EMG 3 - BOLD", kFontSize16, 5, DX_FONTTYPE_ANTIALIASING_EDGE) };
+	m_textHandles["源直ゴシック20"] = { CreateFontToHandle(L"源直ゴシック EMG 3 - BOLD", kFontSize20, 5, DX_FONTTYPE_ANTIALIASING_EDGE) };
+	m_textHandles["源直ゴシック32"] = { CreateFontToHandle(L"源直ゴシック EMG 3 - BOLD", kFontSize32, 5, DX_FONTTYPE_ANTIALIASING_EDGE) };
+	m_textHandles["源直ゴシック48"] = { CreateFontToHandle(L"源直ゴシック EMG 3 - BOLD", kFontSize48, 5, DX_FONTTYPE_ANTIALIASING_EDGE) };
 	//ロードに成功したかチェック
 	for (auto& [key, value] : m_textHandles) {
 		assert(value >= 0);
@@ -284,6 +299,8 @@ void UIManager::AllDeleteHandle()
 		DeleteFontToHandle(value);
 	}
 	m_textHandles.clear();
+	// ウィンドウズに一時的に保持していたフォントデータを削除
+	RemoveFontResourceExA("", FR_PRIVATE, NULL);
 }
 
 void UIManager::CheckDelete()
