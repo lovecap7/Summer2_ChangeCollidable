@@ -55,12 +55,17 @@ void BossKingStateChange::Init()
 
 void BossKingStateChange::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
+	//入力を止める
+	auto& input = Input::GetInstance();
+	input.StopUpdate();
 	auto coll = std::dynamic_pointer_cast<BossKing>(m_owner.lock());
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
 	{
 		if (m_isTransformSecond)
 		{
+			//開始
+			input.StartUpdate();
 			//UIの描画を開始
 			UIManager::GetInstance().StartDraw();
 			//全回復
