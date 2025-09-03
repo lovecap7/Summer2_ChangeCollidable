@@ -29,5 +29,7 @@ private:
     std::unique_ptr<GameManager> m_gameManager;
     //ステージ番号
     Stage::StageIndex m_stageIndex;
+	//BGM初期化
+    void InitBGM();
 };
 

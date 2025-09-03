@@ -42,15 +42,7 @@ void StageScene::Init()
 	//だんだん明るく
 	fader.FadeIn(kFadeSpeed);
 	//ステージによってBGMを変更
-	switch (m_stageIndex)
-	{
-	case Stage::StageIndex::Stage1:
-		SoundManager::GetInstance().PlayBGM("Stage1BGM");
-		break;
-	case Stage::StageIndex::Stage2:
-		SoundManager::GetInstance().PlayBGM("Stage2BGM");
-		break;
-	}
+	InitBGM();
 }
 
 void StageScene::Update()
@@ -106,6 +98,8 @@ void StageScene::End()
 void StageScene::Restart()
 {
 	m_gameManager->Restart(m_stageIndex);
+	//ステージによってBGMを変更
+	InitBGM();
 	auto& fader = Fader::GetInstance();
 	//だんだん明るく
 	fader.FadeIn(kFadeSpeed);
@@ -113,4 +107,17 @@ void StageScene::Restart()
 void StageScene::Continue()
 {
 	m_gameManager->Continue();
+}
+
+void StageScene::InitBGM()
+{
+	switch (m_stageIndex)
+	{
+	case Stage::StageIndex::Stage1:
+		SoundManager::GetInstance().PlayBGM("Stage1BGM");
+		break;
+	case Stage::StageIndex::Stage2:
+		SoundManager::GetInstance().PlayBGM("Stage2BGM");
+		break;
+	}
 }
