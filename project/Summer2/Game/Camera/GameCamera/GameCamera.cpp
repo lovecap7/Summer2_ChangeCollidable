@@ -15,9 +15,7 @@
 
 namespace
 {
-	//nearとfar
-	constexpr float kNear = 300.0f;
-	constexpr float kFar = 20000.0f;
+	
 }
 
 
@@ -37,8 +35,6 @@ GameCamera::~GameCamera()
 
 void GameCamera::Init(Stage::StageIndex stageIndex)
 {
-	//奥行
-	SetCameraNearFar(kNear, kFar);
 	//ステージ3はのみボスをアップにするカメラからスタート
 	if (stageIndex == Stage::StageIndex::Stage3)
 	{

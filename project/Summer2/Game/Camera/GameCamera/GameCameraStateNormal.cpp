@@ -36,6 +36,9 @@ namespace
 	constexpr int kMoveEndFrame = 120;
 	//’†‰›‚É–ß‚·lerp—¦
 	constexpr float kSlideCenterRate = 0.05f;
+	//near‚Æfar
+	constexpr float kNear = 300.0f;
+	constexpr float kFar = 20000.0f;
 }
 
 GameCameraStateNormal::GameCameraStateNormal(std::weak_ptr<GameCamera> camera):
@@ -54,6 +57,8 @@ GameCameraStateNormal::GameCameraStateNormal(std::weak_ptr<GameCamera> camera):
 	SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//‹–ìŠp
 	SetupCamera_Perspective(kPerspective);
+	//‰œs
+	SetCameraNearFar(kNear, kFar);
 }
 
 void GameCameraStateNormal::Init()

@@ -5,7 +5,7 @@
 
 namespace
 {
-	constexpr float kScale = 2.0f;
+	constexpr float kScale = 2.5f;
 	constexpr float kRotaAngle = 0.01f;
 }
 

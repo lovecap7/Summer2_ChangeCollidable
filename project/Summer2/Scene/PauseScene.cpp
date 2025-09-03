@@ -153,9 +153,6 @@ void PauseScene::NormalDraw()
 		0xffffff,//カラー
 		false,//塗り潰さない
 		3.0f);//ちょっと太目の線
-
-	DrawString(30, 30, L" Pause ", 0xffffff);
-	DrawString(wSize / 3.0f, hSize / 2.0f, L" 今後メニューを実装予定です ", 0xff0000);
 }
 
 void PauseScene::ShiftingDraw()

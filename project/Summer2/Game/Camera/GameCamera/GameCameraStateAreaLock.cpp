@@ -28,6 +28,9 @@ namespace
 	constexpr float kOffsetCameraPosZ = -1300.0f;
 	//•Ç‚©‚ç‚Ì‹——£
 	constexpr float kDistanceFromWall = 300.0f;
+	//near‚Æfar
+	constexpr float kNear = 300.0f;
+	constexpr float kFar = 20000.0f;
 }
 
 GameCameraStateAreaLock::GameCameraStateAreaLock(std::weak_ptr<GameCamera> camera):
@@ -45,6 +48,8 @@ GameCameraStateAreaLock::GameCameraStateAreaLock(std::weak_ptr<GameCamera> camer
 	DxLib::SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//‹–ìŠp
 	DxLib::SetupCamera_Perspective(kPerspective);
+	//‰œs
+	SetCameraNearFar(kNear, kFar);
 }
 
 void GameCameraStateAreaLock::Init()

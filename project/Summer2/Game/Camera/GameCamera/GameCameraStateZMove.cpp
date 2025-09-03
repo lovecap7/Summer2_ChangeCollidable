@@ -22,7 +22,9 @@ namespace
 	//ターゲットから少し離れるためのオフセット
 	constexpr float kOffsetCameraPosY = 900.0f;
 	constexpr float kOffsetCameraPosZ = -1400.0f;
-
+	//nearとfar
+	constexpr float kNear = 300.0f;
+	constexpr float kFar = 35000.0f;
 }
 
 GameCameraStateZMove::GameCameraStateZMove(std::weak_ptr<GameCamera> camera):
@@ -40,6 +42,8 @@ GameCameraStateZMove::GameCameraStateZMove(std::weak_ptr<GameCamera> camera):
 	DxLib::SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//視野角
 	DxLib::SetupCamera_Perspective(kPerspective);
+	//奥行
+	SetCameraNearFar(kNear, kFar);
 }
 
 void GameCameraStateZMove::Init()

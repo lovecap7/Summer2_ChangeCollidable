@@ -70,7 +70,6 @@ void TutorialUI::Draw() const
 	//テキスト
 	DrawStringToHandle(m_posX + kTutorialOffsetPosX, kTutorialPosY, L"<チュートリアル>", 0xffffff, m_textHandle);
 	DrawStringToHandle(m_posX + kTextOffsetPosX, kTextPosY, m_text.substr(0, m_chatCount).c_str(), 0xffffff, m_textHandle);
-	DrawFormatString(0, 10, 0xffff00, L"SIZE : %d", static_cast<int>(m_text.size()));
 	//チュートリアルマーク
 	DrawRotaGraph(m_posX + kTutorialMarkPosX, kTutorialMarkPosY, 1.0, 0.0, m_tutorialMarkUI, true);
 }

@@ -27,6 +27,9 @@ namespace
 	constexpr float kCameraPosZ = -100.0f;
 	//Œ©‚Ä‚éˆÊ’u
 	constexpr float kOffsetCameraViewPosY = 100.0f;
+	//near‚Æfar
+	constexpr float kNear = 300.0f;
+	constexpr float kFar = 20000.0f;
 }
 
 GameCameraStateBossStart::GameCameraStateBossStart(std::weak_ptr<GameCamera> camera) :
@@ -44,6 +47,8 @@ GameCameraStateBossStart::GameCameraStateBossStart(std::weak_ptr<GameCamera> cam
 	DxLib::SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//‹–ìŠp
 	SetupCamera_Perspective(kPerspective);
+	//‰œs
+	SetCameraNearFar(kNear, kFar);
 }
 
 void GameCameraStateBossStart::Init()

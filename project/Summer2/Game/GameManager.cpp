@@ -126,7 +126,7 @@ void GameManager::Update()
 				m_isGameClear = true;
 			}
 			//プレイヤーの勝利アニメーションが終了したら
-			if (player->IsFinishClearAnim() && !m_isGameClear)
+			if (player->IsFinishClearAnim() && m_isGameClear)
 			{
 				//タイマーをスコアに加算
 				if (saveDataManager.GetScore().expired())return;

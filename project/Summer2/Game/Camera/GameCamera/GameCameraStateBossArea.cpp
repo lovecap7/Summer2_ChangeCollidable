@@ -31,6 +31,9 @@ namespace
 	constexpr float kDistanceFromWall = 300.0f;
 	//‹——£‚Ì”½‰f—¦
 	constexpr float kDistanceRate = 3.0f;
+	//near‚Æfar
+	constexpr float kNear = 300.0f;
+	constexpr float kFar = 20000.0f;
 }
 GameCameraStateBossArea::GameCameraStateBossArea(std::weak_ptr<GameCamera> camera):
 	GameCameraStateBase(camera),
@@ -45,6 +48,8 @@ GameCameraStateBossArea::GameCameraStateBossArea(std::weak_ptr<GameCamera> camer
 	DxLib::SetCameraPositionAndTarget_UpVecY(owner->GetPos().ToDxLibVector(), owner->GetViewPos().ToDxLibVector());
 	//‹–ìŠp
 	DxLib::SetupCamera_Perspective(kPerspective);
+	//‰œs
+	SetCameraNearFar(kNear, kFar);
 }
 
 void GameCameraStateBossArea::Init()

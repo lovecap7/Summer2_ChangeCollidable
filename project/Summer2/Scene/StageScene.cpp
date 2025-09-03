@@ -74,7 +74,7 @@ void StageScene::Update()
 	//ゲームの更新
 	m_gameManager->Update();
 	//ゲームクリアしたときの処理
-	if (m_gameManager->IsResult() || input.IsTrigger("Pause") && m_gameManager->IsGameClear())
+	if (m_gameManager->IsResult() || (input.IsTrigger("Pause") && m_gameManager->IsGameClear()))
 	{
 		m_controller.PushScene(std::make_shared<GameClearScene>(m_controller, m_stageIndex));
 		return;

@@ -33,6 +33,9 @@ namespace
 	constexpr int kHitStopFrame = 60;
 	//—h‚ê‚éƒtƒŒ[ƒ€
 	constexpr int kShakeFrame = 30;
+	//near‚Æfar
+	constexpr float kNear = 300.0f;
+	constexpr float kFar = 20000.0f;
 }
 GameCameraStateBossDeath::GameCameraStateBossDeath(std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) :
 	GameCameraStateBase(camera)
@@ -48,6 +51,8 @@ GameCameraStateBossDeath::GameCameraStateBossDeath(std::weak_ptr<GameCamera> cam
 	owner->SetCameraShake(ShakePower::Highest, kShakeFrame);
 	Physics::GetInstance().DelayUpdate(60);
 	SoundManager::GetInstance().PlayOnceSE("LastHit");
+	//‰œs
+	SetCameraNearFar(kNear, kFar);
 }
 
 void GameCameraStateBossDeath::Init()
