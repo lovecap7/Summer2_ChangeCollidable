@@ -2,7 +2,7 @@
 Player,NA1,100,6,12,15,Player|NA1,1.5,20,2,5,10,Middle,3,Low,1
 Player,NA2,110,6,15,15,Player|NA2,1.5,20,2,5,10,Middle,3,Low,1
 Player,NA3,150,13,15,15,Player|NA3,2,20,2,5,10,Middle,3,Middle,1
-Player,NA4,190,13,20,20,Player|NA4,1.5,20,2,10,15,Middle,5,Middle,1
+Player,NA4,190,13,12,20,Player|NA4,2,20,2,10,15,Middle,5,Middle,1
 Player,CA1,1,40,5,2,Player|CA,1,20,1,0,3,Middle,2,Low,4
 Player,CA2,1,80,5,2,Player|CA,1,25,1,0,5,Middle,2,Middle,10
 Player,CA3,1,100,5,2,Player|CA,1,25,1,0,5,Middle,2,Middle,20
