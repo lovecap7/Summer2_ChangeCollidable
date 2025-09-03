@@ -25,6 +25,8 @@ public:
     bool IsGameClear() { return m_isGameClear; };
 	//リザルト
     bool IsResult() { return m_isResult; };
+    //コンテニュー
+    void Continue();
 private:
 	//アクターマネージャー
 	std::shared_ptr<ActorManager> m_actorManager;

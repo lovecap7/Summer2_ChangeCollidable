@@ -505,6 +505,14 @@ void ActorManager::HitStop(ShakePower sp, int frame)
 	this->DelayUpdate(frame);
 }
 
+void ActorManager::RevivalPlayer()
+{
+	if (!m_player.expired())
+	{
+		m_player.lock()->Init();
+	}
+}
+
 //追加予定のアクターを実装
 void ActorManager::CheckNextAddActors()
 {

@@ -32,6 +32,8 @@ public:
 	void Dead(const std::weak_ptr<ActorManager> actorManager, const std::weak_ptr<Score> score) override;
 	//終了処理
 	void End()override;
+	//復活
+	void Revival();
 
 	//ステートにアクセスさせる関数
 	//リジッドボディ
@@ -54,6 +56,9 @@ public:
 	bool IsRunKeep() { return m_isRunKeep; };
 	void SetIsRunKeep(bool isRunKeep) { m_isRunKeep = isRunKeep; };
 
+	//死亡
+	bool IsDead()const { return m_isDead; };
+	void SetIsDead(bool isDead) { m_isDead = isDead; };
 	//ゲームの進行に使う関数
 	//ゲーム開始アニメーションをしている
 	bool IsStartAnim();
@@ -74,6 +79,8 @@ private:
 	std::weak_ptr<TrackActorEffect> m_ultMaxEff;
 	//落下したときに戻す座標(チェックポイントを実装したら使う)
 	Vector3 m_initPos;
+	//死んだフラグ
+	bool m_isDead;
 private:
 	//プレイヤーの入力ベクトルを更新
 	void UpdatePlayerStickVec(Input& input);

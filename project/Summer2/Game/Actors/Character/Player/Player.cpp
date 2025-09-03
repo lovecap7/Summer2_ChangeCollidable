@@ -48,7 +48,8 @@ Player::Player(int modelHandle, Position3 firstPos) :
 	m_stickVec(0.0f,0.0f),
 	m_isRunKeep(false),
 	m_cancelRunFrame(0),
-	m_initPos{}
+	m_initPos{},
+	m_isDead(false)
 {
 	//À•W
 	m_rb->m_pos = firstPos;
@@ -223,6 +224,11 @@ void Player::End()
 	m_model->End();
 	EndSound();
 	Collidable::End();
+}
+void Player::Revival()
+{
+	m_hitPoints->Heal(999999);
+	m_isDead = false;
 }
 
 bool Player::IsStartAnim()

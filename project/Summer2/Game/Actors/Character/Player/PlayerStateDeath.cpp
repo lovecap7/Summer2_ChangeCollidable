@@ -45,7 +45,8 @@ void PlayerStateDeath::Update(const std::weak_ptr<GameCamera> camera, const std:
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
 	{
-		coll->Delete();//削除
+		//死亡
+		coll->SetIsDead(true);
 	}
 	//減速
 	coll->GetRb()->SpeedDown(kMoveDeceRate);

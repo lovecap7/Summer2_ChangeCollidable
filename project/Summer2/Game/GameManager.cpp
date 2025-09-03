@@ -106,12 +106,12 @@ void GameManager::Update()
 		{
 			m_tutorialDirecter->Update(m_actorManager);
 		}
+		//プレイヤー
+		if (m_actorManager->GetPlayer().expired())return;
+		auto player = m_actorManager->GetPlayer().lock();
 		//ボスを倒したとき
 		if (m_actorManager->IsBossDead())
 		{
-			//プレイヤー
-			if (m_actorManager->GetPlayer().expired())return;
-			auto player = m_actorManager->GetPlayer().lock();
 			//タイマーを止める
 			m_timer->StopUpdate();
 			//UIの描画を止める
@@ -136,7 +136,7 @@ void GameManager::Update()
 			}
 		}
 		//プレイヤーが死亡した際の処理
-		else if (m_actorManager->GetPlayer().expired() && !m_isGameover)
+		else if (player->IsDead() && !m_isGameover)
 		{
 			//UIマネージャーのリセット
 			UIManager::GetInstance().Reset();
@@ -238,6 +238,13 @@ void GameManager::Restart(Stage::StageIndex index)
 	//UI作成
 	UIManager::GetInstance().CreateGameScoreUI(saveDataManager.GetScore());
 	UIManager::GetInstance().CreateTimerUI(m_timer);
+}
+void GameManager::Continue()
+{
+	//スコアの初期化
+	SaveDataManager::GetInstance().GetScore().lock()->Init();
+	//プレイヤーを復活
+	m_actorManager->RevivalPlayer();
 }
 
 void GameManager::InitLight()

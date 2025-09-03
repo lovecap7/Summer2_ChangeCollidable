@@ -59,6 +59,8 @@ public:
 	/// 更新を止める
 	/// </summary>
 	void StopUpdate() { m_isUpdate = false; };
+	//下のシーンの参照
+	std::weak_ptr<SceneBase> GetBaseScene() { return m_scenes.front(); };
 private:
 	using SceneStack_t = std::list<std::shared_ptr<SceneBase>>;//シーンをスタック構造にするための型
 	SceneStack_t m_scenes;//現在実行中のシーン(中が何かは知らない)

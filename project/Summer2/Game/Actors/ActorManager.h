@@ -114,6 +114,8 @@ public:
 	void HitStop(ShakePower sp,int frame);
 	//ステージ番号
 	Stage::StageIndex GetStageIndex()const { return m_stageIndex; };
+	//プレイヤーを復活
+	void RevivalPlayer();
 private:
 	//追加予定のアクターを実装
 	void CheckNextAddActors();

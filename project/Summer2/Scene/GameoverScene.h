@@ -36,16 +36,19 @@ private:
     void InitUI();
     //メニューセレクト
     void MenuSelect(Input& input);
-    //再スタート
+    //つづきから
     void Continue();
+    //再スタート
+    void Restart();
     //ステージセレクトへ
     void SelectStage();
 private:
     int m_countFrame;
     enum class MenuIndex : int
     {
-        Continue = 1,
-        SelectStage = 2
+        Continue    = 1,
+        Restart     = 2,
+        SelectStage = 3
     };
     //メニューセレクト
     MenuIndex m_menuSelectIndex;
