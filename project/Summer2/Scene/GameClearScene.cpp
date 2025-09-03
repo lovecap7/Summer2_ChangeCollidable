@@ -9,6 +9,7 @@
 #include "../Game/GameRule/Score.h"
 #include "../General/Fader.h"
 #include "../General/Sound/SE.h"
+#include "../General/Effect/EffekseerManager.h"
 #include "../Game/UI/UIManager.h"
 #include "../Game/UI/Result/ResultUI.h"
 #include "../Game/UI/Result/ResultScoreUI.h"
@@ -50,6 +51,8 @@ void GameClearScene::Init()
 	uiManager.Reset();
 	//Physicsを止める
 	Physics::GetInstance().StopUpdate();
+	//エフェクト停止
+	EffekseerManager::GetInstance().StopEffect();
 	//クリアしたことを記録する
 	auto& saveDataManager = SaveDataManager::GetInstance();
 	saveDataManager.SaveClearStage(m_stageIndex);
@@ -70,6 +73,8 @@ void GameClearScene::End()
 {
 	//Physicsを開始
 	Physics::GetInstance().StartUpdate();
+	//エフェクト開始
+	EffekseerManager::GetInstance().StartEffect();
 	//SE削除
 	if(!m_addScoreSE.expired())m_addScoreSE.lock()->Delete();
 }

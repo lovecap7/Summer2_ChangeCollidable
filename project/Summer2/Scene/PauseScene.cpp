@@ -8,6 +8,7 @@
 #include "../General/Collision/Physics.h"
 #include "../Game/UI/UIManager.h"
 #include "../Game/UI/MenuUI.h"
+#include "../General/Effect/EffekseerManager.h"
 
 namespace {
 	constexpr int kAppearInterval = 20;
@@ -39,6 +40,8 @@ void PauseScene::Init()
 {
 	//描画停止
 	UIManager::GetInstance().AllStopDraw();
+	//エフェクト停止
+	EffekseerManager::GetInstance().StopEffect();
 	//Physicsを止める
 	Physics::GetInstance().StopUpdate();
 }
@@ -57,6 +60,8 @@ void PauseScene::End()
 {
 	//Physicsを開始
 	Physics::GetInstance().StartUpdate();
+	//エフェクト開始
+	EffekseerManager::GetInstance().StartEffect();
 	//描画停止
 	UIManager::GetInstance().AllStartDraw();
 }

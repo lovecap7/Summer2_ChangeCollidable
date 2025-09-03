@@ -509,8 +509,11 @@ void ActorManager::RevivalPlayer()
 {
 	if (!m_player.expired())
 	{
-		m_player.lock()->Init();
+		//プレイヤーを復活
+		m_player.lock()->Revival();
 	}
+	//攻撃をすべて削除
+	AllDeleteAttack();
 }
 
 //追加予定のアクターを実装

@@ -302,6 +302,11 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 	{
 		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["BossKingTransEff"]), actor);
 	}
+	//プレイヤー復活エフェクト
+	else if (name == "RevivalPlayerEff")
+	{
+		effect = std::make_shared<TrackActorEffect>(PlayEffekseer3DEffect(m_handles["RevivalPlayerEff"]), actor);
+	}
 	
 	Entry(effect);
 	return effect;
@@ -310,19 +315,13 @@ std::weak_ptr<TrackActorEffect> EffekseerManager::CreateTrackActorEffect(std::st
 void EffekseerManager::StopEffect()
 {
 	//止める
-	for (auto& eff : m_effects)
-	{
-		eff->Stop();
-	}
+	m_isUpdate = false;
 }
 
 void EffekseerManager::StartEffect()
 {
 	//再生
-	for (auto& eff : m_effects)
-	{
-		eff->Play();
-	}
+	m_isUpdate = true;
 }
 
 void EffekseerManager::DelayUpdate(int frame)
@@ -372,6 +371,7 @@ void EffekseerManager::LoadHandle()
 	m_handles["BlastMagicEff"] = { LoadEffekseerEffect("Data/Effects/BlastMagicEff.efkefc") };
 	m_handles["MagicCircleEff"] = { LoadEffekseerEffect("Data/Effects/MagicCircleEff.efkefc") };
 	m_handles["BigMagicCircleEff"] = { LoadEffekseerEffect("Data/Effects/BigMagicCircleEff.efkefc") };
+	m_handles["RevivalPlayerEff"] = { LoadEffekseerEffect("Data/Effects/RevivalPlayerEff.efkefc") };
 	//ロードに成功したかチェック
 	for (const auto& [key, value] : m_handles) {
 		assert(value >= 0);

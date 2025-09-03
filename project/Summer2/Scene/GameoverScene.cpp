@@ -6,6 +6,7 @@
 #include<DxLib.h>
 #include "../General/game.h"
 #include "../General/Collision/Physics.h"
+#include "../General/Effect/EffekseerManager.h"
 #include "../General/Fader.h"
 #include "../Game/UI/UIManager.h"
 #include "../Game/UI/MenuUI.h"
@@ -38,6 +39,8 @@ void GameoverScene::Init()
 {
 	//Physicsを止める
 	Physics::GetInstance().StopUpdate();
+	//エフェクト停止
+	EffekseerManager::GetInstance().StopEffect();
 }
 
 void GameoverScene::Update()
@@ -53,6 +56,8 @@ void GameoverScene::End()
 {
 	//Physicsを開始
 	Physics::GetInstance().StartUpdate();
+	//エフェクト開始
+	EffekseerManager::GetInstance().StartEffect();
 }
 
 void GameoverScene::Restart()
@@ -83,6 +88,13 @@ void GameoverScene::NormalUpdate()
 			menuUI.second.lock()->Delete();
 		}
 		m_gameoverUI.lock()->Delete();
+		//続きからの場合
+		if(m_menuSelectIndex == MenuIndex::Continue)
+		{
+			//続きから
+			Continue();
+			return;
+		}
 		//だんだん暗く
 		auto& fader = Fader::GetInstance();
 		fader.FadeOut();
@@ -101,13 +113,9 @@ void GameoverScene::DisappearUpdate()
 	{
 		switch (m_menuSelectIndex)
 		{
-		case MenuIndex::Continue:
-			//続きから
-			Continue();
-			break;
 		case MenuIndex::Restart:
 			//最初から
-			Restart();
+			RestartBase();
 			break;
 		case MenuIndex::SelectStage:
 			//ステージセレクト
@@ -178,7 +186,7 @@ void GameoverScene::Continue()
 	return;
 }
 
-void GameoverScene::Restart()
+void GameoverScene::RestartBase()
 {
 	//自分の下になってるシーンを初期化
 	m_controller.RestartBaseScene();

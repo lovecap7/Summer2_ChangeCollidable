@@ -1,4 +1,5 @@
 #include "PlayerStateDeath.h"
+#include "PlayerStateIdle.h"
 #include "Player.h"
 #include "../../../../General/game.h"
 #include "../../../../General/Rigidbody.h"
@@ -7,6 +8,7 @@
 #include "../../../../General/Model.h"
 #include "../../../../General/Animator.h"
 #include "../../../../General/HitPoints.h"
+#include "../../../../General/Effect/EffekseerManager.h"
 #include "../../../Camera/GameCamera/GameCamera.h"
 
 namespace
@@ -42,6 +44,18 @@ void PlayerStateDeath::Init()
 void PlayerStateDeath::Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	auto coll = std::dynamic_pointer_cast<Player>(m_owner.lock());
+	//もしも体力が回復したら待機状態に戻る
+	if (coll->GetHitPoints().expired())return;
+	if (!coll->GetHitPoints().lock()->IsDead())
+	{
+		//無敵解除
+		coll->GetHitPoints().lock()->SetIsNoDamege(false);
+		//復活エフェクト
+		EffekseerManager::GetInstance().CreateTrackActorEffect("RevivalPlayerEff", coll);
+		//待機状態に戻る
+		ChangeState(std::make_shared<PlayerStateIdle>(m_owner));
+		return;
+	}
 	//アニメーション終了後
 	if (coll->GetModel()->IsFinishAnim())
 	{

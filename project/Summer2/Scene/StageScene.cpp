@@ -112,8 +112,5 @@ void StageScene::Restart()
 }
 void StageScene::Continue()
 {
-	m_gameManager->Restart(m_stageIndex);
-	auto& fader = Fader::GetInstance();
-	//‚¾‚ñ‚¾‚ñ–¾‚é‚­
-	fader.FadeIn(kFadeSpeed);
+	m_gameManager->Continue();
 }

@@ -138,8 +138,8 @@ void GameManager::Update()
 		//プレイヤーが死亡した際の処理
 		else if (player->IsDead() && !m_isGameover)
 		{
-			//UIマネージャーのリセット
-			UIManager::GetInstance().Reset();
+			//UIの非表示
+			UIManager::GetInstance().AllStopDraw();
 			//ゲームオーバー
 			m_isGameover = true;
 		}
@@ -245,6 +245,12 @@ void GameManager::Continue()
 	SaveDataManager::GetInstance().GetScore().lock()->Init();
 	//プレイヤーを復活
 	m_actorManager->RevivalPlayer();
+	//UIの描画を止める
+	UIManager::GetInstance().AllStartDraw();
+	//フラグリセット
+	m_isGameover = false;
+	m_isGameClear = false;
+	m_isResult = false;
 }
 
 void GameManager::InitLight()

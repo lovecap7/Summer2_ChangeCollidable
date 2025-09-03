@@ -39,7 +39,7 @@ private:
     //つづきから
     void Continue();
     //再スタート
-    void Restart();
+    void RestartBase();
     //ステージセレクトへ
     void SelectStage();
 private:
