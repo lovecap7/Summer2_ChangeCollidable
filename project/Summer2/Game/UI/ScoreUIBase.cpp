@@ -66,28 +66,35 @@ void ScoreUIBase::Draw() const
 void ScoreUIBase::UpdateViewScore(int viewScore)
 {
 	m_viewMaxScore = viewScore;
-	//現在のスコアと目標スコアの差
-	int diff = m_viewMaxScore - m_viewScore;
-	//差があるなら
-	if (diff != 0)
+	if (m_viewMaxScore <= 0)
 	{
-		int absDiff = abs(diff);
-		//加算するスコアの基本値
-		int speed = kAddBaseSpeed + (absDiff * kAddDiffRate);
-		//目標に近いなら少し減速
-		if (absDiff < kChangeLowSpeed)
+		m_viewScore = 0;
+	}
+	else
+	{
+		//現在のスコアと目標スコアの差
+		int diff = m_viewMaxScore - m_viewScore;
+		//差があるなら
+		if (diff != 0)
 		{
-			//誤差埋めの+1
-			speed = absDiff / kAddLowSpeedRate + 1;
-		}
-		if (absDiff <= speed) {
-			//ほぼ差がないので一気に目標値へ
-			m_viewScore = m_viewMaxScore;
-		}
-		else
-		{
-			// スコアをstep分だけ増減
-			m_viewScore += speed;
+			int absDiff = abs(diff);
+			//加算するスコアの基本値
+			int speed = kAddBaseSpeed + (absDiff * kAddDiffRate);
+			//目標に近いなら少し減速
+			if (absDiff < kChangeLowSpeed)
+			{
+				//誤差埋めの+1
+				speed = absDiff / kAddLowSpeedRate + 1;
+			}
+			if (absDiff <= speed) {
+				//ほぼ差がないので一気に目標値へ
+				m_viewScore = m_viewMaxScore;
+			}
+			else
+			{
+				// スコアをstep分だけ増減
+				m_viewScore += speed;
+			}
 		}
 	}
 	//跳ねる
