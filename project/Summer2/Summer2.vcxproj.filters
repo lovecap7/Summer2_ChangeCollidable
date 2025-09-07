@@ -306,9 +306,6 @@
     <ClCompile Include="General\Animator.cpp">
       <Filter>ソース ファイル\General</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actors\Stage\InvisibleWall.cpp">
-      <Filter>ソース ファイル\Game\Actors\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="General\Math\Quaternion.cpp">
       <Filter>ソース ファイル\General\Math</Filter>
     </ClCompile>

@@ -5,11 +5,12 @@
 class GameCamera;
 class ActorManager;
 class EnemyBase;
+class StageObjectCollision;
 class AllKillArea :
 	public EventAreaBase
 {
 public:
-    AllKillArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end);
+    AllKillArea(std::weak_ptr<StageObjectCollision> start, std::weak_ptr<StageObjectCollision> end);
     virtual ~AllKillArea();
     void Init()override;
     void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;

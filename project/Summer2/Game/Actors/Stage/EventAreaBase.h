@@ -1,5 +1,5 @@
 #pragma once
-#include "../Actor.h"
+#include "../Stage/StageObjectCollision.h"
 
 enum class AreaTag
 {
@@ -13,7 +13,7 @@ class EventAreaBase abstract:
     public Actor
 {
 public:
-    EventAreaBase(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end, AreaTag area);
+    EventAreaBase(std::weak_ptr<StageObjectCollision> start, std::weak_ptr<StageObjectCollision> end, AreaTag area);
     virtual ~EventAreaBase();
     virtual void Init()override;
     virtual void Update(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager) override;
@@ -29,9 +29,11 @@ public:
     Vector3 GetEventEndPos()const { return m_end.lock()->GetPos(); };
     //エリア
 	AreaTag GetAreaTag()const { return m_areaTag; };
+    //エフェクトで壁を出す
+	void SpawnWallEffect();
 protected:
-    std::weak_ptr<Actor> m_start;
-    std::weak_ptr<Actor> m_end;
+    std::weak_ptr<StageObjectCollision> m_start;
+    std::weak_ptr<StageObjectCollision> m_end;
     //イベント中フラグ
     bool m_isEvent;
 	//イベントのタグ

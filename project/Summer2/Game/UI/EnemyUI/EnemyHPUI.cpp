@@ -24,7 +24,7 @@ EnemyHPUI::EnemyHPUI(std::weak_ptr<EnemyBase> enemy) :
 	m_pos{},
 	m_frameHandle(UIManager::GetInstance().GetImageHandle("EnemyHPFrame")),
 	m_hpHandle(UIManager::GetInstance().GetImageHandle("EnemyHP")),
-	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ16")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("源直ゴシック16")),
 	m_name{}
 {
 	//敵が消えた場合このUIも削除
@@ -89,5 +89,5 @@ void EnemyHPUI::Draw() const
 	//フレーム
 	DrawGraph(pos.x, pos.y - kBarHeight, m_frameHandle, true);
 	//名前
-	DrawStringToHandle(pos.x + kNameOffsetPosX, pos.y - kNameOffsetPosY, m_name.c_str(), 0x000000, m_textHandle);
+	DrawStringToHandle(pos.x + kNameOffsetPosX, pos.y - kNameOffsetPosY, m_name.c_str(), 0xffffff, m_textHandle);
 }

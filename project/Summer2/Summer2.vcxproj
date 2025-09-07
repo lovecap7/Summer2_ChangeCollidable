@@ -128,7 +128,6 @@
     <ClCompile Include="Game\Actors\Stage\BossArea.cpp" />
     <ClCompile Include="Game\Actors\Stage\AllKillArea.cpp" />
     <ClCompile Include="Game\Actors\Stage\EventAreaBase.cpp" />
-    <ClCompile Include="Game\Actors\Stage\InvisibleWall.cpp" />
     <ClCompile Include="Game\Actors\Stage\Sky.cpp" />
     <ClCompile Include="Game\Actors\Stage\StageObjectCollision.cpp" />
     <ClCompile Include="Game\Actors\Stage\StageObjectDraw.cpp" />

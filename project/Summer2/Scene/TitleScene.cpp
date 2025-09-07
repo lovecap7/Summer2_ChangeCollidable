@@ -168,6 +168,8 @@ void TitleScene::LoadHandle()
 }
 void TitleScene::LoadStage(std::shared_ptr<CSVDataLoader> csvLoader)
 {
+	//空を作成
+	m_stageObjects.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_stageHandles["Sky"])));
 	auto datas = csvLoader->LoadActorDataCSV("Data/CSV/TitleTransformData.csv");
 	//名前からオブジェクトを配置していく
 	for (auto& data : datas)
@@ -211,8 +213,6 @@ void TitleScene::LoadStage(std::shared_ptr<CSVDataLoader> csvLoader)
 			m_stageObjects.emplace_back(blockGrass);
 		}
 	}
-	//空を作成
-	m_stageObjects.emplace_back(std::make_shared<Sky>(MV1DuplicateModel(m_stageHandles["Sky"])));
 }
 
 void TitleScene::AllDeleteHandle()

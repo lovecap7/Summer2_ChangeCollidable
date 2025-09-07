@@ -5,7 +5,12 @@
 #include "../Character/Enemy/EnemyBase.h"
 #include "../../../General/Collision/Physics.h"
 #include "../../Camera/GameCamera/GameCamera.h"
-EventAreaBase::EventAreaBase(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end, AreaTag area):
+#include "../../../General/Effect/EffekseerManager.h"
+#include "../../../General/Effect/TrackActorEffect.h"
+#include "../../../General/Model.h"
+
+
+EventAreaBase::EventAreaBase(std::weak_ptr<StageObjectCollision> start, std::weak_ptr<StageObjectCollision> end, AreaTag area):
 	Actor(Shape::None),
 	m_start(start),
 	m_end(end),
@@ -45,4 +50,28 @@ void EventAreaBase::Update(const std::weak_ptr<GameCamera> camera, const std::we
 	//•Ç‚Í‚·‚è”²‚¯‚é
 	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(true);
 	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(true);
+}
+
+void EventAreaBase::SpawnWallEffect()
+{
+	if (m_start.expired() || m_end.expired())return;
+	auto& effectManager = EffekseerManager::GetInstance();
+	auto startWallEff	= effectManager.CreateTrackActorEffect("AreaWallEff", m_start);
+	auto endWallEff		= effectManager.CreateTrackActorEffect("AreaWallEff", m_end);
+	//‰ñ“]‚à”½‰f
+	if (!startWallEff.expired())
+	{
+		if (!m_start.lock()->GetModel().expired())
+		{
+			
+			startWallEff.lock()->LookAt(m_start.lock()->GetModel().lock()->GetDir());
+		}
+	}
+	if (!endWallEff.expired())
+	{
+		if (!m_end.lock()->GetModel().expired())
+		{
+			endWallEff.lock()->LookAt(m_end.lock()->GetModel().lock()->GetDir());
+		}
+	}
 }

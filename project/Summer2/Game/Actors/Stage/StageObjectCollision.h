@@ -25,6 +25,8 @@ public:
     void End()override;
     //‚·‚è”²‚¯‚é‚©
     void SetIsThrough(bool isThrough);
+    //ƒ‚ƒfƒ‹
+	std::weak_ptr<Model> GetModel()const { return m_model; };
 private:
     int m_collisionHandle;
 };

@@ -25,7 +25,7 @@ BossHPUI::BossHPUI(std::weak_ptr<EnemyBase> enemy) :
 	m_viewMaxHp(0.0f),
 	m_frameHandle(UIManager::GetInstance().GetImageHandle("BossHPFrame")),
 	m_hpHandle(UIManager::GetInstance().GetImageHandle("BossHP")),
-	m_textHandle(UIManager::GetInstance().GetTextHandle("メイリオ32")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("源直ゴシック32")),
 	m_name{}
 {
 	//敵が消えた場合このUIも削除
@@ -74,7 +74,7 @@ void BossHPUI::Draw() const
 	//描画しないならreturn
 	if (!m_isDraw)return;
 	//ボスの名前
-	DrawStringToHandle(kNamePosX, kNamePosY, m_name.c_str(), 0xcc0000, m_textHandle);
+	DrawStringToHandle(kNamePosX, kNamePosY, m_name.c_str(), 0xee0000, m_textHandle);
 	DrawBoxAA(kLeftPosX, kLeftPosY, kLeftPosX + (m_viewMaxHp / m_viewMaxHp) * kBarWidth, kRightPosY, 0x555555, true);
 	//体力
 	DrawRectGraph(kLeftPosX, kLeftPosY, 0, 0,

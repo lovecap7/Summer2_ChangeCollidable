@@ -6,7 +6,7 @@
 #include "../../../General/Collision/Physics.h"
 #include "../../Camera/GameCamera/GameCamera.h"
 
-AllKillArea::AllKillArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
+AllKillArea::AllKillArea(std::weak_ptr<StageObjectCollision> start, std::weak_ptr<StageObjectCollision> end):
 	EventAreaBase(start,end,AreaTag::AllKill),
 	m_update(&AllKillArea::EntryCheckUpdate)
 {
@@ -39,6 +39,8 @@ void AllKillArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const
 	if (m_isEvent)
 	{
 		InitEvent(camera);
+		//ï«ÇèoÇ∑
+		SpawnWallEffect();
 		return;
 	}
 }

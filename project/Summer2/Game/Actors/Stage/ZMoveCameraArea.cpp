@@ -1,7 +1,7 @@
 #include "ZMoveCameraArea.h"
 #include "../ActorManager.h"
 #include "../../Camera/GameCamera/GameCamera.h"
-ZMoveCameraArea::ZMoveCameraArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
+ZMoveCameraArea::ZMoveCameraArea(std::weak_ptr<StageObjectCollision> start, std::weak_ptr<StageObjectCollision> end):
 	EventAreaBase(start, end,AreaTag::ZMove)
 {
 }

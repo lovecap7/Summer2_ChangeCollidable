@@ -19,6 +19,8 @@ public:
 	void LookAt(Vector3 dir);		//向きたい方向
 	//ゲッター
 	Vector3 GetPos()const { return m_pos; };
+	Vector3 GetRot()const { return m_rot; };
+	Vector3 GetScale()const { return m_scale; };
 
 	//指定フレーム再生
 	void SpecificFrame(int frame);

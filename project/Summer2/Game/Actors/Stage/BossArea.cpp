@@ -15,10 +15,10 @@ namespace
 	//アイテムの生成位置
 	constexpr float kItemDropHeight = 2000.0f;
 	//アイテム生成範囲
-	constexpr float kItemDropRange = 700.0f;
+	constexpr float kItemDropRange = 600.0f;
 }
 
-BossArea::BossArea(std::weak_ptr<Actor> start, std::weak_ptr<Actor> end):
+BossArea::BossArea(std::weak_ptr<StageObjectCollision> start, std::weak_ptr<StageObjectCollision> end):
 	EventAreaBase(start,end,AreaTag::Boss),
 	m_update(&BossArea::EntryCheckUpdate),
 	m_itemDropFrame(0)
@@ -51,6 +51,8 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const st
 		//ボスのUIの準備
 		UIManager::GetInstance().CreateBossUI(boss.lock());
 		InitEvent(actorManager, camera);
+		//壁を出す
+		SpawnWallEffect();
 		return;
 	}
 }
@@ -109,8 +111,8 @@ void BossArea::InitEvent(const std::weak_ptr<ActorManager>& actorManager, const 
 		break;
 	}
 	//壁は閉ざす
-	std::dynamic_pointer_cast<StageObjectCollision>(m_start.lock())->SetIsThrough(false);
-	std::dynamic_pointer_cast<StageObjectCollision>(m_end.lock())->SetIsThrough(false);
+	m_start.lock()->SetIsThrough(false);
+	m_end.lock()->SetIsThrough(false);
 	//イベント開始情報をカメラに設定
 	camera.lock()->SetEventArea(std::dynamic_pointer_cast<BossArea>(shared_from_this()));
 	//ボス以外の雑魚敵を削除
