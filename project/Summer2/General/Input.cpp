@@ -51,6 +51,7 @@ void Input::Init()
 	m_inputActionMap["Clear"]			= { {InputType::kKeyboard,KEY_INPUT_C}};
 	m_inputActionMap["BossAngry"]		= { {InputType::kKeyboard,KEY_INPUT_A}};
 	m_inputActionMap["PlayerDead"]		= { {InputType::kKeyboard,KEY_INPUT_D}};
+	m_inputActionMap["AllClearStage"]	= { {InputType::kKeyboard,KEY_INPUT_A}};
 
 	//çXêVÇÇ∑ÇÈ
 	m_isUpdate = true;

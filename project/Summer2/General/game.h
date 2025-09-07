@@ -33,5 +33,5 @@ namespace Gravity
 	//落下状態に切り替わる落下ベクトルの大きさ
 	constexpr float kChangeStateFall = -4.0f;
 	//落下スピードの上限(Y成分の大きさ)
-	constexpr float kMaxGravityY = -10.0f;
+	constexpr float kMaxGravityY = -20.0f;
 }

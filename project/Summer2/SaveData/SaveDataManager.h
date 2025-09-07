@@ -49,6 +49,8 @@ public:
 	std::weak_ptr<Score> GetScore() { return m_score; };
 	//日付と時間
 	std::wstring GetLastSaveTimeAndDate() { return m_lastSaveTime; };
+	//ステージ全開放
+	void AllClearStage();
 private:
 	//3ステージ文の初回クリア記録を持つ(ステージの進捗度に使う)
 	std::map<Stage::StageIndex, bool>m_isClearStage;

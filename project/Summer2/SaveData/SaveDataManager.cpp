@@ -83,6 +83,15 @@ bool SaveDataManager::IsClearStage(Stage::StageIndex stageIndex)
 	return m_isClearStage[stageIndex];
 }
 
+void SaveDataManager::AllClearStage()
+{
+	m_isClearStage[Stage::StageIndex::Stage1] = true;
+	m_isClearStage[Stage::StageIndex::Stage2] = true;
+	m_isClearStage[Stage::StageIndex::Stage3] = true;
+	//‹L˜^
+	Save();
+}
+
 std::wstring SaveDataManager::GetNowTimeAndDate()
 {
 	// Œ»İ‚ğæ“¾

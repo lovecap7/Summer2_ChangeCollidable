@@ -125,6 +125,13 @@ void SelectStageScene::Update()
 		m_controller.ChangeScene(std::make_shared<DebugScene>(m_controller));
 		return;
 	}
+	//ステージ全開放
+	if (input.IsTrigger("AllClearStage"))
+	{
+		auto& saveDatas = SaveDataManager::GetInstance();
+		saveDatas.AllClearStage();
+		NowUnlockStage();
+	}
 #endif
 	auto& fader = Fader::GetInstance();
 	//真っ暗になったら

@@ -162,6 +162,7 @@ std::list<std::weak_ptr<Collidable>> Physics::RayCast(const Vector3& startPos, c
 	{
 		if (collidable->GetGameTag() == GameTag::None)continue;
 		if (collidable->GetGameTag() == GameTag::Attack)continue;
+		if (collidable->GetGameTag() == GameTag::Area)continue;
 		if (collidable->m_isTrigger)continue;
 		if (collidable->m_isThrough)continue;
 		auto shape = collidable->GetShape();
