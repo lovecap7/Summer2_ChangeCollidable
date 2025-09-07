@@ -59,10 +59,12 @@ void GameManager::Init(Stage::StageIndex index)
 	m_actorManager->Init(index);
 	//カメラの初期化
 	m_camera->Init(index);
-
 	auto& saveDataManager = SaveDataManager::GetInstance();
+	auto score = saveDataManager.GetScore();
+	//スコアの初期化
+	if (!score.expired())score.lock()->Init();
 	//UI作成
-	UIManager::GetInstance().CreateGameScoreUI(saveDataManager.GetScore());
+	UIManager::GetInstance().CreateGameScoreUI(score);
 	UIManager::GetInstance().CreateTimerUI(m_timer);
 
 	//ステージ1ならチュートリアル(かつ未クリアなら)
@@ -75,6 +77,7 @@ void GameManager::Init(Stage::StageIndex index)
 	InitLight();
 	//シャドウマップの準備
 	InitShadow();
+	
 }
 
 void GameManager::Update()
@@ -219,8 +222,6 @@ void GameManager::End()
 
 void GameManager::Restart(Stage::StageIndex index)
 {
-	//スコアの初期化
-	SaveDataManager::GetInstance().GetScore().lock()->Init();
 	//タイマーの初期化
 	m_timer->Init();
 	//UIマネージャーのリセット
@@ -235,8 +236,11 @@ void GameManager::Restart(Stage::StageIndex index)
 	m_isGameover = false;
 	m_isGameClear = false;
 	auto& saveDataManager = SaveDataManager::GetInstance();
+	auto score = saveDataManager.GetScore();
+	//スコアの初期化
+	if(!score.expired())score.lock()->Init();
 	//UI作成
-	UIManager::GetInstance().CreateGameScoreUI(saveDataManager.GetScore());
+	UIManager::GetInstance().CreateGameScoreUI(score);
 	UIManager::GetInstance().CreateTimerUI(m_timer);
 }
 void GameManager::Continue()
