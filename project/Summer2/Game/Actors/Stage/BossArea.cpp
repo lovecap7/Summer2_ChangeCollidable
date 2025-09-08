@@ -60,8 +60,12 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const st
 void BossArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//ボスが倒れたら
-	if (actorManager.lock()->GetBoss().expired())
+	if (actorManager.lock()->IsBossDead())
 	{
+		//壁削除
+		if (!m_start.expired())m_start.lock()->Delete();
+		if (!m_end.expired())m_end.lock()->Delete();
+
 		//範囲内の敵がすべて消えたら
 		//イベント終了
 		m_isEvent = false;

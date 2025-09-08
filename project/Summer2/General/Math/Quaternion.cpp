@@ -109,6 +109,7 @@ Quaternion Quaternion::NormQ()const
 	rQ.z = this->z / length;
 	return rQ;
 }
+
 //回転しないクォータニオン(単位クォータニオン)
 Quaternion Quaternion::IdentityQ()
 {

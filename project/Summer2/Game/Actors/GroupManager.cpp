@@ -37,9 +37,11 @@ void GroupManager::Entry(std::shared_ptr<Actor> actor)
 void GroupManager::Exit(std::shared_ptr<Actor> actor)
 {
 	std::string groupName = actor->GetGroupTag();
+
 	//“o˜^‚³‚ê‚Ä‚¢‚é‚È‚ç
 	auto it = std::find(m_groupActors[groupName].begin(), m_groupActors[groupName].end(), actor);
 	if (it == m_groupActors[groupName].end())return;
+
 	//‚à‚µUŒ‚Œ ‚ğ‚Á‚Ä‚¢‚é‚È‚ç
 	if (actor->CanAttack())
 	{
@@ -57,6 +59,7 @@ void GroupManager::Exit(std::shared_ptr<Actor> actor)
 			TakeTurnCanAttack(m_groupActors[groupName].front(), groupName);
 		}
 	}
+
 	//“o˜^‰ğœ
 	m_groupActors[groupName].remove(actor);
 }

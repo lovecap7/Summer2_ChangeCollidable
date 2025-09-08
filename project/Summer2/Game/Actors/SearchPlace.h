@@ -14,11 +14,11 @@ public:
 	//À•W
 	Vector3 GetPos()const { return m_pos; };
 	//”ÍˆÍ
-	void SetRang(float rang) { m_rang = rang; };
-	float GetRang() const{ return m_rang; };
+	void SetRange(float range) { m_range = range; };
+	float GetRange() const{ return m_range; };
 private:
 	//”ÍˆÍ
-	float m_rang;
+	float m_range;
 	//À•W
 	Vector3 m_pos;
 };

@@ -99,7 +99,7 @@ bool Actor::IsHaveSearchPlace() const
 	if (m_searchPlace)
 	{
 		//範囲があるならtrue
-		return m_searchPlace->GetRang() > 0.0f;
+		return m_searchPlace->GetRange() > 0.0f;
 	}
 	//ここまで来たら
 	return false;
@@ -110,6 +110,6 @@ void Actor::SetSearchPlaceRang(float rang)
 	//nullチェック
 	if (m_searchPlace)
 	{
-		m_searchPlace->SetRang(rang);
+		m_searchPlace->SetRange(rang);
 	}
 }
