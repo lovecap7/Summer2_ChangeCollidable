@@ -18,7 +18,7 @@ ResultRankingScore::ResultRankingScore(int scoreValue, Vector2 basePos, const st
 	//ランキング入りをしているテキストを赤色に
 	if(scoreValue == nowScore)
 	{
-		m_textColor = 0xff2222; // 赤色
+		m_textColor = 0xff4444; // 赤色
 	}
 	auto& uiManager = UIManager::GetInstance();
 	if(text == L"1st")

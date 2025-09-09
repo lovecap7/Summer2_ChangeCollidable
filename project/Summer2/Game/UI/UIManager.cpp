@@ -220,6 +220,7 @@ void UIManager::LoadHandle()
 	m_imageHandles["BossHP"] = { LoadGraph(L"Data/UI/Enemy/BossHP.png") };
 	m_imageHandles["TutorialMark"] = { LoadGraph(L"Data/UI/TutorialMark.png") };
 	m_imageHandles["LeftArrow"] = { LoadGraph(L"Data/UI/Arrow.png") };
+	m_imageHandles["LockLeftArrow"] = { LoadGraph(L"Data/UI/LockArrow.png") };
 	m_imageHandles["SoundBottun"] = { LoadGraph(L"Data/UI/Option/SoundBottun.png") };
 	m_imageHandles["OptionBack"] = { LoadGraph(L"Data/UI/Option/OptionBack.png") };
 	//ÉÅÉjÉÖÅ[

@@ -16,7 +16,7 @@ ResultScoreUI::ResultScoreUI(int scoreValue, Vector2 basePos, const std::wstring
 	ScoreUIBase(basePos,-1,-1),
 	m_scoreValue(scoreValue),
 	m_countFrame(0),
-	m_textHandle(UIManager::GetInstance().GetTextHandle("MSPゴシック48")),
+	m_textHandle(UIManager::GetInstance().GetTextHandle("源直ゴシック48")),
 	m_text(text)
 {
 }
@@ -44,6 +44,6 @@ void ResultScoreUI::Draw() const
 {
 	std::wstring num = L": " + std::format(L"{:06}", m_viewScore);
 	//テキスト
-	DrawStringToHandle(m_basePos.x, m_basePos.y, m_text.c_str(), 0x000000, m_textHandle);
-	DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y, num.c_str(), 0x000000, m_textHandle);
+	DrawStringToHandle(m_basePos.x, m_basePos.y, m_text.c_str(), 0xffffff, m_textHandle);
+	DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y, num.c_str(), 0xffffff, m_textHandle);
 }

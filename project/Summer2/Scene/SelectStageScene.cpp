@@ -238,30 +238,50 @@ void SelectStageScene::SelectStageIndex(Input& input)
 	}
 	if (m_stageRankingUI.expired())return;
 	m_stageRankingUI.lock()->SetStageIndex(static_cast<Stage::StageIndex>(m_stageIndex));
+
 	if (m_leftArrowUI.expired() || m_rightArrowUI.expired())return;
-	//一つもクリアしていないなら矢印は非表示
+	//一つもクリアしていないなら矢印は右矢印をロック
 	if (static_cast<int>(m_unlockStageIndex) == static_cast<int>(Stage::StageIndex::Stage1))
 	{
 		m_leftArrowUI.lock()->SetIsDraw(false);
-		m_rightArrowUI.lock()->SetIsDraw(false);
+		m_rightArrowUI.lock()->SetIsDraw(true);
+		m_rightArrowUI.lock()->SetIsLock(true);
 		return;
 	}
 	//ステージの選択できる方向によって矢印の表示を変える
 	if(m_stageIndex == static_cast<int>(Stage::StageIndex::Stage1))
 	{
+		//右矢印のみ表示
 		m_leftArrowUI.lock()->SetIsDraw(false);
+		m_leftArrowUI.lock()->SetIsLock(false);
 		m_rightArrowUI.lock()->SetIsDraw(true);
+		m_rightArrowUI.lock()->SetIsLock(false);
 	}
-	else if (m_stageIndex == static_cast<int>(m_unlockStageIndex) || 
-			 m_stageIndex == static_cast<int>(Stage::StageIndex::Stage3))
+	//ステージ3を選択しているなら
+	else if (m_stageIndex == static_cast<int>(Stage::StageIndex::Stage3))
 	{
+		//左矢印のみ表示
 		m_leftArrowUI.lock()->SetIsDraw(true);
+		m_leftArrowUI.lock()->SetIsLock(false);
 		m_rightArrowUI.lock()->SetIsDraw(false);
+		m_rightArrowUI.lock()->SetIsLock(false);
 	}
+	//ステージ2を選択していて、ステージ3が解放されていないなら
+	else if (m_stageIndex == static_cast<int>(m_unlockStageIndex))
+	{
+		//左表示　右ロック
+		m_leftArrowUI.lock()->SetIsDraw(true);
+		m_leftArrowUI.lock()->SetIsLock(false);
+		m_rightArrowUI.lock()->SetIsDraw(true);
+		m_rightArrowUI.lock()->SetIsLock(true);
+	}
+	//それ以外なら両方表示
 	else
 	{
 		m_leftArrowUI.lock()->SetIsDraw(true);
+		m_leftArrowUI.lock()->SetIsLock(false);
 		m_rightArrowUI.lock()->SetIsDraw(true);
+		m_rightArrowUI.lock()->SetIsLock(false);
 	}
 }
 

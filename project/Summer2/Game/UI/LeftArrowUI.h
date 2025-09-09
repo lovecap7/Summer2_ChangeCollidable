@@ -12,6 +12,7 @@ public:
 	void SetIsSelect(bool isSelect) { m_isSelect = isSelect; };
 	void SetPos(Vector2 pos) { m_pos = pos; };
 	void SetBaseScale(double baseScale) { m_baseScale = baseScale; }
+	void SetIsLock(bool isLock) { m_isLock = isLock; };
 private:
     //選択してるか
 	bool m_isSelect;
@@ -23,9 +24,13 @@ private:
     float m_scaleAngle;
 	//位置
 	Vector2 m_pos;
-	//ハンドル
-	int m_handle;
+	//矢印ハンドル
+	int m_arrowHandle;
+    //鍵付き
+    int m_lockArrowHandle;
     //右
 	bool m_isRight;
+    //鍵がかかってる
+	bool m_isLock;
 };
 

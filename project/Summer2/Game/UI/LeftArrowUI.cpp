@@ -6,9 +6,11 @@ LeftArrowUI::LeftArrowUI(Vector2 pos,bool isRight):
 	m_scale(1.0),
 	m_baseScale(1.0),
 	m_scaleAngle(0.0f),
-	m_handle(UIManager::GetInstance().GetImageHandle("LeftArrow")),
+	m_arrowHandle(UIManager::GetInstance().GetImageHandle("LeftArrow")),
+	m_lockArrowHandle(UIManager::GetInstance().GetImageHandle("LockLeftArrow")),
 	m_pos(pos),
-	m_isRight(isRight)
+	m_isRight(isRight),
+	m_isLock(false)
 {
 }
 
@@ -34,5 +36,7 @@ void LeftArrowUI::Update()
 void LeftArrowUI::Draw() const
 {
 	if (!m_isDraw)return;
-	DrawRotaGraphF(m_pos.x, m_pos.y, m_scale, 0.0, m_handle, true, m_isRight);
+	int handle = m_arrowHandle;
+	if (m_isLock)handle = m_lockArrowHandle;//Œ®‚ª‚©‚©‚Á‚Ä‚é‚È‚çŒ®•t‚«‚Ì–îˆó
+	DrawRotaGraphF(m_pos.x, m_pos.y, m_scale, 0.0, handle, true, m_isRight);
 }
