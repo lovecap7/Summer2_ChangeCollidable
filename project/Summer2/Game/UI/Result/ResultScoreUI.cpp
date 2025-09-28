@@ -44,6 +44,6 @@ void ResultScoreUI::Draw() const
 {
 	std::wstring num = L": " + std::format(L"{:06}", m_viewScore);
 	//テキスト
-	DrawStringToHandle(m_basePos.x, m_basePos.y, m_text.c_str(), 0xffffff, m_textHandle);
+	DrawStringToHandle(m_basePos.x, m_basePos.y, m_text.c_str(), 0x55ff00, m_textHandle);
 	DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y, num.c_str(), 0xffffff, m_textHandle);
 }

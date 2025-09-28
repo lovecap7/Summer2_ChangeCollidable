@@ -60,7 +60,7 @@ void BossArea::EntryCheckUpdate(const std::weak_ptr<GameCamera> camera, const st
 void BossArea::EventUpdate(const std::weak_ptr<GameCamera> camera, const std::weak_ptr<ActorManager> actorManager)
 {
 	//ƒ{ƒX‚ª“|‚ê‚½‚ç
-	if (actorManager.lock()->IsBossDead())
+	if (actorManager.lock()->IsBossDisappear())
 	{
 		//•Çíœ
 		if (!m_start.expired())m_start.lock()->Delete();

@@ -7,18 +7,22 @@ namespace
 {
 	//数字の座標オフセット
 	constexpr int kNumOffsetX = 100;
+	//ニューレコード
+	constexpr int kNewRecordOffsetX = kNumOffsetX  - 10;
+	constexpr int kNewRecordOffsetY = -50;
+	constexpr int kNewRecordColor = 0xff2222; // 赤色
 }
 
 ResultRankingScore::ResultRankingScore(int scoreValue, Vector2 basePos, const std::wstring& text, int nowScore) :
 	ResultScoreUI(scoreValue, basePos, text),
 	m_rankingHandle(-1), // 初期化
-	m_textColor(0x000000) // 黒色
+	m_textColor(0xffffff)
 {
 	//もし現在のスコアとランキングの値が同じなら
 	//ランキング入りをしているテキストを赤色に
 	if(scoreValue == nowScore)
 	{
-		m_textColor = 0xff4444; // 赤色
+		m_textColor = kNewRecordColor; // 赤色
 	}
 	auto& uiManager = UIManager::GetInstance();
 	if(text == L"1st")
@@ -46,9 +50,9 @@ void ResultRankingScore::Draw() const
 	DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y, num.c_str(), m_textColor, m_textHandle);
 	DrawRotaGraph(static_cast<int>(m_basePos.x), static_cast<int>(m_basePos.y),0.6,0.0, m_rankingHandle, true);
 	//文字が赤色ならハイスコアを更新しているので
-	if (m_textColor == 0xff2222)
+	if (m_textColor == kNewRecordColor)
 	{
 		//ハイスコアの更新を表示
-		DrawStringToHandle(m_basePos.x + kNumOffsetX, m_basePos.y - 50, L"NewRecord!!!", m_textColor, m_textHandle);
+		DrawStringToHandle(m_basePos.x + kNewRecordOffsetX, m_basePos.y + kNewRecordOffsetY, L"NewRecord!!!", 0xffff00, UIManager::GetInstance().GetTextHandle("源直ゴシック32"));
 	}
 }
